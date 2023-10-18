@@ -60,3 +60,4 @@
 
 ### Do
     1. Docker 학습하기
+    2. gitlab 연결
