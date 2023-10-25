@@ -1,5 +1,7 @@
 package com.ssafy.notice.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,7 +42,8 @@ public class Notice {
 	@Column(name = "CONTENT")
 	private String content;
 	
-//	private DateTime time;
+	@Column(name = "TIME")
+	private LocalDateTime time;
 	
 	@Column(name = "HITS")
 	private int hits;
