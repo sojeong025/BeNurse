@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+function Button(props) {
+  const { label, styleClass, onClick, disabled } = props;
+  return (
+    <button className={styleClass} onClick={onClick} disabled={disabled}>
+      {label}
+    </button>
+  );
+}
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Button
+          label="tempbutton"
+          stylesClass=""
+          onClick={ButtonClick}
+          disabled={false}
+        ></Button>
       </header>
     </div>
   );
+}
+
+function ButtonClick() {
+  if (window.ReactNativeWebView) {
+    // alert("클릭됨");
+    window.ReactNativeWebView.postMessage("click_event");
+  } else {
+    let obtest = "";
+    for (const a in window) {
+      obtest += a;
+      obtest += "\n";
+    }
+
+    alert(obtest);
+  }
 }
 
 export default App;
