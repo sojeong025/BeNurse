@@ -40,7 +40,7 @@ public class NoticeController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Notice> createNotice(Notice notice) {
+	public ResponseEntity<Notice> registNotice(Notice notice) {
 
 	    Notice savedNotice = noticeRepo.save(notice);
 	    return new ResponseEntity<>(savedNotice, HttpStatus.OK);

@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,8 +45,9 @@ public class Notice {
 	private String content;
 	
 	@Column(name = "TIME")
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime time;
 	
-	@Column(name = "HITS")
-	private int hits;
+//	@Column(name = "HITS")
+//	private int hits;
 }
