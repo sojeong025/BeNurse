@@ -91,8 +91,21 @@ export default function ThreeTestPage() {
           type="text"
         />
       </div>
+      <span
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 100,
+          left: 26,
+          fontSize: 24,
+          fontWeight: 800,
+          color: "#555",
+        }}
+      >
+        2F
+      </span>
       <Canvas
-        style={{ width: "412px", height: "630px", backgroundColor: "#E7E6F5" }}
+        style={{ width: "412px", height: "700px", backgroundColor: "#E7E6F5" }}
         camera={{ position: [1, -130, 70] }}
         // camera={{ position: [1, -80, 90] }}
         flat={true}
