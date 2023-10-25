@@ -6,16 +6,16 @@ const config = {
     "@storybook/addon-essentials",
     "@storybook/addon-onboarding",
     "@storybook/addon-interactions",
+    "@storybook/addon-docs",
+    "@storybook/addon-knobs",
   ],
   framework: {
     name: "@storybook/react-vite",
     options: {},
   },
   docs: {
-    autodocs: "tag",
+    autodocs: "true",
   },
-  core: {
-    builder: "@storybook/builder-vite",
-  },
+  core: {},
 };
 export default config;
