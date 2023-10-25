@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ssafy.emr.patient.model.Patient;
+import com.ssafy.emr.patient.model.CC;
 
 @Repository
-public interface PatientRepository extends JpaRepository<Patient, Long>{
-	List<Patient> findAllByName(String name);
+public interface CCRepository extends JpaRepository<CC, Long>{
+	List<CC> findAllByPatientID(Long patientID);
 }

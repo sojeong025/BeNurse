@@ -1,14 +1,35 @@
 package com.ssafy.emr.patient.model;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Entity
+@Getter
+@Setter
+@Table(name = "JOURNAL")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@ToString
 public class Journal {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	private long ID;
+	
 	@Column(name = "PATIENTID")
 	private long patientID;
 	
@@ -18,13 +39,9 @@ public class Journal {
 	@Column(name = "CONTENT")
 	private String content;
 	
-	@Column(name = "DATE")
-	@DateTimeFormat(pattern = "YYYY-MM-DD")
-	private Date date;
-	
-	@Column(name = "TIME")
-	private Time time;
-	
+	@Column(name = "DATETIME")
+	private LocalDateTime datetime;
+
 	@Column(name = "CATEGORY")
 	private String category;
 }
