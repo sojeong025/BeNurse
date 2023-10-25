@@ -1,5 +1,6 @@
 package com.ssafy.notice.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +43,8 @@ public class NoticeController {
 	})
 	public ResponseEntity<Notice> registNotice(Notice notice) {
 
+		notice.setTime(LocalDateTime.now());
+		
 	    Notice savedNotice = noticeRepo.save(notice);
 	    return new ResponseEntity<>(savedNotice, HttpStatus.OK);
 	}
