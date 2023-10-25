@@ -16,18 +16,16 @@ function Box(props) {
       ref={meshRef}
       scale={active ? 1.5 : 1}
       onClick={(event) => setActive(!active)}
-      onPointerOver={(event) => setHover(true)}
-      onPointerOut={(event) => setHover(false)}
     >
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? "hotpink" : "orange"} />
+      <meshStandardMaterial color={"teal"} />
     </mesh>
   );
 }
 
 export default function ThreeTestPage() {
   return (
-    <Canvas>
+    <Canvas style={{ width: "412px", height: "630px" }}>
       <ambientLight />
       <pointLight position={[10, 10, 10]} />
       <Box position={[-1.2, 0, 0]} />
