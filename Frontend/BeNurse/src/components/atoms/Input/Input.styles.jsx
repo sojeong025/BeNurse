@@ -11,21 +11,36 @@ const variants = {
   },
 };
 
-export const StyledInput = styled.input`
+export const StyledInputContainer = styled.div`
+  display: flex;
+  align-items: center;
   width: ${({ width }) => width || "auto"};
   font-size: 16px;
   cursor: pointer;
-  border-radius: 10px;
   height: 50px;
+  border-radius: 10px;
   box-shadow: ${({ variant }) => variants[variant].boxShadow};
   border: ${({ variant }) => variants[variant].border};
   background-color: #ffffff;
   color: #555555;
-  padding: 0 1rem;
+  padding: 0 14px;
 `;
 
 export const IconWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 8px;
+  margin-right: 16px;
+`;
+
+export const StyledInput = styled.input`
+  display: flex;
+  align-items: center;
+  width: calc(100% - 30px);
+  font-size: 16px;
+  cursor: pointer;
+  height: 50px;
+  color: #555555;
+  outline: none;
+  border: none;
+  padding: 0;
 `;
