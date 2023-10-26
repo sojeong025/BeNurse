@@ -1,12 +1,24 @@
 import React from "react";
+import { StyledInput, IconWrapper } from "./Input.styles";
+import { BiSearch } from "react-icons/bi";
 
-const Input = ({ placeholder }) => {
+export default function Input({ placeholder, width, variant }) {
   return (
-    <input
-      type="text"
-      placeholder={placeholder}
-    />
+    <div>
+      {variant === "search" && (
+        <IconWrapper>
+          <BiSearch
+            size={26}
+            color="#555555"
+          />
+        </IconWrapper>
+      )}
+      <StyledInput
+        type="text"
+        placeholder={placeholder}
+        width={width}
+        variant={variant}
+      />
+    </div>
   );
-};
-
-export default Input;
+}

@@ -8,10 +8,5 @@ export default {
   decorators: [withKnobs],
 };
 
-const Template = (args) => <Input {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {
-  placeholder: "텍스트를 입력하세요",
-  buttonColor: "#fff",
-};
+export const Default = () => <Input variant="default">Default</Input>;
+export const Search = () => <Input variant="search">Search</Input>;

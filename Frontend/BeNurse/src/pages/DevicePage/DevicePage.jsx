@@ -17,7 +17,7 @@ import Button from "../../components/atoms/Button/Button";
 import Input from "../../components/atoms/Input/Input";
 
 // icons
-import DeviceListIcon from "../../assets/Icons/DeviceList.svg";
+import deviceListIcon from "../../assets/Icons/deviceList.svg";
 
 export default function DevicePage() {
   const [target, setTarget] = useState(false);
@@ -124,7 +124,7 @@ export default function DevicePage() {
         >
           <img
             style={{ width: "24px" }}
-            src={DeviceListIcon}
+            src={deviceListIcon}
             alt=""
           />
         </Button>
