@@ -23,6 +23,7 @@ const variants = {
 };
 
 export const StyledButton = styled.button`
+  margin: ${({ margin }) => margin || "0 0 0 0"};
   width: ${({ width }) => width || "auto"};
   font-size: 18px;
   display: flex;
