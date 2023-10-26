@@ -5,44 +5,51 @@ import React, {
   Suspense,
   useEffect,
 } from "react";
+
+// three.js
+import * as THREE from "three";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
-import * as THREE from "three";
 import { gsap } from "gsap/gsap-core";
-import Button from "../../components/Button/Button";
 
-function GroundGLTF(props) {
-  const groupRef = useRef();
-  const { nodes, materials } = useGLTF("src/assets/GLTFModels/Ground.glb");
-  return (
-    <mesh
-      {...props}
-      castShadow
-      receiveShadow
-      geometry={nodes.Mesh_Mesh_head_geo001_lambert2SG001.geometry}
-      material={nodes.Mesh_Mesh_head_geo001_lambert2SG001.material}
-    />
-  );
-}
+// emotion
+import Button from "../../components/atoms/Button/Button";
+import Input from "../../components/atoms/Input/Input";
 
-function HospitalGLTF(props) {
-  const groupRef = useRef();
-  const { nodes, materials } = useGLTF("src/assets/GLTFModels/Hospital.glb");
-  return (
-    <mesh
-      {...props}
-      castShadow
-      receiveShadow
-      geometry={nodes.Mesh_Mesh_head_geo001_lambert2SG001.geometry}
-      material={nodes.Mesh_Mesh_head_geo001_lambert2SG001.material}
-    />
-  );
-}
+// icons
+import DeviceListIcon from "../../assets/Icons/DeviceList.svg";
 
 export default function DevicePage() {
   const [target, setTarget] = useState(false);
   const [position, setPosition] = useState();
 
+  //three.js models
+  function GroundGLTF(props) {
+    const groupRef = useRef();
+    const { nodes, materials } = useGLTF("src/assets/GLTFModels/Ground.glb");
+    return (
+      <mesh
+        {...props}
+        castShadow
+        receiveShadow
+        geometry={nodes.Mesh_Mesh_head_geo001_lambert2SG001.geometry}
+        material={nodes.Mesh_Mesh_head_geo001_lambert2SG001.material}
+      />
+    );
+  }
+  function HospitalGLTF(props) {
+    const groupRef = useRef();
+    const { nodes, materials } = useGLTF("src/assets/GLTFModels/Hospital.glb");
+    return (
+      <mesh
+        {...props}
+        castShadow
+        receiveShadow
+        geometry={nodes.Mesh_Mesh_head_geo001_lambert2SG001.geometry}
+        material={nodes.Mesh_Mesh_head_geo001_lambert2SG001.material}
+      />
+    );
+  }
   function BeaconGLTF(props) {
     const beaconRef = useRef();
     const { nodes, materials } = useGLTF("src/assets/GLTFModels/Beacon.glb");
@@ -67,6 +74,7 @@ export default function DevicePage() {
     );
   }
 
+  // camera
   function cameraMove() {
     setTarget(!target);
   }
@@ -114,17 +122,15 @@ export default function DevicePage() {
           width="50px"
           onClick={cameraMove}
         >
-          zz
+          <img
+            style={{ width: "24px" }}
+            src={DeviceListIcon}
+            alt=""
+          />
         </Button>
-        <input
+        <Input
           style={{
-            color: "#555",
-            padding: "10px 20px",
             width: "278px",
-            height: "30px",
-            borderRadius: "10px",
-            border: "none",
-            outline: "none",
           }}
           placeholder="장비 이름으로 검색"
           type="text"
