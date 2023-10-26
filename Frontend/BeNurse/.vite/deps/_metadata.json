@@ -1,0 +1,59 @@
+{
+  "hash": "4a38837e",
+  "browserHash": "a6fb5b3a",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "d2fbeb90",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "45a87923",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "bef90533",
+      "needsInterop": false
+    },
+    "@react-three/fiber": {
+      "src": "../../node_modules/@react-three/fiber/dist/react-three-fiber.esm.js",
+      "file": "@react-three_fiber.js",
+      "fileHash": "34d0e454",
+      "needsInterop": false
+    },
+    "@react-three/drei": {
+      "src": "../../node_modules/@react-three/drei/index.js",
+      "file": "@react-three_drei.js",
+      "fileHash": "3ee708db",
+      "needsInterop": false
+    },
+    "gsap/gsap-core": {
+      "src": "../../node_modules/gsap/gsap-core.js",
+      "file": "gsap_gsap-core.js",
+      "fileHash": "293fa89e",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-LT5MM66R": {
+      "file": "chunk-LT5MM66R.js"
+    },
+    "chunk-APAUPM64": {
+      "file": "chunk-APAUPM64.js"
+    },
+    "chunk-67XTWVEJ": {
+      "file": "chunk-67XTWVEJ.js"
+    },
+    "vision_bundle-7V7ENNVU": {
+      "file": "vision_bundle-7V7ENNVU.js"
+    },
+    "chunk-5WWUZCGV": {
+      "file": "chunk-5WWUZCGV.js"
+    }
+  }
+}

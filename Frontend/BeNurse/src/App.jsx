@@ -1,30 +1,14 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import Navigations from "./navigations/Navigations.jsx";
 
-import NavBar from "./components/Common/NavBar/NavBar.jsx";
-import TabBar from "./components/Common/TabBar/TabBar.jsx";
-
-import MainPage from "@pages/MainPage";
-import LoginPage from "./pages/LoginPage";
-import ThreeTestPage from "@pages/ThreeTestPage";
+import NavBar from "@components/templates/NavBar/NavBar";
+import TabBar from "@components/templates/TabBar/TabBar";
 
 function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      <Routes>
-        <Route
-          path="/"
-          element={<MainPage />}
-        />
-        <Route
-          path="/login"
-          element={<LoginPage />}
-        />
-        <Route
-          path="/threeTest"
-          element={<ThreeTestPage />}
-        />
-      </Routes>
+      <Navigations />
       <TabBar />
     </BrowserRouter>
   );
