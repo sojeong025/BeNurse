@@ -20,6 +20,7 @@
     "emotion-reset": "^3.0.1",
     "gsap": "^3.12.2",
     "react": "^18.2.0",
+    "react-calendar": "^4.6.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
     "react-router-dom": "^6.17.0",
@@ -50,5 +51,6 @@
     "prop-types": "^15.8.1",
     "storybook": "^7.5.1",
     "vite": "^4.4.5"
-  }
+  },
+  "proxy": "http://localhost:5173"
 }
