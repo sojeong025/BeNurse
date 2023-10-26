@@ -51,21 +51,26 @@ export default function DevicePage() {
     );
   }
 
-  const beaconMaterial = new THREE.MeshStandardMaterial({
-    color: "#C13232",
-    transparent: true,
-    roughness: 1,
-    opacity: target ? 1 : 0,
-    flatShading: true,
-  });
-
   function BeaconGLTF(props) {
     const { nodes, materials } = useGLTF("src/assets/GLTFModels/Beacon.glb");
     const beaconRef = useRef();
+    const beaconMaterial = new THREE.MeshStandardMaterial({
+      color: "#C13232",
+      transparent: true,
+      roughness: 1,
+      opacity: target ? 1 : 0,
+      flatShading: true,
+    });
 
     useFrame((state, delta) => {
       beaconRef.current.rotation.z += 0.04;
     });
+
+    useLayoutEffect(() => {
+      if (target) {
+        gsap.to;
+      }
+    }, []);
 
     return (
       <mesh
@@ -144,7 +149,7 @@ export default function DevicePage() {
         />
       </div>
       <Canvas
-        style={{ width: "412px", height: "700px", backgroundColor: "#E7E6F5" }}
+        style={{ width: "412px", height: "736px", backgroundColor: "#E7E6F5" }}
         camera={{ position: [1, -130, 70] }}
         // camera={{ position: [0, -100, 120] }}
         flat={true}
