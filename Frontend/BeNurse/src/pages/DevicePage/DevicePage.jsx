@@ -17,7 +17,7 @@ import Button from "../../components/atoms/Button/Button";
 import Input from "../../components/atoms/Input/Input";
 
 // icons
-import DeviceListIcon from "../../assets/Icons/DeviceList.svg";
+import deviceListIcon from "@assets/Icons/deviceList.svg";
 
 export default function DevicePage() {
   const [target, setTarget] = useState(false);
@@ -50,13 +50,18 @@ export default function DevicePage() {
       />
     );
   }
+
+  const beaconMaterial = new THREE.MeshStandardMaterial({
+    color: "#C13232",
+    transparent: true,
+    roughness: 1,
+    opacity: target ? 1 : 0,
+    flatShading: true,
+  });
+
   function BeaconGLTF(props) {
-    const beaconRef = useRef();
     const { nodes, materials } = useGLTF("src/assets/GLTFModels/Beacon.glb");
-    const beaconMaterial = new THREE.MeshStandardMaterial({
-      color: "#C13232",
-      flatShading: true,
-    });
+    const beaconRef = useRef();
 
     useFrame((state, delta) => {
       beaconRef.current.rotation.z += 0.04;
@@ -118,13 +123,15 @@ export default function DevicePage() {
         }}
       >
         <Button
+          style={{ margin: "0px 10px 0px 0px" }}
           variant="primary"
           width="50px"
+          radius="10px"
           onClick={cameraMove}
         >
           <img
             style={{ width: "24px" }}
-            src={DeviceListIcon}
+            src={deviceListIcon}
             alt=""
           />
         </Button>
@@ -137,7 +144,7 @@ export default function DevicePage() {
         />
       </div>
       <Canvas
-        style={{ width: "412px", height: "630px", backgroundColor: "#E7E6F5" }}
+        style={{ width: "412px", height: "700px", backgroundColor: "#E7E6F5" }}
         camera={{ position: [1, -130, 70] }}
         // camera={{ position: [0, -100, 120] }}
         flat={true}
@@ -164,25 +171,22 @@ export default function DevicePage() {
             position={[3, 0, 34]}
             rotation={[0, 0, 0.5]}
           />
-          {target ? (
-            <BeaconGLTF
-              scale={0.4}
-              position={[-3, 2, 50]}
+          <BeaconGLTF
+            scale={0.4}
+            position={[-3, 2, 50]}
+          />
+          <>
+            <HospitalGLTF
+              scale={0.53}
+              position={[3, 0, 7]}
+              rotation={[0, 0, 0.5]}
             />
-          ) : (
-            <>
-              <HospitalGLTF
-                scale={0.53}
-                position={[3, 0, 7]}
-                rotation={[0, 0, 0.5]}
-              />
-              <HospitalGLTF
-                scale={0.54}
-                position={[3, 0, -24]}
-                rotation={[0, 0, 0.5]}
-              />
-            </>
-          )}
+            <HospitalGLTF
+              scale={0.54}
+              position={[3, 0, -24]}
+              rotation={[0, 0, 0.5]}
+            />
+          </>
           <GroundGLTF
             scale={2.4}
             position={[0, 0, -40]}
