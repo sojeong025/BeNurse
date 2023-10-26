@@ -2,11 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import * as S from "./Button.styles";
 
-export default function Button({ children, variant, width, ...props }) {
+export default function Button({ children, variant, width, radius, ...props }) {
   return (
     <S.StyledButton
       variant={variant}
       width={width}
+      radius={radius}
       {...props}
     >
       {children}
