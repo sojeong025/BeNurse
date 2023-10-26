@@ -114,24 +114,24 @@ public class ScheduleController {
 //	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 //	}	
 	
-	@GetMapping("/{id}")
-	@ApiOperation(value = "근무표 조회", notes = "기간 내의 모든 근무 일정 조회") 
-	@ApiResponses({
-	    @ApiResponse(code = 200, message = "성공", response = Schedule.class),
-	    @ApiResponse(code = 404, message = "근무를 찾을 수 없음."),
-	    @ApiResponse(code = 500, message = "서버 오류")
-	})
-	public ResponseEntity<Schedule> getScheduleById(
-			@RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-		    @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate
-		    )
-	{	
-	    Optional<Schedule> schedule = scheduleRepo.findById(ID);
-
-	    if (schedule.isPresent())
-	        return new ResponseEntity<>(schedule.get(), HttpStatus.OK);
-	    else
-	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}	
+//	@GetMapping("/{id}")
+//	@ApiOperation(value = "근무표 조회", notes = "기간 내의 모든 근무 일정 조회") 
+//	@ApiResponses({
+//	    @ApiResponse(code = 200, message = "성공", response = Schedule.class),
+//	    @ApiResponse(code = 404, message = "근무를 찾을 수 없음."),
+//	    @ApiResponse(code = 500, message = "서버 오류")
+//	})
+//	public ResponseEntity<Schedule> getScheduleById(
+//			@RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+//		    @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate
+//		    )
+//	{	
+////	    Optional<Schedule> schedule = scheduleRepo.findById(ID);
+//
+//	    if (schedule.isPresent())
+//	        return new ResponseEntity<>(schedule.get(), HttpStatus.OK);
+//	    else
+//	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//	}	
 	
 }
