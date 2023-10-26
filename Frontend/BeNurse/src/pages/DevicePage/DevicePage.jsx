@@ -13,18 +13,23 @@ import { useGLTF } from "@react-three/drei";
 import { gsap } from "gsap/gsap-core";
 
 // emotion
+import Container from "../../components/atoms/Container/Container";
 import Button from "../../components/atoms/Button/Button";
 import Input from "../../components/atoms/Input/Input";
 
 // icons
 import deviceListIcon from "@assets/Icons/deviceList.svg";
+import mapIcon from "@assets/Icons/map.svg";
+
+// zustand
 import { useDeviceStore } from "../../store/store";
-import Container from "../../components/atoms/Container/Container";
 
 export default function DevicePage() {
   const [target, setTarget] = useState(false);
   const [position, setPosition] = useState();
-  const { isListActivated, ActivateList } = useDeviceStore((state) => state);
+  const { isListActivated, ActivateList, DeactivateList } = useDeviceStore(
+    (state) => state,
+  );
 
   //three.js models
   function GroundGLTF(props) {
@@ -132,7 +137,6 @@ export default function DevicePage() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "#E7E6F5",
           }}
         >
           <Button
@@ -140,11 +144,11 @@ export default function DevicePage() {
             variant="primary"
             width="50px"
             radius="10px"
-            onClick={cameraMove}
+            onClick={DeactivateList}
           >
             <img
               style={{ width: "24px" }}
-              src={deviceListIcon}
+              src={mapIcon}
               alt=""
             />
           </Button>
@@ -156,19 +160,52 @@ export default function DevicePage() {
             type="text"
           />
         </div>
+        <div
+          style={{
+            width: "412px",
+            height: "736px",
+            marginTop: "100px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{ width: "100px", height: "100px", border: "1px solid red" }}
+          ></div>
+          <div
+            style={{ width: "100px", height: "100px", border: "1px solid red" }}
+          ></div>
+          <div
+            style={{ width: "100px", height: "100px", border: "1px solid red" }}
+          ></div>
+          <div
+            style={{ width: "100px", height: "100px", border: "1px solid red" }}
+          ></div>
+          <div
+            style={{ width: "100px", height: "100px", border: "1px solid red" }}
+          ></div>
+          <div
+            style={{ width: "100px", height: "100px", border: "1px solid red" }}
+          ></div>
+          <div
+            style={{ width: "100px", height: "100px", border: "1px solid red" }}
+          ></div>
+          <div
+            style={{ width: "100px", height: "100px", border: "1px solid red" }}
+          ></div>
+          <div
+            style={{ width: "100px", height: "100px", border: "1px solid red" }}
+          ></div>
+          <div
+            style={{ width: "100px", height: "100px", border: "1px solid red" }}
+          ></div>
+        </div>
       </Container>
     );
   } else {
     return (
-      <div
-        style={{
-          width: "412px",
-          height: "700px",
-          paddingTop: "74px",
-          position: "relative",
-          backgroundColor: "#E7E6F5",
-        }}
-      >
+      <Container backgroundColor={"purple"}>
         <div
           style={{
             width: "412px",
@@ -258,7 +295,7 @@ export default function DevicePage() {
             {/* <gridHelper scale={10} /> */}
           </Suspense>
         </Canvas>
-      </div>
+      </Container>
     );
   }
 }
