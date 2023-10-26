@@ -13,8 +13,5 @@ RUN npm install
 # 소스 코드 복사
 COPY . .
 
-# # 애플리케이션 실행
-# ENTRYPOINT ["node", "index.js"]
-
 # npm start 스크립트 실행
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
