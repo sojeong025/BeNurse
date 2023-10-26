@@ -4,6 +4,9 @@ export default function NavBar() {
   return (
     <div
       style={{
+        position: "absolute",
+        top: 0,
+        zIndex: 100,
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-end",
