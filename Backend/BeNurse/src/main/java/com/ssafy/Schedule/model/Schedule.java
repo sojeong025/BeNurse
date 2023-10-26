@@ -1,6 +1,6 @@
-package com.ssafy.notice.model;
+package com.ssafy.Schedule.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,31 +21,29 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@Table(name = "NOTICE")
+@Table(name = "SCHEDULE")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @ToString
-public class Notice {
+public class Schedule {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private long ID;
 	
-	@Column(name = "WRITER_ID")
-	private long writerID;
+	@Column(name = "NURSE_ID")
+	private long nurseID;
 	
-	@Column(name = "TITLE")
-	private String title;
+	@Column(name = "WORK_TIME")
+	private String worktime;
 	
-	@Column(name = "CONTENT")
-	private String content;
+	@Column(name = "WORK_DATE")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate workdate;
 	
-	@Column(name = "TIME")
-	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	private LocalDateTime time;
+	@Column(name = "WORK_PLACE")
+	private String workplace;
 	
-//	@Column(name = "HITS")
-//	private int hits;
 }

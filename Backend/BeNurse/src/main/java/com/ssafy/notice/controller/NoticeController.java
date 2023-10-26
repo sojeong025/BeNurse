@@ -90,8 +90,12 @@ public class NoticeController {
 	        Notice existingNotice = optionNotice.get();
 
 	        // 기존 공지사항 정보를 업데이트
-	        existingNotice.setTitle(updatedNotice.getTitle());
-	        existingNotice.setContent(updatedNotice.getContent());
+	        if (updatedNotice.getTitle() != null) {
+	        	existingNotice.setTitle(updatedNotice.getTitle());
+	        }
+	        if (updatedNotice.getContent() != null) {
+	        	existingNotice.setContent(updatedNotice.getContent());
+	        }
 
 	        // 업데이트된 공지사항을 저장
 	        noticeRepo.save(existingNotice);
