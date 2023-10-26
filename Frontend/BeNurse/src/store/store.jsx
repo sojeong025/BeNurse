@@ -9,7 +9,9 @@ export const useLoginStore = create((set) => ({
 export const useDeviceStore = create((set) => ({
   isListActivated: false,
   ActivateList: () => {
-    console.log("state");
     set((state) => ({ isListActivated: true }));
+  },
+  DeactivateList: () => {
+    set((state) => ({ isListActivated: false }));
   },
 }));
