@@ -8,7 +8,7 @@ export default function NavBar() {
         justifyContent: "center",
         alignItems: "flex-end",
         width: "412px",
-        height: "100px",
+        height: "64px",
         padding: "0px 0px 10px 0px",
       }}
     >
