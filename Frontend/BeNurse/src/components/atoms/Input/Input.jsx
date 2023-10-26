@@ -2,11 +2,10 @@ import React from "react";
 import { StyledInputContainer, StyledInput, IconWrapper } from "./Input.styles";
 import { BiSearch } from "react-icons/bi";
 
-export default function Input({ placeholder, width, variant }) {
+export default function Input({ placeholder, width, variant, onFocus }) {
   return (
     <StyledInputContainer
       type="text"
-      placeholder={placeholder}
       width={width}
       variant={variant}
     >
@@ -23,6 +22,7 @@ export default function Input({ placeholder, width, variant }) {
         placeholder={placeholder}
         width={width}
         variant={variant}
+        onFocus={onFocus}
       />
     </StyledInputContainer>
   );
