@@ -18,10 +18,13 @@ import Input from "../../components/atoms/Input/Input";
 
 // icons
 import deviceListIcon from "@assets/Icons/deviceList.svg";
+import { useDeviceStore } from "../../store/store";
+import Container from "../../components/atoms/Container/Container";
 
 export default function DevicePage() {
   const [target, setTarget] = useState(false);
   const [position, setPosition] = useState();
+  const { isListActivated, ActivateList } = useDeviceStore((state) => state);
 
   //three.js models
   function GroundGLTF(props) {
@@ -50,7 +53,6 @@ export default function DevicePage() {
       />
     );
   }
-
   function BeaconGLTF(props) {
     const { nodes, materials } = useGLTF("src/assets/GLTFModels/Beacon.glb");
     const beaconRef = useRef();
@@ -88,7 +90,6 @@ export default function DevicePage() {
   function cameraMove() {
     setTarget(!target);
   }
-
   const CameraMove = () => {
     const { camera } = useThree();
 
@@ -114,95 +115,150 @@ export default function DevicePage() {
     }, [position, target]);
   };
 
-  return (
-    <div style={{ position: "relative" }}>
+  // device list
+  function activateDeviceList() {
+    ActivateList();
+  }
+
+  if (isListActivated) {
+    return (
+      <Container backgroundColor={"purple"}>
+        <div
+          style={{
+            position: "absolute",
+            zIndex: 100,
+            width: "412px",
+            height: "100px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#E7E6F5",
+          }}
+        >
+          <Button
+            style={{ margin: "0px 10px 0px 0px" }}
+            variant="primary"
+            width="50px"
+            radius="10px"
+            onClick={cameraMove}
+          >
+            <img
+              style={{ width: "24px" }}
+              src={deviceListIcon}
+              alt=""
+            />
+          </Button>
+          <Input
+            onFocus={activateDeviceList}
+            variant="search"
+            placeholder="장비 이름으로 검색"
+            width="298px"
+            type="text"
+          />
+        </div>
+      </Container>
+    );
+  } else {
+    return (
       <div
         style={{
           width: "412px",
-          height: "100px",
-          position: "absolute",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          zIndex: 100,
+          height: "700px",
+          paddingTop: "74px",
+          position: "relative",
+          backgroundColor: "#E7E6F5",
         }}
       >
-        <Button
-          style={{ margin: "0px 10px 0px 0px" }}
-          variant="primary"
-          width="50px"
-          radius="10px"
-          onClick={cameraMove}
-        >
-          <img
-            style={{ width: "24px" }}
-            src={deviceListIcon}
-            alt=""
-          />
-        </Button>
-        <Input
-          onFocus={() => {
-            console.log(1);
+        <div
+          style={{
+            width: "412px",
+            height: "100px",
+            position: "absolute",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 100,
           }}
-          variant="search"
-          placeholder="장비 이름으로 검색"
-          width="298px"
-          type="text"
-        />
+        >
+          <Button
+            style={{ margin: "0px 10px 0px 0px" }}
+            variant="primary"
+            width="50px"
+            radius="10px"
+            onClick={cameraMove}
+          >
+            <img
+              style={{ width: "24px" }}
+              src={deviceListIcon}
+              alt=""
+            />
+          </Button>
+          <Input
+            onFocus={activateDeviceList}
+            variant="search"
+            placeholder="장비 이름으로 검색"
+            width="298px"
+            type="text"
+          />
+        </div>
+        <Canvas
+          style={{
+            width: "412px",
+            height: "736px",
+            backgroundColor: "#E7E6F5",
+          }}
+          camera={{ position: [1, -130, 70] }}
+          // camera={{ position: [0, -100, 120] }}
+          flat={true}
+        >
+          <Suspense>
+            <ambientLight intensity={2} />
+            <directionalLight
+              color="white"
+              intensity={3}
+              position={[-10, -30, 30]}
+            />
+            <directionalLight
+              color="white"
+              intensity={2}
+              position={[100, -100, 30]}
+            />
+            <directionalLight
+              color="white"
+              intensity={1}
+              position={[1000, -30, 30]}
+            />
+            <HospitalGLTF
+              scale={0.52}
+              position={[3, 0, 34]}
+              rotation={[0, 0, 0.5]}
+            />
+            <BeaconGLTF
+              scale={0.4}
+              position={[-3, 2, 50]}
+            />
+            <>
+              <HospitalGLTF
+                scale={0.53}
+                position={[3, 0, 7]}
+                rotation={[0, 0, 0.5]}
+              />
+              <HospitalGLTF
+                scale={0.54}
+                position={[3, 0, -24]}
+                rotation={[0, 0, 0.5]}
+              />
+            </>
+            <GroundGLTF
+              scale={2.4}
+              position={[0, 0, -40]}
+              rotation={[0, 0, 0.5]}
+            />
+            <CameraMove />
+            {/* <gridHelper scale={10} /> */}
+          </Suspense>
+        </Canvas>
       </div>
-      <Canvas
-        style={{ width: "412px", height: "736px", backgroundColor: "#E7E6F5" }}
-        camera={{ position: [1, -130, 70] }}
-        // camera={{ position: [0, -100, 120] }}
-        flat={true}
-      >
-        <Suspense>
-          <ambientLight intensity={2} />
-          <directionalLight
-            color="white"
-            intensity={3}
-            position={[-10, -30, 30]}
-          />
-          <directionalLight
-            color="white"
-            intensity={2}
-            position={[100, -100, 30]}
-          />
-          <directionalLight
-            color="white"
-            intensity={1}
-            position={[1000, -30, 30]}
-          />
-          <HospitalGLTF
-            scale={0.52}
-            position={[3, 0, 34]}
-            rotation={[0, 0, 0.5]}
-          />
-          <BeaconGLTF
-            scale={0.4}
-            position={[-3, 2, 50]}
-          />
-          <>
-            <HospitalGLTF
-              scale={0.53}
-              position={[3, 0, 7]}
-              rotation={[0, 0, 0.5]}
-            />
-            <HospitalGLTF
-              scale={0.54}
-              position={[3, 0, -24]}
-              rotation={[0, 0, 0.5]}
-            />
-          </>
-          <GroundGLTF
-            scale={2.4}
-            position={[0, 0, -40]}
-            rotation={[0, 0, 0.5]}
-          />
-          <CameraMove />
-          {/* <gridHelper scale={10} /> */}
-        </Suspense>
-      </Canvas>
-    </div>
-  );
+    );
+  }
 }
