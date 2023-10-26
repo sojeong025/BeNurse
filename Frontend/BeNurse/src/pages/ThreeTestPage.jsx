@@ -11,7 +11,7 @@ import { gsap } from "gsap/gsap-core";
 
 function GroundGLTF(props) {
   const groupRef = useRef();
-  const { nodes, materials } = useGLTF("/GLTFModels/Ground.glb");
+  const { nodes, materials } = useGLTF("src/assets/GLTFModels/Beacon.glb");
   return (
     <mesh
       {...props}
@@ -25,7 +25,7 @@ function GroundGLTF(props) {
 
 function HospitalGLTF(props) {
   const groupRef = useRef();
-  const { nodes, materials } = useGLTF("/GLTFModels/Hospital.glb");
+  const { nodes, materials } = useGLTF("src/assets/GLTFModels/Hospital.glb");
   return (
     <mesh
       {...props}
@@ -39,7 +39,7 @@ function HospitalGLTF(props) {
 
 function BeaconGLTF(props) {
   const beaconRef = useRef();
-  const { nodes, materials } = useGLTF("/GLTFModels/Beacon.glb");
+  const { nodes, materials } = useGLTF("src/assets/GLTFModels/Beacon.glb");
 
   useFrame((state, delta) => {
     beaconRef.current.rotation.z += 0.04;
