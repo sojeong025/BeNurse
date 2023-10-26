@@ -12,4 +12,9 @@ export default defineConfig({
       { find: "@utils", replacement: "/src/utils" },
     ],
   },
+  server: {
+    watch: {
+      usePolling: true,
+    }
+  },
 });
