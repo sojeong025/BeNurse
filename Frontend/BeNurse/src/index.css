@@ -1,7 +1,8 @@
 body {
-  position: "relative";
+  position: relative;
   margin: 0px;
   padding: 0px;
   width: 412px;
   height: 810px;
+  border: 1px solid red;
 }

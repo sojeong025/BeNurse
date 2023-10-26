@@ -1,6 +1,13 @@
-import React, { useRef, useState, Suspense } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF, FlyControls } from "@react-three/drei";
+import React, {
+  useRef,
+  useState,
+  useLayoutEffect,
+  Suspense,
+  useEffect,
+} from "react";
+import { Canvas, useThree, useFrame } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
+import { gsap } from "gsap/gsap-core";
 
 function GroundGLTF(props) {
   const groupRef = useRef();
@@ -51,6 +58,38 @@ function BeaconGLTF(props) {
 }
 
 export default function ThreeTestPage() {
+  const [target, setTarget] = useState(false);
+  const [position, setPosition] = useState();
+
+  function cameraMove() {
+    setTarget(!target);
+  }
+
+  const CameraMove = () => {
+    const { camera } = useThree();
+
+    useLayoutEffect(() => {
+      if (target) {
+        gsap.to(camera.position, {
+          x: 0,
+          y: -60,
+          z: 80,
+          duration: 0.8,
+          ease: "ease-in-out",
+        });
+      } else {
+        gsap.to(camera.position, {
+          x: 1,
+          y: -130,
+          z: 70,
+          duration: 0.8,
+          ease: "ease-in-out",
+        });
+      }
+      // camera={{ position: [0, -100, 120] }}
+    }, [position, target]);
+  };
+
   return (
     <div style={{ position: "relative" }}>
       <div
@@ -65,6 +104,7 @@ export default function ThreeTestPage() {
         }}
       >
         <button
+          onClick={cameraMove}
           style={{
             width: "50px",
             height: "50px",
@@ -91,23 +131,10 @@ export default function ThreeTestPage() {
           type="text"
         />
       </div>
-      <span
-        style={{
-          position: "absolute",
-          zIndex: 100,
-          top: 100,
-          left: 26,
-          fontSize: 24,
-          fontWeight: 800,
-          color: "#555",
-        }}
-      >
-        2F
-      </span>
       <Canvas
-        style={{ width: "412px", height: "700px", backgroundColor: "#E7E6F5" }}
+        style={{ width: "412px", height: "630px", backgroundColor: "#E7E6F5" }}
         camera={{ position: [1, -130, 70] }}
-        // camera={{ position: [1, -80, 90] }}
+        // camera={{ position: [0, -100, 120] }}
         flat={true}
       >
         <Suspense>
@@ -132,25 +159,31 @@ export default function ThreeTestPage() {
             position={[3, 0, 34]}
             rotation={[0, 0, 0.5]}
           />
-          <HospitalGLTF
-            scale={0.53}
-            position={[3, 0, 7]}
-            rotation={[0, 0, 0.5]}
-          />
-          <HospitalGLTF
-            scale={0.54}
-            position={[3, 0, -24]}
-            rotation={[0, 0, 0.5]}
-          />
-          <BeaconGLTF
-            scale={0.4}
-            position={[-3, 2, 50]}
-          />
+          {target ? (
+            <BeaconGLTF
+              scale={0.4}
+              position={[-3, 2, 50]}
+            />
+          ) : (
+            <>
+              <HospitalGLTF
+                scale={0.53}
+                position={[3, 0, 7]}
+                rotation={[0, 0, 0.5]}
+              />
+              <HospitalGLTF
+                scale={0.54}
+                position={[3, 0, -24]}
+                rotation={[0, 0, 0.5]}
+              />
+            </>
+          )}
           <GroundGLTF
             scale={2.4}
             position={[0, 0, -40]}
             rotation={[0, 0, 0.5]}
           />
+          <CameraMove />
           {/* <gridHelper scale={10} /> */}
         </Suspense>
       </Canvas>
