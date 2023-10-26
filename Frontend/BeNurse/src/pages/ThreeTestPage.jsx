@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
+import * as THREE from "three";
 import { gsap } from "gsap/gsap-core";
 
 function GroundGLTF(props) {
@@ -37,29 +38,33 @@ function HospitalGLTF(props) {
   );
 }
 
-function BeaconGLTF(props) {
-  const beaconRef = useRef();
-  const { nodes, materials } = useGLTF("src/assets/GLTFModels/Beacon.glb");
-
-  useFrame((state, delta) => {
-    beaconRef.current.rotation.z += 0.04;
-  });
-
-  return (
-    <mesh
-      {...props}
-      ref={beaconRef}
-      castShadow
-      receiveShadow
-      geometry={nodes.Mesh_Mesh_head_geo001_lambert2SG001.geometry}
-      material={nodes.Mesh_Mesh_head_geo001_lambert2SG001.material}
-    />
-  );
-}
-
 export default function ThreeTestPage() {
   const [target, setTarget] = useState(false);
   const [position, setPosition] = useState();
+
+  function BeaconGLTF(props) {
+    const beaconRef = useRef();
+    const { nodes, materials } = useGLTF("src/assets/GLTFModels/Beacon.glb");
+    const beaconMaterial = new THREE.MeshStandardMaterial({
+      color: "#C13232",
+      flatShading: true,
+    });
+
+    useFrame((state, delta) => {
+      beaconRef.current.rotation.z += 0.04;
+    });
+
+    return (
+      <mesh
+        {...props}
+        ref={beaconRef}
+        castShadow
+        receiveShadow
+        geometry={nodes.Mesh_Mesh_head_geo001_lambert2SG001.geometry}
+        material={beaconMaterial}
+      />
+    );
+  }
 
   function cameraMove() {
     setTarget(!target);
