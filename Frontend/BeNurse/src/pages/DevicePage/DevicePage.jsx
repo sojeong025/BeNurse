@@ -141,10 +141,12 @@ export default function DevicePage() {
           />
         </Button>
         <Input
-          style={{
-            width: "278px",
+          onFocus={() => {
+            console.log(1);
           }}
+          variant="search"
           placeholder="장비 이름으로 검색"
+          width="298px"
           type="text"
         />
       </div>
