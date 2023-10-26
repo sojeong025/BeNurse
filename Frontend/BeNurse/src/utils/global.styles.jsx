@@ -10,6 +10,9 @@ export const Common = {
     purpleGrad01: "linear-gradient(273deg, #CBB9FF 14.46%, #CFC1F6 33.04%)",
     purpleGrad02: "linear-gradient(310deg, #9669F9 12.28%, #A585FF 85.08%)",
     purpleGrad03: "linear-gradient(295deg, #6B4AE3 18.72%, #7F45FF 62.63%)",
+    purpleGradDark01: "linear-gradient(273deg, #C1B1F3 14.46%, #CBBDF0 33.04%)",
+    purpleGradDark02: "linear-gradient(310deg, #8F63ED 12.28%, #997BED 85.08%)",
+    purpleGradDark03: "linear-gradient(295deg, #6043CB 18.72%, #7740EC 62.63%)",
 
     // 검정색
     black01: "#777777",
@@ -18,6 +21,7 @@ export const Common = {
 
     // 흰색
     white01: "#FFFFFF",
+    white02: "#F4F4F4",
 
     // 근무표
     day: "#FFC300",
