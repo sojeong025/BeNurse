@@ -29,7 +29,7 @@ export const StyledInputContainer = styled.div`
 export const IconWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 16px;
+  margin-right: 10px;
 `;
 
 export const StyledInput = styled.input`
