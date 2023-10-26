@@ -11,7 +11,7 @@ import { gsap } from "gsap/gsap-core";
 
 function GroundGLTF(props) {
   const groupRef = useRef();
-  const { nodes, materials } = useGLTF("src/assets/GLTFModels/Beacon.glb");
+  const { nodes, materials } = useGLTF("src/assets/GLTFModels/Ground.glb");
   return (
     <mesh
       {...props}
