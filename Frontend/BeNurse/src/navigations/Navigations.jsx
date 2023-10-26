@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import MainPage from "@pages/MainPage";
 import LoginPage from "@pages/LoginPage";
-import ThreeTestPage from "@pages/ThreeTestPage";
+import DevicePage from "@pages/DevicePage";
 
 export default function routes() {
   return (
@@ -17,8 +17,8 @@ export default function routes() {
         element={<LoginPage />}
       />
       <Route
-        path="/threeTest"
-        element={<ThreeTestPage />}
+        path="/device"
+        element={<DevicePage />}
       />
     </Routes>
   );

@@ -9,6 +9,7 @@ import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { gsap } from "gsap/gsap-core";
+import Button from "../../components/Button/Button";
 
 function GroundGLTF(props) {
   const groupRef = useRef();
@@ -38,7 +39,7 @@ function HospitalGLTF(props) {
   );
 }
 
-export default function ThreeTestPage() {
+export default function DevicePage() {
   const [target, setTarget] = useState(false);
   const [position, setPosition] = useState();
 
@@ -108,20 +109,13 @@ export default function ThreeTestPage() {
           zIndex: 100,
         }}
       >
-        <button
+        <Button
+          variant="primary"
+          width="50px"
           onClick={cameraMove}
-          style={{
-            width: "50px",
-            height: "50px",
-            borderRadius: "10px",
-            border: "none",
-            marginRight: "10px",
-            color: "#fff",
-            backgroundColor: "#9669F9",
-          }}
         >
-          버튼
-        </button>
+          zz
+        </Button>
         <input
           style={{
             color: "#555",
