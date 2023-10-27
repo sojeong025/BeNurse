@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import * as S from "./JoinNursePage.styles";
 import { Common } from "@utils/global.styles.jsx";
+import { useNavigate } from "react-router-dom";
+import { css, keyframes } from "@emotion/react";
 
 import Container from "../../components/atoms/Container/Container";
 import Button from "../../components/atoms/Button/Button";
@@ -10,8 +12,20 @@ import join_verify from "@assets/Images/join_verify.png";
 
 export default function JoinNursePage() {
   const [otp, setOtp] = useState("");
+  const [hasErrored, setHasErrored] = useState(false);
   const handleChange = (enteredOtp) => {
     setOtp(enteredOtp);
+    setHasErrored(false);
+  };
+
+  const navigate = useNavigate();
+
+  const onClickCheckBtn = () => {
+    if (otp === "12345678") {
+      navigate("/");
+    } else {
+      setHasErrored(true);
+    }
   };
 
   return (
@@ -45,14 +59,18 @@ export default function JoinNursePage() {
             boxSizing: "border-box",
             color: `${Common.color.black01}`,
           }}
+          errorStyle={{
+            border: `2px solid ${Common.color.danger}`,
+          }}
           isInputSecure={true}
+          hasErrored={hasErrored}
         />
-
         <Button
+          margin="20px 0"
           variant="primary"
           width="350px"
           radius="10px"
-          // onClick={}
+          onClick={onClickCheckBtn}
         >
           확인
         </Button>

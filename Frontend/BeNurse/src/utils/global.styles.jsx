@@ -33,6 +33,11 @@ export const Common = {
     focused: "#7F45FF",
     available: "#03AF00",
     occupied: "#C13232",
+
+    // 상태
+    success: "#198754",
+    warning: "#ffc107",
+    danger: "#ff3f52",
   },
 
   fontSize: {
