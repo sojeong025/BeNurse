@@ -197,6 +197,14 @@ export default function DevicePage() {
             <DeviceItem onClick={selectDeviceItem} />
             <DeviceItem onClick={selectDeviceItem} />
             <DeviceItem onClick={selectDeviceItem} />
+            <DeviceItem onClick={selectDeviceItem} />
+            <DeviceItem onClick={selectDeviceItem} />
+            <DeviceItem onClick={selectDeviceItem} />
+            <DeviceItem onClick={selectDeviceItem} />
+            <DeviceItem onClick={selectDeviceItem} />
+            <DeviceItem onClick={selectDeviceItem} />
+            <DeviceItem onClick={selectDeviceItem} />
+            <DeviceItem onClick={selectDeviceItem} />
           </div>
         </div>
       </Container>
