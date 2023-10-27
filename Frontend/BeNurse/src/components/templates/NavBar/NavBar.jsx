@@ -60,13 +60,21 @@ export default function NavBar() {
         justifyContent: "center",
         alignItems: "flex-end",
         width: "412px",
-        height: "64px",
-        padding: "0px 0px 10px 0px",
+        height: "54px",
+        padding: "0px 0px 20px 0px",
         color: navFontColor,
         backgroundColor: navColor,
       }}
     >
-      <span>{navTitle}</span>
+      <span
+        style={{
+          color: Common.color.black02,
+          fontSize: Common.fontSize.fontXL,
+          fontWeight: Common.fontWeight.black,
+        }}
+      >
+        {navTitle}
+      </span>
     </div>
   );
 }
