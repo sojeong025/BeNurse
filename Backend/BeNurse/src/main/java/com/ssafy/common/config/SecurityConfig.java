@@ -39,7 +39,12 @@ public class SecurityConfig {
 			
 			
 			.and().authorizeRequests()
-			.antMatchers("/api/", "/swagger-ui.html", "/swagger-resources/").permitAll() // 모두 허용
+			.antMatchers(
+					"/api/**",
+					"/swagger-ui.html",
+					"/swagger-resources/**",
+					"/webjars/**")
+			.permitAll() // 모두 허용
 			//.antMatchers("/api/").hasRole("USER") // USER 만 허용
 			//.anyRequest().authenticated() // 그 외 인증 없이 접근 X
 			.and()
