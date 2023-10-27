@@ -9,19 +9,25 @@ export const CalendarWrapper = styled.div`
 export const Header = styled.div`
   background-color: ${Common.color.purple03};
   display: flex;
+  justify-content: space-between;
   height: 70px;
+  line-height: 32px;
+  font-weight: ${Common.fontWeight.extrabold};
   align-items: center;
   border-radius: 0 0 25px 25px;
+  border-top: 1px solid ${Common.color.purple03};
   margin-left: -14px;
-  width: calc(100% + 28px);
+  padding: 0px 25px;
+  width: calc(100% - 22px);
   h2 {
-    font-size: 18px;
+    font-size: ${Common.fontSize.fontL};
+    font-weight: ${Common.fontWeight.extrabold};
     color: #ffffff;
   }
   button {
     border: none;
     background-color: transparent;
-    font-size: 20px;
+    font-size: 30px;
     color: #ffffff;
   }
 `;
@@ -77,9 +83,9 @@ export const Table = styled.table`
 `;
 
 export const Td = styled.td`
-  font-size: 15px;
+  font-size: 12px;
   width: calc((412px - 28px) / 7);
-  height: 70px;
+  height: 60px;
   padding: 10px;
   border-bottom: ${({ lastRow }) => (lastRow ? "none" : "1px solid #ddd")};
   color: ${({ isCurMonth }) => (isCurMonth ? "black" : "lightgray")};

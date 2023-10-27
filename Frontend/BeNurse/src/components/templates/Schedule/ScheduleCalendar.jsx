@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import off from "@assets/Icons/off.svg";
 import {
   CalendarWrapper,
   Header,
@@ -10,6 +11,7 @@ import {
   State,
   Td,
 } from "./ScheduleCalendar.styles";
+import { NavLink } from "react-router-dom";
 
 export default function ScheduleCalendar() {
   const today = new Date();
@@ -39,8 +41,9 @@ export default function ScheduleCalendar() {
       dates.unshift({ day: prevMonthTotalDays - i, isCurMonth: false });
     }
 
-    while (dates.length % 7 !== 0) {
-      dates.push({ day: (dates.length % 7) + 1, isCurMonth: false });
+    let nextMonthDay = 1;
+    while (dates.length < 42) {
+      dates.push({ day: nextMonthDay++, isCurMonth: false });
     }
 
     let weeks = [];
@@ -68,15 +71,37 @@ export default function ScheduleCalendar() {
   return (
     <CalendarWrapper>
       <Header>
-        <button onClick={prevMonth}>
-          <MdKeyboardArrowLeft />
-        </button>
-        <h2>
-          {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
-        </h2>
-        <button onClick={nextMonth}>
-          <MdKeyboardArrowRight />
-        </button>
+        <div style={{ display: "flex" }}>
+          <button onClick={prevMonth}>
+            <MdKeyboardArrowLeft />
+          </button>
+          <h2>
+            {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
+          </h2>
+          <button onClick={nextMonth}>
+            <MdKeyboardArrowRight />
+          </button>
+        </div>
+        <div>
+          <NavLink to="/off-application">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                color: "#ffffff",
+              }}
+            >
+              <img
+                src={off}
+                alt=""
+                style={{ width: "20px", height: "20px" }}
+              />
+              <div style={{ fontSize: "12px" }}>오프신청</div>
+            </div>
+          </NavLink>
+        </div>
       </Header>
       <StateWrapper>
         <State type={"day"}>DAY</State>
@@ -85,15 +110,17 @@ export default function ScheduleCalendar() {
         <State type={"off"}>OFF</State>
       </StateWrapper>
       <Table>
-        <WeekdayRow>
-          <Weekday>일</Weekday>
-          <Weekday>월</Weekday>
-          <Weekday>화</Weekday>
-          <Weekday>수</Weekday>
-          <Weekday>목</Weekday>
-          <Weekday>금</Weekday>
-          <Weekday>토</Weekday>
-        </WeekdayRow>
+        <thead>
+          <WeekdayRow>
+            <Weekday>일</Weekday>
+            <Weekday>월</Weekday>
+            <Weekday>화</Weekday>
+            <Weekday>수</Weekday>
+            <Weekday>목</Weekday>
+            <Weekday>금</Weekday>
+            <Weekday>토</Weekday>
+          </WeekdayRow>
+        </thead>
         <tbody>
           {weeks.map((week, i) => (
             <tr key={i}>

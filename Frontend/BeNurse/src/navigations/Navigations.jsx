@@ -8,6 +8,7 @@ import DevicePage from "@pages//DevicePage/DevicePage";
 import PatientPage from "@pages/PatientPage/PatientPage";
 import HandOverPage from "@pages/HandOverPage/HandOverPage";
 import SchedulePage from "@pages/SchedulePage/SchedulePage";
+import OffApplicationPage from "@pages/SchedulePage/OffApplicationPage";
 import MyPage from "@pages/MyPage/MyPage";
 import NoticePage from "@pages/NoticePage/NoticePage";
 import JoinPage from "@pages/LoginPage/JoinPage";
@@ -48,6 +49,10 @@ export default function routes() {
       <Route
         path="/schedule"
         element={<SchedulePage />}
+      />
+      <Route
+        path="/off-application"
+        element={<OffApplicationPage />}
       />
       <Route
         path="/mypage"
