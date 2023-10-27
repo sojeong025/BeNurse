@@ -23,7 +23,6 @@ import Box from "../../components/atoms/Box/Box";
 // icons
 import deviceListIcon from "@assets/Icons/deviceList.svg";
 import mapIcon from "@assets/Icons/map.svg";
-import { MdKeyboardArrowRight } from "react-icons/md";
 
 // zustand
 import { useDeviceStore } from "../../store/store";
@@ -52,6 +51,21 @@ export default function DevicePage() {
   function HospitalGLTF(props) {
     const groupRef = useRef();
     const { nodes, materials } = useGLTF("src/assets/GLTFModels/Hospital.glb");
+    return (
+      <mesh
+        {...props}
+        castShadow
+        receiveShadow
+        geometry={nodes.Mesh_Mesh_head_geo001_lambert2SG001.geometry}
+        material={nodes.Mesh_Mesh_head_geo001_lambert2SG001.material}
+      />
+    );
+  }
+  function HospitalOutsideGLTF(props) {
+    const groupRef = useRef();
+    const { nodes, materials } = useGLTF(
+      "src/assets/GLTFModels/HospitalOutside.glb",
+    );
     return (
       <mesh
         {...props}
@@ -96,9 +110,12 @@ export default function DevicePage() {
   }
 
   // camera
-  function cameraMove() {
+  function selectDeviceItem() {
+    console.log(1);
     setTarget(!target);
+    DeactivateList();
   }
+
   const CameraMove = () => {
     const { camera } = useThree();
 
@@ -114,8 +131,8 @@ export default function DevicePage() {
       } else {
         gsap.to(camera.position, {
           x: 1,
-          y: -130,
-          z: 70,
+          y: -180,
+          z: 100,
           duration: 0.8,
           ease: "ease-in-out",
         });
@@ -123,11 +140,6 @@ export default function DevicePage() {
       // camera={{ position: [0, -100, 120] }}
     }, [position, target]);
   };
-
-  // device list
-  function activateDeviceList() {
-    ActivateList();
-  }
 
   if (isListActivated) {
     return (
@@ -158,7 +170,7 @@ export default function DevicePage() {
             />
           </Button>
           <Input
-            onFocus={activateDeviceList}
+            onFocus={ActivateList}
             variant="search"
             placeholder="장비 이름으로 검색"
             width="298px"
@@ -179,10 +191,12 @@ export default function DevicePage() {
           }}
         >
           <div>
-            <DeviceItem />
-            <DeviceItem />
-            <DeviceItem />
-            <DeviceItem />
+            <div onClick={selectDeviceItem}>
+              <DeviceItem />
+            </div>
+            <DeviceItem onClick={selectDeviceItem} />
+            <DeviceItem onClick={selectDeviceItem} />
+            <DeviceItem onClick={selectDeviceItem} />
           </div>
         </div>
       </Container>
@@ -207,7 +221,7 @@ export default function DevicePage() {
             variant="primary"
             width="50px"
             radius="10px"
-            onClick={cameraMove}
+            onClick={ActivateList}
           >
             <img
               style={{ width: "24px" }}
@@ -216,7 +230,7 @@ export default function DevicePage() {
             />
           </Button>
           <Input
-            onFocus={activateDeviceList}
+            onFocus={ActivateList}
             variant="search"
             placeholder="장비 이름으로 검색"
             width="298px"
@@ -230,7 +244,7 @@ export default function DevicePage() {
             height: "736px",
             backgroundColor: "#E7E6F5",
           }}
-          camera={{ position: [1, -130, 70] }}
+          camera={{ position: [1, -180, 100] }}
           // camera={{ position: [0, -100, 120] }}
           flat={true}
         >
@@ -238,7 +252,7 @@ export default function DevicePage() {
             <ambientLight intensity={2} />
             <directionalLight
               color="white"
-              intensity={3}
+              intensity={1}
               position={[-10, -30, 30]}
             />
             <directionalLight
@@ -272,13 +286,20 @@ export default function DevicePage() {
                 rotation={[0, 0, 0.5]}
               />
             </>
+            {!target && (
+              <HospitalOutsideGLTF
+                scale={1}
+                position={[10, -20, -12]}
+                rotation={[0, 0, 0.5]}
+              />
+            )}
             <GroundGLTF
               scale={2.4}
               position={[0, 0, -40]}
               rotation={[0, 0, 0.5]}
+              flatShading={true}
             />
             <CameraMove />
-            {/* <gridHelper scale={10} /> */}
           </Suspense>
         </Canvas>
       </Container>

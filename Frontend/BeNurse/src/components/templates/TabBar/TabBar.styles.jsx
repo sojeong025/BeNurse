@@ -5,7 +5,7 @@ export const StyledTabBar = styled.div`
   position: absolute;
   bottom: 0;
   z-index: 100;
-  display: flex;
+  display: ${({ display }) => display};
   justify-content: space-around;
   align-items: center;
   padding: 0px 10px;
