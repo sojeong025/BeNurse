@@ -11,6 +11,7 @@ import SchedulePage from "@pages/SchedulePage/SchedulePage";
 import OffApplicationPage from "@pages/SchedulePage/OffApplicationPage";
 import MyPage from "@pages/MyPage/MyPage";
 import NoticePage from "@pages/NoticePage/NoticePage";
+import KakaoLoginPage from "@pages/LoginPage/KakaoLoginPage";
 import JoinPage from "@pages/LoginPage/JoinPage";
 import JoinNursePage from "@pages/LoginPage/JoinNursePage";
 
@@ -25,6 +26,10 @@ export default function routes() {
         path="/login"
         element={<LoginPage />}
       >
+        <Route
+          path=""
+          element={<KakaoLoginPage />}
+        />
         <Route
           path="join"
           element={<JoinPage />}
