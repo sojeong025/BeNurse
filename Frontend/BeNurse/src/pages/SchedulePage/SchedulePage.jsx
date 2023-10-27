@@ -8,7 +8,9 @@ export default function SchedulePage() {
       backgroundColor={"white"}
       flex={["center", "flex-start"]}
     >
-      <ScheduleCalendar />
+      <div style={{ marginTop: "74px" }}>
+        <ScheduleCalendar />
+      </div>
     </Container>
   );
 }

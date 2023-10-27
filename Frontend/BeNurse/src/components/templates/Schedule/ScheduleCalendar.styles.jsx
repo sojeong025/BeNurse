@@ -3,7 +3,7 @@ import { Common } from "../../../utils/global.styles";
 
 export const CalendarWrapper = styled.div`
   width: calc(412px - 28px);
-  margin-top: 74px;
+  /* margin-top: 74px; */
 `;
 
 export const Header = styled.div`
