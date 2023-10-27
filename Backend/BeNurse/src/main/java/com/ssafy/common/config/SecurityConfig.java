@@ -17,7 +17,7 @@ import com.ssafy.common.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
-//@Configuration
+@Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
