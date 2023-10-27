@@ -4,7 +4,7 @@ import { Common } from "@utils/global.styles.jsx";
 export const StyledContainer = styled.div`
   display: flex;
   width: 412px;
-  height: 700px;
+  height: 736px;
   padding-top: 74px;
   position: relative;
   background-color: ${({ backgroundColor }) =>
@@ -13,8 +13,4 @@ export const StyledContainer = styled.div`
       : backgroundColor === "purple"
       ? "#E7E6F5"
       : ""};
-  overflow: scroll;
-  & ::-webkit-scrollbar {
-    display: none;
-  }
 `;
