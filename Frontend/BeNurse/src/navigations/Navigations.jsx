@@ -10,6 +10,8 @@ import HandOverPage from "@pages/HandOverPage/HandOverPage";
 import SchedulePage from "@pages/SchedulePage/SchedulePage";
 import MyPage from "@pages/MyPage/MyPage";
 import NoticePage from "@pages/NoticePage/NoticePage";
+import JoinPage from "@pages/LoginPage/JoinPage";
+import JoinNursePage from "@pages/LoginPage/JoinNursePage";
 
 export default function routes() {
   return (
@@ -21,7 +23,16 @@ export default function routes() {
       <Route
         path="/login"
         element={<LoginPage />}
-      />
+      >
+        <Route
+          path="join"
+          element={<JoinPage />}
+        />
+        <Route
+          path="joinNurse"
+          element={<JoinNursePage />}
+        />
+      </Route>
       <Route
         path="/device"
         element={<DevicePage />}

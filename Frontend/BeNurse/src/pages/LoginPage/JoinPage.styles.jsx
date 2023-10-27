@@ -22,6 +22,7 @@ export const MainContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: auto;
   height: calc(100% - 60px);
   padding: 14px;
 `;
@@ -37,7 +38,6 @@ export const MainButton = styled.div`
   color: ${({ variant }) => variants[variant].mainColor};
   border-radius: 20px;
   text-align: left;
-  width: calc(100vw - 28px);
   height: 150px;
   margin: auto;
   padding: 20px 10px;
