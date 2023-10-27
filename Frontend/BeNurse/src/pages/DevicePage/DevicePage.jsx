@@ -6,6 +6,7 @@ import React, {
   useEffect,
 } from "react";
 import { Common } from "../../utils/global.styles";
+import DeviceItem from "../../components/templates/DeviceItem/DeviceItem";
 
 // three.js
 import * as THREE from "three";
@@ -135,11 +136,12 @@ export default function DevicePage() {
           style={{
             position: "absolute",
             zIndex: 100,
+            display: "flex",
             width: "412px",
             height: "100px",
-            display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            marginTop: "74px",
           }}
         >
           <Button
@@ -165,6 +167,7 @@ export default function DevicePage() {
         </div>
         <div
           style={{
+            marginTop: "74px",
             width: "412px",
             height: "576px",
             padding: "100px 0px 60px 0px",
@@ -176,77 +179,10 @@ export default function DevicePage() {
           }}
         >
           <div>
-            <Box
-              type={"white"}
-              margin={"0px 0px 20px 0px"}
-              size={["384px", "132px"]}
-              font={"16px"}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "334px",
-                  height: "82px",
-                }}
-              >
-                <div>
-                  <img
-                    src=""
-                    alt=""
-                  />
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "232px",
-                    height: "72px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                      height: "72px",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: Common.fontSize.fontL,
-                        fontWeight: Common.fontWeight.bold,
-                      }}
-                    >
-                      desc
-                    </span>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <span>desc</span>
-                      <span>desc</span>
-                    </div>
-                  </div>
-                  <button
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: "30px",
-                      height: "30px",
-                      border: "none",
-                      borderRadius: "30px",
-                      backgroundColor: Common.color.purple01,
-                    }}
-                  >
-                    <MdKeyboardArrowRight
-                      size={24}
-                      color={Common.color.purple04}
-                    />
-                  </button>
-                </div>
-              </div>
-            </Box>
+            <DeviceItem />
+            <DeviceItem />
+            <DeviceItem />
+            <DeviceItem />
           </div>
         </div>
       </Container>
@@ -256,13 +192,14 @@ export default function DevicePage() {
       <Container backgroundColor={"purple"}>
         <div
           style={{
-            width: "412px",
-            height: "100px",
             position: "absolute",
+            zIndex: 100,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            zIndex: 100,
+            width: "412px",
+            height: "100px",
+            marginTop: "74px",
           }}
         >
           <Button
@@ -288,6 +225,7 @@ export default function DevicePage() {
         </div>
         <Canvas
           style={{
+            marginTop: "74px",
             width: "412px",
             height: "736px",
             backgroundColor: "#E7E6F5",

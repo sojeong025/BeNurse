@@ -6,8 +6,7 @@ export const StyledContainer = styled.div`
   justify-content: ${({ flex }) => (flex ? flex[0] : null)};
   align-items: ${({ flex }) => (flex ? flex[1] : null)};
   width: 412px;
-  height: 736px;
-  padding-top: 74px;
+  height: 810px;
   position: relative;
   background-color: ${({ backgroundColor }) =>
     backgroundColor === "white"

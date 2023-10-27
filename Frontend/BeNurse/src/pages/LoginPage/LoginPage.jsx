@@ -1,5 +1,10 @@
-function LoginPage() {
-  return <div>로그인 페이지</div>;
-}
+import React from "react";
+import { Outlet } from "react-router";
 
-export default LoginPage;
+export default function LoginPage() {
+  return (
+    <>
+      <Outlet />
+    </>
+  );
+}
