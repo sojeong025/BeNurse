@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin(origins = "*")
-@Api(value = "공지 API", tags = { "Notice." })
+@Api(value = "공지 API", tags = { "공지사항." })
 @RestController
 @RequestMapping("/api/benurse/notice")
 public class NoticeController {

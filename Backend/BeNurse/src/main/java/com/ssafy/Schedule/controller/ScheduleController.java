@@ -1,6 +1,7 @@
 package com.ssafy.Schedule.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin(origins = "*")
-@Api(value = "근무표 API", tags = { "Schedule." })
+@Api(value = "근무표 API", tags = { "근무표." })
 @RestController
 @RequestMapping("/api/benurse/Schedule")
 public class ScheduleController {
@@ -34,6 +35,7 @@ public class ScheduleController {
 	@Autowired
 	ScheduleRepository scheduleRepo;
 	
+	// 근무일정추가 POST
 	@PostMapping("")
 	@ApiOperation(value = "근무 일정 추가", notes = "간호사, 근무 날짜와 시간, 근무지로 근무 일정을 추가")
 	@ApiResponses({
@@ -47,6 +49,8 @@ public class ScheduleController {
 		return new ResponseEntity<>(savedSchedule, HttpStatus.OK);
 	}
 	
+	
+	// 근무일정수정 PUT
 	@PutMapping("/update")
 	@ApiOperation(value = "근무 일정 수정", notes = "근무 일정 수정") 
 	@ApiResponses({
@@ -79,6 +83,8 @@ public class ScheduleController {
 	    
 	}
 	
+	
+	// 근무일정삭제	DELETE
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "근무 일정 삭제", notes = "근무 일정 ID로 근무 일정 삭제")
 	@ApiResponses({
@@ -98,6 +104,8 @@ public class ScheduleController {
 
 	} 
 	
+	
+	// 내 근무일정조회 GET
 //	@GetMapping("/{id}")
 //	@ApiOperation(value = "내 근무 일정 조회", notes = "설정한 기간 내의 근무 일정 조회") 
 //	@ApiResponses({
@@ -114,24 +122,42 @@ public class ScheduleController {
 //	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 //	}	
 	
-//	@GetMapping("/{id}")
+	
+	// 근무표 조회 GET
+	@GetMapping("/all")
+	@ApiOperation(value = "근무표 조회", notes = "기간 내의 모든 근무 일정 조회") 
+	@ApiResponses({
+	    @ApiResponse(code = 200, message = "성공", response = Schedule.class),
+	    @ApiResponse(code = 404, message = "근무를 찾을 수 없음."),
+	    @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<List<Schedule>> getScheduleByDate(
+			@RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+		    @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate
+		    )
+	{	
+	    List<Schedule> schedule = scheduleRepo.findAllByworkdateBetween(startDate, endDate);
+	    return ResponseEntity.status(HttpStatus.OK).body(schedule);
+
+	}	
+	
+	
+	// 근무 일정 검색 GET
+//	@GetMapping("/all")
 //	@ApiOperation(value = "근무표 조회", notes = "기간 내의 모든 근무 일정 조회") 
 //	@ApiResponses({
 //	    @ApiResponse(code = 200, message = "성공", response = Schedule.class),
 //	    @ApiResponse(code = 404, message = "근무를 찾을 수 없음."),
 //	    @ApiResponse(code = 500, message = "서버 오류")
 //	})
-//	public ResponseEntity<Schedule> getScheduleById(
+//	public ResponseEntity<List<Schedule>> getScheduleByDate(
 //			@RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
 //		    @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate
 //		    )
 //	{	
-////	    Optional<Schedule> schedule = scheduleRepo.findById(ID);
+//	    List<Schedule> schedule = scheduleRepo.findAllByworkdateBetween(startDate, endDate);
+//	    return ResponseEntity.status(HttpStatus.OK).body(schedule);
 //
-//	    if (schedule.isPresent())
-//	        return new ResponseEntity<>(schedule.get(), HttpStatus.OK);
-//	    else
-//	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 //	}	
 	
 }
