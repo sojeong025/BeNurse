@@ -40,4 +40,7 @@ public class Nurse {
 	
 	@Column(name = "ANNUAL")
 	private int annual;
+	
+	@Column(name ="EMAIL")
+	private String email;
 }
