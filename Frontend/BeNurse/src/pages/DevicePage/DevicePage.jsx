@@ -16,6 +16,7 @@ import { gsap } from "gsap/gsap-core";
 import Container from "../../components/atoms/Container/Container";
 import Button from "../../components/atoms/Button/Button";
 import Input from "../../components/atoms/Input/Input";
+import Box from "../../components/atoms/Box/Box";
 
 // icons
 import deviceListIcon from "@assets/Icons/deviceList.svg";
@@ -163,43 +164,86 @@ export default function DevicePage() {
         <div
           style={{
             width: "412px",
-            height: "736px",
-            marginTop: "100px",
+            height: "636px",
+            paddingTop: "100px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            overflow: "scroll",
           }}
         >
-          <div
-            style={{ width: "100px", height: "100px", border: "1px solid red" }}
-          ></div>
-          <div
-            style={{ width: "100px", height: "100px", border: "1px solid red" }}
-          ></div>
-          <div
-            style={{ width: "100px", height: "100px", border: "1px solid red" }}
-          ></div>
-          <div
-            style={{ width: "100px", height: "100px", border: "1px solid red" }}
-          ></div>
-          <div
-            style={{ width: "100px", height: "100px", border: "1px solid red" }}
-          ></div>
-          <div
-            style={{ width: "100px", height: "100px", border: "1px solid red" }}
-          ></div>
-          <div
-            style={{ width: "100px", height: "100px", border: "1px solid red" }}
-          ></div>
-          <div
-            style={{ width: "100px", height: "100px", border: "1px solid red" }}
-          ></div>
-          <div
-            style={{ width: "100px", height: "100px", border: "1px solid red" }}
-          ></div>
-          <div
-            style={{ width: "100px", height: "100px", border: "1px solid red" }}
-          ></div>
+          <div>
+            <Box
+              type={"white"}
+              margin={"0px 0px 20px 0px"}
+              size={["384px", "132px"]}
+              border={false}
+              font={"16px"}
+            ></Box>
+            <div
+              style={{
+                width: "100px",
+                height: "100px",
+                border: "1px solid red",
+              }}
+            ></div>
+            <div
+              style={{
+                width: "100px",
+                height: "100px",
+                border: "1px solid red",
+              }}
+            ></div>
+            <div
+              style={{
+                width: "100px",
+                height: "100px",
+                border: "1px solid red",
+              }}
+            ></div>
+            <div
+              style={{
+                width: "100px",
+                height: "100px",
+                border: "1px solid red",
+              }}
+            ></div>
+            <div
+              style={{
+                width: "100px",
+                height: "100px",
+                border: "1px solid red",
+              }}
+            ></div>
+            <div
+              style={{
+                width: "100px",
+                height: "100px",
+                border: "1px solid red",
+              }}
+            ></div>
+            <div
+              style={{
+                width: "100px",
+                height: "100px",
+                border: "1px solid red",
+              }}
+            ></div>
+            <div
+              style={{
+                width: "100px",
+                height: "100px",
+                border: "1px solid red",
+              }}
+            ></div>
+            <div
+              style={{
+                width: "100px",
+                height: "100px",
+                border: "1px solid red",
+              }}
+            ></div>
+          </div>
         </div>
       </Container>
     );

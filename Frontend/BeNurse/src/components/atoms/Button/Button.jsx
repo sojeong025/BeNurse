@@ -2,7 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import * as S from "./Button.styles";
 
-export default function Button({ children, variant, width, radius, margin, ...props }) {
+export default function Button({
+  children,
+  variant,
+  width,
+  radius,
+  margin,
+  ...props
+}) {
   return (
     <S.StyledButton
       variant={variant}
