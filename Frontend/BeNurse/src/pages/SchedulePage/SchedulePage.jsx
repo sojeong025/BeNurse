@@ -1,14 +1,14 @@
 import React from "react";
-import Calendar from "react-calendar";
-import "./CustomCalendar.css";
+import ScheduleCalendar from "@components/templates/Schedule/ScheduleCalendar";
+import Container from "@components/atoms/Container/Container";
 
 export default function SchedulePage() {
   return (
-    <div>
-      <Calendar
-        locale="ko-KR"
-        formatDay={(locale, date) => date.getDate()}
-      />
-    </div>
+    <Container
+      backgroundColor={"white"}
+      flex={["center", "flex-start"]}
+    >
+      <ScheduleCalendar />
+    </Container>
   );
 }
