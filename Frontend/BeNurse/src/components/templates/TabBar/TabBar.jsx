@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router";
 
 // Icons
 import schedule from "@assets/Icons/schedule.svg";
@@ -12,10 +12,21 @@ import device from "@assets/Icons/device.svg";
 import * as S from "./TabBar.styles";
 
 export default function TabBar() {
+  const [visibility, setVisibility] = useState("flex");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log(location.pathname);
+    if (location.pathname.startsWith("/login")) {
+      setVisibility("none");
+    } else {
+      setVisibility("flex");
+    }
+  }, [location]);
 
   return (
-    <S.StyledTabBar>
+    <S.StyledTabBar display={visibility}>
       <S.styledTabBarIcon
         onClick={() => {
           navigate("/schedule");
