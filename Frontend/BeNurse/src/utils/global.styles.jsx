@@ -37,7 +37,7 @@ export const Common = {
     // 상태
     success: "#198754",
     warning: "#ffc107",
-    danger: "#dc3545",
+    danger: "#ff3f52",
   },
 
   fontSize: {

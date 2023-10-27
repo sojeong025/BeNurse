@@ -20,6 +20,7 @@ export const TitleText = styled.div`
 
 export const DescText = styled.div`
   text-align: center;
+  font-size: ${Common.fontSize.fontS};
   color: ${Common.color.black02};
   font-weight: ${Common.fontWeight.bold};
 `;

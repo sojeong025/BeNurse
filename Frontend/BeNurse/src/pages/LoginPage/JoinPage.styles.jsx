@@ -22,7 +22,7 @@ export const MainContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: auto;
+  width: 100%;
   height: calc(100% - 60px);
   padding: 14px;
 `;
@@ -30,6 +30,7 @@ export const MainContainer = styled.div`
 export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 40px;
 `;
 
@@ -38,9 +39,10 @@ export const MainButton = styled.div`
   color: ${({ variant }) => variants[variant].mainColor};
   border-radius: 20px;
   text-align: left;
+  width: 100%;
   height: 150px;
   margin: auto;
-  padding: 20px 10px;
+  padding: 20px 15px;
   box-sizing: border-box;
   box-shadow: ${({ variant }) => variants[variant].boxShadow};
 
@@ -53,7 +55,7 @@ export const FlexContainer = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
-  gap: 10px;
+  gap: 15px;
 `;
 
 export const buttonTitle = styled.p`
@@ -65,7 +67,7 @@ export const buttonTitle = styled.p`
 
 export const buttonDesc = styled.p`
   padding-top: 10px;
-  font-size: ${Common.fontSize.fontM};
+  font-size: ${Common.fontSize.fontS};
   line-height: ${Common.fontSize.fontXL};
   font-weight: ${Common.fontWeight.bold};
   margin-bottom: 10px;
