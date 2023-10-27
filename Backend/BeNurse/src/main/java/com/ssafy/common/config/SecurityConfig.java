@@ -17,7 +17,7 @@ import com.ssafy.common.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
-@Configuration
+//@Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
@@ -39,7 +39,7 @@ public class SecurityConfig {
 			
 			
 			.and().authorizeRequests()
-			.antMatchers("/api/").permitAll() // 모두 허용
+			.antMatchers("/api/", "/swagger-ui/", "/swagger-resources/").permitAll() // 모두 허용
 			//.antMatchers("/api/").hasRole("USER") // USER 만 허용
 			//.anyRequest().authenticated() // 그 외 인증 없이 접근 X
 			.and()
