@@ -1,6 +1,7 @@
 export const Common = {
   color: {
     // 보라색
+    purple00: "#E7E6F5",
     purple01: "#E6DDFF",
     purple02: "#D0BFFF",
     purple03: "#9669F9",
