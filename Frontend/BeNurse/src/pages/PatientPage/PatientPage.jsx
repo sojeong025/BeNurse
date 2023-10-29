@@ -1,15 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../../components/atoms/Container/Container";
-
-import Patient from "../../components/templates/Patient/Patient";
+import { useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 export default function PatientPage() {
+  const [patientBgColor, setPatientBgColor] = useState("purple");
+  const path = useLocation().pathname;
+
+  useEffect(() => {
+    if (path === "/patient/detail") {
+      setPatientBgColor("white");
+    } else {
+      setPatientBgColor("purple");
+    }
+  }, [path]);
+
   return (
     <Container
-      backgroundColor={"purple"}
+      backgroundColor={patientBgColor}
       flex={["center", "flex-start"]}
     >
-      <Patient />
+      <Outlet />
     </Container>
   );
 }

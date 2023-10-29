@@ -1,11 +1,11 @@
 import React from "react";
-import Box from "../../atoms/Box/Box";
-import Input from "../../atoms/Input/Input";
-import { Common } from "../../../utils/global.styles";
+import { NavLink } from "react-router-dom";
+import { Common } from "@utils/global.styles.jsx";
 
-import PatientItem from "./PatientItem";
+import Input from "@components/atoms/Input/Input";
+import PatientItem from "@components/templates/Patient/PatientItem";
 
-export default function Patient() {
+export default function PatientListPage() {
   return (
     <div
       style={{
@@ -39,7 +39,7 @@ export default function Patient() {
           alignItems: "center",
           padding: "119px 0px 0px 0px",
           marginBottom: "34px",
-          height: "576px",
+          height: "556px",
           overflow: "scroll",
         }}
       >
@@ -65,16 +65,9 @@ export default function Patient() {
             marginTop: "10px",
           }}
         >
-          <PatientItem type={"patient"} />
-          <PatientItem type={"patient"} />
-          <PatientItem type={"patient"} />
-          <PatientItem type={"patient"} />
-          <PatientItem type={"patient"} />
-          <PatientItem type={"patient"} />
-          <PatientItem type={"patient"} />
-          <PatientItem type={"patient"} />
-          <PatientItem type={"patient"} />
-          <PatientItem type={"patient"} />
+          <NavLink to="detail">
+            <PatientItem type={"patient"} />
+          </NavLink>
         </div>
       </div>
     </div>

@@ -6,6 +6,8 @@ import MainPage from "@pages/MainPage/MainPage";
 import LoginPage from "@pages/LoginPage/LoginPage";
 import DevicePage from "@pages//DevicePage/DevicePage";
 import PatientPage from "@pages/PatientPage/PatientPage";
+import PatientListPage from "../pages/PatientPage/PatientListPage";
+import PatientDetailPage from "../pages/PatientPage/PatientDetailPage";
 import HandOverPage from "@pages/HandOverPage/HandOverPage";
 import SchedulePage from "@pages/SchedulePage/SchedulePage";
 import OffApplicationPage from "@pages/SchedulePage/OffApplicationPage";
@@ -46,7 +48,16 @@ export default function routes() {
       <Route
         path="/patient"
         element={<PatientPage />}
-      />
+      >
+        <Route
+          path=""
+          element={<PatientListPage />}
+        />
+        <Route
+          path="detail"
+          element={<PatientDetailPage />}
+        />
+      </Route>
       <Route
         path="/handover"
         element={<HandOverPage />}
