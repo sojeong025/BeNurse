@@ -25,9 +25,11 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
+    "react-longpressable": "^1.1.1",
     "react-router-dom": "^6.17.0",
     "react18-input-otp": "^1.1.4",
     "styled-components": "^6.1.0",
+    "use-long-press": "^3.2.0",
     "zustand": "^4.4.4"
   },
   "devDependencies": {
