@@ -17,7 +17,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@Table(name = "NOTICE")
+@Table(name = "NURSE")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -43,4 +43,7 @@ public class Nurse {
 	
 	@Column(name ="EMAIL")
 	private String email;
+	
+	@Column(name ="PASSWORD")
+	private String password;
 }

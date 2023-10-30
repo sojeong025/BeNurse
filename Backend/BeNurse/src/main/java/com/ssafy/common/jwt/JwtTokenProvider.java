@@ -49,6 +49,7 @@ public class JwtTokenProvider{
 		long now = (new Date()).getTime();
 		// Access Token 생성
 		Date accessTokenExpiresIn = new Date(now + 86400000); // 1일
+		
 		String accessToken = Jwts.builder()
 				.setSubject(authentication.getName())
 				.claim("auth", authorities)
@@ -104,6 +105,10 @@ public class JwtTokenProvider{
 			log.info("JWT claims string is empty", e);
 		}
 		return false;
+	}
+	
+	public String getUserEmail(String accessToken) {
+		return parseClaims(accessToken).getSubject();
 	}
 	
 	private Claims parseClaims(String accessToken) {

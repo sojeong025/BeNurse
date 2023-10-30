@@ -34,8 +34,9 @@ public class CustomUserDetailsService implements UserDetailsService{
 				});
 		
 		return User.builder()
-				.username(user.getName())
-				.password(user.getName())
+				.username(user.getEmail())
+				.password(passwordEncoder.encode(user.getEmail()))
+				.authorities("User")
 				.build();
 	}	
 }
