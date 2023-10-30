@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { ModalWrapper, ModalOverlay, ModalInner } from "./Modal.styles";
 import { IoCloseSharp } from "react-icons/io5";
+import { Common } from "../../../utils/global.styles";
 
 function Modal({
   className,
@@ -45,12 +46,15 @@ function Modal({
           tabIndex={0}
           className="modal-inner"
         >
-          {closable && (
-            <IoCloseSharp
-              className="modal-close"
-              onClick={close}
-            />
-          )}
+          <div style={{ display: "flex", justifyContent: "end" }}>
+            {closable && (
+              <IoCloseSharp
+                className="modal-close"
+                onClick={close}
+                style={{ fontSize: "26px", color: Common.color.black01 }}
+              />
+            )}
+          </div>
           {children}
         </ModalInner>
       </ModalWrapper>

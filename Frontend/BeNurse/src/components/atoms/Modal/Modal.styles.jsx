@@ -14,6 +14,8 @@ export const ModalWrapper = styled.div`
 `;
 
 export const ModalOverlay = styled.div`
+  width: 412px;
+  height: 810px;
   box-sizing: border-box;
   display: ${(props) => (props.visible ? "block" : "none")};
   position: fixed;
@@ -28,13 +30,12 @@ export const ModalOverlay = styled.div`
 export const ModalInner = styled.div`
   box-sizing: border-box;
   position: relative;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.51);
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
   background-color: #fff;
   border-radius: 10px;
-  width: 360px;
-  max-width: 480px;
+  width: 320px;
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 20px 20px;
 `;
