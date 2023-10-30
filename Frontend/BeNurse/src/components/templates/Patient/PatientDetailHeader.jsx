@@ -1,6 +1,9 @@
 import React from "react";
 import { Common } from "@utils/global.styles";
 
+// Iconst
+import { MdHistory } from "react-icons/md";
+
 export default function PatientDetailHeader({ type }) {
   if (type === "주요내역") {
     return (
@@ -41,7 +44,9 @@ export default function PatientDetailHeader({ type }) {
               borderRadius: "40px",
               backgroundColor: Common.color.purple02,
             }}
-          ></div>
+          >
+            <MdHistory />
+          </div>
         </div>
       </div>
     );

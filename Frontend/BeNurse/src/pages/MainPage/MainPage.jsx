@@ -24,7 +24,7 @@ function MainPage() {
   }
 
   return (
-    <Container>
+    <Container overflow={"hidden"}>
       <S.MainContainer>
         <S.TopContainer>
           <S.BtnContainer>

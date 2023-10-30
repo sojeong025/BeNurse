@@ -14,4 +14,5 @@ export const StyledContainer = styled.div`
       : backgroundColor === "purple"
       ? "#E7E6F5"
       : ""};
+  overflow: ${({ overflow }) => overflow};
 `;
