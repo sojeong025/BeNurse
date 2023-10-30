@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BsCheck } from "react-icons/bs";
 import { Common } from "../../../utils/global.styles";
 import offpencil from "@assets/Icons/offpencil.svg";
 import {
@@ -7,13 +8,22 @@ import {
   WeekdayRow,
   Weekday,
   Td,
+  CheckBox,
 } from "./ScheduleCalendar.styles";
+import Modal from "../../atoms/Modal/Modal";
 
 export default function ScheduleCalendar() {
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(
     new Date(today.getFullYear(), today.getMonth(), 1),
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const createCalendar = (date) => {
     const startDay = date.getDay();
@@ -67,11 +77,12 @@ export default function ScheduleCalendar() {
               fontSize: Common.fontSize.fontXL,
               fontWeight: Common.fontWeight.extrabold,
               marginBottom: "15px",
+              marginTop: "30px",
             }}
           >
             {currentDate.getFullYear()}년 {currentDate.getMonth() + 2}월
           </div>
-          <div style={{ fontSize: Common.fontSize.fontM }}>
+          <div style={{ fontSize: Common.fontSize.fontM, marginBottom: "5px" }}>
             원하는 오프 신청일을 설정해주세요.
           </div>
         </div>
@@ -81,6 +92,8 @@ export default function ScheduleCalendar() {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            marginTop: "30px",
+            cursor: "pointer",
           }}
         >
           <img
@@ -89,12 +102,14 @@ export default function ScheduleCalendar() {
             style={{ width: "24px", marginBottom: "5px" }}
           />
           <button
+            onClick={openModal}
             style={{
               fontSize: Common.fontSize.fontXS,
               fontWeight: Common.fontWeight.extrabold,
               color: Common.color.purple03,
               background: "none",
               border: "none",
+              cursor: "pointer",
             }}
           >
             사유등록
@@ -122,13 +137,32 @@ export default function ScheduleCalendar() {
                   key={j}
                   isCurMonth={date.isCurMonth}
                 >
-                  {date.day}
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    {date.day}
+                    {date.isCurMonth && (
+                      <CheckBox>
+                        <input
+                          type="checkbox"
+                          id={`checkbox-${i}-${j}`}
+                        />
+                        <span>
+                          <BsCheck size={24} />
+                        </span>
+                      </CheckBox>
+                    )}
+                  </div>
                 </Td>
               ))}
             </tr>
           ))}
         </tbody>
       </Table>
+      <Modal
+        visible={isModalOpen}
+        onClose={closeModal}
+      >
+        일단 사유 만들어보기
+      </Modal>
     </CalendarWrapper>
   );
 }
