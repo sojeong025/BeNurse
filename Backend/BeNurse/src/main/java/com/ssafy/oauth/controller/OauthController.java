@@ -42,7 +42,7 @@ public class OauthController {
 	@GetMapping("")
 	@ApiOperation(value = "로그인", notes = "카카오 인가 코드를 전달받아 사용자 인증 후 서비스 토큰을 발급(카카오 토큰과는 다른겁니다.)")
 	@ApiResponses({
-		@ApiResponse(code = 200, message = "성공", response = Notice.class),
+		@ApiResponse(code = 200, message = "성공", response = TokenInfo.class),
 		@ApiResponse(code = 404, message = "인증 오류"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
@@ -58,7 +58,7 @@ public class OauthController {
 	@GetMapping("/test/email")
 	@ApiOperation(value = "사용자 정보", notes = "서비스 토큰으로 사용자 이메일 조회(디버그용)")
 	@ApiResponses({
-		@ApiResponse(code = 200, message = "성공", response = Notice.class),
+		@ApiResponse(code = 200, message = "성공", response = String.class),
 		@ApiResponse(code = 404, message = "인증 오류"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
