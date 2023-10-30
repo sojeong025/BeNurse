@@ -1,22 +1,13 @@
 import React from "react";
-import { css } from "@emotion/react";
 import { Common } from "../../utils/global.styles";
 import { usePatientStore } from "../../store/store";
-import PatientJournalItem from "../../components/templates/Patient/PatientJournalItem";
-import "react-spring-bottom-sheet/dist/style.css";
 
 // Components
-import Box from "../../components/atoms/Box/Box";
-import { BottomSheet } from "react-spring-bottom-sheet";
-
-// Icons
-import createpencil from "@assets/Icons/createpencil.svg";
-import { FaTrashAlt, FaEdit } from "react-icons/fa";
+import PatientJournalItem from "../../components/templates/Patient/PatientJournalItem";
+import BottomSelectPanel from "../../components/templates/BottomSelectPanel/BottomSelectPanel";
+import CreatePencilButton from "../../components/atoms/Button/CreatePencilButton";
 
 export default function PatientJournalPage() {
-  const { isEditActivated, ActivateEdit, DeactivateEdit } = usePatientStore(
-    (state) => state,
-  );
   return (
     <div
       style={{
@@ -79,97 +70,12 @@ export default function PatientJournalPage() {
             }}
           ></div>
         </div>
-        <div
-          style={{
-            position: "absolute",
-            right: "14px",
-            bottom: "50px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "57px",
-            height: "57px",
-            borderRadius: "30px",
-            backgroundColor: Common.color.purple03,
-            zIndex: 1,
-          }}
-        >
-          <img
-            src={createpencil}
-            alt=""
-          />
-        </div>
+        <CreatePencilButton />
       </div>
-      <BottomSheet
-        open={isEditActivated}
-        onDismiss={DeactivateEdit}
-      >
-        <div
-          style={{
-            height: "184px",
-          }}
-        >
-          <Box
-            type={"transparent"}
-            size={["412px", "80px"]}
-            border={true}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                width: "340px",
-                height: "60px",
-              }}
-            >
-              <FaEdit
-                color="#555555"
-                size={22}
-                style={{ marginRight: "8px" }}
-              />
-              <span
-                style={{
-                  color: Common.color.black02,
-                  fontSize: Common.fontSize.fontM,
-                  fontWeight: Common.fontWeight.bold,
-                }}
-              >
-                일지 수정
-              </span>
-            </div>
-          </Box>
-          <Box
-            type={"transparent"}
-            size={["412px", "80px"]}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                width: "340px",
-                height: "60px",
-              }}
-            >
-              <FaTrashAlt
-                color="#555555"
-                size={22}
-                style={{ marginRight: "8px" }}
-              />
-              <span
-                style={{
-                  color: Common.color.black02,
-                  fontSize: Common.fontSize.fontM,
-                  fontWeight: Common.fontWeight.bold,
-                }}
-              >
-                일지 삭제
-              </span>
-            </div>
-          </Box>
-        </div>
-      </BottomSheet>
+      <BottomSelectPanel
+        modifyLabel={"일지 수정"}
+        deleteLabel={"일지 삭제"}
+      />
     </div>
   );
 }
