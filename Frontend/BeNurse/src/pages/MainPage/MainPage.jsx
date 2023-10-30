@@ -28,15 +28,18 @@ function MainPage() {
       <S.MainContainer>
         <S.TopContainer>
           <S.BtnContainer>
-            <Button
-              width="100%"
-              height="80px"
-            >
-              <S.ButtonContent>
-                <AiOutlineUser />
-                <div>마이페이지</div>
-              </S.ButtonContent>
-            </Button>
+            <Link to="/mypage" style={{width: "100%"}}>
+              <Button
+                width="100%"
+                height="80px"
+              >
+                <S.ButtonContent>
+                  <AiOutlineUser />
+                  <div>마이페이지</div>
+                </S.ButtonContent>
+              </Button>
+            </Link>
+            <Link to="/notice" style={{width: "100%"}}>
             <Button
               variant="primary"
               width="100%"
@@ -47,6 +50,7 @@ function MainPage() {
                 <div>공지사항</div>
               </S.ButtonContent>
             </Button>
+            </Link>
           </S.BtnContainer>
 
           <img
