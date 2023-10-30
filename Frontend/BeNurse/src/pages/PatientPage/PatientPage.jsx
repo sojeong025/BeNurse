@@ -8,7 +8,7 @@ export default function PatientPage() {
   const path = useLocation().pathname;
 
   useEffect(() => {
-    if (path === "/patient/detail") {
+    if (path.startsWith("/patient/detail")) {
       setPatientBgColor("white");
     } else {
       setPatientBgColor("purple");

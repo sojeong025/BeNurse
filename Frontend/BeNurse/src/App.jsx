@@ -9,7 +9,6 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <Navigations />
-
       <TabBar />
     </BrowserRouter>
   );

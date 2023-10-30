@@ -4,11 +4,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // Page 정리
 import MainPage from "@pages/MainPage/MainPage";
 import LoginPage from "@pages/LoginPage/LoginPage";
+
 import DevicePage from "@pages//DevicePage/DevicePage";
+
 import PatientPage from "@pages/PatientPage/PatientPage";
 import PatientListPage from "../pages/PatientPage/PatientListPage";
+import PatientJournalPage from "../pages/PatientPage/PatientJournalPage";
 import PatientDetailPage from "../pages/PatientPage/PatientDetailPage";
+
 import HandOverPage from "@pages/HandOverPage/HandOverPage";
+
 import SchedulePage from "@pages/SchedulePage/SchedulePage";
 import OffApplicationPage from "@pages/SchedulePage/OffApplicationPage";
 import MyPage from "@pages/MyPage/MyPage";
@@ -56,6 +61,10 @@ export default function routes() {
         <Route
           path="detail"
           element={<PatientDetailPage />}
+        />
+        <Route
+          path="detail/journal"
+          element={<PatientJournalPage />}
         />
       </Route>
       <Route

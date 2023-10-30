@@ -3,6 +3,7 @@ import * as S from "./Box.styles";
 
 export default function Box({
   children,
+  position,
   flex,
   size,
   type,
@@ -10,6 +11,8 @@ export default function Box({
   margin,
   font,
   overflow,
+  overflowX,
+  overflowY,
 }) {
   return (
     <S.StyledBox
@@ -20,6 +23,8 @@ export default function Box({
       margin={margin}
       font={font}
       overflow={overflow}
+      overflowX={overflowX}
+      overflowY={overflowY}
     >
       {children}
     </S.StyledBox>

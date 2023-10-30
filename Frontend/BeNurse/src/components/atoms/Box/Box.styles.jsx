@@ -2,12 +2,12 @@ import styled from "@emotion/styled";
 import { Common } from "@utils/global.styles.jsx";
 
 export const StyledBox = styled.div`
+  position: ${({ position }) => position};
   display: flex;
   justify-content: ${({ flex }) => (flex !== undefined ? flex[0] : "center")};
   align-items: ${({ flex }) => (flex !== undefined ? flex[1] : "center")};
   margin: ${({ margin }) => margin || "0 0 0 0"};
-  border: ${({ border }) =>
-    border === true ? "0px 0px 1px 0px solid #777777" : null};
+  border-bottom: ${({ border }) => (border ? "1px solid #D9D9D9" : null)};
   border-radius: ${({ type }) => (type === "transparent" ? "0px" : "16px")};
   width: ${({ size }) => size[0]};
   height: ${({ size }) => size[1]};
@@ -43,4 +43,6 @@ export const StyledBox = styled.div`
       : type === "transparent" && null};
   font-size: ${({ font }) => font};
   overflow: ${({ overflow }) => overflow};
+  overflow-x: ${({ overflowX }) => overflowX};
+  overflow-y: ${({ overflowY }) => overflowY};
 `;

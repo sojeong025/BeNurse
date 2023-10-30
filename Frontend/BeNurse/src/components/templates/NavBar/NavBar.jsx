@@ -28,7 +28,13 @@ export default function NavBar() {
       setNavBoxShadow("0px 4px 8px 0px rgba(213, 213, 213, 0.36) ");
       setVisibility("flex");
     } else if (path.startsWith("/patient")) {
-      if (path === "/patient/detail") {
+      if (path === "/patient/detail/journal") {
+        setNavTitle("간호 일지");
+        setNavColor(Common.color.purple03);
+        setNavFontColor(Common.color.white01);
+        setNavBoxShadow("");
+        setVisibility("flex");
+      } else if (path === "/patient/detail") {
         setNavTitle("환자 상세 정보");
         setNavColor(Common.color.white01);
         setNavFontColor(Common.color.black03);
@@ -87,7 +93,6 @@ export default function NavBar() {
     >
       <span
         style={{
-          color: Common.color.black02,
           fontSize: Common.fontSize.fontXL,
           fontWeight: Common.fontWeight.black,
         }}

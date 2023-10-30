@@ -7,9 +7,6 @@ import PatientDetailItem from "../../components/templates/Patient/PatientDetailI
 // Components
 import Box from "@components/atoms/Box/Box";
 
-// Images
-import patientImg from "@assets/Images/patient_male.png";
-
 export default function PatientDetailPage() {
   return (
     <div
@@ -26,7 +23,8 @@ export default function PatientDetailPage() {
         margin={"0px 0px 20px 0px"}
         size={["384px", "560px"]}
         font={"16px"}
-        overflow={"scroll"}
+        overflowX={"hidden"}
+        overflowY={"scroll"}
       >
         <div
           style={{
@@ -69,7 +67,7 @@ export default function PatientDetailPage() {
               justifyContent: "center",
               alignItems: "flex-start",
               width: "412px",
-              height: "360px",
+              height: "400px",
               borderTop: "1px solid #D9D9D9",
             }}
           >
@@ -78,7 +76,7 @@ export default function PatientDetailPage() {
                 display: "flex",
                 flexDirection: "column",
                 width: "380px",
-                height: "284px",
+                height: "330px",
                 marginTop: "18px",
                 borderLeft: "3px solid" + Common.color.purple04,
               }}
@@ -88,6 +86,7 @@ export default function PatientDetailPage() {
               <PatientDetailItem name="음주" />
               <PatientDetailItem name="흡연" />
               <PatientDetailItem name="알레르기" />
+              <PatientDetailItem name="자가약" />
             </div>
           </div>
         </div>
