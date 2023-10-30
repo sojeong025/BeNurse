@@ -20,6 +20,9 @@ import OffFinishPage from "@pages/SchedulePage/OffFinishPage";
 
 import MyPage from "@pages/MyPage/MyPage";
 import NoticePage from "@pages/NoticePage/NoticePage";
+import NoticeListPage from "@pages/NoticePage/NoticeListPage";
+import NoticeWritePage from "@pages/NoticePage/NoticeWritePage";
+import NoticeUpdatePage from "@pages/NoticePage/NoticeUpdatePage";
 import KakaoLoginPage from "@pages/LoginPage/KakaoLoginPage";
 import JoinPage from "@pages/LoginPage/JoinPage";
 import JoinNursePage from "@pages/LoginPage/JoinNursePage";
@@ -92,7 +95,11 @@ export default function routes() {
       <Route
         path="/notice"
         element={<NoticePage />}
-      />
+      >
+        <Route path="" element={<NoticeListPage/>} />
+        <Route path="write" element={<NoticeWritePage/>} />
+        <Route path=":noticeId/update" element={<NoticeUpdatePage/>} />
+      </Route>
     </Routes>
   );
 }

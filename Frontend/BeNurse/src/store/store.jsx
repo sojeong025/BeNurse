@@ -16,12 +16,22 @@ export const useDeviceStore = create((set) => ({
   },
 }));
 
-export const usePatientStore = create((set) => ({
+export const useBottomSheetStore = create((set) => ({
   isEditActivated: false,
-  ActivateEdit: () => {
-    set((state) => ({ isEditActivated: true }));
+  updateLink: "",
+  deleteLink: "",
+  ActivateEdit: (updateLink, deleteLink) => {
+    set((state) => ({
+      isEditActivated: true,
+      updateLink: updateLink,
+      deleteLink: deleteLink,
+    }));
   },
   DeactivateEdit: () => {
-    set((state) => ({ isEditActivated: false }));
+    set((state) => ({
+      isEditActivated: false,
+      updateLink: "",
+      deleteLink: "",
+    }));
   },
 }));

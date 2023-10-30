@@ -1,6 +1,6 @@
 import React from "react";
 import { Common } from "../../utils/global.styles";
-import { usePatientStore } from "../../store/store";
+import { useBottomSheetStore } from "../../store/store";
 
 // Components
 import PatientJournalItem from "../../components/templates/Patient/PatientJournalItem";

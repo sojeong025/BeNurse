@@ -2,13 +2,15 @@ import React from "react";
 import Box from "../../atoms/Box/Box";
 import LongPressable from "react-longpressable";
 
-import { usePatientStore } from "../../../store/store";
+import { useBottomSheetStore } from "../../../store/store";
 
 export default function PatientJournalItem({}) {
-  const { isEditActivated, ActivateEdit } = usePatientStore((state) => state);
+  const { isEditActivated, ActivateEdit } = useBottomSheetStore(
+    (state) => state,
+  );
   const onLongPress = (e) => {
     console.log(1);
-    ActivateEdit();
+    ActivateEdit("", "");
   };
 
   return (
