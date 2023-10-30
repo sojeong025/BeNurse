@@ -143,21 +143,24 @@ public class ScheduleController {
 	
 	
 	// 근무 일정 검색 GET
-//	@GetMapping("/all")
-//	@ApiOperation(value = "근무표 조회", notes = "기간 내의 모든 근무 일정 조회") 
-//	@ApiResponses({
-//	    @ApiResponse(code = 200, message = "성공", response = Schedule.class),
-//	    @ApiResponse(code = 404, message = "근무를 찾을 수 없음."),
-//	    @ApiResponse(code = 500, message = "서버 오류")
-//	})
-//	public ResponseEntity<List<Schedule>> getScheduleByDate(
-//			@RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-//		    @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate
-//		    )
-//	{	
-//	    List<Schedule> schedule = scheduleRepo.findAllByworkdateBetween(startDate, endDate);
-//	    return ResponseEntity.status(HttpStatus.OK).body(schedule);
-//
-//	}	
+	@GetMapping("/search")
+	@ApiOperation(value = "근무표 조회", notes = "조건(간호사ID, 기간 등)에 맞는 근무 일정 조회")
+	@ApiResponses({
+	    @ApiResponse(code = 200, message = "성공", response = Schedule.class),
+	    @ApiResponse(code = 404, message = "근무를 찾을 수 없음."),
+	    @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<List<Schedule>> getScheduleByCondition(
+	        @RequestParam("nurseID") long nurseID, // 간호사ID 파라미터 추가
+	        @RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+	        @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate
+	    ) {
+	    // 여기서 간호사ID와 기간에 따라 근무 일정을 조회하도록 변경
+	    List<Schedule> schedule = scheduleRepo.findByNurseIDAndWorkdateBetween(nurseID, startDate, endDate);
+	    if (schedule.isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 근무 일정을 찾을 수 없을 경우 404 반환
+	    }
+	    return ResponseEntity.status(HttpStatus.OK).body(schedule);
+	}
 	
 }

@@ -76,8 +76,11 @@ public class OauthService {
 			RestTemplate restTemplate = new RestTemplate();
 			HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
 
-			ResponseEntity<KakaoTokenResponse> response = restTemplate.exchange(KAKAO_AUTH_URI + "/oauth/token",
-					HttpMethod.POST, request, KakaoTokenResponse.class);
+			ResponseEntity<KakaoTokenResponse> response = restTemplate.exchange(
+					KAKAO_AUTH_URI + "/oauth/token",
+					HttpMethod.POST, 
+					request, 
+					KakaoTokenResponse.class);
 
 			log.info(response.getBody().toString());
 			KakaoTokenResponse token = response.getBody();
