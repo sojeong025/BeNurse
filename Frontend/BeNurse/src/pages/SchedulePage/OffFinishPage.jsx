@@ -22,10 +22,9 @@ export default function OffFinishPage() {
         <img
           src={send}
           style={{
-            width: "150px",
-            height: "150px",
-            marginBottom: "30px",
-            transform: "scale(1.1)",
+            width: "120px",
+            height: "120px",
+            marginBottom: "50px",
           }}
           alt=""
         />

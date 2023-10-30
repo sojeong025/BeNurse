@@ -11,24 +11,25 @@ export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   height: 71px;
-  line-height: 32px;
+  line-height: 28px;
   font-weight: ${Common.fontWeight.extrabold};
   align-items: center;
   border-radius: 0 0 25px 25px;
   border-top: 1px solid ${Common.color.purple03};
   margin-top: -1px;
   margin-left: -14px;
-  padding: 0px 25px;
-  width: calc(100% - 22px);
+  padding: 0px 24px 0 20px;
+  width: calc(100% - 16px);
   h2 {
-    font-size: ${Common.fontSize.fontL};
-    font-weight: ${Common.fontWeight.extrabold};
+    font-size: ${Common.fontSize.fontM};
+    font-weight: ${Common.fontWeight.bold};
     color: #ffffff;
   }
   button {
+    padding: 0;
     border: none;
     background-color: transparent;
-    font-size: 30px;
+    font-size: 28px;
     color: #ffffff;
   }
 `;

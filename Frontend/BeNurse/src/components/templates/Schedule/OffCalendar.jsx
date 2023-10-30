@@ -11,6 +11,7 @@ import {
   CheckBox,
 } from "./ScheduleCalendar.styles";
 import Modal from "../../atoms/Modal/Modal";
+import OffContext from "./OffContext";
 
 export default function ScheduleCalendar() {
   const today = new Date();
@@ -74,15 +75,15 @@ export default function ScheduleCalendar() {
         <div>
           <div
             style={{
-              fontSize: Common.fontSize.fontXL,
-              fontWeight: Common.fontWeight.extrabold,
+              fontSize: Common.fontSize.fontL,
+              fontWeight: Common.fontWeight.bold,
               marginBottom: "15px",
               marginTop: "30px",
             }}
           >
             {currentDate.getFullYear()}년 {currentDate.getMonth() + 2}월
           </div>
-          <div style={{ fontSize: Common.fontSize.fontM, marginBottom: "5px" }}>
+          <div style={{ fontSize: Common.fontSize.fontS, marginBottom: "5px" }}>
             원하는 오프 신청일을 설정해주세요.
           </div>
         </div>
@@ -99,13 +100,13 @@ export default function ScheduleCalendar() {
           <img
             src={offpencil}
             alt=""
-            style={{ width: "24px", marginBottom: "5px" }}
+            style={{ width: "18px", marginBottom: "5px" }}
           />
           <button
             onClick={openModal}
             style={{
               fontSize: Common.fontSize.fontXS,
-              fontWeight: Common.fontWeight.extrabold,
+              fontWeight: Common.fontWeight.bold,
               color: Common.color.purple03,
               background: "none",
               border: "none",
@@ -161,7 +162,7 @@ export default function ScheduleCalendar() {
         visible={isModalOpen}
         onClose={closeModal}
       >
-        일단 사유 만들어보기
+        <OffContext />
       </Modal>
     </CalendarWrapper>
   );
