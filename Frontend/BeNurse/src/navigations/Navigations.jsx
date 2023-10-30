@@ -8,14 +8,16 @@ import LoginPage from "@pages/LoginPage/LoginPage";
 import DevicePage from "@pages//DevicePage/DevicePage";
 
 import PatientPage from "@pages/PatientPage/PatientPage";
-import PatientListPage from "../pages/PatientPage/PatientListPage";
-import PatientJournalPage from "../pages/PatientPage/PatientJournalPage";
-import PatientDetailPage from "../pages/PatientPage/PatientDetailPage";
+import PatientListPage from "@pages/PatientPage/PatientListPage";
+import PatientJournalPage from "@pages/PatientPage/PatientJournalPage";
+import PatientDetailPage from "@pages/PatientPage/PatientDetailPage";
 
 import HandOverPage from "@pages/HandOverPage/HandOverPage";
 
 import SchedulePage from "@pages/SchedulePage/SchedulePage";
 import OffApplicationPage from "@pages/SchedulePage/OffApplicationPage";
+import OffFinishPage from "@pages/SchedulePage/OffFinishPage";
+
 import MyPage from "@pages/MyPage/MyPage";
 import NoticePage from "@pages/NoticePage/NoticePage";
 import KakaoLoginPage from "@pages/LoginPage/KakaoLoginPage";
@@ -78,6 +80,10 @@ export default function routes() {
       <Route
         path="/off-application"
         element={<OffApplicationPage />}
+      />
+      <Route
+        path="/off-application-finish"
+        element={<OffFinishPage />}
       />
       <Route
         path="/mypage"

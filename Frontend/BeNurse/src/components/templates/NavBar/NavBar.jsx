@@ -19,7 +19,10 @@ export default function NavBar() {
       setNavFontColor(Common.color.white01);
       setNavBoxShadow("");
       setVisibility("flex");
-    } else if (path.startsWith("/login")) {
+    } else if (
+      path.startsWith("/login") ||
+      path === "/off-application-finish"
+    ) {
       setVisibility("none");
     } else if (path.startsWith("/device")) {
       setNavTitle("장비 관리");
