@@ -10,12 +10,13 @@ export const Header = styled.div`
   background-color: ${Common.color.purple03};
   display: flex;
   justify-content: space-between;
-  height: 70px;
+  height: 71px;
   line-height: 32px;
   font-weight: ${Common.fontWeight.extrabold};
   align-items: center;
   border-radius: 0 0 25px 25px;
   border-top: 1px solid ${Common.color.purple03};
+  margin-top: -1px;
   margin-left: -14px;
   padding: 0px 25px;
   width: calc(100% - 22px);
