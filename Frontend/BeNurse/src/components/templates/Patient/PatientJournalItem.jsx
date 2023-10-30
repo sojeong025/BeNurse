@@ -7,11 +7,12 @@ import { usePatientStore } from "../../../store/store";
 export default function PatientJournalItem({}) {
   const { isEditActivated, ActivateEdit } = usePatientStore((state) => state);
   const onLongPress = (e) => {
+    console.log(1);
     ActivateEdit();
   };
 
   return (
-    <div style={{ display: "flex", zIndex: 90, marginBottom: "30px" }}>
+    <div style={{ display: "flex", zIndex: 1, marginBottom: "30px" }}>
       <Box
         type={"purple03"}
         size={["22px", "22px"]}
@@ -22,6 +23,7 @@ export default function PatientJournalItem({}) {
       </div>
       <LongPressable
         onLongPress={onLongPress}
+        onShortPress={() => {}}
         longPressTime={400}
       >
         <Box

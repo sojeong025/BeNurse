@@ -82,7 +82,7 @@ export default function NavBar() {
       style={{
         position: "absolute",
         top: 0,
-        zIndex: 9999,
+        zIndex: 2,
         display: visibility,
         justifyContent: "center",
         alignItems: "flex-end",

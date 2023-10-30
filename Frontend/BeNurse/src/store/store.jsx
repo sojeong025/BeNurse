@@ -21,4 +21,7 @@ export const usePatientStore = create((set) => ({
   ActivateEdit: () => {
     set((state) => ({ isEditActivated: true }));
   },
+  DeactivateEdit: () => {
+    set((state) => ({ isEditActivated: false }));
+  },
 }));

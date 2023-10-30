@@ -4,7 +4,7 @@ import { Common } from "/src/utils/global.styles.jsx";
 export const StyledTabBar = styled.div`
   position: absolute;
   bottom: 0;
-  z-index: 100;
+  z-index: 2;
   display: ${({ display }) => display};
   justify-content: space-around;
   align-items: center;
