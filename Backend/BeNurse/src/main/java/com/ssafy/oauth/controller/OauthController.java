@@ -35,28 +35,40 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/benurse/oauth")
 @Slf4j
 public class OauthController {
-	
-	@Autowired OauthService oauthService;
+
+	@Autowired
+	OauthService oauthService;
 
 	@GetMapping("")
-	@ApiOperation(value = "로그인", notes = "로그인 API")
+	@ApiOperation(value = "로그인", notes = "카카오 인가 코드를 전달받아 사용자 인증 후 서비스 토큰을 발급(카카오 토큰과는 다른겁니다.)")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = Notice.class),
-		@ApiResponse(code = 404, message = "결과 없음"),
+		@ApiResponse(code = 404, message = "인증 오류"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<TokenInfo> kakaoLogin(@RequestParam("code") String code) {
 		try {
-		    return ResponseEntity.status(HttpStatus.OK).body(oauthService.kakaoLogin(code));
-		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.OK).body(oauthService.kakaoLogin(code));
+		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 	}
-	
-	@GetMapping("/test")
-	public ResponseEntity<Void> test(@RequestHeader("Access-Token") String accessToken){
-		log.info(oauthService.getUserEmail(accessToken));
-		return ResponseEntity.status(HttpStatus.OK).body(null);
+
+	@GetMapping("/test/email")
+	@ApiOperation(value = "사용자 정보", notes = "서비스 토큰으로 사용자 이메일 조회(디버그용)")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공", response = Notice.class),
+		@ApiResponse(code = 404, message = "인증 오류"),
+		@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<String> getEmail(@RequestHeader("Access-Token") String accessToken){
+		try {
+			String email = oauthService.getUserEmail(accessToken);
+			return ResponseEntity.status(HttpStatus.OK).body(email);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
 	}
 }
