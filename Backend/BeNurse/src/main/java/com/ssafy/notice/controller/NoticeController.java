@@ -1,4 +1,4 @@
-package com.ssafy.notice.controller;
+	package com.ssafy.notice.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
