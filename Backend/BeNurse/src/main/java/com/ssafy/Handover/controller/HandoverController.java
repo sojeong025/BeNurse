@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.Handover.model.Handover;
 import com.ssafy.Handover.service.HandoverRepository;
+import com.ssafy.nurse.service.NurseRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,6 +30,7 @@ public class HandoverController {
 
 	@Autowired
 	HandoverRepository handoverRepo;
+	NurseRepository nurseRepo;
 	
 	// 인계자 인계장 작성 POST
 	@PostMapping("/create")
@@ -46,22 +48,6 @@ public class HandoverController {
 		return new ResponseEntity<>(savedHandover, HttpStatus.OK);
 	}
 	
-	
-	// 인계자 인수자 등록 POST
-//	@PostMapping("/regitaker")
-//	@ApiOperation(value = "인계자 인수자 등록", notes = "등록한 인계장을 인수할 인수자 선택")
-//	@ApiResponses({
-//		@ApiResponse(code = 200, message = "성공", response = Handover.class),
-//		@ApiResponse(code = 404, message = "결과 없음"),
-//		@ApiResponse(code = 500, message = "서버 오류")
-//	})
-//	public ResponseEntity<Handover> registHandover(Handover handover) {
-//		
-//		handover.setTime(LocalDateTime.now());
-//		
-//		Handover savedHandover = handoverRepo.save(handover);
-//		return new ResponseEntity<>(savedHandover, HttpStatus.OK);
-//	}
 	
 	// 인수자 인계장 조회 GET
 	@GetMapping("/{id}")
