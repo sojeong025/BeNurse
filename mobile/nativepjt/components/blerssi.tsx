@@ -4,27 +4,24 @@
 
 import React, {useState, useEffect} from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  StatusBar,
   NativeModules,
   NativeEventEmitter,
   Platform,
   PermissionsAndroid,
-  FlatList,
-  TouchableHighlight,
-  Pressable,
 } from 'react-native';
 
-const SECONDS_TO_SCAN_FOR = 3;
+const SECONDS_TO_SCAN_FOR = 10;
 const SERVICE_UUIDS: string[] = [];
 const ALLOW_DUPLICATES = true;
 
+const BEACON_ADDRESS = {
+  admin4: 'DF:8F:78:F0:06:1F',
+  equip1: 'E3:2F:4B:F3:F2:77',
+  admin8: 'CA:8D:AC:9C:63:64',
+  admin7: 'CA:87:66:3E:6E:38',
+};
+
 import BleManager, {
-  BleDisconnectPeripheralEvent,
-  BleManagerDidUpdateValueForCharacteristicEvent,
   BleScanCallbackType,
   BleScanMatchMode,
   BleScanMode,
@@ -41,13 +38,17 @@ declare module 'react-native-ble-manager' {
   }
 }
 
-const Scan_Modal = () => {
+const App = () => {
   const [isScanning, setIsScanning] = useState(false);
   const [peripherals, setPeripherals] = useState(
     new Map<Peripheral['id'], Peripheral>(),
   );
-
-  // console.debug('peripherals map updated', [...peripherals.entries()]);
+  const mac_add: string[] = [
+    'E3:2F:4B:F3:F2:77',
+    'DF:8F:78:F0:06:1F',
+    'CA:8D:AC:9C:63:64',
+    'CA:87:66:3E:6E:38',
+  ];
 
   const addOrUpdatePeripheral = (id: string, updatedPeripheral: Peripheral) => {
     // new Map() enables changing the reference & refreshing UI.
@@ -85,36 +86,26 @@ const Scan_Modal = () => {
     console.debug('[handleStopScan] scan is stopped.');
   };
 
-  const handleDisconnectedPeripheral = (
-    event: BleDisconnectPeripheralEvent,
-  ) => {
-    let peripheral = peripherals.get(event.peripheral);
-    if (peripheral) {
-      console.debug(
-        `[handleDisconnectedPeripheral][${peripheral.id}] previously connected peripheral is disconnected.`,
-        event.peripheral,
-      );
-      addOrUpdatePeripheral(peripheral.id, {...peripheral, connected: false});
-    }
-    console.debug(
-      `[handleDisconnectedPeripheral][${event.peripheral}] disconnected.`,
-    );
-  };
-
-  const handleUpdateValueForCharacteristic = (
-    data: BleManagerDidUpdateValueForCharacteristicEvent,
-  ) => {
-    console.debug(
-      `[handleUpdateValueForCharacteristic] received data from '${data.peripheral}' with characteristic='${data.characteristic}' and value='${data.value}'`,
-    );
-  };
-
   const handleDiscoverPeripheral = (peripheral: Peripheral) => {
     // console.debug('[handleDiscoverPeripheral] new BLE peripheral=', peripheral);
-    if (!peripheral.name) {
-      peripheral.name = 'NO NAME';
+    // if (!peripheral.name) {
+    //   peripheral.name = 'NO NAME';
+    //   return
+    // }
+    // addOrUpdatePeripheral(peripheral.id, peripheral);
+    if (mac_add.includes(peripheral.id)) {
+      addOrUpdatePeripheral(peripheral.id, peripheral);
     }
-    addOrUpdatePeripheral(peripheral.id, peripheral);
+  };
+
+  const readRSSIbyBeacone = (address: string) => {
+    BleManager.readRSSI(address)
+      .then(rssi => {
+        console.log('Current RSSI: ' + rssi);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -136,28 +127,19 @@ const Scan_Modal = () => {
         handleDiscoverPeripheral,
       ),
       bleManagerEmitter.addListener('BleManagerStopScan', handleStopScan),
-      bleManagerEmitter.addListener(
-        'BleManagerDisconnectPeripheral',
-        handleDisconnectedPeripheral,
-      ),
-      bleManagerEmitter.addListener(
-        'BleManagerDidUpdateValueForCharacteristic',
-        handleUpdateValueForCharacteristic,
-      ),
     ];
 
     handleAndroidPermissions();
 
-    startScan();
-
     return () => {
+      BleManager.stopScan().then(() => {
+        console.debug('[app]scan stopped by close modal');
+      });
       console.debug('[app] main component unmounting. Removing listeners...');
       for (const listener of listeners) {
         listener.remove();
       }
-      handleStopScan();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleAndroidPermissions = () => {
@@ -180,7 +162,7 @@ const Scan_Modal = () => {
     }
   };
 
-  return <Text>modal test</Text>;
+  return <></>;
 };
 
-export default Scan_Modal;
+export default App;
