@@ -86,7 +86,61 @@ export const Td = styled.td`
   font-size: 12px;
   width: calc((412px - 28px) / 7);
   height: 60px;
-  padding: 10px;
+  padding: 10px 0px;
   border-bottom: ${({ lastRow }) => (lastRow ? "none" : "1px solid #ddd")};
   color: ${({ isCurMonth }) => (isCurMonth ? "black" : "lightgray")};
+`;
+
+export const ScheduleTypeCircle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  color: #ffffff;
+  font-weight: ${Common.fontWeight.bold};
+  width: 38px;
+  height: 38px;
+  border-radius: 100%;
+  margin-top: 10px;
+  background-color: ${({ type }) => {
+    switch (type) {
+      case "day":
+        return Common.color.day;
+      case "evening":
+        return Common.color.evening;
+      case "night":
+        return Common.color.night;
+      case "off":
+        return Common.color.off;
+    }
+  }};
+`;
+
+export const CheckBox = styled.label`
+  position: relative;
+  cursor: pointer;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  span {
+    position: absolute;
+    display: flex;
+    left: 15px;
+    height: 24px;
+    width: 24px;
+    border-radius: 4px;
+    background-color: #e9e2ff;
+    color: #d1c1ff;
+    transition-duration: 0.4s;
+  }
+
+  input:checked + span {
+    // 체크 후 배경색 변경
+    background-color: #6647d6;
+    color: #d0bfff;
+  }
 `;
