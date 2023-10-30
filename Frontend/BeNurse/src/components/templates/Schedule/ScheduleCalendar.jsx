@@ -10,6 +10,7 @@ import {
   StateWrapper,
   State,
   Td,
+  ScheduleTypeCircle,
 } from "./ScheduleCalendar.styles";
 import { NavLink } from "react-router-dom";
 
@@ -34,7 +35,7 @@ export default function ScheduleCalendar() {
 
     let dates = [];
     for (let i = 1; i <= totalDays; i++) {
-      dates.push({ day: i, isCurMonth: true });
+      dates.push({ day: i, isCurMonth: true, type: getRandomType() });
     }
 
     for (let i = 0; i < startDay; i++) {
@@ -52,6 +53,11 @@ export default function ScheduleCalendar() {
     }
 
     return weeks;
+  };
+
+  const getRandomType = () => {
+    const types = ["day", "evening", "night", "off"];
+    return types[Math.floor(Math.random() * types.length)];
   };
 
   const prevMonth = () => {
@@ -130,7 +136,20 @@ export default function ScheduleCalendar() {
                   key={j}
                   isCurMonth={date.isCurMonth}
                 >
-                  {date.day}
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    {date.day}
+                    {date.isCurMonth && (
+                      <ScheduleTypeCircle type={date.type}>
+                        {date.type.charAt(0).toUpperCase()}
+                      </ScheduleTypeCircle>
+                    )}
+                  </div>
                 </Td>
               ))}
             </tr>
