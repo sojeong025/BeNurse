@@ -10,12 +10,13 @@ export const Header = styled.div`
   background-color: ${Common.color.purple03};
   display: flex;
   justify-content: space-between;
-  height: 70px;
+  height: 71px;
   line-height: 32px;
   font-weight: ${Common.fontWeight.extrabold};
   align-items: center;
   border-radius: 0 0 25px 25px;
   border-top: 1px solid ${Common.color.purple03};
+  margin-top: -1px;
   margin-left: -14px;
   padding: 0px 25px;
   width: calc(100% - 22px);
@@ -86,7 +87,61 @@ export const Td = styled.td`
   font-size: 12px;
   width: calc((412px - 28px) / 7);
   height: 60px;
-  padding: 10px;
+  padding: 10px 0px;
   border-bottom: ${({ lastRow }) => (lastRow ? "none" : "1px solid #ddd")};
   color: ${({ isCurMonth }) => (isCurMonth ? "black" : "lightgray")};
+`;
+
+export const ScheduleTypeCircle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  color: #ffffff;
+  font-weight: ${Common.fontWeight.bold};
+  width: 38px;
+  height: 38px;
+  border-radius: 100%;
+  margin-top: 10px;
+  background-color: ${({ type }) => {
+    switch (type) {
+      case "day":
+        return Common.color.day;
+      case "evening":
+        return Common.color.evening;
+      case "night":
+        return Common.color.night;
+      case "off":
+        return Common.color.off;
+    }
+  }};
+`;
+
+export const CheckBox = styled.label`
+  position: relative;
+  cursor: pointer;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  span {
+    position: absolute;
+    display: flex;
+    left: 15px;
+    height: 24px;
+    width: 24px;
+    border-radius: 4px;
+    background-color: #e9e2ff;
+    color: #d1c1ff;
+    transition-duration: 0.4s;
+  }
+
+  input:checked + span {
+    // 체크 후 배경색 변경
+    background-color: #6647d6;
+    color: #d0bfff;
+  }
 `;

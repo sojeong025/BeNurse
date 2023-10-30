@@ -18,7 +18,11 @@ export default function TabBar() {
 
   useEffect(() => {
     console.log(location.pathname);
-    if (location.pathname.startsWith("/login")) {
+    if (
+      location.pathname.startsWith("/login") ||
+      location.pathname === "/off-application" ||
+      location.pathname === "/off-application-finish"
+    ) {
       setVisibility("none");
     } else {
       setVisibility("flex");

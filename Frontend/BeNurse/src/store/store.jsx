@@ -15,3 +15,13 @@ export const useDeviceStore = create((set) => ({
     set((state) => ({ isListActivated: false }));
   },
 }));
+
+export const usePatientStore = create((set) => ({
+  isEditActivated: false,
+  ActivateEdit: () => {
+    set((state) => ({ isEditActivated: true }));
+  },
+  DeactivateEdit: () => {
+    set((state) => ({ isEditActivated: false }));
+  },
+}));

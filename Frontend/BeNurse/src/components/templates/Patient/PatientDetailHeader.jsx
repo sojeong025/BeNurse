@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { Common } from "@utils/global.styles";
 
 // Iconst
@@ -26,28 +27,35 @@ export default function PatientDetailHeader({ type }) {
         >
           주요 내역
         </span>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <span
-            style={{
-              color: Common.color.black02,
-              fontSize: Common.fontSize.fontXS,
-              fontWeight: Common.fontWeight.bold,
-            }}
-          >
-            간호일지 보기
-          </span>
-          <div
-            style={{
-              marginLeft: "4px",
-              width: "40px",
-              height: "40px",
-              borderRadius: "40px",
-              backgroundColor: Common.color.purple02,
-            }}
-          >
-            <MdHistory />
+        <NavLink to="journal">
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <span
+              style={{
+                color: Common.color.black02,
+                fontSize: Common.fontSize.fontXS,
+                fontWeight: Common.fontWeight.bold,
+              }}
+            >
+              간호일지 보기
+            </span>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginLeft: "4px",
+                width: "40px",
+                height: "40px",
+                borderRadius: "40px",
+                backgroundColor: Common.color.purple02,
+              }}
+            >
+              <MdHistory
+                style={{ marginLeft: "9px" }}
+                size={22}
+              />
+            </div>
           </div>
-        </div>
+        </NavLink>
       </div>
     );
   } else {
