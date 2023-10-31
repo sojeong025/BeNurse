@@ -35,7 +35,7 @@ export default function PatientJournalPage() {
         marginTop: "74px",
       }}
     >
-      <Header style={{ position: "absolute", zIndex: 2 }}>
+      <Header style={{ position: "absolute", zIndex: 2, width: "369px" }}>
         <div style={{ display: "flex" }}>
           <button onClick={prevDay}>
             <MdKeyboardArrowLeft />

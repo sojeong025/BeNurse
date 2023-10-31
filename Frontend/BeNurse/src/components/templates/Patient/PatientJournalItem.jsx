@@ -11,8 +11,7 @@ export default function PatientJournalItem({ id }) {
     useBottomSheetStore((state) => state);
   const [isSelected, setIsSelected] = useState(false);
 
-  const onLongPress = (e) => {
-    console.log(1);
+  const onLongPress = () => {
     ActivateEdit("", "");
   };
 
