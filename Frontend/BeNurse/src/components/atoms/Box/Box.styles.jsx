@@ -33,16 +33,17 @@ export const StyledBox = styled.div`
       : type === "transparent" && Common.color.black03};
   box-shadow: ${({ type }) =>
     type === "purple01"
-      ? "3px 6px 3px 1px rgba(150, 105, 249, 0.2)"
+      ? "3px 6px 3px 1px rgba(150, 105, 249, 0.08)"
       : type === "purple02"
-      ? "3px 6px 3px 1px rgba(102, 71, 214, 0.2)"
+      ? "3px 6px 3px 1px rgba(102, 71, 214, 0.08)"
       : type === "purple03"
-      ? "3px 6px 3px 1px rgba(102, 71, 214, 0.2)"
+      ? "3px 6px 3px 1px rgba(102, 71, 214, 0.08)"
       : type === "white"
-      ? "3px 6px 3px 4px rgba(187, 187, 187, 0.2)"
+      ? "3px 6px 3px 2px rgba(187, 187, 187, 0.18)"
       : type === "transparent" && null};
   font-size: ${({ font }) => font};
   overflow: ${({ overflow }) => overflow};
   overflow-x: ${({ overflowX }) => overflowX};
   overflow-y: ${({ overflowY }) => overflowY};
+  transition: all 0.2s;
 `;
