@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSwipeable } from "react-swipeable";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import Modal from "../../atoms/Modal/Modal";
@@ -28,6 +29,12 @@ export default function ScheduleCalendar() {
   const [currentDate, setCurrentDate] = useState(
     new Date(today.getFullYear(), today.getMonth(), 1),
   );
+  const handlers = useSwipeable({
+    onSwipedLeft: () => nextMonth(),
+    onSwipedRight: () => prevMonth(),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  });
 
   const createCalendar = (date) => {
     const startDay = date.getDay();
@@ -100,7 +107,7 @@ export default function ScheduleCalendar() {
   const weeks = createCalendar(currentDate);
 
   return (
-    <CalendarWrapper>
+    <CalendarWrapper {...handlers}>
       <Header>
         <div style={{ display: "flex" }}>
           <button onClick={prevMonth}>
@@ -173,7 +180,7 @@ export default function ScheduleCalendar() {
                   marginBottom: "10px",
                 }}
               >
-                다음 달 오프 신청 기간
+                다음 오프 신청 기간
                 <br />
                 {currentDate.getFullYear()}.{currentDate.getMonth() + 3}.10 ~
                 {currentDate.getFullYear()}.{currentDate.getMonth() + 3}.20
@@ -191,7 +198,7 @@ export default function ScheduleCalendar() {
       <Table>
         <thead>
           <WeekdayRow>
-            <Weekday>일</Weekday>
+            <Weekday style={{ color: "red" }}>일</Weekday>
             <Weekday>월</Weekday>
             <Weekday>화</Weekday>
             <Weekday>수</Weekday>
@@ -208,6 +215,7 @@ export default function ScheduleCalendar() {
                   lastRow={i === weeks.length - 1}
                   key={j}
                   isCurMonth={date.isCurMonth}
+                  isSunday={j === 0}
                 >
                   <div
                     style={{

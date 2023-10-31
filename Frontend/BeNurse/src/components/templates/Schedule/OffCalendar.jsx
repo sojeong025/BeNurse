@@ -120,7 +120,7 @@ export default function ScheduleCalendar() {
       <Table>
         <thead>
           <WeekdayRow>
-            <Weekday>일</Weekday>
+            <Weekday style={{ color: "red" }}>일</Weekday>
             <Weekday>월</Weekday>
             <Weekday>화</Weekday>
             <Weekday>수</Weekday>
@@ -137,6 +137,7 @@ export default function ScheduleCalendar() {
                   lastRow={i === weeks.length - 1}
                   key={j}
                   isCurMonth={date.isCurMonth}
+                  isSunday={j === 0}
                 >
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     {date.day}
