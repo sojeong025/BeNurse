@@ -6,7 +6,10 @@ import React, {
   useEffect,
 } from "react";
 import { Common } from "../../utils/global.styles";
+
 import DeviceItem from "../../components/templates/DeviceItem/DeviceItem";
+import RecentUsageList from "../../components/templates/DeviceItem/RecentUsageList";
+import RecentUsageHeader from "../../components/templates/DeviceItem/RecentUsageHeader";
 
 // three.js
 import * as THREE from "three";
@@ -328,94 +331,10 @@ export default function DevicePage() {
           defaultSnap={({ maxHeight }) => maxHeight / 4}
           snapPoints={({ maxHeight }) => [maxHeight / 4, maxHeight * 0.64]}
         >
-          <Box
-            type={"transparent"}
-            padding={"20px"}
-            size={["372px", "82px"]}
-            font={"16px"}
-            flex={["flex-start", "center"]}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                width: "334px",
-                height: "82px",
-              }}
-            >
-              <img
-                style={{
-                  height: "82px",
-                  border: `1px solid ${Common.color.purple01}`,
-                  borderRadius: "10px",
-                }}
-                src={temp}
-                alt=""
-              />
-
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  marginLeft: "14px",
-                  gap: "8px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontSize: Common.fontSize.fontXS,
-                    fontWeight: Common.fontWeight.bold,
-                    width: "50px",
-                    height: "22px",
-                    borderRadius: "30px",
-                    backgroundColor: "rgba(255, 229, 229, 1)",
-                    color: "#D96363",
-                  }}
-                >
-                  사용중
-                </div>
-                <p
-                  style={{
-                    fontSize: Common.fontSize.fontM,
-                    fontWeight: Common.fontWeight.extrabold,
-                  }}
-                >
-                  INFUSION PUMP
-                </p>
-                <p style={{ fontSize: Common.fontSize.fontXS }}>
-                  <span
-                    style={{
-                      fontWeight: Common.fontWeight.bold,
-                    }}
-                  >
-                    자산 코드{" "}
-                  </span>
-                  ED1390FA2
-                </p>
-                <p style={{ fontSize: Common.fontSize.fontXS }}>
-                  <span
-                    style={{
-                      fontWeight: Common.fontWeight.bold,
-                    }}
-                  >
-                    현재위치{" "}
-                  </span>
-                  내과 A동 A101호
-                </p>
-              </div>
-            </div>
-          </Box>
-          <hr style={{ margin: "0px" }} />
-          <div style={{ padding: "20px" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <MdHistory size={20} />
-              장비 사용 이력
-            </div>
-          </div>
+          <DeviceItem id={1} />
+          <hr style={{ margin: "0px 20px", border: "0.5px solid #D9D9D9" }} />
+          <RecentUsageHeader />
+          <RecentUsageList />
         </BottomSheet>
       </Container>
     );

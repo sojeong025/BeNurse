@@ -251,7 +251,7 @@ export default function ScheduleCalendar() {
           <span
             style={{
               color: Common.color.black02,
-              fontSize: Common.fontSize.fontL,
+              fontSize: Common.fontSize.fontM,
               fontWeight: Common.fontWeight.bold,
             }}
           >

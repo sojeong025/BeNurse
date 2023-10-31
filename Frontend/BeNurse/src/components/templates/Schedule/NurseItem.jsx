@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Box from "../../atoms/Box/Box";
 import { Common } from "../../../utils/global.styles";
+import nurse from "@assets/Images/patient_temp.png";
 
 export default function NurseItem() {
   return (
@@ -22,24 +23,53 @@ export default function NurseItem() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          boxSizing: "border-box",
           width: "100%",
-          padding: "10px",
+          padding: "10px 20px",
+          color: Common.color.black03,
+          fontSize: Common.fontSize.fontS,
         }}
       >
         <div>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
             <img
-              style={{ borderRadius: "50px", width: "50px", height: "50px" }}
-              src=""
+              style={{
+                height: "48px",
+                borderRadius: "50px",
+                border: "1px solid gray",
+              }}
+              src={nurse}
               alt=""
             />
             <div>
-              <p>정은경 간호사</p>
-              <p>내과 A병동 2년차</p>
+              <p
+                style={{
+                  fontWeight: Common.fontWeight.extrabold,
+                  marginBottom: "6px",
+                }}
+              >
+                정은경 간호사
+              </p>
+              <p
+                style={{
+                  fontWeight: Common.fontWeight.bold,
+                  fontSize: Common.fontSize.fontXXS,
+                }}
+              >
+                내과 A병동 2년차
+              </p>
             </div>
           </div>
         </div>
-        <p>day</p>
+        <p
+          style={{
+            fontSize: Common.fontSize.fontXS,
+            fontWeight: Common.fontWeight.extrabold,
+            color: Common.color.black01,
+          }}
+        >
+          DAY
+        </p>
       </div>
     </Box>
   );
