@@ -17,6 +17,13 @@ export const useDeviceStore = create((set) => ({
 }));
 
 export const useBottomSheetStore = create((set) => ({
+  selectedID: null,
+  setSelectedID: (id) => {
+    set((state) => ({
+      selectedID: id,
+    }));
+  },
+
   isEditActivated: false,
   updateLink: "",
   deleteLink: "",

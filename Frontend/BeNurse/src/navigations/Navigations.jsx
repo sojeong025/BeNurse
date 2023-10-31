@@ -13,6 +13,7 @@ import PatientJournalPage from "@pages/PatientPage/PatientJournalPage";
 import PatientDetailPage from "@pages/PatientPage/PatientDetailPage";
 
 import HandOverPage from "@pages/HandOverPage/HandOverPage";
+import HandOverWritePage from "@pages/HandOverPage/HandOverWritePage";
 
 import SchedulePage from "@pages/SchedulePage/SchedulePage";
 import OffApplicationPage from "@pages/SchedulePage/OffApplicationPage";
@@ -75,6 +76,10 @@ export default function routes() {
       <Route
         path="/handover"
         element={<HandOverPage />}
+      />
+      <Route
+        path="/handover-write"
+        element={<HandOverWritePage />}
       />
       <Route
         path="/schedule"

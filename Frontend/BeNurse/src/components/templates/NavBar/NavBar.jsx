@@ -98,6 +98,7 @@ export default function NavBar() {
         style={{
           fontSize: Common.fontSize.fontL,
           fontWeight: Common.fontWeight.extrabold,
+          letterSpacing: "1px",
         }}
       >
         {navTitle}
