@@ -15,7 +15,6 @@ import {
 import {WebView} from 'react-native-webview';
 
 import Scan_Modal from './components/bluetoothscan';
-// import Scan_Modal from './components/blerssi';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -48,19 +47,22 @@ function App(): JSX.Element {
   };
 
   useEffect(() => {
-    StatusBar.setBackgroundColor('#FF573300');
-    StatusBar.setTranslucent(true);
+    // StatusBar.setBarStyle('light-content');
     //   handleAndroidPermissions();
   }, []);
 
   return (
     <>
-      {/* <StatusBar /> */}
+      <StatusBar
+        translucent={true}
+        backgroundColor={'#FF573300'}
+        barStyle={'dark-content'}
+      />
       <SafeAreaView style={styles.container}>
         <WebView
           style={styles.webview}
-          source={{uri: 'http://192.168.30.150:3000'}}
-          // source={{uri: 'http://k9e105.p.ssafy.io/'}}
+          // source={{uri: 'http://192.168.30.150:3000'}}
+          source={{uri: 'http://k9e105.p.ssafy.io/'}}
           onMessage={e => {
             const data = e.nativeEvent.data;
             toggleModal();

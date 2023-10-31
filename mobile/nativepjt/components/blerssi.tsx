@@ -11,8 +11,9 @@ import {
   PermissionsAndroid,
   FlatList,
   View,
+  Dimensions,
 } from 'react-native';
-
+import {LineChart} from 'react-native-chart-kit';
 const SECONDS_TO_SCAN_FOR = 60;
 const SERVICE_UUIDS: string[] = [];
 const ALLOW_DUPLICATES = false;
@@ -39,7 +40,6 @@ const Scan_Modal = () => {
   const [peripherals, setPeripherals] = useState(
     new Map<Peripheral['id'], Peripheral>(),
   );
-  const [rssi, setrssi] = useState([]);
 
   //탐색하고자 하는 블루투스 신호의 mac address
   const mac_add: string[] = [
@@ -54,14 +54,12 @@ const Scan_Modal = () => {
     // TOFIX not efficient.
     console.log(updatedPeripheral.name);
     setPeripherals(map => new Map(map.set(id, updatedPeripheral)));
-    setrssi(array => [...array, updatedPeripheral.rssi]);
   };
 
   const startScan = () => {
     if (!isScanning) {
       // reset found peripherals before scan
       setPeripherals(new Map<Peripheral['id'], Peripheral>());
-      setrssi([]);
 
       try {
         console.debug('[startScan] starting scan...');
@@ -93,10 +91,42 @@ const Scan_Modal = () => {
     //   peripheral.name = 'NO NAME';
     // }
     // addOrUpdatePeripheral(peripheral.id, peripheral);
-    console.log(peripheral.name);
-    if (peripheral.id === 'E3:2F:4B:F3:F2:77') {
+    // console.log(peripheral.name);
+    if (peripheral.id === 'CA:87:66:3E:6E:38') {
       addOrUpdatePeripheral(peripheral.id, peripheral);
+      BleManager.connect(peripheral.id)
+        .then(() => {
+          // Success code
+          console.log('Connected');
+
+          BleManager.stopScan().then(() => {
+            console.debug('[app]scan stopped by close modal');
+
+            const intervalid = setInterval(readRssi, 1000, 'CA:87:66:3E:6E:38');
+            setTimeout(() => {
+              clearInterval(intervalid);
+              console.log('rssi측정 종료');
+              BleManager.disconnect('CA:87:66:3E:6E:38', true);
+            }, 30000);
+          });
+        })
+        .catch(error => {
+          // Failure code
+          console.log(error);
+        });
     }
+  };
+
+  const readRssi = (address: string) => {
+    BleManager.readRSSI(address)
+      .then(rssi => {
+        // Success code
+        console.log('Current RSSI: ' + rssi);
+      })
+      .catch(error => {
+        // Failure code
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -165,19 +195,43 @@ const Scan_Modal = () => {
   };
 
   return (
-    <Text>
-      {Array.from(peripherals.values()).length === 0 && (
-        <View>
-          <Text>No Peripherals.</Text>
-        </View>
-      )}
-      <FlatList
-        data={Array.from(peripherals.values())}
-        contentContainerStyle={{rowGap: 12}}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
+    <View>
+      <Text>Bezier Line Chart</Text>
+      <LineChart
+        data={{
+          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+          datasets: [
+            {
+              data: [90, 50, 80, 50, 40, 60],
+            },
+          ],
+        }}
+        width={Dimensions.get('window').width} // from react-native
+        height={420}
+        yAxisInterval={1} // optional, defaults to 1
+        fromZero={true}
+        chartConfig={{
+          backgroundColor: '#e26a00',
+          backgroundGradientFrom: '#fb8c00',
+          backgroundGradientTo: '#ffa726',
+          decimalPlaces: 2, // optional, defaults to 2dp
+          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+          labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+          style: {
+            borderRadius: 16,
+          },
+          propsForDots: {
+            r: '6',
+            strokeWidth: '2',
+            stroke: '#ffa726',
+          },
+        }}
+        style={{
+          marginVertical: 8,
+          borderRadius: 16,
+        }}
       />
-    </Text>
+    </View>
   );
 };
 

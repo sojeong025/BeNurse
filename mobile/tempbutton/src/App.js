@@ -15,7 +15,10 @@ function App() {
       <header className="App-header">
         <Button
           label="tempbutton"
-          stylesClass=""
+          style={{
+            width: 300,
+            height: 200,
+          }}
           onClick={ButtonClick}
           disabled={false}
         ></Button>
@@ -26,16 +29,10 @@ function App() {
 
 function ButtonClick() {
   if (window.ReactNativeWebView) {
-    // alert("클릭됨");
     window.ReactNativeWebView.postMessage("click_event");
   } else {
-    let obtest = "";
-    for (const a in window) {
-      obtest += a;
-      obtest += "\n";
-    }
-
-    alert(obtest);
+    //다른데서 열었을때
+    return;
   }
 }
 
