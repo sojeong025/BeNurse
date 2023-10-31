@@ -46,11 +46,12 @@ export const TopContainer = styled.div`
 export const ChangeHospitalBtn = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  gap: 10px;
   background-color: ${Common.color.purple01};
   color: ${Common.color.black03};
   margin: 14px;
-  padding: 18px;
+  padding: 20px 0;
   border-radius: 10px;
   box-sizing: border-box;
   & p:first-child {
@@ -62,6 +63,22 @@ export const ChangeHospitalBtn = styled.div`
     font-size: ${Common.fontSize.fontXS};
     font-weight: ${Common.fontWeight.bold};
   }
+  & .arrow-chip {
+    background: #d0bfff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #6647d6;
+    margin-right: 24px;
+    width: 24px;
+    height: 24px;
+  }
+
+  & .arrow-chip > svg {
+    width: 1.4em;
+    height: 1.4em;
+  }
 `;
 
 export const MyPageList = styled.div`
@@ -69,7 +86,7 @@ export const MyPageList = styled.div`
 
   & > a {
     height: 68px;
-    display: flex;                     
+    display: flex;
     align-items: center;
     justify-content: space-between;
     color: ${Common.color.black03};
@@ -100,11 +117,11 @@ export const BtnContainer = styled.div`
 
 export const MyPageAuthBtn = styled.button`
   width: calc(100% - 56px);
-  height: 54px;
-  border: 1px solid #c9c9c9;
+  height: 44px;
+  border: 1px solid #e3e3e3;
   border-radius: 5px;
   background-color: ${Common.color.white01};
-  color: ${Common.color.black03};
+  color: #a9a9a9;
   font-size: ${Common.fontSize.fontS};
   &:hover {
     background-color: ${Common.color.white02};

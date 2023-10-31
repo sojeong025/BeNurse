@@ -1,19 +1,30 @@
 import styled from "@emotion/styled";
 import { Common } from "@utils/global.styles.jsx";
 
+export const StyledHr = styled.hr`
+  border: 0;
+  clear: both;
+  display: block;
+  width: 96%;
+  background-color: #00000011;
+  height: 1px;
+`;
+
 export const MainContainer = styled.div`
-  width: calc(100% - 28px);
+  width: 100%;
   height: 100%;
   margin-top: 130px;
   background-color: ${Common.color.purple00};
   border-top-left-radius: 250px;
-  padding: 0 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const TopContainer = styled.div`
   display: flex;
   width: 100%;
-  margin-top: -70px;
+  margin-top: -65px;
   justify-content: space-evenly;
 `;
 
@@ -39,18 +50,29 @@ export const ButtonContent = styled.div`
 `;
 
 export const MainTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin: 16px 0;
   font-size: ${Common.fontSize.fontM};
   font-weight: ${Common.fontWeight.extrabold};
   color: ${Common.color.black03};
+  & > a {
+    font-size: ${Common.fontSize.fontS};
+    font-weight: ${Common.fontWeight.bold};
+    color: ${Common.color.black01};
+    padding-right: 5px;
+  }
 `;
 
 export const scheduleDayBox = styled.div`
   display: flex;
+  justify-content: center;
   gap: 8px;
   height: 100%;
   padding: 14px 0;
   box-sizing: border-box;
+  width: 100%;
 `;
 
 export const scheduleDay = styled.div`
@@ -97,13 +119,14 @@ export const TipBoxContainer = styled.div`
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
-  gap: 23px;
+  gap: 15px;
   box-sizing: border-box;
   & > div {
     flex: 0 0 auto;
   }
+  padding-left: 14px;
   padding-bottom: 15px;
-  padding-right: 15px;
+  padding-right: 14px;
 `;
 
 export const TipBox = styled.div`
@@ -115,9 +138,9 @@ export const TipBox = styled.div`
   gap: 10px;
   justify-content: space-evenly;
   & svg {
-    width: 1.4em;
-    height: 1.4em;
-    color: ${Common.color.purple03};
+    width: 1.6em;
+    height: 1.6em;
+    color: #ffd261;
   }
   & .title {
     font-weight: ${Common.fontWeight.bold};

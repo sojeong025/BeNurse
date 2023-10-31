@@ -43,13 +43,12 @@ export const StateWrapper = styled.div`
 export const State = styled.div`
   display: flex;
   align-items: center;
-  font-size: 12px;
-  mix-blend-mode: 20px;
+  font-size: 10px;
 
   &::before {
     content: "";
-    width: 15px;
-    height: 15px;
+    width: 13px;
+    height: 13px;
     border-radius: 100%;
     background-color: ${({ type }) => {
       switch (type) {
@@ -63,7 +62,7 @@ export const State = styled.div`
           return Common.color.off;
       }
     }};
-    margin-right: 5px;
+    margin-right: 3px;
   }
 `;
 
@@ -90,7 +89,8 @@ export const Td = styled.td`
   height: 60px;
   padding: 10px 0px;
   border-bottom: ${({ lastRow }) => (lastRow ? "none" : "1px solid #ddd")};
-  color: ${({ isCurMonth }) => (isCurMonth ? "black" : "lightgray")};
+  color: ${({ isCurMonth, isSunday }) =>
+    isCurMonth ? (isSunday ? "red" : "black") : "lightgray"};
 `;
 
 export const ScheduleTypeCircle = styled.div`

@@ -1,7 +1,8 @@
 import React from "react";
 import Container from "@components/atoms/Container/Container";
-import Box from "../../components/atoms/Box/Box";
+import Box from "@components/atoms/Box/Box";
 import { NavLink } from "react-router-dom";
+import { NurseHeader } from "./HandOverPage.styles";
 
 export default function HandOverPage() {
   return (
@@ -14,35 +15,32 @@ export default function HandOverPage() {
           marginTop: "102px",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "60px",
-          }}
-        >
+        <NurseHeader>
           <Box
             type="purple03"
             size={["170px", "50px"]}
             border-radius="100%"
           >
-            일단 사람
+            이전 사람
           </Box>
           <Box
             type="purple03"
             size={["170px", "50px"]}
             border-radius="100%"
           >
-            일단 사람
+            다음 사람
           </Box>
-        </div>
+        </NurseHeader>
+
         <div style={{ marginBottom: "20px" }}>
           <NavLink to="/handover-write">
             <Box
               type="purple03"
               size={["384px", "100px"]}
+              font="20px"
+              flex={["end", "center"]}
             >
-              새 인계장 작성하기
+              <span style={{ fontWeight: "bold" }}>새 인계장 작성하기</span>
             </Box>
           </NavLink>
         </div>
@@ -56,15 +54,15 @@ export default function HandOverPage() {
             <p>3</p>
           </Box>
         </div>
-        <div>
-          <Box
-            type="white"
-            size={["384px", "290px"]}
-            style={{ display: "flex", justifyContent: "space-between" }}
-          >
-            <p>임시저장 목록들</p>
-          </Box>
-        </div>
+        <Box
+          type="white"
+          size={["384px", "290px"]}
+        >
+          <div>
+            <div>임시저장 목록들</div>
+            <div>전체보기</div>
+          </div>
+        </Box>
       </div>
     </Container>
   );

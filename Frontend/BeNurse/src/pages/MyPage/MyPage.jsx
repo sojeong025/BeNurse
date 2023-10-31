@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { AiOutlinePhone } from "react-icons/ai";
+import { MdSettings } from "react-icons/md";
 import { MdOutlinePrivacyTip } from "react-icons/md";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
 import Container from "../../components/atoms/Container/Container";
 
 import * as S from "./MyPage.styles";
-import hospital from "@assets/Images/hospital.png";
+import change_hospital from "@assets/Images/change_hospital.png";
 import patient_temp from "@assets/Images/patient_temp.png";
 
 export default function MyPage() {
@@ -33,16 +34,37 @@ export default function MyPage() {
           <Link>
             <S.ChangeHospitalBtn>
               <img
-                src={hospital}
+                src={change_hospital}
                 width="80px"
               />
               <div>
                 <p>병원 변경하기</p>
                 <p>이직하셨나요? 병원을 재등록 해주세요.</p>
               </div>
+              <div 
+                className="arrow-chip"
+                style={{
+                  background: "#D0BFFF",
+                  display: "flex",
+                  borderRadius: "50%",
+                  color: "#6647D6",
+                  marginRight: "20px",
+                }}
+              >
+                <MdKeyboardArrowRight />
+              </div>
             </S.ChangeHospitalBtn>
           </Link>
         </div>
+        <S.MyPageList>
+          <Link>
+            <div>
+              <MdSettings />
+              <p>앱 설정</p>
+            </div>
+            <MdKeyboardArrowRight />
+          </Link>
+        </S.MyPageList>
         <S.MyPageList>
           <Link>
             <div>
