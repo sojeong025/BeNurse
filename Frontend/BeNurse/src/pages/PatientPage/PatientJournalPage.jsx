@@ -105,7 +105,16 @@ export default function PatientJournalPage() {
             }}
           ></div>
         </div>
-        <CreatePencilButton />
+        <div
+          style={{
+            position: "absolute",
+            right: "14px",
+            bottom: "50px",
+            zIndex: 1,
+          }}
+        >
+          <CreatePencilButton />
+        </div>
       </div>
       <BottomSelectPanel
         modifyLabel={"일지 수정"}
