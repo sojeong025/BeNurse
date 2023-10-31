@@ -1,6 +1,8 @@
 import React from "react";
 import { Common } from "@utils/global.styles.jsx";
 
+import * as S from "./PatientDetailProfile.styles";
+
 // Components
 import Box from "@components/atoms/Box/Box";
 
@@ -18,72 +20,33 @@ export default function PatientDetailProfile() {
       size={["100%", "100px"]}
       font={"16px"}
     >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: "20px",
-        }}
-      >
+      <S.PatientDetailProfileBox>
         <img
+          className="patient_image"
           src={patientImg}
-          style={{ borderRadius: "300px", width: "60px", height: "60px" }}
           alt=""
         />
+
         <div>
-          <span style={{ fontWeight: Common.fontWeight.extrabold }}>
-            김싸피
-          </span>
-          <span
-            style={{
-              fontSize: Common.fontSize.fontS,
-              fontWeight: Common.fontWeight.bold,
-            }}
-          >
-            / 52세 남
-          </span>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-start",
-              marginTop: "12px",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center" }}>
+          <div>
+            <span className="patient_name">김싸피</span>
+            <span className="patient_ageGen">/ 52세 남</span>
+          </div>
+
+          <div className="patient_info">
+            <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
               <img
-                style={{ marginRight: "4px", width: "14px" }}
+                width="14px"
                 src={schedule}
                 alt=""
               />
-              <span
-                style={{
-                  fontSize: Common.fontSize.fontXS,
-                  fontWeight: Common.fontWeight.bold,
-                }}
-              >
-                2023.10.19 입원
-              </span>
+              2023.10.19 입원
             </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginLeft: "12px",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: Common.fontSize.fontXS,
-                  fontWeight: Common.fontWeight.bold,
-                }}
-              >
-                담당 간호사 박삼성
-              </span>
-            </div>
+
+            <div style={{ marginLeft: "12px" }}>담당 간호사 박삼성</div>
           </div>
         </div>
-      </div>
+      </S.PatientDetailProfileBox>
     </Box>
   );
 }
