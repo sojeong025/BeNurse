@@ -4,6 +4,7 @@ import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 
 import { Common } from "../../../utils/global.styles";
+import * as S from "./BottomSelectPanel.styles";
 import Box from "../../atoms/Box/Box";
 
 import { useBottomSheetStore } from "../../../store/store";
@@ -25,7 +26,7 @@ export default function BottomSelectPanel({ modifyLabel, deleteLabel }) {
     >
       <div
         style={{
-          height: "184px",
+          height: "148px",
         }}
       >
         <Link
@@ -34,63 +35,31 @@ export default function BottomSelectPanel({ modifyLabel, deleteLabel }) {
         >
           <Box
             type={"transparent"}
-            size={["412px", "80px"]}
+            size={["412px", "70px"]}
             border={true}
           >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                width: "340px",
-                height: "60px",
-              }}
-            >
+            <S.PanelButton>
               <FaEdit
                 color="#555555"
-                size={22}
-                style={{ marginRight: "8px" }}
+                size={18}
+                style={{ marginRight: "12px" }}
               />
-              <span
-                style={{
-                  color: Common.color.black02,
-                  fontSize: Common.fontSize.fontM,
-                  fontWeight: Common.fontWeight.bold,
-                }}
-              >
-                {modifyLabel}
-              </span>
-            </div>
+              <span>{modifyLabel}</span>
+            </S.PanelButton>
           </Box>
         </Link>
         <Box
           type={"transparent"}
-          size={["412px", "80px"]}
+          size={["412px", "70px"]}
         >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-start",
-              alignItems: "center",
-              width: "340px",
-              height: "60px",
-            }}
-          >
+          <S.PanelButton>
             <FaTrashAlt
               color="#555555"
-              size={22}
-              style={{ marginRight: "8px" }}
+              size={18}
+              style={{ marginRight: "12px" }}
             />
-            <span
-              style={{
-                color: Common.color.black02,
-                fontSize: Common.fontSize.fontM,
-                fontWeight: Common.fontWeight.bold,
-              }}
-            >
-              {deleteLabel}
-            </span>
-          </div>
+            <span>{deleteLabel}</span>
+          </S.PanelButton>
         </Box>
       </div>
     </BottomSheet>

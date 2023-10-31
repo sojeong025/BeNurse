@@ -13,7 +13,7 @@ export const MainContainer = styled.div`
 export const TopContainer = styled.div`
   background-color: ${Common.color.purple00};
   color: ${Common.color.black03};
-  height: 240px;
+  height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,25 +21,25 @@ export const TopContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 7px;
   }
   & .profile_image {
-    width: 90px;
-    height: 90px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     margin-bottom: 10px;
     border: 1px solid #d9d9d9;
   }
   & .profile_name {
-    font-size: ${Common.fontSize.fontXL};
+    font-size: ${Common.fontSize.fontL};
     font-weight: ${Common.fontWeight.bold};
   }
 
   & .profile_workplace {
-    font-size: ${Common.fontSize.fontM};
+    font-size: ${Common.fontSize.fontS};
     font-weight: ${Common.fontWeight.bold};
     display: flex;
-    gap: 8px;
+    gap: 5px;
   }
 `;
 
@@ -50,16 +50,16 @@ export const ChangeHospitalBtn = styled.div`
   background-color: ${Common.color.purple01};
   color: ${Common.color.black03};
   margin: 14px;
-  padding: 20px;
+  padding: 18px;
   border-radius: 10px;
   box-sizing: border-box;
   & p:first-child {
-    font-size: ${Common.fontSize.fontM};
+    font-size: ${Common.fontSize.fontS};
     font-weight: ${Common.fontWeight.extrabold};
     margin-bottom: 10px;
   }
   & p:last-child {
-    font-size: ${Common.fontSize.fontS};
+    font-size: ${Common.fontSize.fontXS};
     font-weight: ${Common.fontWeight.bold};
   }
 `;
@@ -68,24 +68,24 @@ export const MyPageList = styled.div`
   border-bottom: 1px solid #d9d9d9;
 
   & > a {
-    height: 74px;
-    display: flex;
+    height: 68px;
+    display: flex;                     
     align-items: center;
     justify-content: space-between;
     color: ${Common.color.black03};
   }
 
   padding: 0 28px;
-  font-size: ${Common.fontSize.fontM};
+  font-size: ${Common.fontSize.fontS};
 
   & > a > div {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
   }
   & svg {
-    width: 1.4em;
-    height: 1.4em;
+    width: 1.6em;
+    height: 1.6em;
   }
 `;
 
@@ -105,7 +105,7 @@ export const MyPageAuthBtn = styled.button`
   border-radius: 5px;
   background-color: ${Common.color.white01};
   color: ${Common.color.black03};
-  font-size: ${Common.fontSize.fontM};
+  font-size: ${Common.fontSize.fontS};
   &:hover {
     background-color: ${Common.color.white02};
   }

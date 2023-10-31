@@ -19,7 +19,7 @@ export default function PatientListPage() {
           <span
             style={{
               color: Common.color.black02,
-              fontSize: Common.fontSize.fontXL,
+              fontSize: Common.fontSize.fontL,
               fontWeight: Common.fontWeight.extrabold,
             }}
           >
@@ -43,11 +43,11 @@ export default function PatientListPage() {
           overflow: "scroll",
         }}
       >
-        <div style={{ display: "flex", width: "364px" }}>
+        <div style={{ display: "flex", width: "100%", marginTop: "10px"}}>
           <span
             style={{
               color: Common.color.black02,
-              fontSize: Common.fontSize.fontXL,
+              fontSize: Common.fontSize.fontM,
               fontWeight: Common.fontWeight.bold,
             }}
           >
