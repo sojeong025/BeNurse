@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.emr.patient.model.CC;
 import com.ssafy.emr.patient.model.Journal;
 import com.ssafy.emr.patient.model.Patient;
+import com.ssafy.emr.patient.model.PatientResponse;
 import com.ssafy.emr.patient.service.CCRepository;
 import com.ssafy.emr.patient.service.JournalRepository;
 import com.ssafy.emr.patient.service.PatientRepository;
-import com.ssafy.emr.patient.utils.PatientResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
