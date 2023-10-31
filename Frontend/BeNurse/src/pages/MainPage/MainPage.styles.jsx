@@ -61,18 +61,18 @@ export const scheduleDay = styled.div`
   justify-content: space-around;
   align-items: center;
   & .day {
-    font-size: ${Common.fontSize.fontXS};
+    font-size: ${Common.fontSize.fontXXS};
     font-weight: ${Common.fontWeight.extrabold};
   }
   & .date {
-    font-size: ${Common.fontSize.fontXS};
+    font-size: ${Common.fontSize.fontXXS};
     font-weight: ${Common.fontWeight.bold};
   }
   & .type {
     width: 43px;
     height: 62px;
     color: ${Common.color.white01};
-    font-size: ${Common.fontSize.fontXS};
+    font-size: ${Common.fontSize.fontXXS};
     font-weight: ${Common.fontWeight.extrabold};
     display: flex;
     align-items: center;
@@ -108,24 +108,24 @@ export const TipBoxContainer = styled.div`
 
 export const TipBox = styled.div`
   height: 100%;
-  width:100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 0 15px;
+  padding: 10px 15px;
   gap: 10px;
-  justify-content: space-around;
+  justify-content: space-evenly;
   & svg {
-    width: 1.6em;
-    height: 1.6em;
+    width: 1.4em;
+    height: 1.4em;
     color: ${Common.color.purple03};
   }
   & .title {
     font-weight: ${Common.fontWeight.bold};
-    font-size: ${Common.fontSize.fontM};
+    font-size: ${Common.fontSize.fontS};
     margin-bottom: 8px;
   }
   & .desc {
     font-weight: ${Common.fontWeight.regular};
-    font-size: ${Common.fontSize.fontS};
+    font-size: ${Common.fontSize.fontXS};
   }
 `;

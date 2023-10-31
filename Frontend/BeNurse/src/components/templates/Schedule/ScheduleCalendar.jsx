@@ -20,6 +20,7 @@ import {
 } from "./ScheduleCalendar.styles";
 import { NavLink } from "react-router-dom";
 import { Common } from "../../../utils/global.styles";
+import BottomSelectPanel from "../BottomSelectPanel/BottomSelectPanel";
 
 export default function ScheduleCalendar() {
   const [open, setOpen] = useState(false);

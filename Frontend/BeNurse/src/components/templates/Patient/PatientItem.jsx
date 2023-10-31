@@ -35,17 +35,25 @@ export default function PatientItem({ type }) {
             justifyContent: "space-between",
             alignItems: "center",
             marginTop: "10px",
+            gap: "7px",
           }}
         >
           <span
             style={{
-              fontSize: Common.fontSize.fontM,
+              fontSize: Common.fontSize.fontS,
               fontWeight: Common.fontWeight.extrabold,
             }}
           >
             종박사 남 52
           </span>
-          <span>다리 외상</span>
+          <span
+            style={{
+              fontSize: Common.fontSize.fontS,
+              fontWeight: Common.fontWeight.regular,
+            }}
+          >
+            다리 외상
+          </span>
         </div>
       </div>
     </Box>

@@ -128,7 +128,8 @@ export default function NoticeListPage() {
             </div>
           </S.NoticeLable>
         </LongPressable>
-        <Link to="write"
+        <Link
+          to="write"
           style={{
             position: "absolute",
             right: "14px",
@@ -140,8 +141,8 @@ export default function NoticeListPage() {
         </Link>
       </S.MainContainer>
       <BottomSelectPanel
-        modifyLabel={"공지 수정"}
-        deleteLabel={"공지 삭제"}
+        modifyLabel={"수정하기"}
+        deleteLabel={"삭제하기"}
       />
     </Container>
   );

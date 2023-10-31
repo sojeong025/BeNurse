@@ -4,6 +4,8 @@ import PatientDetailProfile from "../../components/templates/Patient/PatientDeta
 import PatientDetailHeader from "../../components/templates/Patient/PatientDetailHeader";
 import PatientDetailItem from "../../components/templates/Patient/PatientDetailItem";
 
+import * as S from "./PatientDetail.styles";
+
 // Components
 import Box from "@components/atoms/Box/Box";
 
@@ -12,7 +14,7 @@ export default function PatientDetailPage() {
     <div
       style={{
         position: "relative",
-        width: "386px",
+        width: "calc(100% - 28px)",
         marginTop: "74px",
       }}
     >
@@ -26,39 +28,22 @@ export default function PatientDetailPage() {
         overflowX={"hidden"}
         overflowY={"scroll"}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            alignItems: "center",
-          }}
-        >
+        <S.PatientDetailContainer>
           <PatientDetailHeader type="주요내역" />
           <div
             style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              width: "412px",
-              height: "186px",
+              width: "100%",
               borderTop: "1px solid #D9D9D9",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                width: "380px",
-                height: "167px",
-                marginTop: "18px",
-                borderLeft: "3px solid" + Common.color.purple04,
-              }}
-            >
+            <S.PatientDetailItemContainer>
               <PatientDetailItem name="주호소" />
               <PatientDetailItem name="진단명" />
               <PatientDetailItem name="수술명" />
-            </div>
+            </S.PatientDetailItemContainer>
           </div>
           <PatientDetailHeader type="" />
           <div
@@ -66,30 +51,20 @@ export default function PatientDetailPage() {
               display: "flex",
               justifyContent: "center",
               alignItems: "flex-start",
-              width: "412px",
-              height: "400px",
+              width: "100%",
               borderTop: "1px solid #D9D9D9",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                width: "380px",
-                height: "330px",
-                marginTop: "18px",
-                borderLeft: "3px solid" + Common.color.purple04,
-              }}
-            >
+            <S.PatientDetailItemContainer>
               <PatientDetailItem name="병증이력" />
               <PatientDetailItem name="투약" />
               <PatientDetailItem name="음주" />
               <PatientDetailItem name="흡연" />
               <PatientDetailItem name="알레르기" />
               <PatientDetailItem name="자가약" />
-            </div>
+            </S.PatientDetailItemContainer>
           </div>
-        </div>
+        </S.PatientDetailContainer>
       </Box>
     </div>
   );

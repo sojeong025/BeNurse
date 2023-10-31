@@ -43,6 +43,7 @@ export const Common = {
 
   fontSize: {
     // 폰트 사이즈
+    fontXXS: "11px",
     fontXS: "12px",
     fontS: "14px",
     fontM: "16px",

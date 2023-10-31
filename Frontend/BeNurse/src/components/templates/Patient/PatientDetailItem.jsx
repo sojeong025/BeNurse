@@ -8,26 +8,29 @@ export default function PatientDetailItem({ name }) {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        width: "362px",
-        margin: "0px 0px 10px 14px",
+        width: "364px",
+        gap: "10px",
       }}
     >
-      <span
+      <div
         style={{
+          width: "85px",
           color: Common.color.black02,
-          fontSize: Common.fontSize.fontM,
+          fontSize: Common.fontSize.fontS,
           fontWeight: Common.fontWeight.bold,
         }}
       >
         {name}
-      </span>
+      </div>
       <input
         style={{
-          width: "282px",
+          width: "100%",
           height: "44px",
           border: "1px solid #8C8C8C",
           borderRadius: "6px",
           outline: "none",
+          paddingLeft: "10px",
+          boxSizing: "border-box",
         }}
         type="text"
         variant={"default"}
