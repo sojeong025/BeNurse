@@ -57,6 +57,7 @@ public class EMRController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<Void> registJournalById(Journal journal) {
+		log.info(journal.toString());
 		return emrService.registJournalById(journal);
 	}
 
