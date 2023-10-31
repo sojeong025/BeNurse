@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Container from "../../components/atoms/Container/Container";
 import BottomSelectPanel from "../../components/templates/BottomSelectPanel/BottomSelectPanel";
+import CreatePencilButton from "../../components/atoms/Button/CreatePencilButton";
 
 import LongPressable from "react-longpressable";
 
@@ -127,6 +128,16 @@ export default function NoticeListPage() {
             </div>
           </S.NoticeLable>
         </LongPressable>
+        <Link to="write"
+          style={{
+            position: "absolute",
+            right: "14px",
+            bottom: "80px",
+            zIndex: 1,
+          }}
+        >
+          <CreatePencilButton />
+        </Link>
       </S.MainContainer>
       <BottomSelectPanel
         modifyLabel={"공지 수정"}

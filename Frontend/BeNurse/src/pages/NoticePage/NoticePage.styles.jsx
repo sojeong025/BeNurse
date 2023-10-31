@@ -22,7 +22,7 @@ export const NoticeLable = styled.div`
     justify-content: space-between;
   }
   & .notice_title {
-    font-size: ${Common.fontSize.fontM};
+    font-size: ${Common.fontSize.fontS};
     font-weight: ${Common.fontWeight.bold};
   }
   & .arrow_icon {
@@ -54,8 +54,8 @@ export const NoticeLable = styled.div`
     gap: 5px;
   }
   & svg {
-    width: 1.6em;
-    height: 1.6em;
+    width: 1.4em;
+    height: 1.4em;
   }
   & .active .notice_bottom {
     background-color: #f8f8f8;
@@ -72,4 +72,36 @@ export const NoticeLable = styled.div`
     transition: all 0.3s;
     transform: rotate(90deg);
   }
+`;
+
+export const WriteContainer = styled.div`
+  padding: 84px 14px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+`;
+
+export const WriteTitleInput = styled.input`
+  padding: 12px;
+  background-color: ${Common.color.purple00};
+  margin-top: 5px;
+  height: 50px;
+  border-radius: 8px;
+  border: none;
+  box-sizing: border-box;
+  font-size: ${Common.fontSize.fontS};
+`;
+
+export const WriteContentInput = styled.textarea`
+  padding: 12px;
+  background-color: ${Common.color.purple00};
+  border-radius: 8px;
+  border: none;
+  height: calc(100% - 140px);
+  box-sizing: border-box;
+  font-size: ${Common.fontSize.fontS};
 `;
