@@ -14,6 +14,7 @@ export default function NoticeWritePage() {
     <Container>
       <S.WriteContainer>
         <S.WriteTitleInput
+          autoFocus={true}
           type="text"
           placeholder="공지사항 제목을 입력해주세요."
         />

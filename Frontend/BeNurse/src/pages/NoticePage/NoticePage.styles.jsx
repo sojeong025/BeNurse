@@ -41,6 +41,7 @@ export const NoticeLable = styled.div`
     overflow: hidden;
     font-size: ${Common.fontSize.fontS};
     transition: all ease-in-out 0.3s;
+    line-height: 28px;
   }
   & .notice_info {
     font-size: ${Common.fontSize.fontXS};
@@ -94,6 +95,9 @@ export const WriteTitleInput = styled.input`
   border: none;
   box-sizing: border-box;
   font-size: ${Common.fontSize.fontS};
+  &:focus-visible {
+    box-shadow: inset 1px 1px 5px rgba(1, 1, 0, 0.15);
+  }
 `;
 
 export const WriteContentInput = styled.textarea`
@@ -104,4 +108,8 @@ export const WriteContentInput = styled.textarea`
   height: calc(100% - 140px);
   box-sizing: border-box;
   font-size: ${Common.fontSize.fontS};
+  line-height: 28px;
+  &:focus-visible {
+    box-shadow: inset 1px 1px 5px rgba(1, 1, 0, 0.15);
+  }
 `;
