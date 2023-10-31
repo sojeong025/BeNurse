@@ -4,11 +4,15 @@ import java.util.List;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.emr.model.Journal;
 
 @Service
@@ -37,5 +41,28 @@ public class EMRService {
 				request,
 				new ParameterizedTypeReference<List<Journal>>() {}
 				);
+	}
+	
+	public ResponseEntity<Void> updateJournal(Journal journal){
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		
+		try {
+		String json = new ObjectMapper().writeValueAsString(journal);
+		
+		HttpEntity<String> request = new HttpEntity<>(json, headers);
+		RestTemplate rt = new RestTemplate();
+		
+		return rt.exchange(
+				EMR_URL+"/journal",
+				HttpMethod.PUT,
+				request,
+				Void.class
+				);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
 	}
 }

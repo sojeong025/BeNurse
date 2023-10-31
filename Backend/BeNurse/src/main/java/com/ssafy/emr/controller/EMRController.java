@@ -3,13 +3,17 @@ package com.ssafy.emr.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.common.utils.UserClient;
 import com.ssafy.emr.model.Journal;
 import com.ssafy.emr.service.EMRService;
 
@@ -29,6 +33,9 @@ public class EMRController {
 
 	@Autowired
 	EMRService emrService;
+	
+	@Autowired
+	UserClient userClient;
 	
 	@PostMapping("")
 	@ApiOperation(value = "간호일지 정보 등록", notes = "<strong>간호일지 객체</strong>를 통해 간호일지 정보를 등록한다.")
@@ -51,5 +58,11 @@ public class EMRController {
 		return emrService.getAllJournal();
 	}
 	
-	
+	@GetMapping("/journal")
+	public ResponseEntity<Journal> test(@RequestParam("id") long id){
+		log.info(String.valueOf(id));
+		
+		
+		return ResponseEntity.status(HttpStatus.OK).body(userClient.getJournalByID(id));
+	}
 }
