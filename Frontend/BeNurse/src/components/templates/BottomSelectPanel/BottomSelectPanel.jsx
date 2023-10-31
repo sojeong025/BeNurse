@@ -1,18 +1,23 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 
 import { Common } from "../../../utils/global.styles";
 import Box from "../../atoms/Box/Box";
 
-import { usePatientStore } from "../../../store/store";
+import { useBottomSheetStore } from "../../../store/store";
 
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
 
 export default function BottomSelectPanel({ modifyLabel, deleteLabel }) {
-  const { isEditActivated, ActivateEdit, DeactivateEdit } = usePatientStore(
-    (state) => state,
-  );
+  const {
+    isEditActivated,
+    ActivateEdit,
+    DeactivateEdit,
+    updateLink,
+    deleteLink,
+  } = useBottomSheetStore((state) => state);
   return (
     <BottomSheet
       open={isEditActivated}
@@ -23,36 +28,41 @@ export default function BottomSelectPanel({ modifyLabel, deleteLabel }) {
           height: "184px",
         }}
       >
-        <Box
-          type={"transparent"}
-          size={["412px", "80px"]}
-          border={true}
+        <Link
+          to={updateLink}
+          onClick={DeactivateEdit}
         >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-start",
-              alignItems: "center",
-              width: "340px",
-              height: "60px",
-            }}
+          <Box
+            type={"transparent"}
+            size={["412px", "80px"]}
+            border={true}
           >
-            <FaEdit
-              color="#555555"
-              size={22}
-              style={{ marginRight: "8px" }}
-            />
-            <span
+            <div
               style={{
-                color: Common.color.black02,
-                fontSize: Common.fontSize.fontM,
-                fontWeight: Common.fontWeight.bold,
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                width: "340px",
+                height: "60px",
               }}
             >
-              {modifyLabel}
-            </span>
-          </div>
-        </Box>
+              <FaEdit
+                color="#555555"
+                size={22}
+                style={{ marginRight: "8px" }}
+              />
+              <span
+                style={{
+                  color: Common.color.black02,
+                  fontSize: Common.fontSize.fontM,
+                  fontWeight: Common.fontWeight.bold,
+                }}
+              >
+                {modifyLabel}
+              </span>
+            </div>
+          </Box>
+        </Link>
         <Box
           type={"transparent"}
           size={["412px", "80px"]}
