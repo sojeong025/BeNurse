@@ -5,26 +5,23 @@ import {
   Dimensions,
   StyleSheet,
   SafeAreaView,
-  StatusBar,
-  Platform,
   PermissionsAndroid,
   Modal,
   View,
   Button,
+  StatusBar,
 } from 'react-native';
 
 import {WebView} from 'react-native-webview';
 
 import Scan_Modal from './components/bluetoothscan';
+// import Scan_Modal from './components/blerssi';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function App(): JSX.Element {
   const [modalVisible, setModalVisible] = useState(false);
-  // useEffect(() => {
-  //   handleAndroidPermissions();
-  // }, []);
 
   // const handleAndroidPermissions = () => {
   //   if (Platform.OS === 'android' && Platform.Version >= 31) {
@@ -49,6 +46,12 @@ function App(): JSX.Element {
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
+
+  useEffect(() => {
+    StatusBar.setBackgroundColor('#FF573300');
+    StatusBar.setTranslucent(true);
+    //   handleAndroidPermissions();
+  }, []);
 
   return (
     <>

@@ -15,7 +15,7 @@ import {
 
 const SECONDS_TO_SCAN_FOR = 10;
 const SERVICE_UUIDS: string[] = [];
-const ALLOW_DUPLICATES = true;
+const ALLOW_DUPLICATES = false;
 
 import BleManager, {
   BleScanCallbackType,
@@ -152,7 +152,7 @@ const Scan_Modal = () => {
   };
   const renderItem = ({item}: {item: Peripheral}) => {
     return (
-      <Text>
+      <Text style={{color: 'black'}}>
         {item.name}
         {'\n'}
         {item.rssi}
@@ -165,12 +165,12 @@ const Scan_Modal = () => {
     <Text>
       {Array.from(peripherals.values()).length === 0 && (
         <View>
-          <Text>No Peripherals.</Text>
+          <Text style={{color: 'black'}}>No Peripherals.</Text>
         </View>
       )}
       <FlatList
         data={Array.from(peripherals.values())}
-        contentContainerStyle={{rowGap: 12}}
+        // contentContainerStyle={{rowGap: 12}}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />

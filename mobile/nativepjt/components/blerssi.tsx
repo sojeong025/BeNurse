@@ -4,22 +4,18 @@
 
 import React, {useState, useEffect} from 'react';
 import {
+  Text,
   NativeModules,
   NativeEventEmitter,
   Platform,
   PermissionsAndroid,
+  FlatList,
+  View,
 } from 'react-native';
 
-const SECONDS_TO_SCAN_FOR = 10;
+const SECONDS_TO_SCAN_FOR = 60;
 const SERVICE_UUIDS: string[] = [];
-const ALLOW_DUPLICATES = true;
-
-const BEACON_ADDRESS = {
-  admin4: 'DF:8F:78:F0:06:1F',
-  equip1: 'E3:2F:4B:F3:F2:77',
-  admin8: 'CA:8D:AC:9C:63:64',
-  admin7: 'CA:87:66:3E:6E:38',
-};
+const ALLOW_DUPLICATES = false;
 
 import BleManager, {
   BleScanCallbackType,
@@ -38,11 +34,14 @@ declare module 'react-native-ble-manager' {
   }
 }
 
-const App = () => {
+const Scan_Modal = () => {
   const [isScanning, setIsScanning] = useState(false);
   const [peripherals, setPeripherals] = useState(
     new Map<Peripheral['id'], Peripheral>(),
   );
+  const [rssi, setrssi] = useState([]);
+
+  //탐색하고자 하는 블루투스 신호의 mac address
   const mac_add: string[] = [
     'E3:2F:4B:F3:F2:77',
     'DF:8F:78:F0:06:1F',
@@ -53,13 +52,16 @@ const App = () => {
   const addOrUpdatePeripheral = (id: string, updatedPeripheral: Peripheral) => {
     // new Map() enables changing the reference & refreshing UI.
     // TOFIX not efficient.
+    console.log(updatedPeripheral.name);
     setPeripherals(map => new Map(map.set(id, updatedPeripheral)));
+    setrssi(array => [...array, updatedPeripheral.rssi]);
   };
 
   const startScan = () => {
     if (!isScanning) {
       // reset found peripherals before scan
       setPeripherals(new Map<Peripheral['id'], Peripheral>());
+      setrssi([]);
 
       try {
         console.debug('[startScan] starting scan...');
@@ -87,29 +89,17 @@ const App = () => {
   };
 
   const handleDiscoverPeripheral = (peripheral: Peripheral) => {
-    // console.debug('[handleDiscoverPeripheral] new BLE peripheral=', peripheral);
     // if (!peripheral.name) {
     //   peripheral.name = 'NO NAME';
-    //   return
     // }
     // addOrUpdatePeripheral(peripheral.id, peripheral);
-    if (mac_add.includes(peripheral.id)) {
+    console.log(peripheral.name);
+    if (peripheral.id === 'E3:2F:4B:F3:F2:77') {
       addOrUpdatePeripheral(peripheral.id, peripheral);
     }
   };
 
-  const readRSSIbyBeacone = (address: string) => {
-    BleManager.readRSSI(address)
-      .then(rssi => {
-        console.log('Current RSSI: ' + rssi);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
   useEffect(() => {
-    console.debug('useEffect');
     try {
       BleManager.start({showAlert: false})
         .then(() => console.debug('BleManager started.'))
@@ -140,6 +130,7 @@ const App = () => {
         listener.remove();
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleAndroidPermissions = () => {
@@ -150,6 +141,7 @@ const App = () => {
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       ]).then(result => {
         if (result) {
+          startScan();
           console.debug(
             '[handleAndroidPermissions] User accepts runtime permissions android 12+',
           );
@@ -161,8 +153,32 @@ const App = () => {
       });
     }
   };
+  const renderItem = ({item}: {item: Peripheral}) => {
+    return (
+      <Text>
+        {item.name}
+        {'\n'}
+        {item.rssi}
+        {'\n'}
+      </Text>
+    );
+  };
 
-  return <></>;
+  return (
+    <Text>
+      {Array.from(peripherals.values()).length === 0 && (
+        <View>
+          <Text>No Peripherals.</Text>
+        </View>
+      )}
+      <FlatList
+        data={Array.from(peripherals.values())}
+        contentContainerStyle={{rowGap: 12}}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
+    </Text>
+  );
 };
 
-export default App;
+export default Scan_Modal;
