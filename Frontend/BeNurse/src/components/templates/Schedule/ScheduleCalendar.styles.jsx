@@ -146,3 +146,13 @@ export const CheckBox = styled.label`
     color: #d0bfff;
   }
 `;
+
+export const NurseScrollWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 14px;
+  height: 510px;
+  gap: 14px;
+  overflow: scroll;
+`;

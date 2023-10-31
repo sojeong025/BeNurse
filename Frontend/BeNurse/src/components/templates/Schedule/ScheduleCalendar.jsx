@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { BottomSheet } from "react-spring-bottom-sheet";
+import "react-spring-bottom-sheet/dist/style.css";
 import Modal from "../../atoms/Modal/Modal";
+import NurseItem from "./NurseItem";
 import no from "@assets/Images/no.png";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import off from "@assets/Icons/off.svg";
@@ -13,12 +16,14 @@ import {
   State,
   Td,
   ScheduleTypeCircle,
+  NurseScrollWrapper,
 } from "./ScheduleCalendar.styles";
 import { NavLink } from "react-router-dom";
 import { Common } from "../../../utils/global.styles";
 import BottomSelectPanel from "../BottomSelectPanel/BottomSelectPanel";
 
 export default function ScheduleCalendar() {
+  const [open, setOpen] = useState(false);
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(
     new Date(today.getFullYear(), today.getMonth(), 1),
@@ -210,6 +215,10 @@ export default function ScheduleCalendar() {
                       flexDirection: "column",
                       alignItems: "center",
                     }}
+                    onClick={(e) => {
+                      console.log(date.day);
+                      setOpen(true);
+                    }}
                   >
                     {date.day}
                     {date.isCurMonth && (
@@ -224,6 +233,41 @@ export default function ScheduleCalendar() {
           ))}
         </tbody>
       </Table>
+      <BottomSheet
+        open={open}
+        onDismiss={() => {
+          setOpen(false);
+        }}
+      >
+        <NurseScrollWrapper>
+          <span
+            style={{
+              color: Common.color.black02,
+              fontSize: Common.fontSize.fontL,
+              fontWeight: Common.fontWeight.bold,
+            }}
+          >
+            2023.11.12 (일)
+          </span>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              gap: "20px",
+            }}
+          >
+            <NurseItem />
+            <NurseItem />
+            <NurseItem />
+            <NurseItem />
+            <NurseItem />
+            <NurseItem />
+            <NurseItem />
+            <NurseItem />
+          </div>
+        </NurseScrollWrapper>
+      </BottomSheet>
     </CalendarWrapper>
   );
 }
