@@ -24,11 +24,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin(origins = "*")
 @Api(value = "EMR 간호일지 정보 API", tags = { "Journal." })
 @RestController
 @RequestMapping("/api/emr/journal")
+@Slf4j
 public class JournalController {
 	@Autowired
 	JournalRepository journalRepo;
@@ -40,6 +42,7 @@ public class JournalController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<Void> registJournalById(Journal journal) {
+		log.info(journal.toString());
 		journal.setDatetime(LocalDateTime.now());
 		journalRepo.save(journal);
 		return ResponseEntity.status(HttpStatus.CREATED).body(null);
