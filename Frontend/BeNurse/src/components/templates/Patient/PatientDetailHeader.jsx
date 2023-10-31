@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Common } from "@utils/global.styles";
 
-// Iconst
+// Icons
 import { MdHistory } from "react-icons/md";
 
 export default function PatientDetailHeader({ type }) {

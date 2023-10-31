@@ -7,6 +7,7 @@ export const StyledBox = styled.div`
   justify-content: ${({ flex }) => (flex !== undefined ? flex[0] : "center")};
   align-items: ${({ flex }) => (flex !== undefined ? flex[1] : "center")};
   margin: ${({ margin }) => margin || "0 0 0 0"};
+  padding: ${({ padding }) => padding};
   border-bottom: ${({ border }) => (border ? "1px solid #D9D9D9" : null)};
   border-radius: ${({ type }) => (type === "transparent" ? "0px" : "16px")};
   width: ${({ size }) => size[0]};

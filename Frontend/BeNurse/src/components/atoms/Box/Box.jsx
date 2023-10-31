@@ -9,6 +9,7 @@ export default function Box({
   type,
   border,
   margin,
+  padding,
   font,
   overflow,
   overflowX,
@@ -21,6 +22,7 @@ export default function Box({
       size={size}
       border={border}
       margin={margin}
+      padding={padding}
       font={font}
       overflow={overflow}
       overflowX={overflowX}

@@ -20,9 +20,10 @@ export default function PatientItem({ type }) {
           flexDirection: "column",
           justifyContent: "space-between",
           alignItems: "center",
-          height: "120px",
+          height: "140px",
         }}
       >
+        <p>내과 3동 B302</p>
         <img
           src={patientImg}
           style={{ borderRadius: "300px" }}
