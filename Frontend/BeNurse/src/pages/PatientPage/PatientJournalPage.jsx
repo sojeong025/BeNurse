@@ -10,6 +10,7 @@ import * as S from "./PatientJournalPage.styles";
 // Components
 import Container from "../../components/atoms/Container/Container";
 import CreatePencilButton from "../../components/atoms/Button/CreatePencilButton";
+import BottomSelectPanel from "../../components/templates/BottomSelectPanel/BottomSelectPanel";
 import PatientJournalItem from "../../components/templates/Patient/PatientJournalItem";
 
 // Icons
@@ -192,6 +193,20 @@ const PatientJournalPage = () => {
             <div className="timeline-border"></div>
           </S.JournalItemContainer>
         </S.TimeLineContainer>
+        <div
+          style={{
+            position: "absolute",
+            right: "14px",
+            bottom: "80px",
+            zIndex: 1,
+          }}
+        >
+          <CreatePencilButton />
+        </div>
+        <BottomSelectPanel
+          modifyLabel={"일지 수정"}
+          deleteLabel={"일지 삭제"}
+        />
       </S.MainContainer>
     </Container>
   );
