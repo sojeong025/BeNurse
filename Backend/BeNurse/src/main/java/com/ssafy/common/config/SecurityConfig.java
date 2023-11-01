@@ -36,8 +36,6 @@ public class SecurityConfig {
 			.httpBasic().disable().csrf().disable() // rest api이므로 basic auth 및 csrf 보안을 사용하지 않는다는 설정
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // JWT를 사용하기 때문에 세션을 사용하지 않는다는 설정
-			
-			
 			.and().authorizeRequests()
 			.antMatchers(
 					"/api/**",

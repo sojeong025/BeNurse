@@ -32,25 +32,26 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build();
     }
- // 추가
-    private SecurityContext securityContext() {
-        return SecurityContext.builder()
-                .securityReferences(defaultAuth())
-                .build();
-    }
     
-    // 추가
-    private List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(new SecurityReference("Authorization", authorizationScopes));
-    }
- 
-    // 추가
-    private ApiKey apiKey() {
-        return new ApiKey("Authorization", "Authorization", "header");
-    }
+// // 추가
+//    private SecurityContext securityContext() {
+//        return SecurityContext.builder()
+//                .securityReferences(defaultAuth())
+//                .build();
+//    }
+//    
+//    // 추가
+//    private List<SecurityReference> defaultAuth() {
+//        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+//        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+//        authorizationScopes[0] = authorizationScope;
+//        return Arrays.asList(new SecurityReference("Authorization", authorizationScopes));
+//    }
+// 
+//    // 추가
+//    private ApiKey apiKey() {
+//        return new ApiKey("Authorization", "Authorization", "header");
+//    }
  
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
