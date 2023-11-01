@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, FlatList} from 'react-native';
 import NfcManager, {NfcTech} from 'react-native-nfc-manager';
@@ -11,22 +11,15 @@ function App() {
 
   async function readNdef() {
     setnfclist([]);
+
     try {
-      while (true) {
-        // register for the NFC tag with NDEF in it
-        await NfcManager.requestTechnology(NfcTech.Ndef);
-        // the resolved tag object will contain `ndefMessage` property
-        const tag = await NfcManager.getTag();
-        setnfclist(array => [...array, tag?.id]);
-        console.warn('Tag found', tag);
-        if (nfclist.length == 3) break;
-        NfcManager.cancelTechnologyRequest();
-      }
+      await NfcManager.requestTechnology(NfcTech.Ndef);
+      const tag = await NfcManager.getTag();
+      setnfclist(array => [...array, tag?.id]);
     } catch (ex) {
       console.warn('Oops!', ex);
     } finally {
-      // stop the nfc scanning
-      NfcManager.cancelTechnologyRequest();
+      await NfcManager.cancelTechnologyRequest();
     }
   }
 
@@ -48,7 +41,7 @@ function App() {
         data={nfclist}
         // contentContainerStyle={{rowGap: 12}}
         renderItem={renderItem}
-        keyExtractor={item => item}
+        // keyExtractor={item => item}
       />
     </View>
   );
