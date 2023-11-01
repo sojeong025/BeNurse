@@ -27,7 +27,6 @@ export default function PatientListPage() {
           flexDirection: "column",
           alignItems: "flex-start",
           padding: "80px 0px 10px 0px",
-
           height: "586px",
           overflow: "scroll",
           gap: "10px",
