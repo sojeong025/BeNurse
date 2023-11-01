@@ -20,29 +20,39 @@ const PatientJournalPage = () => {
   const calendarRef = useRef(null);
 
   const onScroll = throttle((e) => {
-    if (e.target.scrollLeft > 24) {
-      setDate((prevDate) => moment(prevDate).add(1, "days"));
-    } else if (e.target.scrollLeft < 12) {
-      setDate((prevDate) => moment(prevDate).subtract(1, "days"));
+    const scrollWidthOne = calendarRef.current.scrollWidth / 8;
+    const currentScroll = e.target.scrollLeft - 220;
+
+    if (currentScroll > 20) {
+      const count = Math.abs(Math.round(currentScroll / scrollWidthOne) + 1);
+      setDate((prevDate) => moment(prevDate).add(count, "days"));
+    } else if (currentScroll < -24) {
+      const count = Math.abs(
+        Math.round(currentScroll / (scrollWidthOne + 12)) - 1,
+      );
+      setDate((prevDate) => moment(prevDate).subtract(count, "days"));
+    } else {
+      calendarRef.current.scrollLeft = 220;
     }
-  }, 300);
+  }, 400);
 
   useEffect(() => {
     const calendarEl = calendarRef.current;
     calendarEl.addEventListener("scroll", onScroll);
     return () => {
       calendarEl.removeEventListener("scroll", onScroll);
+      calendarEl.scrollLeft = 220;
     };
   }, [onScroll]);
 
   useEffect(() => {
     const calendarEl = calendarRef.current;
-    calendarEl.scrollLeft = 20;
+    calendarEl.scrollLeft = 219;
   }, [date]);
 
   const generateCalendar = () => {
     let datesArray = [];
-    for (let i = -3; i <= 3; i++) {
+    for (let i = -6; i <= 6; i++) {
       let thisDate = moment(date).add(i, "days");
       datesArray.push(
         <S.DateButton
@@ -75,7 +85,18 @@ const PatientJournalPage = () => {
               <MdKeyboardArrowRight />
             </S.MonthButton>
           </div>
-
+          <div
+            style={{
+              position: "absolute",
+              bottom: "12px",
+              left: "180px",
+              backgroundColor: "#ffffffe0",
+              width: "50px",
+              height: "70px",
+              zIndex: "0",
+              borderRadius: "10px",
+            }}
+          ></div>
           <S.DateButtonContainer ref={calendarRef}>
             {generateCalendar()}
           </S.DateButtonContainer>
