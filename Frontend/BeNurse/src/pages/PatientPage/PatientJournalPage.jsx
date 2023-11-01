@@ -16,6 +16,81 @@ import PatientJournalItem from "../../components/templates/Patient/PatientJourna
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 const PatientJournalPage = () => {
+  const journalItems = [
+    {
+      time: moment().add(1, "days"),
+      content: `ativan, botropase, adelavin, bromhxine, gaaster, cefteriaxone, H/S
+            1000ml 12000cc/hr, H/S 1000ml 12000cc/hr ativan, botropase,
+            adelavin, bromhxine, gaaster, cefteriaxone, H/S 1000ml 12000cc/hr,
+            H/S 1000ml 12000cc/hr`,
+      writer: "정은경",
+    },
+    {
+      time: moment().add(1, "days"),
+      content: `머엉..`,
+      writer: "정소정",
+    },
+    {
+      time: moment().add(1, "days"),
+      content: `이거는 내일임`,
+      writer: "김대웅",
+    },
+    {
+      time: moment().subtract(1, "days"),
+      content: `ativan, botropase, adelavin, bromhxine, gaaster, cefteriaxone, H/S
+            1000ml 12000cc/hr, H/S 1000ml 12000cc/hr ativan, botropase,
+            adelavin, bromhxine, gaaster, cefteriaxone, H/S 1000ml 12000cc/hr,
+            H/S 1000ml 12000cc/hr`,
+      writer: "정은경",
+    },
+    {
+      time: moment().subtract(1, "days"),
+      content: `머엉..`,
+      writer: "정소정",
+    },
+    {
+      time: moment().subtract(1, "days"),
+      content: `아마도,...어제일걸요`,
+      writer: "김대웅",
+    },
+    {
+      time: moment(),
+      content: `ativan, botropase, adelavin, bromhxine, gaaster, cefteriaxone, H/S
+            1000ml 12000cc/hr, H/S 1000ml 12000cc/hr ativan, botropase,
+            adelavin, bromhxine, gaaster, cefteriaxone, H/S 1000ml 12000cc/hr,
+            H/S 1000ml 12000cc/hr`,
+      writer: "정은경",
+    },
+    {
+      time: moment(),
+      content: `머엉..`,
+      writer: "정소정",
+    },
+    {
+      time: moment(),
+      content: `돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라`,
+      writer: "김대웅",
+    },
+    {
+      time: moment(),
+      content: `ativan, botropase, adelavin, bromhxine, gaaster, cefteriaxone, H/S
+            1000ml 12000cc/hr, H/S 1000ml 12000cc/hr ativan, botropase,
+            adelavin, bromhxine, gaaster, cefteriaxone, H/S 1000ml 12000cc/hr,
+            H/S 1000ml 12000cc/hr`,
+      writer: "정은경",
+    },
+    {
+      time: moment(),
+      content: `머엉..`,
+      writer: "정소정",
+    },
+    {
+      time: moment(),
+      content: `돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라돼라`,
+      writer: "김대웅",
+    },
+  ];
+
   const [date, setDate] = useState(moment());
   const calendarRef = useRef(null);
 
@@ -104,16 +179,16 @@ const PatientJournalPage = () => {
 
         <S.TimeLineContainer>
           <S.JournalItemContainer>
-            <PatientJournalItem id={1} />
-            <PatientJournalItem id={2} />
-            <PatientJournalItem id={3} />
-            <PatientJournalItem id={4} />
-            <PatientJournalItem id={5} />
-            <PatientJournalItem id={6} />
-            <PatientJournalItem id={7} />
-            <PatientJournalItem id={8} />
-            <PatientJournalItem id={9} />
-            <PatientJournalItem id={10} />
+            {journalItems.map((journal, i) => {
+              if (journal.time.isSame(date, "day")) {
+                return (
+                  <PatientJournalItem
+                    id={i}
+                    journal={journal}
+                  />
+                );
+              }
+            })}
             <div className="timeline-border"></div>
           </S.JournalItemContainer>
         </S.TimeLineContainer>

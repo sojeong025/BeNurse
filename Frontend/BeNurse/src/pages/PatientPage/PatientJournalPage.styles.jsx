@@ -118,6 +118,7 @@ export const JournalItemContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding-bottom: 50px;
+  min-height: calc(100% - 60px);
 
   & > .timeline-border {
     position: absolute;

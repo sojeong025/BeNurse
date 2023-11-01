@@ -25,10 +25,10 @@ export const TimeChip = styled.div`
 `;
 
 export const JournalContentBox = styled.div`
-  padding: 8px;
+  min-width: 100px;
   display: flex;
   flex-direction: column;
-  /* min-height: ${({ isSelected }) => (isSelected ? "300px" : "50px")}; */
+  padding: 8px;
   max-height: ${({ isSelected }) => (isSelected ? "1000px" : "50px")};
   border: 1px solid #c4afff;
   background-color: #c4afff1c;
