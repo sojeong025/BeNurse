@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Common } from "@utils/global.styles";
+import * as S from "./PatientJournalItem.styles";
 
 import Box from "../../atoms/Box/Box";
 import LongPressable from "react-longpressable";
@@ -16,97 +17,35 @@ export default function PatientJournalItem({ id }) {
   };
 
   const expandItem = () => {
-    setSelectedID(id);
+    setIsSelected(!isSelected);
   };
 
-  useEffect(() => {
-    if (id === selectedID) {
-      setIsSelected(true);
-    } else {
-      setIsSelected(false);
-    }
-  }, [selectedID]);
-
   return (
-    <div
+    <S.StyledJournalItem
       id={id}
-      style={{
-        display: "flex",
-        zIndex: 1,
-        marginTop: "10px",
-        marginBottom: "20px",
-      }}
+      isSelected={isSelected}
     >
-      <Box
-        type={"purple03"}
-        size={["22px", "22px"]}
-        margin={"0px 10px 0px 30px"}
-      />
-      <div style={{ display: "flex", alignItems: "center", height: "22px" }}>
-        <span style={{ fontSize: Common.fontSize.fontS }}>19:00</span>
-      </div>
+      <S.TimeChip>
+        <div className="time_point"></div>
+        <div className="time_label">19:00</div>
+      </S.TimeChip>
+
       <LongPressable
         onLongPress={onLongPress}
         onShortPress={expandItem}
         longPressTime={400}
       >
-        <div
-          style={{
-            padding: "8px",
-            display: "flex",
-            flexDirection: "column",
-            width: "276px",
-            height: isSelected ? "100px" : "50px",
-            border: "1px solid #956eff",
-            borderRadius: "16px",
-            marginTop: "-6px",
-            marginLeft: "10px",
-            transition: "all 0.2s",
-          }}
-        >
-          <div
-            style={{
-              width: isSelected ? "278px" : "276px",
-              height: isSelected ? "100px" : "30px",
-              transition: "all 0.2s",
-              overflow: "hidden",
-            }}
-          >
-            <span
-              style={{
-                fontSize: Common.fontSize.fontXS,
-                letterSpacing: "1.4px",
-              }}
-            >
-              ativan, botropase, adelavin, bromhxine, gaaster, cefteriaxone, H/S
-              1000ml 12000cc/hr
-            </span>
+        <S.JournalContentBox isSelected={isSelected}>
+          <div className="journal_top">
+            ativan, botropase, adelavin, bromhxine, gaaster, cefteriaxone, H/S
+            1000ml 12000cc/hr, H/S 1000ml 12000cc/hr ativan, botropase,
+            adelavin, bromhxine, gaaster, cefteriaxone, H/S 1000ml 12000cc/hr,
+            H/S 1000ml 12000cc/hr
           </div>
-          <hr style={{ width: "276px", border: "0.5px solid #D0BFFF" }} />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              width: "276px",
-              height: "24px",
-            }}
-          >
-            <span style={{ fontSize: Common.fontSize.fontXS }}>
-              정은경 간호사
-            </span>
-            <div
-              style={{
-                margin: "0px 6px",
-                width: "15px",
-                height: "15px",
-                backgroundColor: "gray",
-                borderRadius: "10px",
-              }}
-            ></div>
-          </div>
-        </div>
+          <hr style={{ width: "100%", border: "0.5px solid #D0BFFF" }} />
+          <div className="journal_bottom">정은경 간호사</div>
+        </S.JournalContentBox>
       </LongPressable>
-    </div>
+    </S.StyledJournalItem>
   );
 }
