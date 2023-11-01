@@ -14,6 +14,7 @@ export default function Box({
   overflow,
   overflowX,
   overflowY,
+  onClick,
   props,
 }) {
   return (
@@ -28,6 +29,7 @@ export default function Box({
       overflow={overflow}
       overflowX={overflowX}
       overflowY={overflowY}
+      onClick={onClick}
       props={props}
     >
       {children}

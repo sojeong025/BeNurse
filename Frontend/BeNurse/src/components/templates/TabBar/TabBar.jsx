@@ -21,7 +21,8 @@ export default function TabBar() {
     if (
       location.pathname.startsWith("/login") ||
       location.pathname === "/off-application" ||
-      location.pathname === "/off-application-finish"
+      location.pathname === "/off-application-finish" ||
+      location.pathname === "/handover-write"
     ) {
       setVisibility("none");
     } else {
