@@ -15,6 +15,7 @@ import PatientDetailPage from "@pages/PatientPage/PatientDetailPage";
 import HandOverPage from "@pages/HandOverPage/HandOverPage";
 import HandOverWritePage from "@pages/HandOverPage/HandOverWritePage";
 import HandOverListPage from "@pages/HandOverPage/HandOverListPage";
+import HandOverDetailPage from "../pages/HandOverPage/HandOverDetailPage";
 import TemporaryListPage from "@pages/HandOverPage/TemporaryListPage";
 
 import SchedulePage from "@pages/SchedulePage/SchedulePage";
@@ -87,6 +88,15 @@ export default function routes() {
         path="/handover-list"
         element={<HandOverListPage />}
       />
+      <Route
+        path="/handover-list/handover-detail"
+        element={<HandOverDetailPage />}
+      />
+      <Route
+        path="/handover-list/handover-detail"
+        element={<HandOverDetailPage />}
+      />
+
       <Route
         path="/temporary-list"
         element={<TemporaryListPage />}
