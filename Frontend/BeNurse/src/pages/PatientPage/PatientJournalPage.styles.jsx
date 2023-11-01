@@ -47,6 +47,7 @@ export const HorizontalDatePicker = styled.div`
   }
 
   &::before {
+    z-index: 9;
     left: 0;
     transform: rotateZ(180deg);
   }
@@ -74,7 +75,8 @@ export const DateButtonContainer = styled.div`
   gap: 15px;
   overflow-x: auto;
   width: 100%;
-  scroll-snap-type: x mandatory;
+  /* scroll-snap-type: x mandatory; */
+  position: relative;
 `;
 
 export const DateButton = styled.div`
@@ -94,7 +96,9 @@ export const DateButton = styled.div`
   }
 
   &.active {
-    background-color: ${Common.color.white01};
+    /* background-color: ${Common.color.white01}; */
+    z-index: 100;
+    font-size: 16px;
     color: ${Common.color.black03};
     border-radius: 7px;
   }
@@ -114,6 +118,7 @@ export const JournalItemContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding-bottom: 50px;
+  min-height: calc(100% - 60px);
 
   & > .timeline-border {
     position: absolute;
