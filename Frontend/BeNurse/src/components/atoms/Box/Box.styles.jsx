@@ -47,4 +47,5 @@ export const StyledBox = styled.div`
   overflow-x: ${({ overflowX }) => overflowX};
   overflow-y: ${({ overflowY }) => overflowY};
   transition: all 0.2s;
+  ${({ props }) => props}
 `;

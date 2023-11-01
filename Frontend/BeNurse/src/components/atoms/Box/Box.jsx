@@ -14,6 +14,7 @@ export default function Box({
   overflow,
   overflowX,
   overflowY,
+  props,
 }) {
   return (
     <S.StyledBox
@@ -27,6 +28,7 @@ export default function Box({
       overflow={overflow}
       overflowX={overflowX}
       overflowY={overflowY}
+      props={props}
     >
       {children}
     </S.StyledBox>
