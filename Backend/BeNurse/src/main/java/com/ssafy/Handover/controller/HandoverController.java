@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.Handover.model.Handover;
 import com.ssafy.Handover.service.HandoverRepository;
+import com.ssafy.common.utils.APIResponse;
 import com.ssafy.nurse.service.NurseRepository;
 
 import io.swagger.annotations.Api;
@@ -40,12 +40,12 @@ public class HandoverController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Handover> registHandover(Handover handover) {
+	public APIResponse<Handover> registHandover(Handover handover) {
 		
 		handover.setTime(LocalDateTime.now());
 		
 		Handover savedHandover = handoverRepo.save(handover);
-		return new ResponseEntity<>(savedHandover, HttpStatus.OK);
+		return new APIResponse<>(savedHandover, HttpStatus.OK);
 	}
 	
 	
@@ -57,12 +57,12 @@ public class HandoverController {
 	    @ApiResponse(code = 404, message = "인계장을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Handover> getHandoverById(@RequestParam("ID") long ID) {
+	public APIResponse<Handover> getHandoverById(@RequestParam("ID") long ID) {
 	    Optional<Handover> handover = handoverRepo.findById(ID);
 
 	    if (handover.isPresent())
-	        return new ResponseEntity<>(handover.get(), HttpStatus.OK);
+	        return new APIResponse<>(handover.get(), HttpStatus.OK);
 	    else
-	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	        return new APIResponse<>(HttpStatus.NOT_FOUND);
 	}
 }

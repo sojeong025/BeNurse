@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.Schedule.model.Schedule;
+import com.ssafy.common.utils.APIResponse;
 import com.ssafy.offschedule.model.Offschedule;
 import com.ssafy.offschedule.service.OffscheduleRepository;
 
@@ -40,10 +40,10 @@ public class OffscheduleController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Offschedule> registOffschedule(Offschedule offschedule) {
+	public APIResponse<Offschedule> registOffschedule(Offschedule offschedule) {
 		
 		Offschedule savedOffschedule = offscheduleRepo.save(offschedule);
-		return new ResponseEntity<>(savedOffschedule, HttpStatus.OK);
+		return new APIResponse<>(savedOffschedule, HttpStatus.OK);
 	}
 	
 	// 휴무 신청 내역 삭제 DELETE
@@ -54,15 +54,15 @@ public class OffscheduleController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Void> deleteOffscheduleById(@RequestParam("ID") long ID) {
+	public APIResponse<Void> deleteOffscheduleById(@RequestParam("ID") long ID) {
 	    Optional<Offschedule> offschedule = offscheduleRepo.findById(ID);
 
 	    if(offschedule.isPresent()) {
 	    	offscheduleRepo.delete(offschedule.get());
-			return ResponseEntity.status(HttpStatus.OK).body(null);
+			return new APIResponse(HttpStatus.OK);
 		}
 		else
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			return new APIResponse(HttpStatus.NOT_FOUND);
 
 	} 
 	
@@ -74,12 +74,12 @@ public class OffscheduleController {
 	    @ApiResponse(code = 404, message = "휴무를 찾을 수 없음."),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<List<Offschedule>> getOffscheduleBynurseID(
+	public APIResponse<List<Offschedule>> getOffscheduleBynurseID(
 			@RequestParam("nurseID") long nurseID
 			)
 	{	
 	    List<Offschedule> offschedule = offscheduleRepo.findAllBynurseID(nurseID);
-	    return ResponseEntity.status(HttpStatus.OK).body(offschedule);
+	    return new APIResponse(offschedule, HttpStatus.OK);
 
 	}
 	
@@ -91,9 +91,9 @@ public class OffscheduleController {
 	    @ApiResponse(code = 404, message = "휴무를 찾을 수 없음."),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<List<Offschedule>> getAllOffschedule() {
+	public APIResponse<List<Offschedule>> getAllOffschedule() {
 		List<Offschedule> offschedule = offscheduleRepo.findAll();
-		return ResponseEntity.status(HttpStatus.OK).body(offschedule);
+		return new APIResponse(offschedule, HttpStatus.OK);
 	}
 
 }

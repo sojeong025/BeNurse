@@ -1,22 +1,24 @@
-	package com.ssafy.notice.controller;
+package com.ssafy.notice.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.common.utils.APIResponse;
 import com.ssafy.notice.model.Notice;
 import com.ssafy.notice.service.NoticeRepository;
 
@@ -41,12 +43,13 @@ public class NoticeController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Notice> registNotice(Notice notice) {
+	@CachePut(value = "notice", key = "#notice.ID")
+	public APIResponse<Notice> registNotice(Notice notice) {
 
 		notice.setTime(LocalDateTime.now());
 		
 	    Notice savedNotice = noticeRepo.save(notice);
-	    return new ResponseEntity<>(savedNotice, HttpStatus.OK);
+	    return new APIResponse<>(savedNotice, HttpStatus.OK);
 	}
 	
 	@GetMapping("/all")
@@ -55,11 +58,12 @@ public class NoticeController {
         @ApiResponse(code = 200, message = "성공", response = List.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<List<Notice>> getAllNotice() {
+	@Cacheable(value="notice")
+	public APIResponse<List<Notice>> getAllNotice() {
 		List<Notice> notice = noticeRepo.findAll();
-		return ResponseEntity.status(HttpStatus.OK).body(notice);
+	    return new APIResponse<>(notice, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}")
 	@ApiOperation(value = "특정 공지사항 조회", notes = "공지사항 ID로 특정 게시글 조회") 
 	@ApiResponses({
@@ -67,13 +71,14 @@ public class NoticeController {
 	    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Notice> getNoticeById(@RequestParam("ID") long ID) {
+	@Cacheable(value="notice", key="#ID")
+	public APIResponse<Notice> getNoticeById(@RequestParam("ID") long ID) {
 	    Optional<Notice> notice = noticeRepo.findById(ID);
 
 	    if (notice.isPresent())
-	        return new ResponseEntity<>(notice.get(), HttpStatus.OK);
+	        return new APIResponse(notice.get(), HttpStatus.OK);
 	    else
-	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	        return new APIResponse(HttpStatus.NOT_FOUND);
 	}
 
 	@PutMapping("/update")
@@ -83,7 +88,8 @@ public class NoticeController {
 	    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Void> updateNoticeById(@RequestBody Notice updatedNotice){
+	@CachePut(value = "notice", key = "#updatedNotice.ID")
+	public APIResponse<Notice> updateNoticeById(Notice updatedNotice){
 		Optional<Notice> optionNotice = noticeRepo.findById(updatedNotice.getID());
 		
 	    if (optionNotice.isPresent()) {
@@ -100,9 +106,9 @@ public class NoticeController {
 	        // 업데이트된 공지사항을 저장
 	        noticeRepo.save(existingNotice);
 
-	        return new ResponseEntity<>(HttpStatus.OK);
+	        return new APIResponse<>(existingNotice, HttpStatus.OK);
 	    } else	
-	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	        return new APIResponse<>(HttpStatus.NOT_FOUND);
 	    
 	}
 	
@@ -113,15 +119,15 @@ public class NoticeController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Void> deleteNoticeById(@RequestParam("ID") long ID) {
+    @CacheEvict(value = "notice", key="#ID")
+	public APIResponse<Void> deleteNoticeById(@RequestParam("ID") long ID) {
 	    Optional<Notice> notice = noticeRepo.findById(ID);
 
 	    if(notice.isPresent()) {
 	    	noticeRepo.delete(notice.get());
-			return ResponseEntity.status(HttpStatus.OK).body(null);
+			return new APIResponse(HttpStatus.OK);
 		}
 		else
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-
+			return new APIResponse(HttpStatus.NOT_FOUND);
 	} 
 }
