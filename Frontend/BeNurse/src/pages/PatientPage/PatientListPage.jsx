@@ -11,60 +11,118 @@ export default function PatientListPage() {
       style={{
         position: "relative",
         width: "386px",
-        marginTop: "74px",
+        marginTop: "84px",
       }}
     >
       <div style={{ position: "absolute", top: "14px" }}>
-        <div style={{ marginBottom: "20px" }}>
-          <span
-            style={{
-              color: Common.color.black02,
-              fontSize: Common.fontSize.fontL,
-              fontWeight: Common.fontWeight.extrabold,
-            }}
-          >
-            내과 3동 B302
-          </span>
-        </div>
         <Input
           width={"356px"}
           variant={"search"}
-          placeholder={"병실/환자 이름으로 검색"}
+          placeholder={"환자 이름으로 검색"}
         />
       </div>
       <div
         style={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          padding: "119px 0px 0px 0px",
-          marginBottom: "34px",
-          height: "556px",
+          alignItems: "flex-start",
+          padding: "80px 0px 10px 0px",
+
+          height: "586px",
           overflow: "scroll",
+          gap: "10px",
         }}
       >
-        <div style={{ display: "flex", width: "100%", marginTop: "10px"}}>
-          <span
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+          }}
+        >
+          <div
             style={{
-              color: Common.color.black02,
-              fontSize: Common.fontSize.fontM,
-              fontWeight: Common.fontWeight.bold,
+              display: "flex",
+              padding: "6px 8px",
+              borderRadius: "10px",
+              backgroundColor: Common.color.purple03,
+              color: Common.color.white01,
             }}
           >
-            환자 목록
-          </span>
+            내과 ▾
+          </div>
+          <div
+            style={{
+              display: "flex",
+              padding: "6px 8px",
+              borderRadius: "10px",
+              backgroundColor: Common.color.purple03,
+              color: Common.color.white01,
+            }}
+          >
+            3동 ▾
+          </div>
+          <div
+            style={{
+              display: "flex",
+              padding: "6px 8px",
+              borderRadius: "10px",
+              backgroundColor: Common.color.purple03,
+              color: Common.color.white01,
+            }}
+          >
+            B302 ▾
+          </div>
         </div>
         <div
           style={{
-            width: "384px",
-            minHeight: "460px",
+            width: "100%",
             display: "flex",
             flexWrap: "wrap",
-            justifyContent: "space-between",
+            justifyContent: "flex-start",
             alignItems: "flex-start",
-            marginTop: "10px",
+
+            gap: "10px",
           }}
         >
+          <NavLink to="detail">
+            <PatientItem type={"patient"} />
+          </NavLink>
+          <NavLink to="detail">
+            <PatientItem type={"patient"} />
+          </NavLink>
+          <NavLink to="detail">
+            <PatientItem type={"patient"} />
+          </NavLink>
+          <NavLink to="detail">
+            <PatientItem type={"patient"} />
+          </NavLink>
+          <NavLink to="detail">
+            <PatientItem type={"patient"} />
+          </NavLink>
+          <NavLink to="detail">
+            <PatientItem type={"patient"} />
+          </NavLink>
+          <NavLink to="detail">
+            <PatientItem type={"patient"} />
+          </NavLink>
+          <NavLink to="detail">
+            <PatientItem type={"patient"} />
+          </NavLink>
+          <NavLink to="detail">
+            <PatientItem type={"patient"} />
+          </NavLink>
+          <NavLink to="detail">
+            <PatientItem type={"patient"} />
+          </NavLink>
+          <NavLink to="detail">
+            <PatientItem type={"patient"} />
+          </NavLink>
+          <NavLink to="detail">
+            <PatientItem type={"patient"} />
+          </NavLink>
+          <NavLink to="detail">
+            <PatientItem type={"patient"} />
+          </NavLink>
           <NavLink to="detail">
             <PatientItem type={"patient"} />
           </NavLink>
