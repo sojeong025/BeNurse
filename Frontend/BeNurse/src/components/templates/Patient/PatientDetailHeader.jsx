@@ -13,7 +13,7 @@ export default function PatientDetailHeader({ type }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          width: "382px",
+          width: "372px",
           height: "40px",
           marginBottom: "10px",
         }}

@@ -3,28 +3,10 @@ import HandOverListItem from "./HandOverListItem";
 
 export default function HandOverList() {
   return (
-    <div style={{ padding: "20px", boxSizing: "border-box" }}>
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
-      <HandOverListItem />
+    <div style={{ height: "600px", overflow: "scroll" }}>
+      <div style={{ padding: "0px 20px 20px 20px", boxSizing: "border-box" }}>
+        <HandOverListItem />
+      </div>
     </div>
   );
 }
