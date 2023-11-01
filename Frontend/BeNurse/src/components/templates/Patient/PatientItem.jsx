@@ -11,8 +11,8 @@ export default function PatientItem({ type }) {
   return (
     <Box
       type={"white"}
-      size={["180px", "188px"]}
-      margin={"0px 0px 18px 0px"}
+      size={["102px", "140px"]}
+      padding={"14px 10px"}
     >
       <div
         style={{
@@ -23,39 +23,37 @@ export default function PatientItem({ type }) {
           height: "140px",
         }}
       >
-        <p>내과 3동 B302</p>
+        <p style={{ fontSize: Common.fontSize.fontXS }}>내과 3동 B302</p>
         <img
           src={patientImg}
-          style={{ borderRadius: "300px" }}
+          style={{ borderRadius: "300px", width: "60px" }}
           alt=""
         />
-        <div
+        <p
           style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: "10px",
-            gap: "7px",
+            fontSize: Common.fontSize.fontS,
+            fontWeight: Common.fontWeight.extrabold,
           }}
         >
+          종박사 /
           <span
             style={{
-              fontSize: Common.fontSize.fontS,
-              fontWeight: Common.fontWeight.extrabold,
-            }}
-          >
-            종박사 남 52
-          </span>
-          <span
-            style={{
-              fontSize: Common.fontSize.fontS,
+              fontSize: Common.fontSize.fontXXS,
               fontWeight: Common.fontWeight.regular,
             }}
           >
-            다리 외상
+            {" "}
+            52세 남
           </span>
-        </div>
+        </p>
+        <p
+          style={{
+            fontSize: Common.fontSize.fontS,
+            fontWeight: Common.fontWeight.regular,
+          }}
+        >
+          다리 외상
+        </p>
       </div>
     </Box>
   );
