@@ -96,7 +96,7 @@ export default function NavBar() {
     >
       <span
         style={{
-          fontSize: Common.fontSize.fontL,
+          fontSize: Common.fontSize.fontM,
           fontWeight: Common.fontWeight.extrabold,
           letterSpacing: "1px",
         }}
