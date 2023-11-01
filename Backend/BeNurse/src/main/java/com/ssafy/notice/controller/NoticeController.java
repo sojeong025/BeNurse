@@ -43,7 +43,6 @@ public class NoticeController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	@CachePut(value = "notice", key = "#notice.ID")
 	public APIResponse<Notice> registNotice(Notice notice) {
 
 		notice.setTime(LocalDateTime.now());
