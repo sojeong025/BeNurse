@@ -9,11 +9,9 @@ import {
   NativeEventEmitter,
   Platform,
   PermissionsAndroid,
-  FlatList,
   View,
-  Dimensions,
 } from 'react-native';
-import {LineChart} from 'react-native-chart-kit';
+
 const SECONDS_TO_SCAN_FOR = 60;
 const SERVICE_UUIDS: string[] = [];
 const ALLOW_DUPLICATES = false;
@@ -40,7 +38,7 @@ const Scan_Modal = () => {
   const [peripherals, setPeripherals] = useState(
     new Map<Peripheral['id'], Peripheral>(),
   );
-
+  var seninit = false;
   //탐색하고자 하는 블루투스 신호의 mac address
   const mac_add: string[] = [
     'E3:2F:4B:F3:F2:77',
@@ -94,25 +92,29 @@ const Scan_Modal = () => {
     // console.log(peripheral.name);
     if (peripheral.id === 'CA:87:66:3E:6E:38') {
       addOrUpdatePeripheral(peripheral.id, peripheral);
+      if (seninit) return;
+      seninit = true;
       BleManager.connect(peripheral.id)
         .then(() => {
           // Success code
           console.log('Connected');
 
           BleManager.stopScan().then(() => {
-            console.debug('[app]scan stopped by close modal');
+            console.debug('[app]scan stopped by connect');
 
             const intervalid = setInterval(readRssi, 1000, 'CA:87:66:3E:6E:38');
             setTimeout(() => {
               clearInterval(intervalid);
               console.log('rssi측정 종료');
               BleManager.disconnect('CA:87:66:3E:6E:38', true);
-            }, 30000);
+              seninit = false;
+            }, 60000);
           });
         })
         .catch(error => {
           // Failure code
           console.log(error);
+          seninit = false;
         });
     }
   };
@@ -197,40 +199,6 @@ const Scan_Modal = () => {
   return (
     <View>
       <Text>Bezier Line Chart</Text>
-      <LineChart
-        data={{
-          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-          datasets: [
-            {
-              data: [90, 50, 80, 50, 40, 60],
-            },
-          ],
-        }}
-        width={Dimensions.get('window').width} // from react-native
-        height={420}
-        yAxisInterval={1} // optional, defaults to 1
-        fromZero={true}
-        chartConfig={{
-          backgroundColor: '#e26a00',
-          backgroundGradientFrom: '#fb8c00',
-          backgroundGradientTo: '#ffa726',
-          decimalPlaces: 2, // optional, defaults to 2dp
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          style: {
-            borderRadius: 16,
-          },
-          propsForDots: {
-            r: '6',
-            strokeWidth: '2',
-            stroke: '#ffa726',
-          },
-        }}
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
-      />
     </View>
   );
 };

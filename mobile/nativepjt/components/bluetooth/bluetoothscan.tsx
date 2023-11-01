@@ -13,7 +13,7 @@ import {
   View,
 } from 'react-native';
 
-const SECONDS_TO_SCAN_FOR = 10;
+const SECONDS_TO_SCAN_FOR = 30;
 const SERVICE_UUIDS: string[] = [];
 const ALLOW_DUPLICATES = false;
 
@@ -93,6 +93,13 @@ const Scan_Modal = () => {
 
     if (mac_add.includes(peripheral.id)) {
       addOrUpdatePeripheral(peripheral.id, peripheral);
+      BleManager.connect(peripheral.id).then(() => {
+        console.debug(peripheral.name, ' : connected');
+        BleManager.getConnectedPeripherals([]).then(peripheralsArray => {
+          // Success code
+          console.log('Connected peripherals: ' + peripheralsArray.length);
+        });
+      });
     }
   };
 
@@ -139,6 +146,16 @@ const Scan_Modal = () => {
       ]).then(result => {
         if (result) {
           startScan();
+          BleManager.getDiscoveredPeripherals([]).then(peripheralsArray => {
+            // Success code
+            peripheralsArray.forEach(device => {
+              if (mac_add.includes(device.id)) {
+                console.debug(device.name);
+                console.debug(device.rssi);
+                console.debug('==========');
+              }
+            });
+          });
           console.debug(
             '[handleAndroidPermissions] User accepts runtime permissions android 12+',
           );
