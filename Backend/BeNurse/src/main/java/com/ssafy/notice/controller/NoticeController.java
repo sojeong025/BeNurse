@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,9 +59,9 @@ public class NoticeController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	@Cacheable(value="notice")
-	public APIResponse<List<Notice>> getAllNotice() {
+	public ResponseEntity<List<Notice>> getAllNotice() {
 		List<Notice> notice = noticeRepo.findAll();
-	    return new APIResponse<>(notice, HttpStatus.OK);
+	    return new ResponseEntity<>(notice, HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
