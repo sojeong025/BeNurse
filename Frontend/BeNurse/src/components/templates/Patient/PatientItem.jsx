@@ -36,15 +36,7 @@ export default function PatientItem({ type }) {
           }}
         >
           종박사 /
-          <span
-            style={{
-              fontSize: Common.fontSize.fontXXS,
-              fontWeight: Common.fontWeight.regular,
-            }}
-          >
-            {" "}
-            52세 남
-          </span>
+          <span style={{ fontSize: Common.fontSize.font }}>52세 남</span>
         </p>
         <p
           style={{
