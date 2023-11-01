@@ -10,7 +10,7 @@ public class WebConfig implements WebMvcConfigurer{
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("v2/api-docs")
-		.allowedOrigins("http://localhost:8080")
+		.allowedOrigins("http://k9e105.p.ssafy.io:9000")
 		.allowedMethods("GET", "POST", "PUT", "DELETE");
 	}
 }
