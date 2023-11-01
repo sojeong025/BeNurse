@@ -26,7 +26,6 @@ public class SwaggerConfig {
     public Docket apiV1() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("groupName1")
-                .host("127.0.0.1:8080")
                 .select()
                 .apis(RequestHandlerSelectors.
                         basePackage("com.ssafy"))
