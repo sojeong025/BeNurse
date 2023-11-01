@@ -14,6 +14,8 @@ import PatientDetailPage from "@pages/PatientPage/PatientDetailPage";
 
 import HandOverPage from "@pages/HandOverPage/HandOverPage";
 import HandOverWritePage from "@pages/HandOverPage/HandOverWritePage";
+import HandOverListPage from "@pages/HandOverPage/HandOverListPage";
+import TemporaryListPage from "@pages/HandOverPage/TemporaryListPage";
 
 import SchedulePage from "@pages/SchedulePage/SchedulePage";
 import OffApplicationPage from "@pages/SchedulePage/OffApplicationPage";
@@ -82,6 +84,14 @@ export default function routes() {
         element={<HandOverWritePage />}
       />
       <Route
+        path="/handover-list"
+        element={<HandOverListPage />}
+      />
+      <Route
+        path="/temporary-list"
+        element={<TemporaryListPage />}
+      />
+      <Route
         path="/schedule"
         element={<SchedulePage />}
       />
@@ -101,9 +111,18 @@ export default function routes() {
         path="/notice"
         element={<NoticePage />}
       >
-        <Route path="" element={<NoticeListPage/>} />
-        <Route path="write" element={<NoticeWritePage/>} />
-        <Route path=":noticeId/update" element={<NoticeUpdatePage/>} />
+        <Route
+          path=""
+          element={<NoticeListPage />}
+        />
+        <Route
+          path="write"
+          element={<NoticeWritePage />}
+        />
+        <Route
+          path=":noticeId/update"
+          element={<NoticeUpdatePage />}
+        />
       </Route>
     </Routes>
   );
