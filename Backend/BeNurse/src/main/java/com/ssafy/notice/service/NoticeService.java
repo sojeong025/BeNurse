@@ -1,5 +1,8 @@
 package com.ssafy.notice.service;
 
-public class NoticeService {
+import org.springframework.stereotype.Service;
 
+@Service
+public class NoticeService {
+	
 }

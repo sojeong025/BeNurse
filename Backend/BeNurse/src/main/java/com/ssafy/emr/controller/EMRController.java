@@ -47,7 +47,10 @@ public class EMRController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<List<Journal>> getAllJournal() {
-		return emrService.getAllJournal();
+		ResponseEntity<List<Journal>> journals = emrService.getAllJournal();
+		log.info(journals.getBody().toString());
+		return journals;
+		//return emrService.getAllJournal();
 	}
 	
 	// 간호일지 정보 조회 GET
