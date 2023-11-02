@@ -37,9 +37,9 @@ public class OauthController {
 		@ApiResponse(code = 404, message = "인증 오류"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<TokenInfo> kakaoLogin(@RequestParam("code") String code) {
+	public APIResponse<TokenInfo> kakaoLogin(@RequestParam("redirectUri") String kakao_redirect_url, @RequestParam("code") String code) {
 		try {
-			return new APIResponse(oauthService.kakaoLogin(code), HttpStatus.OK);
+			return new APIResponse(oauthService.kakaoLogin(kakao_redirect_url, code), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new APIResponse(HttpStatus.UNAUTHORIZED);

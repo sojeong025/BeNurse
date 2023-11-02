@@ -43,12 +43,8 @@ public class OauthService {
 
 	@Value("${kakao.client.id}")
 	private String KAKAO_CLIENT_ID;
-
 	@Value("${kakao.client.secret}")
 	private String KAKAO_CLIENT_SECRET;
-
-	@Value("${kakao.redirect.url}")
-	private String KAKAO_REDIRECT_URL;
 
 	@Autowired
 	private final NurseRepository nurseRepo;
@@ -56,7 +52,7 @@ public class OauthService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordEncoder passwordEncoder;
 
-	public TokenInfo kakaoLogin(String code) {
+	public TokenInfo kakaoLogin(String kakao_redirect_url, String code) {
 		log.info("인가 코드를 이용하여 토큰을 받습니다.");
 
 		String accessToken = "";
@@ -64,13 +60,13 @@ public class OauthService {
 
 		try {
 			HttpHeaders headers = new HttpHeaders();
-			headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8	");
+			headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
 			MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 			params.add("grant_type", "authorization_code");
 			params.add("client_id", KAKAO_CLIENT_ID);
 			params.add("client_secret", KAKAO_CLIENT_SECRET);
-			params.add("redirect_uri", KAKAO_REDIRECT_URL);
+			params.add("redirect_uri", kakao_redirect_url);
 			params.add("code", code);
 
 			RestTemplate restTemplate = new RestTemplate();
