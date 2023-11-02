@@ -29,7 +29,15 @@ function App() {
 
 function ButtonClick() {
   if (window.ReactNativeWebView) {
-    window.ReactNativeWebView.postMessage("click_event");
+    window.ReactNativeWebView.postMessage(
+      JSON.stringify({
+        type: "device use",
+        data: {
+          nurse: "간호사 pk",
+          hospital: "병원 pk",
+        },
+      })
+    );
   } else {
     //다른데서 열었을때
     return;

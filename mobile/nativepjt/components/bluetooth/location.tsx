@@ -154,7 +154,7 @@ const location = () => {
           startScan();
           Alert.alert('시작');
         }}
-        title="nfctagstart"
+        title="blescanstart"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
       />

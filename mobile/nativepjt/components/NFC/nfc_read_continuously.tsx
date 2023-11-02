@@ -18,14 +18,24 @@ const temp_data = (tagid: string) => {
     };
   } else if (tagid === '531E31E2500001') {
     return {
+      type: 'patient',
+      data: {
+        name: '공룡',
+      },
+    };
+  } else if (tagid === '537331E2500001') {
+    return {
       type: 'device',
       data: {
-        name: '플립',
+        name: '팜레스트',
       },
     };
   } else {
     return {
       type: 'unknown',
+      data: {
+        name: 'unknown',
+      },
     };
   }
 };
