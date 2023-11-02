@@ -1,13 +1,6 @@
 import {useState, useEffect} from 'react';
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  FlatList,
-  Button,
-} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Button, Alert} from 'react-native';
 import NfcManager, {
   NfcTech,
   NfcEvents,
@@ -77,7 +70,7 @@ function App() {
         //데이터 저장
         setread_data(data => new data_templat(nfcdata.data.name, data.device));
         //비트연산으로 데이터 저장 상태 갱신
-        setinfostatus(num => num | (1 << 0));
+        setinfostatus(num => num | 0b01);
       }
       // 조건 분기 장비인 경우
       else if (nfcdata.type === 'device') {
@@ -85,7 +78,7 @@ function App() {
         //데이터 저장
         setread_data(data => new data_templat(data.patient, nfcdata.data.name));
         //비트연산으로 데이터 저장 상태 갱신
-        setinfostatus(num => num | (1 << 1));
+        setinfostatus(num => num | 0b10);
       }
     });
     try {
@@ -94,8 +87,8 @@ function App() {
       console.log('ex', ex);
     }
     console.log(infostatus);
-    if (infostatus === ((1 << 0) | (1 << 1))) {
-      console.log('스캔 중지');
+    if (infostatus === 0b11) {
+      Alert.alert('장비, 환자 인식완료 nfc스캔 중지');
       NfcManager.unregisterTagEvent();
     }
 
@@ -103,15 +96,6 @@ function App() {
       NfcManager.unregisterTagEvent();
     };
   }, [read_data, infostatus]);
-
-  const renderItem = ({item}: {item: string}) => {
-    return (
-      <Text style={{color: 'white'}}>
-        {item}
-        {'\n'}
-      </Text>
-    );
-  };
 
   return (
     <View style={styles.wrapper}>
