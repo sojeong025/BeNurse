@@ -5,11 +5,18 @@ export const SelectContainer = styled.div`
   display: flex;
   gap: 10px;
 
+  & input {
+    color: ${Common.color.white01} !important;
+  }
+
   & .ant-select:hover .ant-select-selector {
+    box-shadow: none !important;
     border-color: transparent !important;
   }
 
-  & input {
+  & .ant-select-selection-placeholder,
+  .ant-select-selection-item {
+    font-size: ${Common.fontSize.fontS} !important;
     color: ${Common.color.white01} !important;
   }
   & .ant-select {

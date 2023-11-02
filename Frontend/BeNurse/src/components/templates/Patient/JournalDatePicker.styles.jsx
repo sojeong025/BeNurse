@@ -1,10 +1,6 @@
 import styled from "@emotion/styled";
 import { Common } from "@utils/global.styles.jsx";
 
-export const MainContainer = styled.div`
-  width: 100%;
-`;
-
 export const HorizontalDatePicker = styled.div`
   margin-top: 73px;
   padding-bottom: 10px;
@@ -75,8 +71,18 @@ export const DateButtonContainer = styled.div`
   gap: 15px;
   overflow-x: auto;
   width: 100%;
-  /* scroll-snap-type: x mandatory; */
   position: relative;
+`;
+
+export const SelectedDateBox = styled.div`
+  position: absolute;
+  bottom: 12px;
+  left: 180px;
+  background-color: #ffffffe0;
+  width: 50px;
+  height: 70px;
+  z-index: 0;
+  border-radius: 10px;
 `;
 
 export const DateButton = styled.div`
@@ -96,36 +102,9 @@ export const DateButton = styled.div`
   }
 
   &.active {
-    /* background-color: ${Common.color.white01}; */
     z-index: 100;
     font-size: 16px;
     color: ${Common.color.black03};
     border-radius: 7px;
-  }
-`;
-
-export const TimeLineContainer = styled.div`
-  padding-top: 10px;
-  height: calc(100% - 220px);
-  overflow-y: auto;
-  width: 100%;
-`;
-
-export const JournalItemContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding-bottom: 50px;
-  min-height: calc(100% - 60px);
-
-  & > .timeline-border {
-    position: absolute;
-    top: 0;
-    left: 21px;
-    height: 101%;
-    border-left: 2px solid ${Common.color.purple04};
-    margin-top: -14px;
   }
 `;
