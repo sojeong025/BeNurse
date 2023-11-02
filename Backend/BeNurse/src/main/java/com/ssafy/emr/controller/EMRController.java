@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "*")
 @Api(value = "EMR API", tags = { "EMR." })
 @RestController
-@RequestMapping("/api/benurse/EMR")
+@RequestMapping("/api/benurse/emr")
 @Slf4j
 public class EMRController {
 
