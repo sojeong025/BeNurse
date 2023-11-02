@@ -9,6 +9,6 @@ import com.ssafy.Handover.model.HandoverList;
 
 @Repository
 public interface HandoverListRepository extends JpaRepository<HandoverList, Long> {
-	List<HandoverList> findBySetID(long SetID);
-	List<HandoverList> findByHandoverID(long HandoverID);
+	List<HandoverList> findAllBySetID(long SetID);
+	List<HandoverList> findAllByHandoverID(long HandoverID);
 }

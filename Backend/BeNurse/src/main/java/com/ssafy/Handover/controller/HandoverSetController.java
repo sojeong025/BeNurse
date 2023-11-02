@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.Handover.model.Handover;
+import com.ssafy.Handover.model.HandoverList;
 import com.ssafy.Handover.model.HandoverSet;
+import com.ssafy.Handover.service.HandoverListRepository;
+import com.ssafy.Handover.service.HandoverRepository;
 import com.ssafy.Handover.service.HandoverSetRepository;
 import com.ssafy.common.utils.APIResponse;
 
@@ -33,6 +37,12 @@ public class HandoverSetController {
 	
 	@Autowired
 	HandoverSetRepository setRepo;
+	
+	@Autowired
+	HandoverListRepository listRepo;
+	
+	@Autowired
+	HandoverRepository handoverRepo;
 	
 	
 	// 인계장 묶음 생성 POST
@@ -98,7 +108,7 @@ public class HandoverSetController {
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<List<HandoverSet>> getHandoverSetByGiveId(@RequestParam("GIVE_ID") long giveID) {
-	    List<HandoverSet> handoverSet = setRepo.findByGiveID(giveID);
+	    List<HandoverSet> handoverSet = setRepo.findAllByGiveID(giveID);
 
         return new APIResponse<>(handoverSet, HttpStatus.OK);
 	}
@@ -117,6 +127,14 @@ public class HandoverSetController {
 	    Optional<HandoverSet> handoverSet = setRepo.findById(ID);
 
 	    if(handoverSet.isPresent()) {
+	    	List<HandoverList> list = listRepo.findAllBySetID(ID);
+	    	for(HandoverList l : list) {
+	    		Optional<Handover> handover = handoverRepo.findById(l.getHandoverID());
+	    		if(handover.isPresent())
+	    			handoverRepo.delete(handover.get());
+	    		listRepo.delete(l);
+	    	}
+
 	    	setRepo.delete(handoverSet.get());
 			return new APIResponse(HttpStatus.OK);
 		}
