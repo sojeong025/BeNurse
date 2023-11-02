@@ -75,16 +75,15 @@ public class InviteController {
 	})
 	public APIResponse<Void> authInviteCode(@RequestHeader("Access-Token") String token, @RequestParam("code") String code) {
 
-		Optional<Nurse> nurse;
+		Nurse nurse;
 		// 사용자 조회
 		try {
-			String email = oauthService.getUserEmail(token);
-			nurse = nurseRepo.findByEmail(email);
+			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
 			return new APIResponse(HttpStatus.UNAUTHORIZED);
 		}
-		Nurse user = nurse.get();
+		Nurse user = nurse;
 		// 초대코드 조회
 		try {
 			Optional<Invite> found = invRepo.findById(code);
