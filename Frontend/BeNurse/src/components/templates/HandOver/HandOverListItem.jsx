@@ -17,45 +17,56 @@ export default function HandOverListItem() {
         flex={["space-between", "center"]}
         border={true}
       >
-        <img
-          src={HandOverItem}
-          alt=""
-        />
-        <div style={{ width: "200px" }}>
-          <p
+        <div style={{ display: "flex" }}>
+          <img
+            src={HandOverItem}
+            style={{ width: "28px" }}
+            alt=""
+          />
+          <div
             style={{
-              fontSize: Common.fontSize.fontS,
-              fontWeight: Common.fontWeight.bold,
+              marginLeft: "16px",
+              height: "40px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-around",
             }}
           >
-            데이 타임 인계장
-          </p>
-          <p style={{ fontSize: Common.fontSize.fontXS }}>2023.10.19 (목)</p>
+            <p
+              style={{
+                fontSize: Common.fontSize.fontS,
+                fontWeight: Common.fontWeight.bold,
+              }}
+            >
+              데이 타임 인계장
+            </p>
+            <p style={{ fontSize: Common.fontSize.fontXS }}>2023.10.19 (목)</p>
+          </div>
         </div>
         <div>
           <img
             style={{
-              height: "50px",
+              height: "40px",
               borderRadius: "50px",
               border: "1px solid gray",
-              marginRight: "-25px",
+              marginRight: "-15px",
             }}
             src={nurse}
             alt=""
           />
           <img
             style={{
-              height: "50px",
+              height: "40px",
               borderRadius: "50px",
               border: "1px solid gray",
-              marginRight: "-25px",
+              marginRight: "-15px",
             }}
             src={nurse}
             alt=""
           />
           <img
             style={{
-              height: "50px",
+              height: "40px",
               borderRadius: "50px",
               border: "1px solid gray",
             }}

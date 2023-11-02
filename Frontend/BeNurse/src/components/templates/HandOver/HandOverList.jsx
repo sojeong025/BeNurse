@@ -6,6 +6,8 @@ export default function HandOverList() {
     <div style={{ height: "600px", overflow: "scroll" }}>
       <div style={{ padding: "0px 20px 20px 20px", boxSizing: "border-box" }}>
         <HandOverListItem />
+        <HandOverListItem />
+        <HandOverListItem />
       </div>
     </div>
   );

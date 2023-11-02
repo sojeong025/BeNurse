@@ -2,11 +2,11 @@ import React from "react";
 import Container from "@components/atoms/Container/Container";
 import Box from "@components/atoms/Box/Box";
 import { NavLink } from "react-router-dom";
-import { NurseHeader, TemporaryBox, HandoverList } from "./HandOverPage.styles";
+import { WorkPart, TemporaryBox, HandoverList } from "./HandOverPage.styles";
 import write from "@assets/Images/write.png";
 import nurse from "@assets/Images/nurse.png";
-import item from "@assets/Icons/handoveritem.svg";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import HandOverListItem from "@components/templates/HandOver/HandOverListItem";
 
 export default function HandOverPage() {
   return (
@@ -20,82 +20,98 @@ export default function HandOverPage() {
           paddingTop: "14px",
         }}
       >
-        <NurseHeader>
-          <Box
-            type="purple03"
-            size={["170px", "50px"]}
-            flex={["center", "center"]}
-            props={"border-radius: 100px"}
-          >
-            <img
-              className="nurse-image"
-              src={nurse}
-            />
-            <div className="nurse-info">
-              <h5>DAY PART</h5>
-              <p>내과 5동 정은경</p>
-            </div>
-          </Box>
-          <Box
-            type="purple03"
-            size={["170px", "50px"]}
-            border-radius="100%"
-            flex={["center", "center"]}
-            props={"border-radius: 100px"}
-          >
-            <div className="nurse-info">
-              <h5 style={{ textAlign: "end" }}>NIGHT PART</h5>
-              <p>내과 5동 정은경</p>
-            </div>
-            <img
-              className="nurse-image"
-              src={nurse}
-            />
-          </Box>
-        </NurseHeader>
-
-        {/* 새 인계장 작성 박스 */}
-        <div style={{ marginBottom: "20px" }}>
-          <NavLink to="/handover-write">
+        <WorkPart>
+          <div className="title">근무 파트</div>
+          <div className="nurse-list">
             <Box
-              type="purple03"
-              size={["384px", "100px"]}
-              font="18px"
-              flex={["end", "center"]}
-              position="relative"
+              type="white"
+              size={["120px", "50px"]}
+              flex={["space-around", "center"]}
             >
+              <div className="nurse-info">
+                <h5>이전 파트</h5>
+                <p>정은경 간호사</p>
+              </div>
               <img
-                src={write}
-                alt=""
-                style={{
-                  width: "200px",
-                  position: "absolute",
-                  left: "3%",
-                  top: "16%",
-                }}
+                className="nurse-image"
+                src={nurse}
               />
-              <span style={{ fontWeight: "bold", marginRight: "36px" }}>
-                새 인계장 작성하기
-              </span>
             </Box>
-          </NavLink>
-        </div>
+            <Box
+              type="purple02"
+              size={["120px", "50px"]}
+              flex={["space-around", "center"]}
+              // props={"border:1px solid #555555"}
+            >
+              <div className="nurse-info">
+                <h5>현재 파트</h5>
+                <p>정소정 간호사</p>
+              </div>
+              <img
+                className="nurse-image"
+                src={nurse}
+              />
+            </Box>
+            <Box
+              type="white"
+              size={["120px", "50px"]}
+              flex={["space-around", "center"]}
+            >
+              <div className="nurse-info">
+                <h5>다음 파트</h5>
+                <p>김대웅 간호사</p>
+              </div>
+              <img
+                className="nurse-image"
+                src={nurse}
+              />
+            </Box>
+          </div>
+
+          {/* 새 인계장 작성 박스 */}
+          <div style={{ marginBottom: "10px" }}>
+            <div className="title">인계장 작성</div>
+            <NavLink to="/handover-write">
+              <Box
+                type="purple03"
+                size={["384px", "100px"]}
+                font="18px"
+                flex={["start", "center"]}
+                position="relative"
+              >
+                <img
+                  src={write}
+                  alt=""
+                  style={{
+                    width: "200px",
+                    position: "absolute",
+                    left: "48%",
+                    top: "20%",
+                  }}
+                />
+                <span style={{ fontWeight: "bold", marginLeft: "36px" }}>
+                  새 인계장 작성하기
+                </span>
+              </Box>
+            </NavLink>
+          </div>
+        </WorkPart>
 
         {/* 임시저장 박스 */}
         <TemporaryBox>
           <NavLink to="/temporary-list">
             <Box
-              type="purple02"
-              size={["384px", "70px"]}
-              flex={["space-around", "center"]}
+              type="white"
+              size={["384px", "60px"]}
+              flex={["start", "center"]}
             >
-              <div>
-                <p style={{ color: "#555555" }}>임시저장 불러오기</p>
-              </div>
-              <div className="right">
-                <div className="list-count">3</div>
-                <div className="arrow">
-                  <MdKeyboardArrowRight />
+              <div className="temporary-box">
+                <p className="temporary-title">임시저장 불러오기</p>
+                <div className="right">
+                  <p className="list-count">3</p>
+                  <p className="arrow">
+                    <MdKeyboardArrowRight />
+                  </p>
                 </div>
               </div>
             </Box>
@@ -104,27 +120,25 @@ export default function HandOverPage() {
 
         {/* 받은 인계장 보관함 */}
         <HandoverList>
+          <div className="handover-header">
+            <div className="title">최근 받은 인계장</div>
+            <NavLink to="/handover-list">
+              <h5>
+                전체보기 <MdKeyboardArrowRight />
+              </h5>
+            </NavLink>
+          </div>
           <Box
             type="white"
-            size={["384px", "326px"]}
+            size={["384px", "294px"]}
             props={"flex-direction:column"}
             flex={["start"]}
           >
             <div className="temporary-container">
-              <div className="handover-header">
-                <h2>받은 인계장 보관함</h2>
-                <NavLink to="/handover-list">
-                  <h5>
-                    전체보기 <MdKeyboardArrowRight />
-                  </h5>
-                </NavLink>
-              </div>
-
               <div>
-                <img
-                  src={item}
-                  alt=""
-                />
+                <HandOverListItem />
+                <HandOverListItem />
+                <HandOverListItem />
               </div>
             </div>
           </Box>

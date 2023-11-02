@@ -1,13 +1,24 @@
 import styled from "@emotion/styled";
 import { Common } from "@utils/global.styles.jsx";
 
-export const NurseHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 40px;
+export const WorkPart = styled.div`
+  & .title {
+    font-size: ${Common.fontSize.fontS};
+    color: ${Common.color.black02};
+    margin-bottom: 10px;
+    font-weight: ${Common.fontWeight.bold};
+  }
 
+  & .nurse-list {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
   & .nurse-image {
-    width: 46.5px;
+    width: 25px;
+    border: 1px solid #696969;
+    border-radius: 100%;
   }
 
   & .nurse-info {
@@ -18,6 +29,8 @@ export const NurseHeader = styled.div`
 
     h5 {
       font-size: 9px;
+      color: ${Common.color.purple04};
+      font-weight: ${Common.fontWeight.bold};
     }
   }
 `;
@@ -25,11 +38,20 @@ export const NurseHeader = styled.div`
 export const TemporaryBox = styled.div`
   margin-bottom: 30px;
 
-  & .right {
+  & .temporary-box {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 18%;
+    width: 100%;
+  }
+  & .temporary-title {
+    margin-left: 36px;
+    font-weight: ${Common.fontWeight.bold};
+  }
+
+  & .right {
+    display: flex;
+    align-items: center;
   }
 
   & .list-count {
@@ -38,8 +60,8 @@ export const TemporaryBox = styled.div`
     z-index: 1;
     &::before {
       content: "";
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       border-radius: 100%;
       background-color: ${Common.color.purple03};
       position: absolute;
@@ -50,14 +72,14 @@ export const TemporaryBox = styled.div`
     }
   }
   & .arrow {
-    font-size: 40px;
+    font-size: 30px;
     color: ${Common.color.black01};
     padding-top: 6px;
+    margin: 0 20px;
   }
 `;
 
 export const HandoverList = styled.div`
-  display: flex;
   & .temporary-container {
     margin: 18px;
   }
@@ -66,15 +88,19 @@ export const HandoverList = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 30px;
-    margin-bottom: 20px;
     color: ${Common.color.black02};
+    margin-bottom: 10px;
+    margin-right: 5px;
 
-    h2 {
-      font-size: ${Common.fontSize.fontL};
-    }
-    h5 {
+    & .title {
       font-size: ${Common.fontSize.fontS};
+      color: ${Common.color.black02};
+      font-weight: ${Common.fontWeight.bold};
+    }
+
+    h5 {
+      font-size: ${Common.fontSize.fontXS};
+      color: ${Common.color.black02};
     }
   }
 `;
