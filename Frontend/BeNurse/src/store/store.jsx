@@ -1,9 +1,17 @@
 import { create } from "zustand";
+import moment from "moment";
 
 export const useLoginStore = create((set) => ({
   isLogin: false,
   Login: () => set((state) => ({ isLogin: true })),
   Logout: () => set((state) => ({ isLogin: false })),
+}));
+
+export const useDateStore = create((set) => ({
+  selectedDate: moment(),
+  setSelectedDate: (date) => {
+    set((state) => ({ selectedDate: date }));
+  },
 }));
 
 export const useDeviceStore = create((set) => ({
