@@ -5,17 +5,10 @@ import { Outlet } from "react-router-dom";
 import Logo_white from "@assets/Images/logo_white.svg";
 
 export default function AdminPage() {
-  const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
     document
       .querySelector("body")
       .setAttribute("style", "width: 100vw; height: 100vh;");
-    if (isLogin) {
-      navigate("signup");
-    } else {
-      navigate("role");
-    }
   }, []);
   return (
     <div>
