@@ -4,10 +4,11 @@ import { redirect, useNavigate } from "react-router-dom";
 import KAKAO from "@assets/Images/web_kakao_login.png";
 
 export default function AdminSignupPage() {
+  const navigate = useNavigate();
   const login = () => {
-    window.location.href =
-      "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=b0fd97eee94cd828a98545a4293a321f&redirect_uri=http://k9e105.p.ssafy.io:9000/api/benurse/oauth";
+    navigate("../role");
   };
+
   return (
     <div
       style={{

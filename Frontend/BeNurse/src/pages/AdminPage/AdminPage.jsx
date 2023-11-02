@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Common } from "../../utils/global.styles";
 import { useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
@@ -6,11 +6,16 @@ import Logo_white from "@assets/Images/logo_white.svg";
 
 export default function AdminPage() {
   const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
     document
       .querySelector("body")
       .setAttribute("style", "width: 100vw; height: 100vh;");
-    navigate("signup");
+    if (isLogin) {
+      navigate("signup");
+    } else {
+      navigate("role");
+    }
   }, []);
   return (
     <div>
