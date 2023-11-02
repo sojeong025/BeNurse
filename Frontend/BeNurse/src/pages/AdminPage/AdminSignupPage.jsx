@@ -5,6 +5,7 @@ export default function AdminSignupPage() {
   const handleLogin = () => {
     AuthenticationService.loginSocialKakao();
   };
+
   return (
     <div
       style={{
