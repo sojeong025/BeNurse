@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import { Common } from "../../utils/global.styles";
 import HandOverDetailInfo from "../../components/templates/HandOver/HandOverDetailInfo";
 
@@ -10,10 +10,7 @@ import Container from "../../components/atoms/Container/Container";
 import * as S from "./HandOverListPage.styles";
 
 export default function HandOverDetailPage() {
-  const navigate = useNavigate();
-  const nextStep = () => {
-    navigate("/");
-  };
+  const path = useLocation().pathname;
 
   return (
     <Container>
@@ -91,10 +88,9 @@ export default function HandOverDetailPage() {
               4
             </div>
           </div>
-          <HandOverDetailInfo />
+          <Outlet />
         </div>
       </S.StyledDiv>
-      <BottomButton onNextClick={nextStep} />
     </Container>
   );
 }

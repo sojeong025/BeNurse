@@ -15,7 +15,14 @@ import PatientDetailPage from "@pages/PatientPage/PatientDetailPage";
 import HandOverPage from "@pages/HandOverPage/HandOverPage";
 import HandOverWritePage from "@pages/HandOverPage/HandOverWritePage";
 import HandOverListPage from "@pages/HandOverPage/HandOverListPage";
+
 import HandOverDetailPage from "../pages/HandOverPage/HandOverDetailPage";
+import HandOverPatientList from "../components/templates/HandOver/HandOverPatientList";
+import HandOverDetailInfo from "../components/templates/HandOver/HandOverDetailInfo";
+import HandOverDetailDosage from "../components/templates/HandOver/HandOverDetailDosage";
+import HandOverDetailCC from "../components/templates/HandOver/HandOverDetailCC";
+import HandOverDetailSign from "../components/templates/HandOver/HandOverDetailSign";
+
 import TemporaryListPage from "@pages/HandOverPage/TemporaryListPage";
 
 import SchedulePage from "@pages/SchedulePage/SchedulePage";
@@ -89,13 +96,30 @@ export default function routes() {
         element={<HandOverListPage />}
       />
       <Route
-        path="/handover-list/handover-detail"
-        element={<HandOverDetailPage />}
+        path="/handover-list/patients"
+        element={<HandOverPatientList />}
       />
       <Route
-        path="/handover-list/handover-detail"
+        path="/handover-list/patients/detail"
         element={<HandOverDetailPage />}
-      />
+      >
+        <Route
+          path=""
+          element={<HandOverDetailInfo />}
+        />
+        <Route
+          path="dosage"
+          element={<HandOverDetailDosage />}
+        />
+        <Route
+          path="CC"
+          element={<HandOverDetailCC />}
+        />
+        <Route
+          path="sign"
+          element={<HandOverDetailSign />}
+        />
+      </Route>
 
       <Route
         path="/temporary-list"

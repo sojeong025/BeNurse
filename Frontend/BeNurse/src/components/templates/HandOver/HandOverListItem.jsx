@@ -10,7 +10,7 @@ import nurse from "@assets/Images/patient_temp.png";
 
 export default function HandOverListItem() {
   return (
-    <NavLink to="handover-detail">
+    <NavLink to="patients">
       <Box
         type={"transparent"}
         size={["100%", "62px"]}

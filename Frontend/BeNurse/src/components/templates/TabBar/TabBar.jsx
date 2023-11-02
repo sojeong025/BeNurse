@@ -23,7 +23,7 @@ export default function TabBar() {
       location.pathname === "/off-application" ||
       location.pathname === "/off-application-finish" ||
       location.pathname === "/handover-write" ||
-      location.pathname === "/handover-list/handover-detail"
+      location.pathname.startsWith("/handover-list/patients/detail")
     ) {
       setVisibility("none");
     } else {

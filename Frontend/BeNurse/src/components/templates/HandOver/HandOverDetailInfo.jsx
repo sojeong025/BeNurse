@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import PatientDetailHeader from "@components/templates/Patient/PatientDetailHeader";
 import PatientDetailItem from "@components/templates/Patient/PatientDetailItem";
 import PatientDetailProfile from "@components/templates/Patient/PatientDetailProfile";
@@ -7,7 +8,14 @@ import {
   PatientDetailItemContainer,
 } from "@pages/PatientPage/PatientDetail.styles.jsx";
 
+import BottomButton from "@components/atoms/Button/BottomButton";
+
 export default function HandOverDetailInfo() {
+  const navigate = useNavigate();
+  const nextStep = () => {
+    navigate("dosage");
+  };
+
   return (
     <div>
       <PatientDetailProfile />
@@ -30,7 +38,6 @@ export default function HandOverDetailInfo() {
           }}
         >
           <PatientDetailItemContainer>
-            <PatientDetailItem name="주호소" />
             <PatientDetailItem name="진단명" />
             <PatientDetailItem name="수술명" />
           </PatientDetailItemContainer>
@@ -53,6 +60,7 @@ export default function HandOverDetailInfo() {
             <PatientDetailItem name="알레르기" />
           </PatientDetailItemContainer>
         </div>
+        <BottomButton onNextClick={nextStep} />
       </PatientDetailContainer>
     </div>
   );
