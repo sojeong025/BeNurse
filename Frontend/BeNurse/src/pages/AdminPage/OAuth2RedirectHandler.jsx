@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { AuthenticationService } from "./AuthenticationService";
 
 // OAuth2 인증 처리를 위한 컴포넌트
@@ -8,7 +8,6 @@ const OAuth2RedirectHandler = () => {
   let params = new URL(document.URL).searchParams;
   let code = params.get("code");
   let navigate = useNavigate();
-  const [check, setCheck] = useState(false);
 
   // 토큰 요청 및 저장하는 함수
   async function fetchToken() {
@@ -24,23 +23,22 @@ const OAuth2RedirectHandler = () => {
       await AuthenticationService.registerSuccessfulLoginForJwt(
         res.data.responseData.accessToken,
       );
-      navigate("/admin/role");
+
+      let preLocation = localStorage.getItem("preLoginpath");
+
+      if (preLocation === "/login") {
+        navigate("/");
+      } else {
+        navigate("/admin/role");
+      }
     } catch (error) {
       console.log("kakaoLogin 실패");
     }
   }
 
-  // 컴포넌트가 마운트될 때 한 번만 실행
   useEffect(() => {
-    setCheck(true);
+    fetchToken();
   }, []);
-
-  // check 상태 변경 시 실행되는 효과
-  useEffect(() => {
-    if (check === true) {
-      fetchToken(); // 토큰 요청 및 저장
-    }
-  }, [check]);
 
   return <div>로그인 중</div>;
 };

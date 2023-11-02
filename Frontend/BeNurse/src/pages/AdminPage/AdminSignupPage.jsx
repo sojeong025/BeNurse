@@ -3,6 +3,7 @@ import KAKAO from "@assets/Images/web_kakao_login.png";
 
 export default function AdminSignupPage() {
   const handleLogin = () => {
+    localStorage.setItem("preLoginpath", window.location.pathname);
     AuthenticationService.loginSocialKakao();
   };
 
