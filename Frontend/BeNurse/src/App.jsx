@@ -1,4 +1,4 @@
-import { BrowserRouter, useLocation } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import Navigations from "./navigations/Navigations.jsx";
 
 import NavBar from "@components/templates/NavBar/NavBar";

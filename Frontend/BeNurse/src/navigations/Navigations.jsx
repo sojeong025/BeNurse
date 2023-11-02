@@ -38,6 +38,10 @@ import KakaoLoginPage from "@pages/LoginPage/KakaoLoginPage";
 import JoinPage from "@pages/LoginPage/JoinPage";
 import JoinNursePage from "@pages/LoginPage/JoinNursePage";
 
+import AdminPage from "../pages/AdminPage/AdminPage";
+import AdminSignupPage from "../pages/AdminPage/AdminSignupPage";
+import AdminSelectRolePage from "../pages/AdminPage/AdminSelectRolePage";
+
 export default function routes() {
   return (
     <Routes>
@@ -156,6 +160,19 @@ export default function routes() {
         <Route
           path=":noticeId/update"
           element={<NoticeUpdatePage />}
+        />
+      </Route>
+      <Route
+        path="/admin"
+        element={<AdminPage />}
+      >
+        <Route
+          path="signup"
+          element={<AdminSignupPage />}
+        />
+        <Route
+          path="role"
+          element={<AdminSelectRolePage />}
         />
       </Route>
     </Routes>

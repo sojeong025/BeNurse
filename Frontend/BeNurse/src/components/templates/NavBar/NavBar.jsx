@@ -75,6 +75,9 @@ export default function NavBar() {
       setNavBoxShadow("0px 4px 8px 0px rgba(213, 213, 213, 0.36) ");
       setVisibility("flex");
     }
+    if (path.startsWith("/admin")) {
+      setVisibility("none");
+    }
   }, [path]);
 
   return (

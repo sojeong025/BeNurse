@@ -29,6 +29,9 @@ export default function TabBar() {
     } else {
       setVisibility("flex");
     }
+    if (location.pathname.startsWith("/admin")) {
+      setVisibility("none");
+    }
   }, [location]);
 
   return (
