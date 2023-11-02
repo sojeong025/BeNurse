@@ -16,8 +16,8 @@ export const WorkPart = styled.div`
     margin-bottom: 30px;
   }
   & .nurse-image {
-    width: 25px;
-    border: 1px solid #696969;
+    width: 20px;
+    /* border: 1px solid #696969; */
     border-radius: 100%;
   }
 
@@ -25,7 +25,8 @@ export const WorkPart = styled.div`
     display: flex;
     flex-direction: column;
     font-size: ${Common.fontSize.fontXXS};
-    line-height: 17px;
+    line-height: 14px;
+    margin-left: 5px;
 
     h5 {
       font-size: 9px;

@@ -22,7 +22,6 @@ export default function TabBar() {
       location.pathname.startsWith("/login") ||
       location.pathname === "/off-application" ||
       location.pathname === "/off-application-finish" ||
-      location.pathname === "/handover-write" ||
       location.pathname.startsWith("/handover-list/patients/detail")
     ) {
       setVisibility("none");

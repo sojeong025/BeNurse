@@ -17,7 +17,7 @@ export default function HandOverPage() {
       <div
         style={{
           marginTop: "84px",
-          paddingTop: "14px",
+          paddingTop: "24px",
         }}
       >
         <WorkPart>
@@ -29,7 +29,7 @@ export default function HandOverPage() {
               flex={["space-around", "center"]}
             >
               <div className="nurse-info">
-                <h5>이전 파트</h5>
+                <h5>PRE</h5>
                 <p>정은경 간호사</p>
               </div>
               <img
@@ -44,7 +44,7 @@ export default function HandOverPage() {
               // props={"border:1px solid #555555"}
             >
               <div className="nurse-info">
-                <h5>현재 파트</h5>
+                <h5>NOW</h5>
                 <p>정소정 간호사</p>
               </div>
               <img
@@ -58,7 +58,7 @@ export default function HandOverPage() {
               flex={["space-around", "center"]}
             >
               <div className="nurse-info">
-                <h5>다음 파트</h5>
+                <h5>NEXT</h5>
                 <p>김대웅 간호사</p>
               </div>
               <img
@@ -130,12 +130,13 @@ export default function HandOverPage() {
           </div>
           <Box
             type="white"
-            size={["384px", "294px"]}
+            size={["384px", "286px"]}
             props={"flex-direction:column"}
             flex={["start"]}
           >
             <div className="temporary-container">
               <div>
+                <HandOverListItem />
                 <HandOverListItem />
                 <HandOverListItem />
                 <HandOverListItem />
