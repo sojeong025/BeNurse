@@ -98,7 +98,7 @@ public class HandoverSetController {
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<List<HandoverSet>> getHandoverSetByGiveId(@RequestParam("GIVE_ID") long giveID) {
-	    List<HandoverSet> handoverSet = setRepo.findByGiveId(giveID);
+	    List<HandoverSet> handoverSet = setRepo.findByGiveID(giveID);
 
         return new APIResponse<>(handoverSet, HttpStatus.OK);
 	}

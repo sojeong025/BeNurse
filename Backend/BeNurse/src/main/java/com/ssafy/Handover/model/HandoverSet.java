@@ -34,8 +34,8 @@ public class HandoverSet {
 	@Column(name = "ID")
 	private long ID;
 	
-	@Column(name = "HANDOVER_ID")
-	private long HandoverID;
+	@Column(name = "GIVE_ID")
+	private long giveID;
 	
 	@Column(name = "TIME")
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
