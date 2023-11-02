@@ -3,7 +3,6 @@ package com.ssafy.Handover.model;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.ssafy.common.converter.BooleanToYNConverter;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,4 +36,8 @@ public class HandoverSet {
 	
 	@Column(name = "HANDOVER_ID")
 	private long HandoverID;
+	
+	@Column(name = "TIME")
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+	private LocalDateTime time;
 }

@@ -62,7 +62,6 @@ public class HandoverSetController {
 		Optional<HandoverSet> optionHandoverSet = setRepo.findById(updatedHandoverSet.getID());
 		
 	    if (optionHandoverSet.isPresent()) {
-	        HandoverSet existingHandoverSet = optionHandoverSet.get();
 	        updatedHandoverSet.setTime(LocalDateTime.now());
 	        
 	        // 업데이트된 인계장을 저장
