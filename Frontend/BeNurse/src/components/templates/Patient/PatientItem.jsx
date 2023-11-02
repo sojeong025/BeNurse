@@ -26,7 +26,7 @@ export default function PatientItem({ type }) {
             height: "140px",
           }}
         >
-          <p style={{ fontSize: Common.fontSize.fontXS }}>내과 3동 B302</p>
+          <p style={{ fontSize: Common.fontSize.fontXXS }}>내과 3동 B302</p>
           <img
             src={patientImg}
             style={{ borderRadius: "300px", width: "60px" }}
@@ -38,8 +38,7 @@ export default function PatientItem({ type }) {
               fontWeight: Common.fontWeight.extrabold,
             }}
           >
-            종박사 /
-            <span style={{ fontSize: Common.fontSize.font }}>52세 남</span>
+            종박사
           </p>
           <p
             style={{
