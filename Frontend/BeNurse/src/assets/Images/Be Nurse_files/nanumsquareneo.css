@@ -1,0 +1,61 @@
+@font-face {
+ font-family: 'NanumSquareNeo';
+ font-weight: 400;
+ src: url(NanumSquareNeoTTF-bRg.eot);
+ src: local('☺'),
+      url(NanumSquareNeoTTF-bRg.eot?#iefix) format('embedded-opentype'),
+      url(NanumSquareNeoTTF-bRg.woff2) format('woff2'),
+      url(NanumSquareNeoTTF-bRg.woff) format('woff'),
+      url(NanumSquareNeoTTF-bRg.ttf) format('truetype');
+}
+@font-face {
+ font-family: 'NanumSquareNeo';
+ font-weight: 700;
+ src: url(NanumSquareNeoTTF-cBd.eot);
+ src: local('☺'),
+      url(NanumSquareNeoTTF-cBd.eot?#iefix) format('embedded-opentype'),
+      url(NanumSquareNeoTTF-cBd.woff2) format('woff2'),
+      url(NanumSquareNeoTTF-cBd.woff) format('woff'),
+      url(NanumSquareNeoTTF-cBd.ttf) format('truetype');
+}
+@font-face {
+ font-family: 'NanumSquareNeo';
+ font-weight: 800;
+ src: url(NanumSquareNeoTTF-dEb.eot);
+ src: local('☺'),
+      url(NanumSquareNeoTTF-dEb.eot?#iefix) format('embedded-opentype'),
+      url(NanumSquareNeoTTF-dEb.woff2) format('woff2'),
+      url(NanumSquareNeoTTF-dEb.woff) format('woff'),
+      url(NanumSquareNeoTTF-dEb.ttf) format('truetype');
+}
+@font-face {
+ font-family: 'NanumSquareNeo';
+ font-weight: 900;
+ src: url(NanumSquareNeoTTF-eHv.eot);
+ src: local('☺'),
+      url(NanumSquareNeoTTF-eHv.eot?#iefix) format('embedded-opentype'),
+      url(NanumSquareNeoTTF-eHv.woff2) format('woff2'),
+      url(NanumSquareNeoTTF-eHv.woff) format('woff'),
+      url(NanumSquareNeoTTF-eHv.ttf) format('truetype');
+}
+@font-face {
+ font-family: 'NanumSquareNeo';
+ font-weight: 300;
+ src: url(NanumSquareNeoTTF-aLt.eot);
+ src: local('☺'),
+      url(NanumSquareNeoTTF-aLt.eot?#iefix) format('embedded-opentype'),
+      url(NanumSquareNeoTTF-aLt.woff2) format('woff2'),
+      url(NanumSquareNeoTTF-aLt.woff) format('woff'),
+      url(NanumSquareNeoTTF-aLt.ttf) format('truetype');
+}
+
+/* Variable */
+@font-face {
+ font-family: 'NanumSquareNeoVariable';
+ src: url(NanumSquareNeo-Variable.eot);
+ src: local('☺'),
+      url(NanumSquareNeo-Variable.eot?#iefix) format('embedded-opentype'),
+      url(NanumSquareNeo-Variable.woff2) format('woff2'),
+      url(NanumSquareNeo-Variable.woff) format('woff'),
+      url(NanumSquareNeo-Variable.ttf) format('truetype');
+}

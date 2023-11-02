@@ -1,9 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Common } from "@utils/global.styles.jsx";
 
 import Input from "@components/atoms/Input/Input";
 import PatientItem from "@components/templates/Patient/PatientItem";
+import PatientFilterSelect from "@components/templates/Patient/PatientFilterSelect";
+
+import { Common } from "@utils/global.styles.jsx";
 
 export default function PatientListPage() {
   return (
@@ -14,64 +16,37 @@ export default function PatientListPage() {
         marginTop: "84px",
       }}
     >
-      <div style={{ position: "absolute", top: "14px" }}>
+      <div
+        style={{
+          position: "absolute",
+          top: "14px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+          boxShadow: `0px 0px 15px 20px ${Common.color.purple00} `,
+          zIndex: "1",
+        }}
+      >
         <Input
           width={"356px"}
           variant={"search"}
           placeholder={"환자 이름으로 검색"}
         />
+        <PatientFilterSelect />
       </div>
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
-          padding: "80px 0px 10px 0px",
+          paddingBottom: "50px",
+          marginTop: "125px",
           height: "586px",
           overflow: "scroll",
-          gap: "10px",
+          gap: "15px",
+          boxSizing: "border-box",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            gap: "10px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              padding: "6px 8px",
-              borderRadius: "10px",
-              backgroundColor: Common.color.purple03,
-              color: Common.color.white01,
-            }}
-          >
-            내과 ▾
-          </div>
-          <div
-            style={{
-              display: "flex",
-              padding: "6px 8px",
-              borderRadius: "10px",
-              backgroundColor: Common.color.purple03,
-              color: Common.color.white01,
-            }}
-          >
-            3동 ▾
-          </div>
-          <div
-            style={{
-              display: "flex",
-              padding: "6px 8px",
-              borderRadius: "10px",
-              backgroundColor: Common.color.purple03,
-              color: Common.color.white01,
-            }}
-          >
-            B302 ▾
-          </div>
-        </div>
         <div
           style={{
             width: "100%",
