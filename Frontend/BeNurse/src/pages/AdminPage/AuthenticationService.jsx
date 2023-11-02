@@ -11,8 +11,15 @@ export const AuthenticationService = {
     try {
       console.log("Received code:", code);
       const response = await axios.get(
-        `http://k9e105.p.ssafy.io:9000/api/benurse/oauth?code=${code}`,
+        `http://k9e105.p.ssafy.io:9000/api/benurse/oauth`,
+        {
+          params: {
+            code: code,
+            redirectUri: `http://localhost:5173/oauth/callback/kakao`,
+          },
+        },
       );
+
       console.log("kakaoLogin 성공");
       console.log(response.data);
 
