@@ -18,12 +18,13 @@ export default function PatientListPage() {
     >
       <div
         style={{
+          background: `${Common.color.purple00}`,
           position: "absolute",
           top: "14px",
           display: "flex",
           flexDirection: "column",
           gap: "12px",
-          boxShadow: `0px 0px 15px 20px ${Common.color.purple00} `,
+          boxShadow: `0px 0px 10px 10px ${Common.color.purple00} `,
           zIndex: "1",
         }}
       >
@@ -40,8 +41,9 @@ export default function PatientListPage() {
           flexDirection: "column",
           alignItems: "flex-start",
           paddingBottom: "50px",
-          marginTop: "125px",
-          height: "586px",
+          marginTop: "110px",
+          paddingTop: "20px",
+          height: "591px",
           overflow: "scroll",
           gap: "15px",
           boxSizing: "border-box",
