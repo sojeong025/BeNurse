@@ -21,31 +21,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+
 @Entity
 @Getter
 @Setter
-@Table(name = "HANDOVER")
+@Table(name = "HANDOVERSET")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @ToString
-public class Handover {
-
+public class HandoverSet {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private long ID;
 	
-	@Column(name = "PATIENT_ID")
-	private long patientID;
-	
-	@Column(name = "SPECIAL")
-	private String special;
-	
-	@Column(name = "ETC")
-	private String etc;
-	
-	@Column(name = "CC")
-	private String cc;
-
+	@Column(name = "HANDOVER_ID")
+	private long HandoverID;
 }
