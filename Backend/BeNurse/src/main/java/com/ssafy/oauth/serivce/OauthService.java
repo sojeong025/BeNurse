@@ -130,7 +130,14 @@ public class OauthService {
 		return jwtTokenProvider.generateToken(authentication);
 	}
 	
-	public String getUserEmail(String accessToken) {
-		return jwtTokenProvider.getUserEmail(accessToken);
+	public Nurse getUser(String accessToken) {
+		try {
+			String email = jwtTokenProvider.getUserEmail(accessToken);
+			Optional<Nurse> nurse = nurseRepo.findByEmail(email);
+			return nurse.get();
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

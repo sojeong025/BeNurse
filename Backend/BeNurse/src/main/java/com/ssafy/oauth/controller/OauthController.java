@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.common.jwt.TokenInfo;
 import com.ssafy.common.utils.APIResponse;
+import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
 
 import io.swagger.annotations.Api;
@@ -45,17 +46,17 @@ public class OauthController {
 		}
 	}
 
-	@GetMapping("/test/email")
-	@ApiOperation(value = "사용자 정보", notes = "서비스 토큰으로 사용자 이메일 조회(디버그용)")
+	@GetMapping("/test/user")
+	@ApiOperation(value = "사용자 정보", notes = "서비스 토큰으로 사용자 조회(디버그용)")
 	@ApiResponses({
-		@ApiResponse(code = 200, message = "성공", response = String.class),
+		@ApiResponse(code = 200, message = "성공", response = Nurse.class),
 		@ApiResponse(code = 404, message = "인증 오류"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<String> getEmail(@RequestHeader("Access-Token") String accessToken){
+	public APIResponse<Nurse> getUser(@RequestHeader("Access-Token") String accessToken){
 		try {
-			String email = oauthService.getUserEmail(accessToken);
-			return new APIResponse(email, HttpStatus.OK);
+			Nurse user = oauthService.getUser(accessToken);
+			return new APIResponse(user, HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
 			return new APIResponse(HttpStatus.UNAUTHORIZED);
