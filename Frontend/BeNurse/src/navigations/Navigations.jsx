@@ -38,9 +38,10 @@ import KakaoLoginPage from "@pages/LoginPage/KakaoLoginPage";
 import JoinPage from "@pages/LoginPage/JoinPage";
 import JoinNursePage from "@pages/LoginPage/JoinNursePage";
 
-import AdminPage from "../pages/AdminPage/AdminPage";
-import AdminSignupPage from "../pages/AdminPage/AdminSignupPage";
-import AdminSelectRolePage from "../pages/AdminPage/AdminSelectRolePage";
+import AdminPage from "@pages/AdminPage/AdminPage";
+import AdminSignupPage from "@pages/AdminPage/AdminSignupPage";
+import OAuth2RedirectHandler from "@pages/AdminPage/OAuth2RedirectHandler";
+import AdminSelectRolePage from "@pages/AdminPage/AdminSelectRolePage";
 
 export default function routes() {
   return (
@@ -175,6 +176,10 @@ export default function routes() {
           element={<AdminSelectRolePage />}
         />
       </Route>
+      <Route
+        path="/oauth/callback/kakao"
+        element={<OAuth2RedirectHandler />}
+      />
     </Routes>
   );
 }
