@@ -1,7 +1,5 @@
 package com.ssafy.invite.model;
 
-import javax.persistence.Entity;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -22,4 +20,5 @@ public class Invite {
 	private String inviteCode;
 	private long hospitalID;
 	private long groupID;
+	private String name;
 }

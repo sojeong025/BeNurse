@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,14 +43,22 @@ public class InviteController {
 	NurseRepository nurseRepo;
 	
 	@PostMapping("")
-	@ApiOperation(value = "초대코드 발급", notes = "병원 ID, 소속 ID가 등록된 초대코드를 생성, 발급한다.")
+	@ApiOperation(value = "초대코드 발급", notes = "초대코드를 생성, 발급한다. 초대 받을 사람의 이름이 필요")
 	@ApiResponses({
-		@ApiResponse(code = 200, message = "성공", response = Notice.class),
+		@ApiResponse(code = 200, message = "성공", response = String.class),
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<String> getInviteCode(@RequestParam("hospitalID") long hospitalID,  @RequestParam("groupID") long groupID) {
-
+	public APIResponse<String> getInviteCode(@RequestHeader("Authorization") String token, @RequestBody String name) {
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		
 		// 초대 코드 생성
 		String invCode = generateInviteCode();
 		
@@ -60,20 +69,20 @@ public class InviteController {
 			check = invRepo.findById(invCode);
 		}
 		log.info(invCode);
-		Invite inv = new Invite(invCode, hospitalID, groupID);
+		Invite inv = new Invite(invCode, nurse.getHospitalID(), nurse.getGroupID(), name);
 		
 	    invRepo.save(inv);
 	    return new APIResponse<>(inv.getInviteCode(), HttpStatus.OK);
 	}
 	
-	@GetMapping("")
-	@ApiOperation(value = "초대 코드 인증", notes = "초대 코드로 병원을 등록한다.")
+	@PostMapping("/auth")
+	@ApiOperation(value = "초대 코드 인증", notes = "초대 코드로 병원 소속을 등록한다.")
 	@ApiResponses({
-		@ApiResponse(code = 200, message = "성공", response = Notice.class),
+		@ApiResponse(code = 200, message = "성공", response = String.class),
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Void> authInviteCode(@RequestHeader("Access-Token") String token, @RequestParam("code") String code) {
+	public APIResponse<Void> authInviteCode(@RequestHeader("Authorization") String token, @RequestParam("code") String code) {
 
 		Nurse nurse;
 		// 사용자 조회
@@ -87,7 +96,10 @@ public class InviteController {
 		// 초대코드 조회
 		try {
 			Optional<Invite> found = invRepo.findById(code);
-			user.setHospitalID(found.get().getHospitalID());
+			Invite info = found.get();
+			user.setHospitalID(info.getHospitalID());
+			user.setGroupID(info.getGroupID());
+			user.setName(info.getName());
 			nurseRepo.save(user);
 			return new APIResponse(HttpStatus.OK);
 		}catch (Exception e) {
@@ -97,7 +109,7 @@ public class InviteController {
 	}
 	
 	@GetMapping("/check")
-	@ApiOperation(value = "초대 코드 확인(디버그용)", notes = "초대 코드에 등록된 내역을 확인한다.")
+	@ApiOperation(value = "초대 코드 내용 확인(디버그용)", notes = "초대 코드에 등록된 내역을 확인한다.")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = Notice.class),
 		@ApiResponse(code = 404, message = "결과 없음"),
