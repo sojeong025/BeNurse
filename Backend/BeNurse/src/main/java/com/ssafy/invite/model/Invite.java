@@ -19,6 +19,6 @@ public class Invite {
 	@Id
 	private String inviteCode;
 	private long hospitalID;
-	private long groupID;
+	private long wardID;
 	private String name;
 }

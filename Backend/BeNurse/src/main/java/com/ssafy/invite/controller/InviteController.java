@@ -71,7 +71,7 @@ public class InviteController {
 			check = invRepo.findById(invCode);
 		}
 		log.info(invCode);
-		Invite inv = new Invite(invCode, nurse.getHospitalID(), nurse.getGroupID(), (String)body.get("name"));
+		Invite inv = new Invite(invCode, nurse.getHospitalID(), nurse.getWardID(), (String)body.get("name"));
 		
 	    invRepo.save(inv);
 	    return new APIResponse<>(inv.getInviteCode(), HttpStatus.OK);
@@ -100,7 +100,7 @@ public class InviteController {
 			Optional<Invite> found = invRepo.findById((String)body.get("code"));
 			Invite info = found.get();
 			user.setHospitalID(info.getHospitalID());
-			user.setGroupID(info.getGroupID());
+			user.setWardID(info.getWardID());
 			user.setName(info.getName());
 			nurseRepo.save(user);
 			return new APIResponse(HttpStatus.OK);

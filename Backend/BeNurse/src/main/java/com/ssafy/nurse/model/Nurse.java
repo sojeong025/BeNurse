@@ -37,8 +37,8 @@ public class Nurse {
 	@Column(name = "HOSPITAL_ID")
 	private long hospitalID;
 	
-	@Column(name = "GROUP_ID")
-	private long groupID;
+	@Column(name = "WARD_ID")
+	private long wardID;
 	
 	@Column(name = "ANNUAL")
 	private int annual;
