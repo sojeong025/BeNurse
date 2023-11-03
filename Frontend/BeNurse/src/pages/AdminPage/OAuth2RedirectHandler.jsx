@@ -38,7 +38,7 @@ const OAuth2RedirectHandler = () => {
       let preLocation = localStorage.getItem("preLoginpath");
 
       if (preLocation === "/login") {
-        if (name === "test") {
+        if (name === null) {
           navigate("/login/join");
         } else {
           navigate("/main");
