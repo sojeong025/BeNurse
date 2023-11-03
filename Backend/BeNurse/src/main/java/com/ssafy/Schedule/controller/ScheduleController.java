@@ -41,7 +41,7 @@ public class ScheduleController {
 	@Autowired
 	OauthService oauthService;
 	
-	// 근무일정추가 POST
+	// 근무일정추가 POST <- 작성자가 권한이 있는지 확인.
 	@PostMapping("")
 	@ApiOperation(value = "근무 일정 추가", notes = "간호사, 근무 날짜와 시간, 근무지로 근무 일정을 추가")
 	@ApiResponses({

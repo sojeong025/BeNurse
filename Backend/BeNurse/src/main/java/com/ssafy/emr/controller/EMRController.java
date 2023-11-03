@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.common.utils.EMRService;
+import com.ssafy.common.utils.APIResponse;
 import com.ssafy.emr.model.CC;
 import com.ssafy.emr.model.Journal;
 import com.ssafy.emr.model.Patient;
 import com.ssafy.emr.model.PatientResponse;
+import com.ssafy.emr.service.EMRService;
 import com.ssafy.emr.utils.JournalSearchCondition;
 
 import io.swagger.annotations.Api;
@@ -46,9 +47,9 @@ public class EMRController {
 		@ApiResponse(code = 201, message = "등록 성공", response = Journal.class),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<List<Journal>> getAllJournal() {
-		ResponseEntity<List<Journal>> journals = emrService.getAllJournal();
-		log.info(journals.getBody().toString());
+	public APIResponse<List<Journal>> getAllJournal() {
+		APIResponse<List<Journal>> journals = emrService.getAllJournal();
+
 		return journals;
 		//return emrService.getAllJournal();
 	}
@@ -61,7 +62,7 @@ public class EMRController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Journal> getJournalByID(@RequestParam("id") long id){
+	public APIResponse<Journal> getJournalByID(@RequestParam("id") long id){
 		return emrService.getJournalByID(id);
 	}
 	
@@ -72,7 +73,7 @@ public class EMRController {
 		@ApiResponse(code = 201, message = "등록 성공", response = Journal.class),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Void> registJournalById(Journal journal) {
+	public APIResponse<Void> registJournalById(Journal journal) {
 		log.info(journal.toString());
 		return emrService.registJournalById(journal);
 	}
@@ -85,7 +86,7 @@ public class EMRController {
         @ApiResponse(code = 404, message = "결과 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<Void> deleteJournalByPatientID(@RequestParam("id") long patient_id){
+	public APIResponse<Void> deleteJournalByPatientID(@RequestParam("id") long patient_id){
 		return emrService.deleteJournalByPatientID(patient_id);
 	}
 
@@ -97,7 +98,7 @@ public class EMRController {
         @ApiResponse(code = 404, message = "결과 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<Void> updateJournal(Journal journal){
+	public APIResponse<Void> updateJournal(Journal journal){
 		return emrService.updateJournal(journal);
 	}
 
@@ -109,7 +110,7 @@ public class EMRController {
         @ApiResponse(code = 404, message = "결과 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<Void> deleteJournal(@RequestParam("id") long id){
+	public APIResponse<Void> deleteJournal(@RequestParam("id") long id){
 		return emrService.deleteJournal(id);
 	}
 	
@@ -120,7 +121,7 @@ public class EMRController {
 		@ApiResponse(code = 200, message = "성공", response = List.class),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<List<Journal>> searchJournal(JournalSearchCondition search){
+	public APIResponse<List<Journal>> searchJournal(JournalSearchCondition search){
 		return emrService.searchJournal(search);
 	}
 	
@@ -134,7 +135,7 @@ public class EMRController {
 		@ApiResponse(code = 201, message = "등록 성공"),
 		@ApiResponse(code = 500, message = "서버 오류") 
 	})
-	public ResponseEntity<Void> registPatientById(CC cc) {
+	public APIResponse<Void> registPatientById(CC cc) {
 		return emrService.registPatientById(cc);
 	}
 
@@ -145,7 +146,7 @@ public class EMRController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류") 
 	})
-	public ResponseEntity<Void> deleteCc(@RequestParam("id") long id) {
+	public APIResponse<Void> deleteCc(@RequestParam("id") long id) {
 		return emrService.deleteCc(id);
 	}
 
@@ -157,7 +158,7 @@ public class EMRController {
 	@ApiResponses({ 
 		@ApiResponse(code = 201, message = "등록 성공", response = Patient.class),
 		@ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<Void> registPatientById(Patient patient) {
+	public APIResponse<Void> registPatientById(Patient patient) {
 		return emrService.registPatientById(patient);
 	}
 
@@ -167,7 +168,7 @@ public class EMRController {
 	@ApiResponses({ 
 		@ApiResponse(code = 200, message = "성공", response = Patient.class),
 		@ApiResponse(code = 404, message = "결과 없음"), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<PatientResponse> getPatientById(@RequestParam("id") long id) {
+	public APIResponse<PatientResponse> getPatientById(@RequestParam("id") long id) {
 		return emrService.getPatientById(id);
 	}
 
@@ -176,7 +177,7 @@ public class EMRController {
 	@ApiOperation(value = "모든 환자 조회", notes = "모든 환자 정보를 조회한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공", response = List.class),
 			@ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<List<PatientResponse>> getAllPatient() {
+	public APIResponse<List<PatientResponse>> getAllPatient() {
 		return emrService.getAllPatient();
 	}
 
@@ -187,7 +188,7 @@ public class EMRController {
 		@ApiResponse(code = 200, message = "성공", response = List.class),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<List<PatientResponse>> searchPatient(String name){
+	public APIResponse<List<PatientResponse>> searchPatient(String name){
 		return emrService.searchPatient(name);
 	}
 
@@ -196,7 +197,7 @@ public class EMRController {
 	@ApiOperation(value = "환자 정보 수정", notes = "환자 정보를 수정한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 404, message = "결과 없음"),
 			@ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<Void> updatePatient(Patient patient) {
+	public APIResponse<Void> updatePatient(Patient patient) {
 		return emrService.updatePatient(patient);
 	}
 
@@ -207,7 +208,7 @@ public class EMRController {
 		@ApiResponse(code = 200, message = "성공"), 
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<Void> deletePatient(@RequestParam("id") long id) {
+	public APIResponse<Void> deletePatient(@RequestParam("id") long id) {
 		return emrService.deletePatient(id);
 	}
 

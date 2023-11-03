@@ -103,39 +103,7 @@ public class HandoverSetController {
 	    } else	
 	        return new APIResponse<>(HttpStatus.NOT_FOUND);
 	}
-	
-	// 인수자 인계장 조회 GET [묶음 ID]
-	@GetMapping("/set")
-	@ApiOperation(value = "인계장 묶음 조회 [묶음 ID]", notes = "인계장 묶음 ID를 통해 인계장 묶음 조회[인계장 열람]") 
-	@ApiResponses({
-	    @ApiResponse(code = 200, message = "성공", response = HandoverSet.class),
-	    @ApiResponse(code = 404, message = "인계장을 찾을 수 없음"),
-	    @ApiResponse(code = 500, message = "서버 오류")
-	})
-	public APIResponse<HandoverSet> getHandoverSetById(@RequestParam("ID") long ID, @RequestHeader("Authorization") String token) {
-		Nurse nurse;
-		// 사용자 조회
-		try {
-			nurse = oauthService.getUser(token);
-		}catch (Exception e) {
-			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
-		}
-		Optional<HandoverSet> handoverSet = setRepo.findById(ID);
 
-	    if (handoverSet.isPresent()) {
-	    	Optional<MyHandover> optionmh = myhoRepo.findBySetIDAndTakeIDAndReaded(ID, nurse.getID(),"N");
-	    	//
-	    	if(optionmh.isPresent()) {
-	    		MyHandover mh = optionmh.get();
-	    		mh.setReaded(true);
-	    		myhoRepo.save(mh);
-	    	}
-	        return new APIResponse<>(handoverSet.get(), HttpStatus.OK);
-	    }else
-	        return new APIResponse<>(HttpStatus.NOT_FOUND);
-	}
-	
 	// 인수자 인계장 조회 GET [인계자 ID]
 	@GetMapping("/take")
 	@ApiOperation(value = "인계장 묶음 조회 [인계자 ID]", notes = "인계자 ID를 통해 인계장 묶음 조회[인계묶음 리스트 조회]") 
@@ -196,7 +164,31 @@ public class HandoverSetController {
 	    @ApiResponse(code = 404, message = "인계장을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<List<Handover>> getDetail(@RequestParam("set_ID") long id){
+	public APIResponse<List<Handover>> getDetail(@RequestParam("ID") long ID, @RequestHeader("Authorization") String token, @RequestParam("set_ID") long id){
+
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		
+		// 읽음 여부 갱신
+		Optional<HandoverSet> handoverSet = setRepo.findById(id);
+		if (handoverSet.isPresent()) {
+	    	Optional<MyHandover> optionmh = myhoRepo.findBySetIDAndTakeIDAndReaded(ID, nurse.getID(),"N");
+	    	//
+	    	if(optionmh.isPresent()) {
+	    		MyHandover mh = optionmh.get();
+	    		mh.setReaded(true);
+	    		myhoRepo.save(mh);
+	    	}
+	    }else
+	        return new APIResponse<>(HttpStatus.NOT_FOUND);
+		
+		
 		List<HandoverList> list = listRepo.findAllBySetID(id);
 		List<Handover> resp = new ArrayList<>();
 		for(HandoverList l : list) {
