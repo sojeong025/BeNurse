@@ -3,6 +3,7 @@ import * as S from "./JoinNursePage.styles";
 import { Common } from "@utils/global.styles.jsx";
 import { useNavigate } from "react-router-dom";
 import { css, keyframes } from "@emotion/react";
+import { customAxios } from "../../libs/axios";
 
 import Container from "../../components/atoms/Container/Container";
 import Button from "../../components/atoms/Button/Button";
@@ -14,6 +15,7 @@ export default function JoinNursePage() {
   const [otp, setOtp] = useState("");
   const [hasErrored, setHasErrored] = useState(false);
   const handleChange = (enteredOtp) => {
+    console.log(otp);
     setOtp(enteredOtp);
     setHasErrored(false);
   };
@@ -21,11 +23,17 @@ export default function JoinNursePage() {
   const navigate = useNavigate();
 
   const onClickCheckBtn = () => {
-    if (otp === "12345678") {
-      navigate("/");
-    } else {
-      setHasErrored(true);
-    }
+    customAxios
+      .post("invite/auth", otp)
+      .then((res) => {
+        console.log("초대코드 등록 성공", res);
+        navigate("/main");
+      })
+      .catch((err) => {
+        console.log(err);
+        setHasErrored(true);
+        console.log(hasErrored);
+      });
   };
 
   return (

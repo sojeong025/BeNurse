@@ -21,7 +21,8 @@ export default function NavBar() {
       setVisibility("flex");
     } else if (
       path.startsWith("/login") ||
-      path === "/off-application-finish"
+      path === "/off-application-finish" ||
+      path === "/"
     ) {
       setVisibility("none");
     } else if (path.startsWith("/device")) {
