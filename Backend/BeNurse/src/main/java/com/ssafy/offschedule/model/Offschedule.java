@@ -21,7 +21,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@Table(name = "SCHEDULE")
+@Table(name = "OFFSCHEDULE")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

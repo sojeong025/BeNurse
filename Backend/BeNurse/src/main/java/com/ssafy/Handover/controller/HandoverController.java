@@ -33,7 +33,11 @@ public class HandoverController {
 
 	@Autowired
 	HandoverRepository handoverRepo;
+	
+	@Autowired
 	HandoverSetRepository handvoersetRepo;
+	
+	@Autowired
 	MyHandoverRepository myhandoverRepo;
 	
 	// 인계자 인계장 작성 POST

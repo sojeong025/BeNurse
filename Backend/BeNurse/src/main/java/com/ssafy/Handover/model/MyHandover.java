@@ -36,7 +36,7 @@ public class MyHandover {
 	private long ID;
 	
 	@Column(name = "HANDOVERSET_ID")
-	private long handoverSetID;
+	private long setID;
 	
 	@Column(name = "TAKE_ID")
 	private long takeID;

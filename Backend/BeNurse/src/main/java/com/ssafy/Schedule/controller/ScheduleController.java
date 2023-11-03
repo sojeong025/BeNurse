@@ -1,5 +1,6 @@
 package com.ssafy.Schedule.controller;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -132,8 +133,8 @@ public class ScheduleController {
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<List<Schedule>> getScheduleByDate(
-			@RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-		    @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate
+			@RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+		    @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
 		    )
 	{	
 	    List<Schedule> schedule = scheduleRepo.findAllByworkdateBetween(startDate, endDate);
@@ -144,7 +145,7 @@ public class ScheduleController {
 	
 	// 근무 일정 검색 GET
 	@GetMapping("/search")
-	@ApiOperation(value = "근무표 조회", notes = "조건(간호사ID, 기간 등)에 맞는 근무 일정 조회")
+	@ApiOperation(value = "근무 일정 검색", notes = "조건(간호사ID, 기간 등)에 맞는 근무 일정 조회")
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = Schedule.class),
 	    @ApiResponse(code = 404, message = "근무를 찾을 수 없음."),
@@ -152,8 +153,8 @@ public class ScheduleController {
 	})
 	public APIResponse<List<Schedule>> getScheduleByCondition(
 	        @RequestParam("nurseID") long nurseID, // 간호사ID 파라미터 추가
-	        @RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-	        @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate
+	        @RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+	        @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
 	    ) {
 	    // 여기서 간호사ID와 기간에 따라 근무 일정을 조회하도록 변경
 	    List<Schedule> schedule = scheduleRepo.findByNurseIDAndWorkdateBetween(nurseID, startDate, endDate);

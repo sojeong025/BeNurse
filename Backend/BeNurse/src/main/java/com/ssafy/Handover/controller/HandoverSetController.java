@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,10 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.Handover.model.Handover;
 import com.ssafy.Handover.model.HandoverList;
 import com.ssafy.Handover.model.HandoverSet;
+import com.ssafy.Handover.model.MyHandover;
 import com.ssafy.Handover.service.HandoverListRepository;
 import com.ssafy.Handover.service.HandoverRepository;
 import com.ssafy.Handover.service.HandoverSetRepository;
+import com.ssafy.Handover.service.MyHandoverRepository;
 import com.ssafy.common.utils.APIResponse;
+import com.ssafy.nurse.model.Nurse;
+import com.ssafy.oauth.serivce.OauthService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,6 +48,12 @@ public class HandoverSetController {
 	
 	@Autowired
 	HandoverRepository handoverRepo;
+	
+	@Autowired
+	MyHandoverRepository myhoRepo;
+	
+	@Autowired
+	OauthService oauthService;
 	
 	
 	// 인계장 묶음 생성 POST
@@ -90,12 +101,20 @@ public class HandoverSetController {
 	    @ApiResponse(code = 404, message = "인계장을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<HandoverSet> getHandoverSetById(@RequestParam("ID") long ID) {
-	    Optional<HandoverSet> handoverSet = setRepo.findById(ID);
+	public APIResponse<HandoverSet> getHandoverSetById(@RequestParam("ID") long ID, @RequestHeader("Authorizations") String token) {
+		Nurse user = oauthService.getUser(token);
+		Optional<HandoverSet> handoverSet = setRepo.findById(ID);
 
-	    if (handoverSet.isPresent())
+	    if (handoverSet.isPresent()) {
+	    	Optional<MyHandover> optionmh = myhoRepo.findBySetIDAndTakeIDAndReaded(ID, user.getID(),"N");
+	    	//
+	    	if(optionmh.isPresent()) {
+	    		MyHandover mh = optionmh.get();
+	    		mh.setReaded(true);
+	    		myhoRepo.save(mh);
+	    	}
 	        return new APIResponse<>(handoverSet.get(), HttpStatus.OK);
-	    else
+	    }else
 	        return new APIResponse<>(HttpStatus.NOT_FOUND);
 	}
 	

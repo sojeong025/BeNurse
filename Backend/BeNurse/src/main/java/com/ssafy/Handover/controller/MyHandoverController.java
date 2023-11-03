@@ -2,7 +2,6 @@ package com.ssafy.Handover.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,11 +53,11 @@ public class MyHandoverController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<MyHandover> registMyHandover(@RequestParam("setID") long SetID, @RequestParam("take_id_list") List<Long> takeIDs) {
+	public APIResponse<MyHandover> registMyHandover(@RequestParam("setID") long setID, @RequestParam("take_id_list") List<Long> takeIDs) {
 
 		for(long takeID : takeIDs) {
 			MyHandover handoversheet = new MyHandover();
-			handoversheet.setHandoverSetID(SetID);
+			handoversheet.setSetID(setID);
 			handoversheet.setTakeID(takeID);
 			handoversheet.setReaded(false);
 			myhoRepo.save(handoversheet);
@@ -73,14 +72,14 @@ public class MyHandoverController {
         @ApiResponse(code = 200, message = "성공", response = MyHandover.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<List<ResponseSet>> getAllMyHandover(@RequestHeader("access-Token") String token) {
+	public APIResponse<List<ResponseSet>> getAllMyHandover(@RequestHeader("Authorizations") String token) {
 		Nurse user = oauthService.getUser(token);
 		List<MyHandover> myhandover = myhoRepo.findAllByTakeID(user.getID());
 		
 		List<ResponseSet> resp = new ArrayList<>();
 		for(MyHandover mh : myhandover) {
 			ResponseSet rs = new ResponseSet();
-			HandoverSet set = setRepo.findById(mh.getHandoverSetID()).get();
+			HandoverSet set = setRepo.findById(mh.getSetID()).get();
 			rs.setHandoverSetID(set.getID());
 			rs.setGiveID(set.getGiveID());
 			rs.setTakeID(mh.getTakeID());
