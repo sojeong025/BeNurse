@@ -45,20 +45,12 @@ public class InviteController {
 	NurseRepository nurseRepo;
 	
 	@PostMapping("")
-	@ApiOperation(value = "초대코드 발급", notes = "초대코드를 생성, 발급한다. 초대 받을 사람의 이름이 필요")
+	@ApiOperation(value = "초대코드 발급", notes = "초대코드를 생성, 발급한다. 초대 받을 사람의 이름이 필요 \n{\n\t\"name\" : \"이름\"\n}")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = String.class),
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	@ApiImplicitParam(
-		    name = "key",
-		    value = "Key",
-		    required = true,
-		    dataType = "string",
-		    paramType = "body",
-		    defaultValue = "{\"key\": \"value\"}"
-		)
 	public APIResponse<String> getInviteCode(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> body) {
 		Nurse nurse;
 		// 사용자 조회

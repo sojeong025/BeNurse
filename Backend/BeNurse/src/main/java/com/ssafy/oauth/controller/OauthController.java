@@ -53,7 +53,7 @@ public class OauthController {
 		@ApiResponse(code = 404, message = "인증 오류"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Nurse> getUser(@RequestHeader("Access-Token") String accessToken){
+	public APIResponse<Nurse> getUser(@RequestHeader("Authorization") String accessToken){
 		try {
 			Nurse user = oauthService.getUser(accessToken);
 			return new APIResponse(user, HttpStatus.OK);
