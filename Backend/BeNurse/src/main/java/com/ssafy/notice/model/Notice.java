@@ -42,6 +42,12 @@ public class Notice implements Serializable{
 	@Column(name = "WRITER_ID")
 	private long writerID;
 	
+	@Column(name = "HOSPITAL_ID")
+	private long hospitalID;
+	
+	@Column(name = "WRITER_NAME")
+	private String writerName;
+	
 	@Column(name = "TITLE")
 	private String title;
 	

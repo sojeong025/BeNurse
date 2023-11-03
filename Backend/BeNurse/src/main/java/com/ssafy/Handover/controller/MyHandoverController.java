@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,7 +54,7 @@ public class MyHandoverController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<MyHandover> registMyHandover(@RequestParam("setID") long setID, @RequestParam("take_id_list") List<Long> takeIDs) {
+	public APIResponse<MyHandover> registMyHandover(@RequestParam("setID") long setID, @RequestBody List<Long> takeIDs) {
 
 		for(long takeID : takeIDs) {
 			MyHandover handoversheet = new MyHandover();
@@ -73,8 +74,16 @@ public class MyHandoverController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public APIResponse<List<ResponseSet>> getAllMyHandover(@RequestHeader("Authorizations") String token) {
-		Nurse user = oauthService.getUser(token);
-		List<MyHandover> myhandover = myhoRepo.findAllByTakeID(user.getID());
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		
+		List<MyHandover> myhandover = myhoRepo.findAllByTakeID(nurse.getID());
 		
 		List<ResponseSet> resp = new ArrayList<>();
 		for(MyHandover mh : myhandover) {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -93,7 +94,7 @@ public class NurseController {
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	@CachePut(value = "nurse", key = "#updatedNurse.ID")
-	public APIResponse<Nurse> updateNurseById(Nurse updatedNurse){
+	public APIResponse<Nurse> updateNurseById(@RequestBody Nurse updatedNurse){
 		Optional<Nurse> optionNurse = nurseRepo.findById(updatedNurse.getID());
 		
 	    if (optionNurse.isPresent()) {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,8 +66,17 @@ public class HandoverSetController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<HandoverSet> registHandover(HandoverSet handoverSet) {
-	    // 데이터베이스에 저장
+	public APIResponse<HandoverSet> registHandover(@RequestHeader("Authorizations") String token, @RequestBody HandoverSet handoverSet) {
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		handoverSet.setGiveID(nurse.getID());
+		// 데이터베이스에 저장
 	    HandoverSet savedHandoverSet = setRepo.save(handoverSet);
 
 	    return new APIResponse<>(savedHandoverSet, HttpStatus.OK);
@@ -80,7 +90,7 @@ public class HandoverSetController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<HandoverSet> updateHandoverSetById(HandoverSet updatedHandoverSet) {
+	public APIResponse<HandoverSet> updateHandoverSetById(@RequestBody HandoverSet updatedHandoverSet) {
 		Optional<HandoverSet> optionHandoverSet = setRepo.findById(updatedHandoverSet.getID());
 		
 	    if (optionHandoverSet.isPresent()) {
@@ -103,11 +113,18 @@ public class HandoverSetController {
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<HandoverSet> getHandoverSetById(@RequestParam("ID") long ID, @RequestHeader("Authorizations") String token) {
-		Nurse user = oauthService.getUser(token);
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
 		Optional<HandoverSet> handoverSet = setRepo.findById(ID);
 
 	    if (handoverSet.isPresent()) {
-	    	Optional<MyHandover> optionmh = myhoRepo.findBySetIDAndTakeIDAndReaded(ID, user.getID(),"N");
+	    	Optional<MyHandover> optionmh = myhoRepo.findBySetIDAndTakeIDAndReaded(ID, nurse.getID(),"N");
 	    	//
 	    	if(optionmh.isPresent()) {
 	    		MyHandover mh = optionmh.get();

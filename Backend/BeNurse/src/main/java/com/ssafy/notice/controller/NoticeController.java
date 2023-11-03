@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.notice.model.Notice;
 import com.ssafy.notice.service.NoticeRepository;
+import com.ssafy.nurse.model.Nurse;
+import com.ssafy.oauth.serivce.OauthService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,6 +40,10 @@ public class NoticeController {
 	@Autowired
 	NoticeRepository noticeRepo;
 	
+	@Autowired
+	OauthService oauthService;
+	
+	// 공지사항 등록 POST
 	@PostMapping("")
 	@ApiOperation(value = "공지사항 등록", notes = "공지사항을 등록한다.")
 	@ApiResponses({
@@ -43,14 +51,26 @@ public class NoticeController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Notice> registNotice(Notice notice) {
-
+	public APIResponse<Notice> registNotice(@RequestHeader("Authorizations") String token, @RequestBody Notice notice) {
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		
+		notice.setHospitalID(nurse.getHospitalID());
+		notice.setWriterName(nurse.getName());
+		notice.setWriterID(nurse.getID());
 		notice.setTime(LocalDateTime.now());
 		
 	    Notice savedNotice = noticeRepo.save(notice);
 	    return new APIResponse<>(savedNotice, HttpStatus.OK);
 	}
 	
+	// 전체 공지사항 조회 GET
 	@GetMapping("/all")
 	@ApiOperation(value = "전체 공지사항 조회", notes = "모든 공지사항을 조회한다.") 
     @ApiResponses({
@@ -63,6 +83,7 @@ public class NoticeController {
 	    return new APIResponse<>(notice, HttpStatus.OK);
 	}
 
+	// 특정 공지사항 조회 GET
 	@GetMapping("")
 	@ApiOperation(value = "특정 공지사항 조회", notes = "공지사항 ID로 특정 게시글 조회") 
 	@ApiResponses({
@@ -80,6 +101,7 @@ public class NoticeController {
 	        return new APIResponse(HttpStatus.NOT_FOUND);
 	}
 
+	// 공지사항 수정 PUT
 	@PutMapping("")
 	@ApiOperation(value = "공지사항 수정", notes = "공지사항 내용 수정") 
 	@ApiResponses({
@@ -88,7 +110,7 @@ public class NoticeController {
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	@CachePut(value = "notice", key = "#updatedNotice.ID")
-	public APIResponse<Notice> updateNoticeById(Notice updatedNotice){
+	public APIResponse<Notice> updateNoticeById(@RequestBody Notice updatedNotice){
 		Optional<Notice> optionNotice = noticeRepo.findById(updatedNotice.getID());
 		
 	    if (optionNotice.isPresent()) {
@@ -111,6 +133,7 @@ public class NoticeController {
 	    
 	}
 	
+	// 공지사항 삭제 DELETE
 	@DeleteMapping("")
 	@ApiOperation(value = "공지사항 삭제", notes = "공지사항을 삭제한다.")
 	@ApiResponses({

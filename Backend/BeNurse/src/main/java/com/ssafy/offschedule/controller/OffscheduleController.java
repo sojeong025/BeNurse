@@ -9,12 +9,16 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.Schedule.model.Schedule;
 import com.ssafy.common.utils.APIResponse;
+import com.ssafy.nurse.model.Nurse;
+import com.ssafy.oauth.serivce.OauthService;
 import com.ssafy.offschedule.model.Offschedule;
 import com.ssafy.offschedule.service.OffscheduleRepository;
 
@@ -32,6 +36,9 @@ public class OffscheduleController {
 	@Autowired
 	OffscheduleRepository offscheduleRepo;
 	
+	@Autowired
+	OauthService oauthService;
+	
 	// 휴무 일정 신청 POST
 	@PostMapping("")
 	@ApiOperation(value = "휴무 일정 신청", notes = "날짜, 시간, 사유로 휴무 일정 신청")
@@ -40,7 +47,18 @@ public class OffscheduleController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Offschedule> registOffschedule(Offschedule offschedule) {
+	public APIResponse<Offschedule> registOffschedule(@RequestHeader("Authorizations") String token, @RequestBody Offschedule offschedule) {
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		
+		offschedule.setNurseID(nurse.getID());
+		offschedule.setName(nurse.getName());
 		
 		Offschedule savedOffschedule = offscheduleRepo.save(offschedule);
 		return new APIResponse<>(savedOffschedule, HttpStatus.OK);

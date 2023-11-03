@@ -1,26 +1,28 @@
 package com.ssafy.Schedule.controller;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.Schedule.model.Schedule;
+import com.ssafy.Schedule.model.ScheduleSearchCondition;
 import com.ssafy.Schedule.service.ScheduleRepository;
 import com.ssafy.common.utils.APIResponse;
+import com.ssafy.nurse.model.Nurse;
+import com.ssafy.oauth.serivce.OauthService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,6 +38,9 @@ public class ScheduleController {
 	@Autowired
 	ScheduleRepository scheduleRepo;
 	
+	@Autowired
+	OauthService oauthService;
+	
 	// 근무일정추가 POST
 	@PostMapping("")
 	@ApiOperation(value = "근무 일정 추가", notes = "간호사, 근무 날짜와 시간, 근무지로 근무 일정을 추가")
@@ -44,7 +49,7 @@ public class ScheduleController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Schedule> registSchedule(Schedule schedule) {
+	public APIResponse<Schedule> registSchedule(@RequestBody Schedule schedule) {
 		
 		Schedule savedSchedule = scheduleRepo.save(schedule);
 		return new APIResponse<>(savedSchedule, HttpStatus.OK);
@@ -107,21 +112,29 @@ public class ScheduleController {
 	
 	
 	// 내 근무일정조회 GET
-//	@GetMapping("/{id}")
-//	@ApiOperation(value = "내 근무 일정 조회", notes = "설정한 기간 내의 근무 일정 조회") 
-//	@ApiResponses({
-//	    @ApiResponse(code = 200, message = "성공", response = Schedule.class),
-//	    @ApiResponse(code = 404, message = "근무를 찾을 수 없음."),
-//	    @ApiResponse(code = 500, message = "서버 오류")
-//	})
-//	public ResponseEntity<Schedule> getScheduleById(@RequestParam("ID") long ID) {
-//	    Optional<Schedule> schedule = scheduleRepo.findById(ID);
-//
-//	    if (schedule.isPresent())
-//	        return new ResponseEntity<>(schedule.get(), HttpStatus.OK);
-//	    else
-//	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//	}	
+	@GetMapping("")
+	@ApiOperation(value = "내 근무 일정 조회", notes = "설정한 기간 내의 근무 일정 조회") 
+	@ApiResponses({
+	    @ApiResponse(code = 200, message = "성공", response = Schedule.class),
+	    @ApiResponse(code = 404, message = "근무를 찾을 수 없음."),
+	    @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public APIResponse<Schedule> getScheduleById(@RequestHeader("Authorizations") String token, @RequestBody ScheduleSearchCondition ssc) {
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+
+	    List<Schedule> schedule = scheduleRepo.findByNurseIDAndWorkdateBetween(nurse.getID(), ssc.getStartDate(), ssc.getEndDate());
+	    if (schedule.isEmpty()) {
+	        return new APIResponse(HttpStatus.NOT_FOUND); // 근무 일정을 찾을 수 없을 경우 404 반환
+	    }
+	    return new APIResponse(schedule, HttpStatus.OK);
+	}
 	
 	
 	// 근무표 조회 GET
@@ -132,12 +145,8 @@ public class ScheduleController {
 	    @ApiResponse(code = 404, message = "근무를 찾을 수 없음."),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<List<Schedule>> getScheduleByDate(
-			@RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-		    @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
-		    )
-	{	
-	    List<Schedule> schedule = scheduleRepo.findAllByworkdateBetween(startDate, endDate);
+	public APIResponse<List<Schedule>> getScheduleByDate(@RequestBody ScheduleSearchCondition ssc){	
+	    List<Schedule> schedule = scheduleRepo.findAllByworkdateBetween(ssc.getStartDate(), ssc.getEndDate());
 	    return new APIResponse(schedule, HttpStatus.OK);
 
 	}	
@@ -151,13 +160,9 @@ public class ScheduleController {
 	    @ApiResponse(code = 404, message = "근무를 찾을 수 없음."),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<List<Schedule>> getScheduleByCondition(
-	        @RequestParam("nurseID") long nurseID, // 간호사ID 파라미터 추가
-	        @RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-	        @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
-	    ) {
+	public APIResponse<List<Schedule>> getScheduleByCondition(@RequestParam("nurseID") long nurseID, @RequestBody ScheduleSearchCondition ssc) {
 	    // 여기서 간호사ID와 기간에 따라 근무 일정을 조회하도록 변경
-	    List<Schedule> schedule = scheduleRepo.findByNurseIDAndWorkdateBetween(nurseID, startDate, endDate);
+	    List<Schedule> schedule = scheduleRepo.findByNurseIDAndWorkdateBetween(nurseID, ssc.getStartDate(), ssc.getEndDate());
 	    if (schedule.isEmpty()) {
 	        return new APIResponse(HttpStatus.NOT_FOUND); // 근무 일정을 찾을 수 없을 경우 404 반환
 	    }
