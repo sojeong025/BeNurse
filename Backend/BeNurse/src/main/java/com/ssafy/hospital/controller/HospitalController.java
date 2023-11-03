@@ -96,9 +96,6 @@ public class HospitalController {
 	        if (updatedHospital.getEmr() != null) {
 	        	existingHospital.setEmr(updatedHospital.getEmr());
 	        }
-	        if (updatedHospital.getDeviceURL() != null) {
-	        	existingHospital.setDeviceURL(updatedHospital.getDeviceURL());
-	        }
 
 	        // 업데이트된 병원 정보를 저장
 	        hospitalRepo.save(existingHospital);

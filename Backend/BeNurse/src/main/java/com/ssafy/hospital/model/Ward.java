@@ -17,27 +17,20 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@Table(name = "HOSPITAL")
+@Table(name = "Ward")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @ToString
-public class Hospital {
-
+public class Ward {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private long ID;
 	
+	@Column(name = "HOSPITAL_ID")
+	private long hospitalID;
+	
 	@Column(name = "NAME")
 	private String name;
-	
-	@Column(name = "TEL")
-	private String tel;
-	
-	@Column(name = "ADDRESS")
-	private String address;
-	
-	@Column(name = "EMR")
-	private String emr;
 }
