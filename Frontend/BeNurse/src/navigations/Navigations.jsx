@@ -43,6 +43,10 @@ import AdminPage from "@pages/AdminPage/AdminPage";
 import AdminSignupPage from "@pages/AdminPage/AdminSignupPage";
 import OAuth2RedirectHandler from "@pages/AdminPage/OAuth2RedirectHandler";
 import AdminSelectRolePage from "@pages/AdminPage/AdminSelectRolePage";
+import AdminMainPage from "../pages/AdminPage/AdminMainPage";
+import AdminManagementPage from "../pages/AdminPage/AdminManagementPage";
+
+import ScheduleCreatePage from "../pages/ScheduleCreatePage/ScheduleCreatePage";
 
 export default function routes() {
   return (
@@ -179,6 +183,18 @@ export default function routes() {
         <Route
           path="role"
           element={<AdminSelectRolePage />}
+        />
+        <Route
+          path="main"
+          element={<AdminMainPage />}
+        />
+        <Route
+          path="management"
+          element={<AdminManagementPage />}
+        />
+        <Route
+          path="create-schedule"
+          element={<ScheduleCreatePage />}
         />
       </Route>
       <Route
