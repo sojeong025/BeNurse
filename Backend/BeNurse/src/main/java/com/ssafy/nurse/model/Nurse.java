@@ -3,11 +3,14 @@ package com.ssafy.nurse.model;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.ssafy.common.converter.BooleanToYNConverter;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,4 +54,8 @@ public class Nurse {
 	
 	@Column(name ="PASSWORD")
 	private String password;
+	
+	@Column(name = "ISADMIN")
+	@Convert(converter = BooleanToYNConverter.class)
+	private boolean isAdmin;
 }

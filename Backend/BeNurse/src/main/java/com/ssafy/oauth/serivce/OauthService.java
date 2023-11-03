@@ -109,6 +109,7 @@ public class OauthService {
 			Nurse newUser = new Nurse().builder()
 					.email(email)
 					.password(passwordEncoder.encode(email))
+					.isAdmin(false)
 					.build();
 			nurseRepo.save(newUser);
 			user = nurseRepo.findByEmail(kakaoUser.getKakao_account().getEmail());
