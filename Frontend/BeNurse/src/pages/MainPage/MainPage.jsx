@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineUser } from "react-icons/ai";
 import { AiOutlineNotification } from "react-icons/ai";
-import { TbBulb } from "react-icons/tb";
+
 import Container from "../../components/atoms/Container/Container";
 import Button from "../../components/atoms/Button/Button";
 import Box from "../../components/atoms/Box/Box";
+
+import NurseTip from "./NurseTip";
 
 import * as S from "./MainPage.styles";
 import main_nurse from "@assets/Images/main_nurse.png";
@@ -14,6 +16,18 @@ import { ButtonContainer } from "../LoginPage/JoinPage.styles";
 import moment from "moment";
 
 function MainPage() {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleTipBoxClick = (event, id) => {
+    event.preventDefault();
+    console.log(id);
+    setModalIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+  };
+
   const dates = [];
   const types = ["day", "night", "evening", "off"];
   const today = moment();
@@ -100,44 +114,7 @@ function MainPage() {
         <S.MainTitle style={{ width: "calc(100% - 28px)" }}>
           <p>간호 Tip</p>
         </S.MainTitle>
-        <S.TipBoxContainer>
-          <Box
-            type="white"
-            size={["160px", "120px"]}
-          >
-            <S.TipBox>
-              <TbBulb />
-              <div>
-                <p className="title">임상 실무팁</p>
-                <p className="desc">출혈 - 내출혈 케이스</p>
-              </div>
-            </S.TipBox>
-          </Box>
-          <Box
-            type="white"
-            size={["160px", "120px"]}
-          >
-            <S.TipBox>
-              <TbBulb />
-              <div>
-                <p className="title">임상 실무팁</p>
-                <p className="desc">출혈 - 내출혈 케이스</p>
-              </div>
-            </S.TipBox>
-          </Box>
-          <Box
-            type="white"
-            size={["160px", "120px"]}
-          >
-            <S.TipBox>
-              <TbBulb />
-              <div>
-                <p className="title">임상 실무팁</p>
-                <p className="desc">출혈 - 내출혈 케이스</p>
-              </div>
-            </S.TipBox>
-          </Box>
-        </S.TipBoxContainer>
+        <NurseTip></NurseTip>
       </S.MainContainer>
     </Container>
   );

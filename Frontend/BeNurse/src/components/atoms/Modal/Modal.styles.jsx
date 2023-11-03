@@ -33,7 +33,7 @@ export const ModalInner = styled.div`
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
   background-color: #fff;
   border-radius: 10px;
-  width: 320px;
+  width: ${(props) => (props.width ? props.width : "320px")};
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;
