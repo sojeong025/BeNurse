@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Page 정리
+import SplashPage from "@pages/LoginPage/SplashPage";
 import MainPage from "@pages/MainPage/MainPage";
 import LoginPage from "@pages/LoginPage/LoginPage";
 
@@ -48,6 +49,10 @@ export default function routes() {
     <Routes>
       <Route
         path="/"
+        element={<SplashPage />}
+      />
+      <Route
+        path="/main"
         element={<MainPage />}
       />
       <Route
