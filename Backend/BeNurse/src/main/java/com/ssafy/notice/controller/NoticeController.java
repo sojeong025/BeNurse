@@ -77,9 +77,17 @@ public class NoticeController {
         @ApiResponse(code = 200, message = "성공", response = List.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	@Cacheable(value="notice")
-	public APIResponse<List<Notice>> getAllNotice() {
-		List<Notice> notice = noticeRepo.findAll();
+	public APIResponse<List<Notice>> getAllNotice(@RequestHeader("Authorization") String token) {
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		
+		List<Notice> notice = noticeRepo.findAllByHospitalID(nurse.getHospitalID());
 	    return new APIResponse<>(notice, HttpStatus.OK);
 	}
 
