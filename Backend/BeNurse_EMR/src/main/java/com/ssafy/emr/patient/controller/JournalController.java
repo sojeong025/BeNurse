@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.emr.common.utils.APIResponse;
 import com.ssafy.emr.patient.model.Journal;
 import com.ssafy.emr.patient.service.JournalRepository;
 import com.ssafy.emr.patient.utils.JournalSearchCondition;
@@ -41,11 +41,11 @@ public class JournalController {
 		@ApiResponse(code = 201, message = "등록 성공", response = Journal.class),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Void> registJournalById(Journal journal) {
+	public APIResponse<Void> registJournalById(Journal journal) {
 		log.info(journal.toString());
 		journal.setDatetime(LocalDateTime.now());
 		journalRepo.save(journal);
-		return ResponseEntity.status(HttpStatus.CREATED).body(null);
+		return new APIResponse(HttpStatus.CREATED);
 	}
 	
 	@GetMapping("")
@@ -55,12 +55,12 @@ public class JournalController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<Journal> getJournalById(@RequestParam("id") long id) {
+	public APIResponse<Journal> getJournalById(@RequestParam("id") long id) {
 		Optional<Journal> journal = journalRepo.findById(id);
 		if (journal.isPresent())
-			return ResponseEntity.status(HttpStatus.OK).body(journal.get());
+			return new APIResponse(journal.get(), HttpStatus.OK);
 		else
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			return new APIResponse(HttpStatus.NOT_FOUND);
 	}
 
 	@GetMapping("/all")
@@ -69,9 +69,9 @@ public class JournalController {
         @ApiResponse(code = 200, message = "성공", response = List.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<List<Journal>> getAllJournal() {
+	public APIResponse<List<Journal>> getAllJournal() {
 		List<Journal> journals = journalRepo.findAll();
-		return ResponseEntity.status(HttpStatus.OK).body(journals);
+		return new APIResponse(journals, HttpStatus.OK);
 	}
 	
 	@GetMapping("/search")
@@ -80,14 +80,14 @@ public class JournalController {
 		@ApiResponse(code = 200, message = "성공", response = List.class),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<List<Journal>> searchJournal(JournalSearchCondition search){
+	public APIResponse<List<Journal>> searchJournal(JournalSearchCondition search){
 		List<Journal> resp;
 		
 		if(search.getCategory() == null)
 			resp = journalRepo.findAllByDatetimeGreaterThanEqualAndDatetimeLessThanEqualAndPatientID(search.getTime().minusDays(1), search.getTime(), search.getPatientID());
 		else
 			resp = journalRepo.findAllByDatetimeGreaterThanEqualAndDatetimeLessThanEqualAndPatientIDAndCategory(search.getTime().minusDays(1), search.getTime(), search.getPatientID(), search.getCategory());
-		return ResponseEntity.status(HttpStatus.OK).body(resp);
+		return new APIResponse(resp, HttpStatus.OK);
 	}
 	
 	@PutMapping("")
@@ -97,14 +97,14 @@ public class JournalController {
         @ApiResponse(code = 404, message = "결과 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<Void> updateJournal(Journal journal){
+	public APIResponse<Void> updateJournal(Journal journal){
 		Optional<Journal> found = journalRepo.findById(journal.getID());
 		if(found.isPresent()) {
 			journalRepo.save(journal);
-			return ResponseEntity.status(HttpStatus.OK).body(null);
+			return new APIResponse(HttpStatus.OK);
 		}
 		else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			return new APIResponse(HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -115,14 +115,14 @@ public class JournalController {
         @ApiResponse(code = 404, message = "결과 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<Void> deleteJournal(@RequestParam("id") long id){
+	public APIResponse<Void> deleteJournal(@RequestParam("id") long id){
 		Optional<Journal> found = journalRepo.findById(id);
 		if(found.isPresent()) {
 			journalRepo.delete(found.get());
-			return ResponseEntity.status(HttpStatus.OK).body(null);
+			return new APIResponse(HttpStatus.OK);
 		}
 		else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			return new APIResponse(HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -133,11 +133,11 @@ public class JournalController {
         @ApiResponse(code = 404, message = "결과 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<Void> deleteJournalByPatientID(@RequestParam("id") long patient_id){
+	public APIResponse<Void> deleteJournalByPatientID(@RequestParam("id") long patient_id){
 		List<Journal> found = journalRepo.findAllByPatientID(patient_id);
 		for(Journal j : found) {
 			journalRepo.delete(j);
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(null);
+		return new APIResponse(HttpStatus.OK);
 	}
 }
