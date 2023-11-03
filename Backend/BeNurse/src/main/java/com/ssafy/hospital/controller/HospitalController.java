@@ -96,9 +96,6 @@ public class HospitalController {
 	        if (updatedHospital.getEmr() != null) {
 	        	existingHospital.setEmr(updatedHospital.getEmr());
 	        }
-	        if (updatedHospital.getDeviceURL() != null) {
-	        	existingHospital.setDeviceURL(updatedHospital.getDeviceURL());
-	        }
 
 	        // 업데이트된 병원 정보를 저장
 	        hospitalRepo.save(existingHospital);
@@ -116,7 +113,7 @@ public class HospitalController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Hospital> registHospital(Hospital hospital) {
+	public APIResponse<Hospital> registHospital(@RequestBody Hospital hospital) {
 
 		
 	    Hospital savedHospital = hospitalRepo.save(hospital);
