@@ -107,7 +107,6 @@ public class OauthService {
 		String email = kakaoUser.getKakao_account().getEmail();
 		if (user.isEmpty()) {
 			Nurse newUser = new Nurse().builder()
-					.name("test")
 					.email(email)
 					.password(passwordEncoder.encode(email))
 					.build();
