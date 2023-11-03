@@ -73,7 +73,7 @@ public class MyHandoverController {
         @ApiResponse(code = 200, message = "성공", response = MyHandover.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<List<ResponseSet>> getAllMyHandover(@RequestHeader("Authorizations") String token) {
+	public APIResponse<List<ResponseSet>> getAllMyHandover(@RequestHeader("Authorization") String token) {
 		Nurse nurse;
 		// 사용자 조회
 		try {

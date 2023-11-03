@@ -47,7 +47,7 @@ public class OffscheduleController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Offschedule> registOffschedule(@RequestHeader("Authorizations") String token, @RequestBody Offschedule offschedule) {
+	public APIResponse<Offschedule> registOffschedule(@RequestHeader("Authorization") String token, @RequestBody Offschedule offschedule) {
 		Nurse nurse;
 		// 사용자 조회
 		try {

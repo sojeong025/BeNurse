@@ -119,7 +119,7 @@ public class ScheduleController {
 	    @ApiResponse(code = 404, message = "근무를 찾을 수 없음."),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Schedule> getScheduleById(@RequestHeader("Authorizations") String token, @RequestBody ScheduleSearchCondition ssc) {
+	public APIResponse<Schedule> getScheduleById(@RequestHeader("Authorization") String token, @RequestBody ScheduleSearchCondition ssc) {
 		Nurse nurse;
 		// 사용자 조회
 		try {

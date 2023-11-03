@@ -51,7 +51,7 @@ public class NoticeController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Notice> registNotice(@RequestHeader("Authorizations") String token, @RequestBody Notice notice) {
+	public APIResponse<Notice> registNotice(@RequestHeader("Authorization") String token, @RequestBody Notice notice) {
 		Nurse nurse;
 		// 사용자 조회
 		try {

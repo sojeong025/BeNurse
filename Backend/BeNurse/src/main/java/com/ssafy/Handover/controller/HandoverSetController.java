@@ -66,7 +66,7 @@ public class HandoverSetController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<HandoverSet> registHandover(@RequestHeader("Authorizations") String token, @RequestBody HandoverSet handoverSet) {
+	public APIResponse<HandoverSet> registHandover(@RequestHeader("Authorization") String token, @RequestBody HandoverSet handoverSet) {
 		Nurse nurse;
 		// 사용자 조회
 		try {
@@ -106,13 +106,13 @@ public class HandoverSetController {
 	
 	// 인수자 인계장 조회 GET [묶음 ID]
 	@GetMapping("/set")
-	@ApiOperation(value = "인계장 묶음 조회 [묶음 ID]", notes = "인계장 묶음 ID를 통해 인계장 묶음 조회") 
+	@ApiOperation(value = "인계장 묶음 조회 [묶음 ID]", notes = "인계장 묶음 ID를 통해 인계장 묶음 조회[인계장 열람]") 
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = HandoverSet.class),
 	    @ApiResponse(code = 404, message = "인계장을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<HandoverSet> getHandoverSetById(@RequestParam("ID") long ID, @RequestHeader("Authorizations") String token) {
+	public APIResponse<HandoverSet> getHandoverSetById(@RequestParam("ID") long ID, @RequestHeader("Authorization") String token) {
 		Nurse nurse;
 		// 사용자 조회
 		try {
@@ -138,14 +138,23 @@ public class HandoverSetController {
 	
 	// 인수자 인계장 조회 GET [인계자 ID]
 	@GetMapping("/take")
-	@ApiOperation(value = "인계장 묶음 조회 [인계자 ID]", notes = "인계자 ID를 통해 인계장 묶음 조회") 
+	@ApiOperation(value = "인계장 묶음 조회 [인계자 ID]", notes = "인계자 ID를 통해 인계장 묶음 조회[인계묶음 리스트 조회]") 
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = HandoverSet.class),
 	    @ApiResponse(code = 404, message = "인계장을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<List<HandoverSet>> getHandoverSetByGiveId(@RequestParam("GIVE_ID") long giveID) {
-	    List<HandoverSet> handoverSet = setRepo.findAllByGiveID(giveID);
+	public APIResponse<List<HandoverSet>> getHandoverSetByGiveId(@RequestHeader("Authorization") String token) {
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		
+		List<HandoverSet> handoverSet = setRepo.findAllByGiveID(nurse.getID());
 
         return new APIResponse<>(handoverSet, HttpStatus.OK);
 	}
