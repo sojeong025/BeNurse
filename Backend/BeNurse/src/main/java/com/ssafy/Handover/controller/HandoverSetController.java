@@ -1,6 +1,7 @@
 package com.ssafy.Handover.controller;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -160,4 +161,23 @@ public class HandoverSetController {
 		else
 			return new APIResponse(HttpStatus.NOT_FOUND);
 	}  
+
+	// 인수자 인계장 조회 GET [인계자 ID]
+	@GetMapping("/details")
+	@ApiOperation(value = "인계장 묶음 내역 조회", notes = "인계장 묶음 ID를 통해 인계장 묶음에 포함된 인계장 조회") 
+	@ApiResponses({
+	    @ApiResponse(code = 200, message = "성공", response = HandoverSet.class),
+	    @ApiResponse(code = 404, message = "인계장을 찾을 수 없음"),
+	    @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public APIResponse<List<Handover>> getDetail(@RequestParam("set_ID") long id){
+		List<HandoverList> list = listRepo.findAllBySetID(id);
+		List<Handover> resp = new ArrayList<>();
+		for(HandoverList l : list) {
+			Optional<Handover> handover = handoverRepo.findById(l.getHandoverID());
+			if(handover.isPresent())
+				resp.add(handover.get());
+		}
+		return new APIResponse<>(resp, HttpStatus.OK);
+	}
 }

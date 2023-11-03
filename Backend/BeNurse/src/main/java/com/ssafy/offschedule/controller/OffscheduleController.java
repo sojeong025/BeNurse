@@ -47,7 +47,7 @@ public class OffscheduleController {
 	}
 	
 	// 휴무 신청 내역 삭제 DELETE
-	@DeleteMapping("/{id}")
+	@DeleteMapping("")
 	@ApiOperation(value = "휴무 신청 내역 삭제", notes = "휴무 신청 내역을 삭제")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = Offschedule.class),
@@ -67,7 +67,7 @@ public class OffscheduleController {
 	} 
 	
 	// 휴무 신청 내역 검색 GET
-	@GetMapping("/search")
+	@GetMapping("")
 	@ApiOperation(value = "휴무 신청 내역 검색", notes = "조건에 맞는 휴무 신청 내역 조회") 
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = Schedule.class),

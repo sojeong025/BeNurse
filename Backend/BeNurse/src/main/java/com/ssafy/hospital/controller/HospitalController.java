@@ -33,7 +33,7 @@ public class HospitalController {
 	HospitalRepository hospitalRepo;
 	
 	// 병원 정보 조회 GET
-	@GetMapping("/{id}")
+	@GetMapping("")
 	@ApiOperation(value = "병원 정보 조회", notes = "병원 ID로 특정 병원 정보 조회") 
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = Hospital.class),
@@ -70,7 +70,7 @@ public class HospitalController {
 	}
 	
 	// 병원 정보 수정 PUT
-	@PutMapping("/update")
+	@PutMapping("")
 	@ApiOperation(value = "병원 정보 수정", notes = "병원 정보 수정") 
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = Hospital.class),

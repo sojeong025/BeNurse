@@ -52,7 +52,7 @@ public class ScheduleController {
 	
 	
 	// 근무일정수정 PUT
-	@PutMapping("/update")
+	@PutMapping("")
 	@ApiOperation(value = "근무 일정 수정", notes = "근무 일정 수정") 
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = Schedule.class),
@@ -86,7 +86,7 @@ public class ScheduleController {
 	
 	
 	// 근무일정삭제	DELETE
-	@DeleteMapping("/{id}")
+	@DeleteMapping("")
 	@ApiOperation(value = "근무 일정 삭제", notes = "근무 일정 ID로 근무 일정 삭제")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = Schedule.class),

@@ -63,7 +63,7 @@ public class NoticeController {
 	    return new APIResponse<>(notice, HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("")
 	@ApiOperation(value = "특정 공지사항 조회", notes = "공지사항 ID로 특정 게시글 조회") 
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = Notice.class),
@@ -80,7 +80,7 @@ public class NoticeController {
 	        return new APIResponse(HttpStatus.NOT_FOUND);
 	}
 
-	@PutMapping("/update")
+	@PutMapping("")
 	@ApiOperation(value = "공지사항 수정", notes = "공지사항 내용 수정") 
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = Notice.class),
@@ -111,7 +111,7 @@ public class NoticeController {
 	    
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("")
 	@ApiOperation(value = "공지사항 삭제", notes = "공지사항을 삭제한다.")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = Notice.class),

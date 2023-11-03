@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.Handover.model.Handover;
+import com.ssafy.Handover.model.HandoverList;
+import com.ssafy.Handover.service.HandoverListRepository;
 import com.ssafy.Handover.service.HandoverRepository;
 import com.ssafy.Handover.service.HandoverSetRepository;
 import com.ssafy.Handover.service.MyHandoverRepository;
@@ -38,25 +40,35 @@ public class HandoverController {
 	HandoverSetRepository handvoersetRepo;
 	
 	@Autowired
+	HandoverListRepository listRepo;
+	
+	@Autowired
 	MyHandoverRepository myhandoverRepo;
 	
 	// 인계자 인계장 작성 POST
-	@PostMapping("/create")
+	@PostMapping("")
 	@ApiOperation(value = "인계자 인계장 작성", notes = "인계장을 작성하여 DB에 등록, 등록된 인계장 ID를 반환")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = Handover.class),
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Handover> registHandover(Handover handover) {
-	    // 데이터베이스에 저장
+	public APIResponse<Handover> registHandover(@RequestParam("setID") long setID , Handover handover) {
+	    
+		
+		// 데이터베이스에 저장
 	    Handover savedHandover = handoverRepo.save(handover);
+	    
+	    HandoverList newList = new HandoverList();
+	    newList.setHandoverID(savedHandover.getID());
+	    newList.setSetID(setID);
+		listRepo.save(newList);
 
 	    return new APIResponse<>(savedHandover, HttpStatus.OK);
 	}
 
 	// 인계자 인계장 수정 PUT
-	@PutMapping("/update")
+	@PutMapping("")
 	@ApiOperation(value = "인계자 인계장 수정", notes = "인계장을 수정하여 DB에 등록, 등록된 인계장 ID를 반환")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = Handover.class),
@@ -89,7 +101,7 @@ public class HandoverController {
 	}
 	
 	// 인수자 인계장 조회 GET
-	@GetMapping("/{id}")
+	@GetMapping("")
 	@ApiOperation(value = "인수자 인계장 조회", notes = "인계장 ID를 통해 인계장 내용 조회") 
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = Handover.class),
@@ -106,7 +118,7 @@ public class HandoverController {
 	}
 	
 	// 인계장 삭제 DELETE
-	@DeleteMapping("/{id}")
+	@DeleteMapping("")
 	@ApiOperation(value = "인계장 삭제", notes = "인계장을 삭제한다.")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = Handover.class),
