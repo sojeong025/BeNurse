@@ -52,7 +52,7 @@ public class OauthService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordEncoder passwordEncoder;
 
-	public TokenInfo kakaoLogin(String redirect_uri, String code) {
+	public TokenInfo kakaoLogin(String kakao_redirect_url, String code) {
 		log.info("인가 코드를 이용하여 토큰을 받습니다.");
 
 		String accessToken = "";
@@ -66,7 +66,7 @@ public class OauthService {
 			params.add("grant_type", "authorization_code");
 			params.add("client_id", KAKAO_CLIENT_ID);
 			params.add("client_secret", KAKAO_CLIENT_SECRET);
-			params.add("redirect_uri", redirect_uri);
+			params.add("redirect_uri", kakao_redirect_url);
 			params.add("code", code);
 
 			RestTemplate restTemplate = new RestTemplate();
