@@ -14,6 +14,13 @@ export const useDateStore = create((set) => ({
   },
 }));
 
+export const usePatientStore = create((set) => ({
+  selectedPatient: {},
+  setSelectedPatient: (patient) => {
+    set((state) => ({ selectedPatient: patient }));
+  },
+}));
+
 export const useDeviceStore = create((set) => ({
   isListActivated: false,
   ActivateList: () => {
