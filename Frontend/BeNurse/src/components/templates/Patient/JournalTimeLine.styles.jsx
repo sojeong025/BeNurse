@@ -14,7 +14,7 @@ export const JournalItemContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding-bottom: 50px;
+  padding-bottom: 130px;
   min-height: calc(100% - 60px);
 
   & > .timeline-border {
@@ -24,5 +24,15 @@ export const JournalItemContainer = styled.div`
     height: 101%;
     border-left: 2px solid ${Common.color.purple04};
     margin-top: -14px;
+  }
+
+  & > .timeline-empty {
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.5;
+    font-size: ${Common.fontSize.fontS};
   }
 `;

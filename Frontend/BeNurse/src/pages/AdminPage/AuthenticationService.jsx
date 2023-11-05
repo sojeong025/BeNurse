@@ -1,10 +1,11 @@
 import axios from "axios";
 
 const KAKAO_AUTH_URL = import.meta.env.VITE_KAKAO_LOGIN_URL;
+const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
 
 export const AuthenticationService = {
   loginSocialKakao: function () {
-    window.location.href = KAKAO_AUTH_URL;
+    window.location.href = `${KAKAO_AUTH_URL}&redirect_uri=${REDIRECT_URI}`;
   },
 
   kakaoLogin: async function (code) {
@@ -15,7 +16,7 @@ export const AuthenticationService = {
         {
           params: {
             code: code,
-            redirectUri: `http://localhost:5173/oauth/callback/kakao`,
+            redirectUri: REDIRECT_URI,
           },
         },
       );

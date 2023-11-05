@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Page 정리
+import SplashPage from "@pages/LoginPage/SplashPage";
 import MainPage from "@pages/MainPage/MainPage";
 import LoginPage from "@pages/LoginPage/LoginPage";
 
@@ -10,7 +11,10 @@ import DevicePage from "@pages//DevicePage/DevicePage";
 import PatientPage from "@pages/PatientPage/PatientPage";
 import PatientListPage from "@pages/PatientPage/PatientListPage";
 import PatientJournalPage from "@pages/PatientPage/PatientJournalPage";
+import PatientJournalMain from "@pages/PatientPage/PatientJournalMain";
 import PatientDetailPage from "@pages/PatientPage/PatientDetailPage";
+import PatientJournalWritePage from "@pages/PatientPage/PatientJournalWritePage";
+import PatientJournalUpdatePage from "@pages/PatientPage/PatientJournalUpdatePage";
 
 import HandOverPage from "@pages/HandOverPage/HandOverPage";
 import HandOverWritePage from "@pages/HandOverPage/HandOverWritePage";
@@ -53,6 +57,10 @@ export default function routes() {
     <Routes>
       <Route
         path="/"
+        element={<SplashPage />}
+      />
+      <Route
+        path="/main"
         element={<MainPage />}
       />
       <Route
@@ -91,7 +99,20 @@ export default function routes() {
         <Route
           path="detail/journal"
           element={<PatientJournalPage />}
-        />
+        >
+          <Route
+            path=""
+            element={<PatientJournalMain />}
+          />
+          <Route
+            path="write"
+            element={<PatientJournalWritePage />}
+          />
+          <Route
+            path=":journalId/update"
+            element={<PatientJournalUpdatePage />}
+          />
+        </Route>
       </Route>
       <Route
         path="/handover"

@@ -25,12 +25,12 @@ export const TimeChip = styled.div`
 `;
 
 export const JournalContentBox = styled.div`
-  min-width: 100px;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
   padding: 8px;
-  max-height: ${({ isSelected }) => (isSelected ? "1000px" : "50px")};
-  border: 1px solid #c4afff;
+  max-height: ${({ isSelected }) => (isSelected ? "1000px" : "60px")};
+  box-shadow: 2px 2px 5px 0 #c4afff71;
   background-color: #c4afff1c;
   border-radius: 12px;
   margin-top: -6px;
@@ -45,10 +45,20 @@ export const JournalContentBox = styled.div`
 
   & > .journal_bottom {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     font-size: ${Common.fontSize.fontXXS};
     color: ${Common.color.black01};
+  }
+
+  & .journal_type {
+    background: ${Common.color.purpleGrad01};
+    padding: 4px 10px;
+    border-radius: 10px;
+    color: ${Common.color.black03};
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;

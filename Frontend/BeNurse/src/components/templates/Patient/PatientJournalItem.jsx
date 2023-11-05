@@ -7,13 +7,13 @@ import LongPressable from "react-longpressable";
 
 import { useBottomSheetStore } from "../../../store/store";
 
-export default function PatientJournalItem({ id, journal }) {
+export default function PatientJournalItem({ key, journal }) {
   const { isEditActivated, ActivateEdit, selectedID, setSelectedID } =
     useBottomSheetStore((state) => state);
   const [isSelected, setIsSelected] = useState(false);
 
-  const onLongPress = () => {
-    ActivateEdit("", "");
+  const onLongPress = (key) => {
+    ActivateEdit(`${key}/update`, "");
   };
 
   const expandItem = () => {
@@ -22,7 +22,7 @@ export default function PatientJournalItem({ id, journal }) {
 
   return (
     <S.StyledJournalItem
-      id={id}
+      key={key}
       isSelected={isSelected}
     >
       <S.TimeChip>
@@ -31,14 +31,17 @@ export default function PatientJournalItem({ id, journal }) {
       </S.TimeChip>
 
       <LongPressable
-        onLongPress={onLongPress}
+        onLongPress={() => onLongPress(key)}
         onShortPress={expandItem}
         longPressTime={400}
       >
         <S.JournalContentBox isSelected={isSelected}>
           <div className="journal_top">{journal.content}</div>
           <hr style={{ width: "100%", border: "0.5px solid #D0BFFF" }} />
-          <div className="journal_bottom">{journal.writer} 간호사</div>
+          <div className="journal_bottom">
+            <div className="journal_type">투약 및 수액</div>
+            <div>{journal.writer} 간호사</div>
+          </div>
         </S.JournalContentBox>
       </LongPressable>
     </S.StyledJournalItem>

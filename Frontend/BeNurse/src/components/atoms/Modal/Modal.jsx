@@ -11,6 +11,7 @@ function Modal({
   closable,
   visible,
   children,
+  width,
 }) {
   const onMaskClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -41,8 +42,10 @@ function Modal({
         onClick={maskClosable ? onMaskClick : null}
         tabIndex={-1}
         visible={visible}
+        
       >
         <ModalInner
+          width={width}
           tabIndex={0}
           className="modal-inner"
         >
