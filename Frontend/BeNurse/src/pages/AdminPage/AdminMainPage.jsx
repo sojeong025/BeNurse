@@ -163,10 +163,31 @@ export default function AdminMainPage() {
             </div>
           </div>
           <hr style={{ width: "100%" }} />
-          <p>갑을 녹산 병원</p>
-          <p>051-273-2940</p>
-          <p>대충 EMR 링크</p>
-          <p>대충 녹산 어딘가</p>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "14px",
+              fontSize: "18px",
+            }}
+          >
+            <p>
+              <span style={{ fontWeight: Common.fontWeight.bold }}>
+                의료법인
+              </span>{" "}
+              갑을의료재단 갑을녹산병원
+            </p>
+            <p>
+              <span style={{ fontWeight: Common.fontWeight.bold }}>주소</span>{" "}
+              (46744)부산광역시 강서구 녹산산단321로 24-8
+            </p>
+            <p>
+              <span style={{ fontWeight: Common.fontWeight.bold }}>
+                대표 전화
+              </span>{" "}
+              051-974-8300
+            </p>
+          </div>
         </Box>
       </div>
     </div>
