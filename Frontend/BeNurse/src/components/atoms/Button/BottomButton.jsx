@@ -28,7 +28,7 @@ export default function BottomButton({
       }}
     >
       <Box
-        visibility={isFirstStep ? !isFirstStep : false}
+        visibility={isFirstStep !== undefined ? !isFirstStep : false}
         type="white"
         size={["180px", "50px"]}
         onClick={onPrevClick || onPrevPage}
