@@ -51,6 +51,7 @@ import AdminMainPage from "../pages/AdminPage/AdminMainPage";
 import AdminManagementPage from "../pages/AdminPage/AdminManagementPage";
 
 import ScheduleCreatePage from "../pages/ScheduleCreatePage/ScheduleCreatePage";
+import ScheduleCreateIntroPage from "../pages/ScheduleCreatePage/ScheduleCreateIntroPage";
 
 export default function routes() {
   return (
@@ -217,7 +218,12 @@ export default function routes() {
         <Route
           path="create-schedule"
           element={<ScheduleCreatePage />}
-        />
+        >
+          <Route
+            path=""
+            element={<ScheduleCreateIntroPage />}
+          />
+        </Route>
       </Route>
       <Route
         path="/oauth/callback/kakao"

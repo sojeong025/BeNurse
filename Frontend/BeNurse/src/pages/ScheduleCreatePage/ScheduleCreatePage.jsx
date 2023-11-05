@@ -22,7 +22,7 @@ export default function ScheduleCreatePage() {
         gap: "40px",
       }}
     >
-      ScheduleCreatePage
+      <Outlet />
     </div>
   );
 }
