@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 import Input from "@components/atoms/Input/Input";
@@ -7,11 +7,21 @@ import PatientFilterSelect from "@components/templates/Patient/PatientFilterSele
 
 import { Common } from "@utils/global.styles.jsx";
 
+import { usePatientStore } from "@store/store";
+
 export default function PatientListPage() {
+  const { setSelectedPatient } = usePatientStore();
+
+  useEffect(() => {
+    setSelectedPatient({});
+  }, []);
+
   const patients = [
     {
       id: "1",
       name: "종박사",
+      age: "32",
+      gender: "남",
       cc: "다리 외상",
       group: "내과 B동",
       room: "B503",
@@ -19,6 +29,8 @@ export default function PatientListPage() {
     {
       id: "2",
       name: "김싸피",
+      age: "45",
+      gender: "여",
       cc: "다리 외상",
       group: "내과 B동",
       room: "B503",
@@ -26,6 +38,8 @@ export default function PatientListPage() {
     {
       id: "3",
       name: "이이이",
+      age: "64",
+      gender: "남",
       cc: "다리 외상",
       group: "내과 B동",
       room: "B503",
@@ -33,6 +47,8 @@ export default function PatientListPage() {
     {
       id: "4",
       name: "김김김",
+      age: "13",
+      gender: "여",
       cc: "다리 외상",
       group: "내과 B동",
       room: "B503",
@@ -92,9 +108,12 @@ export default function PatientListPage() {
           }}
         >
           {patients.map((patientInfo) => (
-            <NavLink to="detail">
+            <NavLink
+              to="detail"
+              key={patientInfo.id}
+              onClick={() => setSelectedPatient(patientInfo)}
+            >
               <PatientItem
-                key={patientInfo.id}
                 type="patient"
                 patientInfo={patientInfo}
               />

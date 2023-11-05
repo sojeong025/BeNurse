@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import JournalDatePicker from "../../components/templates/Patient/JournalDatePicker";
@@ -8,7 +8,7 @@ import BottomSelectPanel from "../../components/templates/BottomSelectPanel/Bott
 
 export default function PatientJournalMain() {
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", marginTop: "73px" }}>
       <JournalDatePicker />
       <JournalTimeLine />
       <Link

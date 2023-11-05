@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Button, message, Steps, theme } from "antd";
+import { message, Steps } from "antd";
 import Container from "@components/atoms/Container/Container";
 import BottomButton from "@components/atoms/Button/BottomButton";
 
 import HandOverDetailInfo from "@components/templates/HandOver/HandOverDetailInfo";
+import HandOverDetailDosage from "@components/templates/HandOver/HandOverDetailDosage";
 import HandOverDetailCC from "@components/templates/HandOver/HandOverDetailCC";
+import HandOverDetailSign from "@components/templates/HandOver/HandOverDetailSign";
 
 import * as S from "./HandOverWriteStep.styles";
 
 export default function HandOverWriteStep() {
+  const [bgColor, setBgColor] = useState("white");
+
   const steps = [
     {
       title: "First",
@@ -16,7 +20,7 @@ export default function HandOverWriteStep() {
     },
     {
       title: "Second",
-      content: "Second-content",
+      content: <HandOverDetailDosage />,
     },
     {
       title: "Last",
@@ -24,12 +28,20 @@ export default function HandOverWriteStep() {
     },
     {
       title: "Last",
-      content: "Last-content",
+      content: <HandOverDetailSign />,
     },
   ];
 
-  const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (current === 0 || current === 1) {
+      setBgColor("white");
+    } else {
+      setBgColor("purple");
+    }
+  }, [current]);
+
   const onChange = (value) => {
     setCurrent(value);
   };
@@ -44,7 +56,7 @@ export default function HandOverWriteStep() {
     title: "",
   }));
   return (
-    <Container>
+    <Container backgroundColor={bgColor}>
       <div style={{ width: "100%", marginTop: "100px" }}>
         <S.StepBox>
           <Steps
@@ -57,11 +69,7 @@ export default function HandOverWriteStep() {
 
         <div>{steps[current].content}</div>
         <div>
-          {current === 0 && (
-            <BottomButton
-              onNextClick={() => next()}
-            />
-          )}
+          {current === 0 && <BottomButton onNextClick={() => next()} />}
           {current === steps.length - 1 && (
             <BottomButton
               onPrevClick={() => prev()}

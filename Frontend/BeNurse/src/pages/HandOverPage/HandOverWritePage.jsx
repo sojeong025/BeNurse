@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Container from "@components/atoms/Container/Container";
 import PatientItem from "@components/templates/Patient/PatientItem";
 import Input from "@components/atoms/Input/Input";
+
 import { Select } from "./HandOverWritePage.styles";
 
+import { usePatientStore } from "@store/store";
+
 export default function HandOverWritePage() {
+  const { setSelectedPatient } = usePatientStore();
+
+  useEffect(() => {
+    setSelectedPatient({});
+  }, []);
+
   const today = new Date();
   const days = ["일", "월", "화", "수", "목", "금", "토"];
   let day = days[today.getDay()];
@@ -23,6 +32,8 @@ export default function HandOverWritePage() {
     {
       id: "1",
       name: "종박사",
+      age: "32",
+      gender: "남",
       cc: "다리 외상",
       group: "내과 B동",
       room: "B503",
@@ -30,6 +41,8 @@ export default function HandOverWritePage() {
     {
       id: "2",
       name: "김싸피",
+      age: "45",
+      gender: "여",
       cc: "다리 외상",
       group: "내과 B동",
       room: "B503",
@@ -37,6 +50,8 @@ export default function HandOverWritePage() {
     {
       id: "3",
       name: "이이이",
+      age: "64",
+      gender: "남",
       cc: "다리 외상",
       group: "내과 B동",
       room: "B503",
@@ -44,6 +59,8 @@ export default function HandOverWritePage() {
     {
       id: "4",
       name: "김김김",
+      age: "13",
+      gender: "여",
       cc: "다리 외상",
       group: "내과 B동",
       room: "B503",
@@ -93,6 +110,7 @@ export default function HandOverWritePage() {
             <NavLink
               to="patients/write"
               key={patientInfo.id}
+              onClick={() => setSelectedPatient(patientInfo)}
             >
               <PatientItem
                 type="patient"

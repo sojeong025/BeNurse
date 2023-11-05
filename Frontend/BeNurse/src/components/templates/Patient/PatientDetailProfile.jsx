@@ -12,7 +12,12 @@ import patientImg from "@assets/Images/patient_male.png";
 // Icons
 import schedule from "@assets/Icons/schedule.svg";
 
+// Store
+import { usePatientStore } from "@store/store";
+
 export default function PatientDetailProfile() {
+  const { selectedPatient } = usePatientStore((state) => state);
+
   return (
     <Box
       type={"purple02"}
@@ -29,8 +34,10 @@ export default function PatientDetailProfile() {
 
         <div>
           <div>
-            <span className="patient_name">김싸피</span>
-            <span className="patient_ageGen">/ 52세 남</span>
+            <span className="patient_name">{selectedPatient.name}</span>
+            <span className="patient_ageGen">
+              / {selectedPatient.age}세 {selectedPatient.gender}
+            </span>
           </div>
 
           <div className="patient_info">

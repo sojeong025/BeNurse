@@ -163,3 +163,11 @@ textarea:focus-visible {
 #root {
   position: relative;
 }
+
+.handover-detail [data-rsbs-header] {
+  background: #9669f9;
+  border-radius: 16px 16px 0 0;
+}
+.handover-detail [data-rsbs-scroll] {
+  margin-top: -1px;
+}

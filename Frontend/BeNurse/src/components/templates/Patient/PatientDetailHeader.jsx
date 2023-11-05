@@ -27,7 +27,7 @@ export default function PatientDetailHeader({ type }) {
         >
           주요 내역
         </span>
-        <NavLink to="journal">
+        <NavLink to="/patient/detail/journal">
           <div style={{ display: "flex", alignItems: "center" }}>
             <span
               style={{
