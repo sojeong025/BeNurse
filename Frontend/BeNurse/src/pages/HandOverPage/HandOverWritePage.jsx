@@ -58,7 +58,7 @@ export default function HandOverWritePage() {
       <div
         style={{
           marginTop: "30px",
-          paddingTop: "24px",
+          paddingTop: "74px",
           width: "calc(100% - 28px)",
         }}
       >
