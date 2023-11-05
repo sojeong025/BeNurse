@@ -1,8 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Common } from "../../../utils/global.styles";
+import { IoChevronBackOutline } from "react-icons/io5"
+import { GoBell } from "react-icons/go"
 
 export default function NavBar() {
+  const navigate = useNavigate();
+
+  const onPrevClick = () => {
+    navigate(-1);
+  };
+
+  // 왼쪽에 뒤로가기 필요하면 여기 넣기
+  const backRoutes = ["/mypage", "/notice", "/device", "/patient"]
+  const shouldDisplayBackIcon = backRoutes.includes(location.pathname)
+
+  // 알림버튼 없애려면 여기 넣기
+  const noNotice = ["/notice/write", "/schedule"]
+
+
   const [visibility, setVisibility] = useState("flex");
   const [navTitle, setNavTitle] = useState("Be Nurse");
   const [navColor, setNavColor] = useState(Common.color.white01);
@@ -88,7 +104,7 @@ export default function NavBar() {
         top: 0,
         zIndex: 2,
         display: visibility,
-        justifyContent: "center",
+        justifyContent: "space-between",
         alignItems: "flex-end",
         width: "412px",
         height: "74px",
@@ -98,7 +114,11 @@ export default function NavBar() {
         boxShadow: navBoxShadow,
       }}
     >
-      <span
+      <div onClick={shouldDisplayBackIcon ? onPrevClick : null} style={{ paddingLeft: "14px", display: "flex", alignItems: "flex-end" }}>
+        <IoChevronBackOutline size={20} style={{ visibility: shouldDisplayBackIcon ? 'visible' : 'hidden' }} />
+      </div>
+
+      <div
         style={{
           fontSize: Common.fontSize.fontM,
           fontWeight: Common.fontWeight.extrabold,
@@ -106,7 +126,11 @@ export default function NavBar() {
         }}
       >
         {navTitle}
-      </span>
+      </div>
+      <div style={{paddingRight: "14px", display:"flex", alignItems:"flex-end"}}>
+  <GoBell size={20} style={{ visibility: noNotice.includes(path) ? 'hidden' : 'visible' }} />
+</div>
+
     </div>
   );
 }
