@@ -81,6 +81,7 @@ export default function NurseTip() {
     <S.TipBoxContainer>
       {tips.map((tip, i) => (
         <Box
+          key={i}
           type="white"
           size={["160px", "120px"]}
         >

@@ -5,11 +5,12 @@ import * as S from "./JournalTimeLine.styles";
 
 import { useDateStore } from "../../../store/store";
 
+import { useSwipeable } from "react-swipeable";
+
 import PatientJournalItem from "./PatientJournalItem";
+import empty from "@assets/Images/empty.png";
 
 export default function JournalTimeLine() {
-  const { selectedDate, setSelectedDate } = useDateStore((state) => state);
-
   const journalItems = [
     {
       time: moment().add(1, "days"),
@@ -85,21 +86,44 @@ export default function JournalTimeLine() {
     },
   ];
 
+  const { selectedDate, setSelectedDate } = useDateStore((state) => state);
+
+  const handlers = useSwipeable({
+    onSwipedLeft: () => setSelectedDate(moment(selectedDate).add(1, "days")),
+    onSwipedRight: () =>
+      setSelectedDate(moment(selectedDate).subtract(1, "days")),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  });
+
   return (
     <>
-      <S.TimeLineContainer>
+      <S.TimeLineContainer {...handlers}>
         <S.JournalItemContainer>
           {journalItems.map((journal, i) => {
             if (journal.time.isSame(selectedDate, "day")) {
               return (
                 <PatientJournalItem
-                  id={i}
+                  key={i}
                   journal={journal}
                 />
               );
             }
           })}
-          <div className="timeline-border"></div>
+          {journalItems.filter((el) => el.time.isSame(selectedDate, "day"))
+            .length > 0 ? (
+            <div className="timeline-border"></div>
+          ) : (
+            <div className="timeline-empty">
+              <img
+                src={empty}
+                alt=""
+                width="150px"
+                height="150px"
+              />
+              <p>등록된 기록이 없습니다.</p>
+            </div>
+          )}
         </S.JournalItemContainer>
       </S.TimeLineContainer>
     </>
