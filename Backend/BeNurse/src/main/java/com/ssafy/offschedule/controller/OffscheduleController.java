@@ -93,8 +93,8 @@ public class OffscheduleController {
 	    @ApiResponse(code = 404, message = "휴무를 찾을 수 없음."),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<List<Offschedule>> getOffscheduleBynurseID(@RequestBody IDRequest req){	
-	    List<Offschedule> offschedule = offscheduleRepo.findAllBynurseID(req.getID());
+	public APIResponse<List<Offschedule>> getOffscheduleBynurseID(@RequestParam("ID") long ID){	
+	    List<Offschedule> offschedule = offscheduleRepo.findAllBynurseID(ID);
 	    return new APIResponse(offschedule, HttpStatus.OK);
 
 	}

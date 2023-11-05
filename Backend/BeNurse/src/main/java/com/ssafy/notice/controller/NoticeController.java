@@ -101,8 +101,8 @@ public class NoticeController {
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	@Cacheable(value="notice", key="#ID")
-	public APIResponse<Notice> getNoticeById(@RequestBody IDRequest req) {
-	    Optional<Notice> notice = noticeRepo.findById(req.getID());
+	public APIResponse<Notice> getNoticeById(@RequestParam("ID") long ID) {
+	    Optional<Notice> notice = noticeRepo.findById(ID);
 
 	    if (notice.isPresent())
 	        return new APIResponse(notice.get(), HttpStatus.OK);

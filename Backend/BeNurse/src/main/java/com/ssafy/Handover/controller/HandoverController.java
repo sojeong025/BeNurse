@@ -112,8 +112,8 @@ public class HandoverController {
 	    @ApiResponse(code = 404, message = "인계장을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Handover> getHandoverById(@RequestBody IDRequest req) {
-	    Optional<Handover> handover = handoverRepo.findById(req.getID());
+	public APIResponse<Handover> getHandoverById(@RequestParam("ID") long ID) {
+	    Optional<Handover> handover = handoverRepo.findById(ID);
 
 	    if (handover.isPresent())
 	        return new APIResponse<>(handover.get(), HttpStatus.OK);
