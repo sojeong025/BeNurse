@@ -4,14 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.common.jwt.TokenInfo;
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.nurse.model.Nurse;
+import com.ssafy.oauth.request.OauthLoginRequest;
 import com.ssafy.oauth.serivce.OauthService;
 
 import io.swagger.annotations.Api;
@@ -37,9 +38,9 @@ public class OauthController {
 		@ApiResponse(code = 404, message = "인증 오류"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<TokenInfo> kakaoLogin(@RequestParam("redirectUri") String kakao_redirect_url, @RequestParam("code") String code) {
+	public APIResponse<TokenInfo> kakaoLogin(@RequestBody OauthLoginRequest req) {
 		try {
-			return new APIResponse(oauthService.kakaoLogin(kakao_redirect_url, code), HttpStatus.OK);
+			return new APIResponse(oauthService.kakaoLogin(req.getKakao_redirect_url(), req.getCode()), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new APIResponse(HttpStatus.UNAUTHORIZED);

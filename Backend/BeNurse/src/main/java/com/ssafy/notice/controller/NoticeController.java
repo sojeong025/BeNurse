@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.common.utils.APIResponse;
+import com.ssafy.common.utils.IDRequest;
 import com.ssafy.notice.model.Notice;
 import com.ssafy.notice.service.NoticeRepository;
 import com.ssafy.nurse.model.Nurse;
@@ -100,8 +101,8 @@ public class NoticeController {
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	@Cacheable(value="notice", key="#ID")
-	public APIResponse<Notice> getNoticeById(@RequestParam("ID") long ID) {
-	    Optional<Notice> notice = noticeRepo.findById(ID);
+	public APIResponse<Notice> getNoticeById(@RequestBody IDRequest req) {
+	    Optional<Notice> notice = noticeRepo.findById(req.getID());
 
 	    if (notice.isPresent())
 	        return new APIResponse(notice.get(), HttpStatus.OK);
@@ -150,8 +151,8 @@ public class NoticeController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
     @CacheEvict(value = "notice", key="#ID")
-	public APIResponse<Void> deleteNoticeById(@RequestParam("ID") long ID) {
-	    Optional<Notice> notice = noticeRepo.findById(ID);
+	public APIResponse<Void> deleteNoticeById(@RequestBody IDRequest req) {
+	    Optional<Notice> notice = noticeRepo.findById(req.getID());
 
 	    if(notice.isPresent()) {
 	    	noticeRepo.delete(notice.get());

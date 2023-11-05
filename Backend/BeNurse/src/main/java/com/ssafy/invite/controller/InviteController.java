@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.common.utils.APIResponse;
+import com.ssafy.common.utils.NameRequest;
 import com.ssafy.invite.model.Invite;
+import com.ssafy.invite.request.CodeRequest;
 import com.ssafy.invite.service.InviteRedisRepository;
 import com.ssafy.notice.model.Notice;
 import com.ssafy.nurse.model.Nurse;
@@ -45,13 +47,13 @@ public class InviteController {
 	NurseRepository nurseRepo;
 	
 	@PostMapping("")
-	@ApiOperation(value = "초대코드 발급", notes = "초대코드를 생성, 발급한다. 초대 받을 사람의 이름이 필요 \n{\n\t\"name\" : \"이름\"\n}")
+	@ApiOperation(value = "초대코드 발급", notes = "초대코드를 생성, 발급한다. 초대 받을 사람의 이름이 필요")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = String.class),
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<String> getInviteCode(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> body) {
+	public APIResponse<String> getInviteCode(@RequestHeader("Authorization") String token, @RequestBody NameRequest req) {
 		Nurse nurse;
 		// 사용자 조회
 		try {
@@ -71,7 +73,7 @@ public class InviteController {
 			check = invRepo.findById(invCode);
 		}
 		log.info(invCode);
-		Invite inv = new Invite(invCode, nurse.getHospitalID(), nurse.getWardID(), (String)body.get("name"));
+		Invite inv = new Invite(invCode, nurse.getHospitalID(), nurse.getWardID(), req.getName());
 		
 	    invRepo.save(inv);
 	    return new APIResponse<>(inv.getInviteCode(), HttpStatus.OK);
@@ -84,7 +86,7 @@ public class InviteController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Void> authInviteCode(@RequestHeader("Authorization") String token, @RequestBody Map<String,Object> body) {
+	public APIResponse<Void> authInviteCode(@RequestHeader("Authorization") String token, @RequestBody CodeRequest req) {
 
 		Nurse nurse;
 		// 사용자 조회
@@ -97,7 +99,7 @@ public class InviteController {
 		Nurse user = nurse;
 		// 초대코드 조회
 		try {
-			Optional<Invite> found = invRepo.findById((String)body.get("code"));
+			Optional<Invite> found = invRepo.findById(req.getCode());
 			Invite info = found.get();
 			user.setHospitalID(info.getHospitalID());
 			user.setWardID(info.getWardID());
@@ -117,10 +119,10 @@ public class InviteController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Invite> checkInviteCode(@RequestBody Map<String, Object> body) {
+	public APIResponse<Invite> checkInviteCode(@RequestBody CodeRequest req) {
 		// 초대코드 조회
 		try {
-			Invite invite = invRepo.findById((String)body.get("code")).get();
+			Invite invite = invRepo.findById(req.getCode()).get();
 			
 			return new APIResponse(invite, HttpStatus.OK);
 		}catch (Exception e) {

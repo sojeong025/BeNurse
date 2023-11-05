@@ -21,6 +21,7 @@ import com.ssafy.Schedule.model.Schedule;
 import com.ssafy.Schedule.model.ScheduleSearchCondition;
 import com.ssafy.Schedule.service.ScheduleRepository;
 import com.ssafy.common.utils.APIResponse;
+import com.ssafy.common.utils.IDRequest;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
 
@@ -98,8 +99,8 @@ public class ScheduleController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Void> deleteScheduleById(@RequestParam("ID") long ID) {
-	    Optional<Schedule> schedule = scheduleRepo.findById(ID);
+	public APIResponse<Void> deleteScheduleById(@RequestBody IDRequest req) {
+	    Optional<Schedule> schedule = scheduleRepo.findById(req.getID());
 
 	    if(schedule.isPresent()) {
 	    	scheduleRepo.delete(schedule.get());
@@ -160,9 +161,9 @@ public class ScheduleController {
 	    @ApiResponse(code = 404, message = "근무를 찾을 수 없음."),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<List<Schedule>> getScheduleByCondition(@RequestParam("nurseID") long nurseID, @RequestBody ScheduleSearchCondition ssc) {
+	public APIResponse<List<Schedule>> getScheduleByCondition(@RequestBody ScheduleSearchCondition req) {
 	    // 여기서 간호사ID와 기간에 따라 근무 일정을 조회하도록 변경
-	    List<Schedule> schedule = scheduleRepo.findByNurseIDAndWorkdateBetween(nurseID, ssc.getStartDate(), ssc.getEndDate());
+	    List<Schedule> schedule = scheduleRepo.findByNurseIDAndWorkdateBetween(req.getNurseID(), req.getStartDate(), req.getEndDate());
 	    if (schedule.isEmpty()) {
 	        return new APIResponse(HttpStatus.NOT_FOUND); // 근무 일정을 찾을 수 없을 경우 404 반환
 	    }

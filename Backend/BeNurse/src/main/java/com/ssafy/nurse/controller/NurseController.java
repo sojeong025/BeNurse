@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.common.utils.APIResponse;
+import com.ssafy.common.utils.IDRequest;
+import com.ssafy.common.utils.NameRequest;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.nurse.service.NurseRepository;
 
@@ -56,8 +58,8 @@ public class NurseController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	@Cacheable(value="nurse", key="#ID")
-	public APIResponse<Nurse> getNurse(@RequestParam("ID") long ID) {
-		Optional<Nurse> nurse = nurseRepo.findById(ID);
+	public APIResponse<Nurse> getNurse(@RequestBody IDRequest req) {
+		Optional<Nurse> nurse = nurseRepo.findById(req.getID());
 		if(nurse.isPresent())
 			return new APIResponse<>(nurse.get(), HttpStatus.OK);
 		else
@@ -70,19 +72,19 @@ public class NurseController {
         @ApiResponse(code = 200, message = "성공", response = List.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<List<Nurse>> getNurseByName(@RequestParam("name") String name) {
-		List<Nurse> nurse = nurseRepo.findAllByNameContaining(name);
+	public APIResponse<List<Nurse>> getNurseByName(@RequestBody NameRequest req) {
+		List<Nurse> nurse = nurseRepo.findAllByNameContaining(req.getName());
 	    return new APIResponse<>(nurse, HttpStatus.OK);
 	}
 	
 	@GetMapping("/hospital")
-	@ApiOperation(value = "간호사 병원 검색", notes = "소속 병원으로 간호사를 조회한다.") 
+	@ApiOperation(value = "간호사 병원 검색", notes = "소속 병원 ID로 간호사를 조회한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공", response = List.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<List<Nurse>> getNurseByName(@RequestParam("hospital_ID") long id) {
-		List<Nurse> nurse = nurseRepo.findAllByHospitalID(id);
+	public APIResponse<List<Nurse>> getNurseByName(@RequestBody IDRequest req) {
+		List<Nurse> nurse = nurseRepo.findAllByHospitalID(req.getID());
 	    return new APIResponse<>(nurse, HttpStatus.OK);
 	}
 	
@@ -116,8 +118,8 @@ public class NurseController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
     @CacheEvict(value = "nurse", key="#ID")
-	public APIResponse<Void> deleteNurseById(@RequestParam("ID") long ID) {
-	    Optional<Nurse> nurse = nurseRepo.findById(ID);
+	public APIResponse<Void> deleteNurseById(@RequestBody IDRequest req) {
+	    Optional<Nurse> nurse = nurseRepo.findById(req.getID());
 
 	    if(nurse.isPresent()) {
 	    	nurseRepo.delete(nurse.get());

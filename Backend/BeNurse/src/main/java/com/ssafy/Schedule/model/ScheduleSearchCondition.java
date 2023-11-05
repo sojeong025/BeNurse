@@ -27,6 +27,8 @@ import lombok.ToString;
 @ToString
 public class ScheduleSearchCondition {
 	
+	private long nurseID;
+	
     @DateTimeFormat(pattern = "yyyy-MM-dd") 
     private LocalDate startDate;
     

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.Handover.model.HandoverSet;
 import com.ssafy.Handover.model.MyHandover;
 import com.ssafy.Handover.model.ResponseSet;
+import com.ssafy.Handover.request.MyHandoverPostRequest;
 import com.ssafy.Handover.service.HandoverSetRepository;
 import com.ssafy.Handover.service.MyHandoverRepository;
 import com.ssafy.common.utils.APIResponse;
@@ -54,11 +55,11 @@ public class MyHandoverController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<MyHandover> registMyHandover(@RequestParam("setID") long setID, @RequestBody List<Long> takeIDs) {
+	public APIResponse<MyHandover> registMyHandover(@RequestBody MyHandoverPostRequest req) {
 
-		for(long takeID : takeIDs) {
+		for(long takeID : req.getTakeIDs()) {
 			MyHandover handoversheet = new MyHandover();
-			handoversheet.setSetID(setID);
+			handoversheet.setSetID(req.getSetID());
 			handoversheet.setTakeID(takeID);
 			handoversheet.setReaded(false);
 			myhoRepo.save(handoversheet);

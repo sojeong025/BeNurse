@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.common.utils.APIResponse;
+import com.ssafy.common.utils.IDRequest;
+import com.ssafy.common.utils.NameRequest;
 import com.ssafy.hospital.model.Hospital;
 import com.ssafy.hospital.model.Ward;
 import com.ssafy.hospital.service.HospitalRepository;
@@ -52,8 +54,8 @@ public class WardController {
 	    @ApiResponse(code = 404, message = "병원을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Hospital> getHospitalById(@RequestParam("ID") long ID) {
-	    Optional<Hospital> hospital = hospitalRepo.findById(ID);
+	public APIResponse<Hospital> getHospitalById(@RequestBody IDRequest req) {
+	    Optional<Hospital> hospital = hospitalRepo.findById(req.getID());
 
 	    if (hospital.isPresent())
 	        return new APIResponse<>(hospital.get(), HttpStatus.OK);
@@ -95,7 +97,7 @@ public class WardController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	
-	public APIResponse<Ward> registHospital(@RequestHeader("Authorization") String token, @RequestBody String wardName) {
+	public APIResponse<Ward> registHospital(@RequestHeader("Authorization") String token, @RequestBody NameRequest req) {
 		Nurse nurse;
 		// 사용자 조회
 		try {
@@ -108,7 +110,7 @@ public class WardController {
 		// 사용자 병원으로 병원 ID 등록
 		Ward ward = new Ward();
 		ward.setHospitalID(nurse.getHospitalID());
-		ward.setName(wardName);
+		ward.setName(req.getName());
 	    
 		Ward savedWard = wardRepo.save(ward);
 	    return new APIResponse<>(savedWard, HttpStatus.OK);
@@ -121,8 +123,8 @@ public class WardController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Void> deleteHospitalById(@RequestParam("ID") long ID) {
-	    Optional<Hospital> hospital = hospitalRepo.findById(ID);
+	public APIResponse<Void> deleteHospitalById(@RequestBody IDRequest req) {
+	    Optional<Hospital> hospital = hospitalRepo.findById(req.getID());
 
 	    if(hospital.isPresent()) {
 	    	hospitalRepo.delete(hospital.get());

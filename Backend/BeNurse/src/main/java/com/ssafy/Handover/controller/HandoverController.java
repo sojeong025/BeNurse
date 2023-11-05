@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.Handover.model.Handover;
 import com.ssafy.Handover.model.HandoverList;
+import com.ssafy.Handover.model.HandoverPostRequest;
 import com.ssafy.Handover.service.HandoverListRepository;
 import com.ssafy.Handover.service.HandoverRepository;
 import com.ssafy.Handover.service.HandoverSetRepository;
 import com.ssafy.Handover.service.MyHandoverRepository;
 import com.ssafy.common.utils.APIResponse;
+import com.ssafy.common.utils.IDRequest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -55,15 +57,15 @@ public class HandoverController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Handover> registHandover(@RequestParam("setID") long setID ,@RequestBody Handover handover) {
+	public APIResponse<Handover> registHandover(@RequestBody HandoverPostRequest req) {
 	    
 		
 		// 데이터베이스에 저장
-	    Handover savedHandover = handoverRepo.save(handover);
+	    Handover savedHandover = handoverRepo.save(req.getHandover());
 	    
 	    HandoverList newList = new HandoverList();
 	    newList.setHandoverID(savedHandover.getID());
-	    newList.setSetID(setID);
+	    newList.setSetID(req.getSetID());
 		listRepo.save(newList);
 
 	    return new APIResponse<>(savedHandover, HttpStatus.OK);
@@ -110,8 +112,8 @@ public class HandoverController {
 	    @ApiResponse(code = 404, message = "인계장을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Handover> getHandoverById(@RequestParam("ID") long ID) {
-	    Optional<Handover> handover = handoverRepo.findById(ID);
+	public APIResponse<Handover> getHandoverById(@RequestBody IDRequest req) {
+	    Optional<Handover> handover = handoverRepo.findById(req.getID());
 
 	    if (handover.isPresent())
 	        return new APIResponse<>(handover.get(), HttpStatus.OK);
@@ -128,8 +130,8 @@ public class HandoverController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
     @CacheEvict(value = "handover", key="#ID")
-	public APIResponse<Void> deleteHandoverById(@RequestParam("ID") long ID) {
-	    Optional<Handover> handover = handoverRepo.findById(ID);
+	public APIResponse<Void> deleteHandoverById(@RequestBody IDRequest req) {
+	    Optional<Handover> handover = handoverRepo.findById(req.getID());
 
 	    if(handover.isPresent()) {
 	    	handoverRepo.delete(handover.get());

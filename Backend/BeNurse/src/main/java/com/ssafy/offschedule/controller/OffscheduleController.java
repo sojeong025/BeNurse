@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.Schedule.model.Schedule;
 import com.ssafy.common.utils.APIResponse;
+import com.ssafy.common.utils.IDRequest;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
 import com.ssafy.offschedule.model.Offschedule;
@@ -72,8 +73,8 @@ public class OffscheduleController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Void> deleteOffscheduleById(@RequestParam("ID") long ID) {
-	    Optional<Offschedule> offschedule = offscheduleRepo.findById(ID);
+	public APIResponse<Void> deleteOffscheduleById(@RequestBody IDRequest req) {
+	    Optional<Offschedule> offschedule = offscheduleRepo.findById(req.getID());
 
 	    if(offschedule.isPresent()) {
 	    	offscheduleRepo.delete(offschedule.get());
@@ -86,17 +87,14 @@ public class OffscheduleController {
 	
 	// 휴무 신청 내역 검색 GET
 	@GetMapping("")
-	@ApiOperation(value = "휴무 신청 내역 검색", notes = "조건에 맞는 휴무 신청 내역 조회") 
+	@ApiOperation(value = "휴무 신청 내역 검색", notes = "간호사 ID로 휴무 신청 내역 조회") 
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = Schedule.class),
 	    @ApiResponse(code = 404, message = "휴무를 찾을 수 없음."),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<List<Offschedule>> getOffscheduleBynurseID(
-			@RequestParam("nurseID") long nurseID
-			)
-	{	
-	    List<Offschedule> offschedule = offscheduleRepo.findAllBynurseID(nurseID);
+	public APIResponse<List<Offschedule>> getOffscheduleBynurseID(@RequestBody IDRequest req){	
+	    List<Offschedule> offschedule = offscheduleRepo.findAllBynurseID(req.getID());
 	    return new APIResponse(offschedule, HttpStatus.OK);
 
 	}
