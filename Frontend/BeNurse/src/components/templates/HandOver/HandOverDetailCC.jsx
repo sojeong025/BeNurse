@@ -43,7 +43,7 @@ export default function HandOverDetailCC() {
         <p>주호소 3</p>
         <Input variant={"default"} />
       </div>
-      <div style={{ marginLeft: "-6px" }}>
+      <div>
         <BottomButton onNextClick={nextStep} />
       </div>
     </div>

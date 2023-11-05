@@ -9,7 +9,7 @@ export default function HandOverDetailDosage() {
     navigate("../CC");
   };
   return (
-    <div style={{ marginLeft: "-6px" }}>
+    <div>
       <BottomButton onNextClick={nextStep}></BottomButton>
     </div>
   );

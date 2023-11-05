@@ -43,7 +43,7 @@ export default function HandOverDetailSign() {
         <p>특이 사항 3</p>
         <Input variant={"default"} />
       </div>
-      <div style={{ marginLeft: "-6px" }}>
+      <div>
         <BottomButton
           nextText={"완료"}
           onNextClick={complete}
