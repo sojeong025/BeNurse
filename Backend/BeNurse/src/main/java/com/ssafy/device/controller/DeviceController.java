@@ -125,7 +125,7 @@ public class DeviceController {
 		    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
 		    @ApiResponse(code = 500, message = "서버 오류")
 		})
-		public APIResponse<Device> getNoticeById(@RequestHeader("Authorization") String token, @RequestParam("DeviceID") long DeviceID) {
+		public APIResponse<Device> getDeviceById(@RequestHeader("Authorization") String token, @RequestParam("DeviceID") long DeviceID) {
 			Nurse nurse;
 			// 사용자 조회
 			try {
