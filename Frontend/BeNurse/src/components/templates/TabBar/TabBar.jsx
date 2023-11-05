@@ -19,6 +19,7 @@ export default function TabBar() {
   useEffect(() => {
     console.log(location.pathname);
     if (
+      location.pathname === "/" ||
       location.pathname.startsWith("/login") ||
       location.pathname === "/off-application" ||
       location.pathname === "/off-application-finish" ||
@@ -59,7 +60,7 @@ export default function TabBar() {
       </S.styledTabBarIcon>
       <S.styledTabBarIcon
         onClick={() => {
-          navigate("/");
+          navigate("/main");
         }}
       >
         <img
