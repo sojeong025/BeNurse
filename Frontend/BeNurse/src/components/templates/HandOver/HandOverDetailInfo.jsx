@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import PatientDetailHeader from "@components/templates/Patient/PatientDetailHeader";
 import PatientDetailItem from "@components/templates/Patient/PatientDetailItem";
 import PatientDetailProfile from "@components/templates/Patient/PatientDetailProfile";
@@ -8,22 +7,15 @@ import {
   PatientDetailItemContainer,
 } from "@pages/PatientPage/PatientDetail.styles.jsx";
 
-import BottomButton from "@components/atoms/Button/BottomButton";
 
 export default function HandOverDetailInfo() {
-  const navigate = useNavigate();
-  const nextStep = () => {
-    navigate("dosage");
-  };
-
   return (
-    <div>
+    <div style={{ width: "calc(100% - 28px)", margin: "0 auto" }}>
       <PatientDetailProfile />
       <PatientDetailContainer
         style={{
           overflowY: "scroll",
-          marginLeft: "-14px",
-          width: "400px",
+          width: "100%",
           height: "470px",
         }}
       >
@@ -60,7 +52,6 @@ export default function HandOverDetailInfo() {
             <PatientDetailItem name="알레르기" />
           </PatientDetailItemContainer>
         </div>
-        <BottomButton onNextClick={nextStep} />
       </PatientDetailContainer>
     </div>
   );
