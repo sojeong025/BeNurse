@@ -8,6 +8,37 @@ import PatientFilterSelect from "@components/templates/Patient/PatientFilterSele
 import { Common } from "@utils/global.styles.jsx";
 
 export default function PatientListPage() {
+  const patients = [
+    {
+      id: "1",
+      name: "종박사",
+      cc: "다리 외상",
+      group: "내과 B동",
+      room: "B503",
+    },
+    {
+      id: "2",
+      name: "김싸피",
+      cc: "다리 외상",
+      group: "내과 B동",
+      room: "B503",
+    },
+    {
+      id: "3",
+      name: "이이이",
+      cc: "다리 외상",
+      group: "내과 B동",
+      room: "B503",
+    },
+    {
+      id: "4",
+      name: "김김김",
+      cc: "다리 외상",
+      group: "내과 B동",
+      room: "B503",
+    },
+  ];
+
   return (
     <div
       style={{
@@ -60,48 +91,15 @@ export default function PatientListPage() {
             gap: "10px",
           }}
         >
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
+          {patients.map((patientInfo) => (
+            <NavLink to="detail">
+              <PatientItem
+                key={patientInfo.id}
+                type="patient"
+                patientInfo={patientInfo}
+              />
+            </NavLink>
+          ))}
         </div>
       </div>
     </div>

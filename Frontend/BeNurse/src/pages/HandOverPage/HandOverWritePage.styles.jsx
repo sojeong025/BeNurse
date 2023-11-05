@@ -6,6 +6,7 @@ export const Select = styled.div`
   flex-direction: column;
   margin-bottom: 20px;
   & .header {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;

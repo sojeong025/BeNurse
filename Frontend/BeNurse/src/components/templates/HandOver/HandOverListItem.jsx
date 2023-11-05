@@ -10,7 +10,7 @@ import nurse from "@assets/Images/patient_temp.png";
 
 export default function HandOverListItem() {
   return (
-    <NavLink to="patients">
+    <NavLink to="../handover-list/patients">
       <Box
         type={"transparent"}
         size={["100%", "62px"]}
@@ -30,6 +30,7 @@ export default function HandOverListItem() {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-around",
+              gap: "4px",
             }}
           >
             <p
@@ -40,7 +41,7 @@ export default function HandOverListItem() {
             >
               데이 타임 인계장
             </p>
-            <p style={{ fontSize: Common.fontSize.fontXS }}>2023.10.19 (목)</p>
+            <p style={{ fontSize: Common.fontSize.fontXXS }}>2023.10.19 (목)</p>
           </div>
         </div>
         <div>
