@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import { Common } from "@utils/global.styles.jsx";
 
 export const StyledBox = styled.div`
+  visibility: ${({ visibility }) =>
+    visibility !== undefined ? (visibility ? "visible" : "hidden") : "visible"};
   position: ${({ position }) => position};
   display: flex;
   justify-content: ${({ flex }) => (flex !== undefined ? flex[0] : "center")};
