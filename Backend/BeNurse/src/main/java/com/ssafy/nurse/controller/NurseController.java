@@ -58,8 +58,8 @@ public class NurseController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	@Cacheable(value="nurse", key="#ID")
-	public APIResponse<Nurse> getNurse(@RequestBody IDRequest req) {
-		Optional<Nurse> nurse = nurseRepo.findById(req.getID());
+	public APIResponse<Nurse> getNurse(@RequestParam("ID") long ID) {
+		Optional<Nurse> nurse = nurseRepo.findById(ID);
 		if(nurse.isPresent())
 			return new APIResponse<>(nurse.get(), HttpStatus.OK);
 		else
@@ -72,8 +72,8 @@ public class NurseController {
         @ApiResponse(code = 200, message = "성공", response = List.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<List<Nurse>> getNurseByName(@RequestBody NameRequest req) {
-		List<Nurse> nurse = nurseRepo.findAllByNameContaining(req.getName());
+	public APIResponse<List<Nurse>> getNurseByName(@RequestParam("name") String name) {
+		List<Nurse> nurse = nurseRepo.findAllByNameContaining(name);
 	    return new APIResponse<>(nurse, HttpStatus.OK);
 	}
 	
@@ -83,8 +83,8 @@ public class NurseController {
         @ApiResponse(code = 200, message = "성공", response = List.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<List<Nurse>> getNurseByName(@RequestBody IDRequest req) {
-		List<Nurse> nurse = nurseRepo.findAllByHospitalID(req.getID());
+	public APIResponse<List<Nurse>> getNurseByName(@RequestParam("ID") long ID) {
+		List<Nurse> nurse = nurseRepo.findAllByHospitalID(ID);
 	    return new APIResponse<>(nurse, HttpStatus.OK);
 	}
 	

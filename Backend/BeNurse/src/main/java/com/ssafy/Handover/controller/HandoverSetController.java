@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.Handover.model.Handover;
@@ -164,7 +165,7 @@ public class HandoverSetController {
 	    @ApiResponse(code = 404, message = "인계장을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<List<Handover>> getDetail(@RequestHeader("Authorization") String token, @RequestBody IDRequest req){
+	public APIResponse<List<Handover>> getDetail(@RequestHeader("Authorization") String token, @RequestParam("ID") long ID){
 
 		Nurse nurse;
 		// 사용자 조회
@@ -176,9 +177,9 @@ public class HandoverSetController {
 		}
 		
 		// 읽음 여부 갱신
-		Optional<HandoverSet> handoverSet = setRepo.findById(req.getID());
+		Optional<HandoverSet> handoverSet = setRepo.findById(ID);
 		if (handoverSet.isPresent()) {
-	    	Optional<MyHandover> optionmh = myhoRepo.findBySetIDAndTakeIDAndReaded(req.getID(), nurse.getID(),"N");
+	    	Optional<MyHandover> optionmh = myhoRepo.findBySetIDAndTakeIDAndReaded(ID, nurse.getID(),"N");
 	    	//
 	    	if(optionmh.isPresent()) {
 	    		MyHandover mh = optionmh.get();
@@ -189,7 +190,7 @@ public class HandoverSetController {
 	        return new APIResponse<>(HttpStatus.NOT_FOUND);
 		
 		
-		List<HandoverList> list = listRepo.findAllBySetID(req.getID());
+		List<HandoverList> list = listRepo.findAllBySetID(ID);
 		List<Handover> resp = new ArrayList<>();
 		for(HandoverList l : list) {
 			Optional<Handover> handover = handoverRepo.findById(l.getHandoverID());

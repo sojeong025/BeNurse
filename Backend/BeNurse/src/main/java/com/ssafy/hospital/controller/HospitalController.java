@@ -41,8 +41,8 @@ public class HospitalController {
 	    @ApiResponse(code = 404, message = "병원을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Hospital> getHospitalById(@RequestBody IDRequest req) {
-	    Optional<Hospital> hospital = hospitalRepo.findById(req.getID());
+	public APIResponse<Hospital> getHospitalById(@RequestParam("ID") long ID) {
+	    Optional<Hospital> hospital = hospitalRepo.findById(ID);
 
 	    if (hospital.isPresent())
 	        return new APIResponse<>(hospital.get(), HttpStatus.OK);
