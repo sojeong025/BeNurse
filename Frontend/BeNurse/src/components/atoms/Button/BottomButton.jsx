@@ -3,7 +3,6 @@ import Box from "../Box/Box";
 import { useNavigate } from "react-router-dom";
 
 export default function BottomButton({
-  isFirstStep = false,
   onPrevClick,
   onNextClick,
   nextText = "다음",
@@ -28,7 +27,6 @@ export default function BottomButton({
       }}
     >
       <Box
-        visibility={isFirstStep !== undefined ? !isFirstStep : false}
         type="white"
         size={["180px", "50px"]}
         onClick={onPrevClick || onPrevPage}

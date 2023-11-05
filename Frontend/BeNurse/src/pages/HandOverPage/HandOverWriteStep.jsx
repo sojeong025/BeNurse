@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, message, Steps, theme } from "antd";
-import { Common } from "@utils/global.styles.jsx";
 import Container from "@components/atoms/Container/Container";
 import BottomButton from "@components/atoms/Button/BottomButton";
+
+import HandOverDetailInfo from "@components/templates/HandOver/HandOverDetailInfo";
+import HandOverDetailCC from "@components/templates/HandOver/HandOverDetailCC";
 
 import * as S from "./HandOverWriteStep.styles";
 
@@ -10,7 +12,7 @@ export default function HandOverWriteStep() {
   const steps = [
     {
       title: "First",
-      content: "First-content",
+      content: <HandOverDetailInfo />,
     },
     {
       title: "Second",
@@ -18,7 +20,7 @@ export default function HandOverWriteStep() {
     },
     {
       title: "Last",
-      content: "Last-content",
+      content: <HandOverDetailCC />,
     },
     {
       title: "Last",
@@ -28,6 +30,9 @@ export default function HandOverWriteStep() {
 
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
+  const onChange = (value) => {
+    setCurrent(value);
+  };
   const next = () => {
     setCurrent(current + 1);
   };
@@ -38,31 +43,22 @@ export default function HandOverWriteStep() {
     key: item.title,
     title: "",
   }));
-  const contentStyle = {
-    lineHeight: "260px",
-    textAlign: "center",
-    color: token.colorTextTertiary,
-    backgroundColor: `${Common.color.purple00}`,
-    borderRadius: token.borderRadiusLG,
-    border: `1px dashed ${token.colorBorder}`,
-    marginTop: 16,
-  };
   return (
     <Container>
       <div style={{ width: "100%", marginTop: "100px" }}>
         <S.StepBox>
           <Steps
+            onChange={onChange}
             responsive={false}
             current={current}
             items={items}
           />
         </S.StepBox>
 
-        <div style={contentStyle}>{steps[current].content}</div>
+        <div>{steps[current].content}</div>
         <div>
           {current === 0 && (
             <BottomButton
-              isFirstStep={true}
               onNextClick={() => next()}
             />
           )}

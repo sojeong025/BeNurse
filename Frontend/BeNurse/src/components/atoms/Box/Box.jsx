@@ -4,7 +4,6 @@ import * as S from "./Box.styles";
 export default function Box({
   children,
   position,
-  visibility,
   flex,
   size,
   type,
@@ -20,7 +19,6 @@ export default function Box({
 }) {
   return (
     <S.StyledBox
-      visibility={visibility}
       flex={flex}
       type={type}
       size={size}
