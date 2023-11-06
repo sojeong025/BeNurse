@@ -80,38 +80,38 @@ public class DeviceController {
 	}
 	
 	// 장비 정보 수정 PUT
-		@PutMapping("")
-		@ApiOperation(value = "장비 정보 수정", notes = "등록된 장비의 내용을 수정합니다.") 
-		@ApiResponses({
-		    @ApiResponse(code = 200, message = "성공", response = Device.class),
-		    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
-		    @ApiResponse(code = 500, message = "서버 오류")
-		})
-		public APIResponse<Device> updateDeviceByDeviceId(@RequestHeader("Authorization") String token, @RequestBody Device updatedDevice){
-			Nurse nurse;
-			// 사용자 조회
-			try {
-				nurse = oauthService.getUser(token);
-			}catch (Exception e) {
-				e.printStackTrace();
-				return new APIResponse(HttpStatus.UNAUTHORIZED);
-			}
-			
-			if(!nurse.isAdmin())
-				return new APIResponse(HttpStatus.UNAUTHORIZED);
-			
-			Optional<Device> optionDevice = deviceRepo.findById(updatedDevice.getID());
-			
-		    if (optionDevice.isPresent()) {
-		        Device existingDevice = optionDevice.get();
-
-		        deviceRepo.save(existingDevice);
-
-		        return new APIResponse<>(existingDevice, HttpStatus.OK);
-		    } else	
-		        return new APIResponse<>(HttpStatus.NOT_FOUND);
-		    
+	@PutMapping("")
+	@ApiOperation(value = "장비 정보 수정", notes = "등록된 장비의 내용을 수정합니다.") 
+	@ApiResponses({
+	    @ApiResponse(code = 200, message = "성공", response = Device.class),
+	    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
+	    @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public APIResponse<Device> updateDeviceByDeviceId(@RequestHeader("Authorization") String token, @RequestBody Device updatedDevice){
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
 		}
+		
+		if(!nurse.isAdmin())
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		
+		Optional<Device> optionDevice = deviceRepo.findById(updatedDevice.getID());
+		
+	    if (optionDevice.isPresent()) {
+	        Device existingDevice = optionDevice.get();
+
+	        deviceRepo.save(existingDevice);
+
+	        return new APIResponse<>(existingDevice, HttpStatus.OK);
+	    } else	
+	        return new APIResponse<>(HttpStatus.NOT_FOUND);
+	    
+	}
 		
 		// 장비 삭제 DELETE
 		@DeleteMapping("")
