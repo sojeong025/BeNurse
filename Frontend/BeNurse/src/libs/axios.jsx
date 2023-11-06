@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const SERVER_ADDRESS = `http://k9e105.p.ssafy.io:9000`;
+const SERVER_ADDRESS = `https://k9e105.p.ssafy.io:9000`;
 
 export const customAxios = axios.create({
   baseURL: `${SERVER_ADDRESS}/api/benurse/`,
