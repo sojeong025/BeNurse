@@ -21,10 +21,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity
 @Getter
 @Setter
-@Table(name = "PATIENT")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

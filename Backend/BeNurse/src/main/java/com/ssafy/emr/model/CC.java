@@ -14,10 +14,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity
 @Getter
 @Setter
-@Table(name = "CC")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
