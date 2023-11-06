@@ -1,96 +1,91 @@
-import React from "react";
-import { useNavigate, useLocation, Outlet } from "react-router-dom";
-import { Common } from "../../utils/global.styles";
-import HandOverDetailInfo from "../../components/templates/HandOver/HandOverDetailInfo";
-
+import React, { useState, useEffect } from "react";
+import { message, Steps } from "antd";
+import Container from "@components/atoms/Container/Container";
 import BottomButton from "@components/atoms/Button/BottomButton";
 
-import Container from "../../components/atoms/Container/Container";
+import HandOverDetailInfo from "@components/templates/HandOver/HandOverDetailInfo";
+import HandOverDetailDosage from "@components/templates/HandOver/HandOverDetailDosage";
+import HandOverDetailCC from "@components/templates/HandOver/HandOverDetailCC";
+import HandOverDetailSign from "@components/templates/HandOver/HandOverDetailSign";
 
-import * as S from "./HandOverListPage.styles";
+import * as S from "./HandOverDetailPage.styles";
 
 export default function HandOverDetailPage() {
-  const path = useLocation().pathname;
+  const [bgColor, setBgColor] = useState("white");
+
+  const steps = [
+    {
+      title: "First",
+      content: <HandOverDetailInfo />,
+    },
+    {
+      title: "Second",
+      content: <HandOverDetailDosage />,
+    },
+    {
+      title: "Last",
+      content: <HandOverDetailCC />,
+    },
+    {
+      title: "Last",
+      content: <HandOverDetailSign />,
+    },
+  ];
+
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (current === 0 || current === 1) {
+      setBgColor("white");
+    } else {
+      setBgColor("purple");
+    }
+  }, [current]);
+
+  const onChange = (value) => {
+    setCurrent(value);
+  };
+  const next = () => {
+    setCurrent(current + 1);
+  };
+  const prev = () => {
+    setCurrent(current - 1);
+  };
+  const items = steps.map((item) => ({
+    key: item.title,
+    title: "",
+  }));
 
   return (
-    <Container>
-      <S.StyledDiv>
-        <div
-          style={{
-            boxSizing: "border-box",
-            width: "100%",
-            height: "100%",
-            padding: "20px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "center",
-              gap: "20px",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "50px",
-                height: "50px",
-                borderRadius: "50px",
-                backgroundColor: Common.color.purple03,
-                color: "white",
-              }}
-            >
-              1
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "50px",
-                height: "50px",
-                borderRadius: "50px",
-                backgroundColor: Common.color.purple02,
-                color: "white",
-              }}
-            >
-              2
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "50px",
-                height: "50px",
-                borderRadius: "50px",
-                backgroundColor: Common.color.purple02,
-                color: "white",
-              }}
-            >
-              3
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "50px",
-                height: "50px",
-                borderRadius: "50px",
-                backgroundColor: Common.color.purple02,
-                color: "white",
-              }}
-            >
-              4
-            </div>
-          </div>
-          <Outlet />
+    <Container backgroundColor={bgColor}>
+      <div style={{ width: "100%", marginTop: "100px" }}>
+        <S.StepBox>
+          <Steps
+            onChange={onChange}
+            responsive={false}
+            current={current}
+            items={items}
+          />
+        </S.StepBox>
+
+        <div>{steps[current].content}</div>
+        <div>
+          {current === 0 && <BottomButton onNextClick={() => next()} />}
+          {current === steps.length - 1 && (
+            <BottomButton
+              onPrevClick={() => prev()}
+              onNextClick={() => message.success("Processing complete!")}
+              nextText="완료"
+            />
+          )}
+          {current > 0 && current < steps.length - 1 && (
+            <BottomButton
+              onPrevClick={() => prev()}
+              onNextClick={() => next()}
+            />
+          )}
         </div>
-      </S.StyledDiv>
+      </div>
     </Container>
   );
 }

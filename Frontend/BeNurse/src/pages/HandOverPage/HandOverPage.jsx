@@ -6,11 +6,12 @@ import { WorkPart, TemporaryBox, HandoverList } from "./HandOverPage.styles";
 import write from "@assets/Images/write.png";
 import nurse from "@assets/Images/nurse.png";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import HandOverListItem from "@components/templates/HandOver/HandOverListItem";
+import HandOverList from "@components/templates/HandOver/HandOverList";
 
 export default function HandOverPage() {
   return (
     <Container
+      overflow="hidden"
       backgroundColor={"purple"}
       flex={["center", "flex-start"]}
     >
@@ -152,10 +153,7 @@ export default function HandOverPage() {
           >
             <div className="temporary-container">
               <div>
-                <HandOverListItem />
-                <HandOverListItem />
-                <HandOverListItem />
-                <HandOverListItem />
+                <HandOverList />
               </div>
             </div>
           </Box>
