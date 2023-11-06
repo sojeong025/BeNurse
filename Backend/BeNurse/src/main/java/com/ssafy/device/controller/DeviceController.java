@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.Handover.model.Handover;
-import com.ssafy.Handover.model.HandoverList;
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.device.model.Device;
 import com.ssafy.device.model.DeviceHistory;
+import com.ssafy.device.model.NFC;
 import com.ssafy.device.service.DeviceHistoryRepository;
 import com.ssafy.device.service.DeviceRepository;
+import com.ssafy.device.service.NFCRepository;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
 
@@ -42,6 +42,9 @@ public class DeviceController {
 	
 	@Autowired
 	DeviceHistoryRepository dhRepo;
+	
+	@Autowired
+	NFCRepository nfcRepo;
 	
 	@Autowired
 	OauthService oauthService;
@@ -66,6 +69,11 @@ public class DeviceController {
 		
 		if(!nurse.isAdmin())
 			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		
+		NFC nfc = new NFC();
+		nfc.setID(device.getID());
+		nfc.setDevice(true);
+		nfcRepo.save(nfc);
 		
 		Device savedDevice = deviceRepo.save(device);
 		return new APIResponse<>(savedDevice, HttpStatus.OK);
@@ -134,6 +142,7 @@ public class DeviceController {
 		    	}
 
 		    	deviceRepo.delete(device.get());
+		    	nfcRepo.deleteById(ID);
 				return new APIResponse(HttpStatus.OK);
 			}
 			else

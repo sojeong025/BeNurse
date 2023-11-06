@@ -20,7 +20,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Device {
+public class Device extends NFCResponse{
 
 	@Id
 	@Column(name = "ID")

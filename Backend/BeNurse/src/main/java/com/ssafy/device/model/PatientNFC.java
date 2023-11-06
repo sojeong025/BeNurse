@@ -20,7 +20,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-public class PatientNFC {
+public class PatientNFC extends NFCResponse{
 
 	@Id
 	@Column(name = "ID")
