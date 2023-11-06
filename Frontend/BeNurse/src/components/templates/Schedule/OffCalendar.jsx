@@ -15,9 +15,8 @@ import OffContext from "./OffContext";
 
 export default function ScheduleCalendar() {
   const today = new Date();
-  const [currentDate, setCurrentDate] = useState(
-    new Date(today.getFullYear(), today.getMonth(), 1),
-  );
+  const [currentDate, setCurrentDate] = useState(today);
+  const [selectDates, setSelectDates] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
@@ -63,6 +62,10 @@ export default function ScheduleCalendar() {
 
   const weeks = createCalendar(currentDate);
 
+  const handleDateSelection = (date) => {
+    setSelectDates((prev) => [...prev, date]);
+  };
+
   return (
     <CalendarWrapper>
       <div
@@ -83,8 +86,15 @@ export default function ScheduleCalendar() {
           >
             {currentDate.getFullYear()}년 {currentDate.getMonth() + 2}월
           </div>
-          <div style={{ fontSize: Common.fontSize.fontS, marginBottom: "5px" }}>
-            원하는 오프 신청일을 설정해주세요.
+          <div
+            style={{
+              fontSize: Common.fontSize.fontS,
+              marginBottom: "5px",
+              lineHeight: "24px",
+            }}
+          >
+            원하는 오프 신청일을 설정해주세요. <br />
+            다음 버튼을 눌러 사유를 작성해주세요.
           </div>
         </div>
         <div
@@ -96,26 +106,7 @@ export default function ScheduleCalendar() {
             marginTop: "30px",
             cursor: "pointer",
           }}
-        >
-          <img
-            src={offpencil}
-            alt=""
-            style={{ width: "18px", marginBottom: "5px" }}
-          />
-          <button
-            onClick={openModal}
-            style={{
-              fontSize: Common.fontSize.fontXS,
-              fontWeight: Common.fontWeight.bold,
-              color: Common.color.purple03,
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            사유등록
-          </button>
-        </div>
+        ></div>
       </div>
       <Table>
         <thead>
@@ -146,6 +137,7 @@ export default function ScheduleCalendar() {
                         <input
                           type="checkbox"
                           id={`checkbox-${i}-${j}`}
+                          onChange={() => handleDateSelection(date.day)}
                         />
                         <span>
                           <BsCheck size={24} />
@@ -159,12 +151,6 @@ export default function ScheduleCalendar() {
           ))}
         </tbody>
       </Table>
-      <Modal
-        visible={isModalOpen}
-        onClose={closeModal}
-      >
-        <OffContext />
-      </Modal>
     </CalendarWrapper>
   );
 }

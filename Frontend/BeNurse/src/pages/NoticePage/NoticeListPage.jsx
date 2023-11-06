@@ -20,7 +20,7 @@ export default function NoticeListPage() {
 
   useEffect(() => {
     customAxios
-      .get("benurse/notice/all")
+      .get("notice/all")
       .then((res) => {
         console.log("공지 사항 목록 불러오기", res.data.responseData);
         setNoticeList(res.data.responseData);
