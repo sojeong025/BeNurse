@@ -15,7 +15,6 @@ export default function JoinNursePage() {
   const [otp, setOtp] = useState("");
   const [hasErrored, setHasErrored] = useState(false);
   const handleChange = (enteredOtp) => {
-    console.log(otp);
     setOtp(enteredOtp);
     setHasErrored(false);
   };
@@ -24,15 +23,12 @@ export default function JoinNursePage() {
 
   const onClickCheckBtn = () => {
     customAxios
-      .post("invite/auth", otp)
+      .post("invite/auth", { code: otp })
       .then((res) => {
-        console.log("초대코드 등록 성공", res);
         navigate("/main");
       })
       .catch((err) => {
-        console.log(err);
         setHasErrored(true);
-        console.log(hasErrored);
       });
   };
 
