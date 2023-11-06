@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.PatientWard.model.PatientWard;
@@ -84,6 +85,27 @@ public class PatientWardController {
 		}
 		
 		List<PatientWard> patientWard = pwRepo.findAllByHospitalIDAndIsHospitalized(nurse.getHospitalID(),true);
+	    return new APIResponse<>(patientWard, HttpStatus.OK);
+	}
+	
+	// 병동 환자 검색
+	@GetMapping("/search")
+	@ApiOperation(value = "병동 환자 검색", notes = "병동 ID로 해당 병동의 환자 ID를 조회한다.") 
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공", response = PatientWard.class),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	public APIResponse<List<PatientWard>> PatientWardSearch(@RequestHeader("Authorization") String token, @RequestParam("wardID") long ID) {
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		
+		List<PatientWard> patientWard = pwRepo.findAllByHospitalIDAndWardIDAndIsHospitalized(nurse.getHospitalID(), ID, true);
 	    return new APIResponse<>(patientWard, HttpStatus.OK);
 	}
 }

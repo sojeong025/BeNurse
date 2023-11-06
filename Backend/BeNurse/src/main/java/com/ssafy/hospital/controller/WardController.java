@@ -64,7 +64,7 @@ public class WardController {
 	}
 	
 	@GetMapping("/all")
-	@ApiOperation(value = "병동 정보 전체 조회", notes = "병원 ID로 병원 내 모든 병동 정보 조회") 
+	@ApiOperation(value = "병동 정보 전체 조회", notes = "소속 병원 내 모든 병동 정보 조회") 
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = Ward.class),
 	    @ApiResponse(code = 404, message = "병원을 찾을 수 없음"),

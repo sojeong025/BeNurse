@@ -10,4 +10,6 @@ public interface PatientWardRepository extends JpaRepository<PatientWard, Long> 
 
 	List<PatientWard> findAllByHospitalIDAndIsHospitalized(long hospitalID, boolean isHospitalized);
 
+	List<PatientWard> findAllByHospitalIDAndWardIDAndIsHospitalized(long hospitalID, long wardID, boolean b);
+
 }
