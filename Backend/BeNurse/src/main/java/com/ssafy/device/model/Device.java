@@ -37,10 +37,10 @@ public class Device {
 	private long hospitalID;
 
 	@Column(name = "IMG")
-	private String Img;
+	private String img;
 	
 	@Column(name = "INFO")
-	private String Info;
+	private String info;
 	
 	@Column(name = "AS_TEL")
 	private String asTel;
