@@ -52,7 +52,7 @@ export default function HandOverNurseSelectPage() {
         <div style={{ marginLeft: "-14px" }}>
           <BottomButton
             onPrevClick={() => navigate(-1)}
-            onNextClick={() => next()}
+            onNextClick={() => navigate("/handover-write/complete")}
             nextText="완료"
           />
         </div>
