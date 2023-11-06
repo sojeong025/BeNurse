@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,8 @@ import com.ssafy.common.utils.APIResponse;
 import com.ssafy.common.utils.IDRequest;
 import com.ssafy.hospital.model.Hospital;
 import com.ssafy.hospital.service.HospitalRepository;
+import com.ssafy.nurse.model.Nurse;
+import com.ssafy.oauth.serivce.OauthService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,6 +35,9 @@ public class HospitalController {
 
 	@Autowired
 	HospitalRepository hospitalRepo;
+	
+	@Autowired
+	OauthService oauthService;
 	
 	// 병원 정보 조회 GET
 	@GetMapping("")
@@ -114,10 +120,19 @@ public class HospitalController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Hospital> registHospital(@RequestBody Hospital hospital) {
-
+	public APIResponse<Hospital> registHospital(@RequestHeader("Authorization") String token, @RequestBody Hospital hospital) {
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
 		
 	    Hospital savedHospital = hospitalRepo.save(hospital);
+		nurse.setHospitalID(savedHospital.getID());
+		
 	    return new APIResponse<>(savedHospital, HttpStatus.OK);
 	}
 }

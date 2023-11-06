@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ import com.ssafy.common.utils.IDRequest;
 import com.ssafy.common.utils.NameRequest;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.nurse.service.NurseRepository;
+import com.ssafy.oauth.serivce.OauthService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,6 +38,9 @@ public class NurseController {
 
 	@Autowired
 	NurseRepository nurseRepo;
+	
+	@Autowired
+	OauthService oauthService;
 	
 	// 간호사 계정 생성은 로그인 과정에서 생성되기 때문에 Post 없음
 	
@@ -76,6 +81,25 @@ public class NurseController {
 		List<Nurse> nurse = nurseRepo.findAllByNameContaining(name);
 	    return new APIResponse<>(nurse, HttpStatus.OK);
 	}
+	
+
+	@GetMapping("/me")
+	@ApiOperation(value = "내 간호사 정보 조회", notes = "서비스 토큰으로 사용자 조회")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공", response = Nurse.class),
+		@ApiResponse(code = 404, message = "인증 오류"),
+		@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public APIResponse<Nurse> getUser(@RequestHeader("Authorization") String token){
+		try {
+			Nurse user = oauthService.getUser(token);
+			return new APIResponse(user, HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
 	
 	@GetMapping("/hospital")
 	@ApiOperation(value = "간호사 병원 검색", notes = "소속 병원 ID로 간호사를 조회한다.") 
