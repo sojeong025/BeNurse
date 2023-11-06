@@ -21,7 +21,6 @@ export default function PatientDetailPage() {
     drinking: "",
     gender: "",
     hospitalization: "",
-    surgery: "",
     history: "",
     medicine: "",
     name: "",
