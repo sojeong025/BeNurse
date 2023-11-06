@@ -3,14 +3,16 @@ import { Common } from "../../utils/global.styles";
 import Box from "../../components/atoms/Box/Box";
 import Input from "@components/atoms/Input/Input";
 import { customAxios } from "../../libs/axios";
+import { useModalStore } from "../../store/store";
 import AdminManagementItem from "../../components/templates/Admin/AdminManagementItem";
 
 export default function AdminManagementPage() {
   const [edit, setEdit] = useState("");
   const [count, setCount] = useState(30);
   const [nurseName, setNurseName] = useState("");
-  const [showInviteForm, setShowInviteForm] = useState(false);
+  const [showWardForm, setShowWardForm] = useState(false);
   const [inviteCode, setInviteCode] = useState(null);
+  const { isModal, OpenModal, CloseModal } = useModalStore((state) => state);
 
   const inputName = (e) => {
     setNurseName(e.target.value);
@@ -25,7 +27,7 @@ export default function AdminManagementPage() {
         const code = res.data.responseData.split("");
         setInviteCode(code);
         setTimeout(() => {
-          setShowInviteForm(false);
+          CloseModal();
           setInviteCode(null);
           setCount(30);
         }, 30000);
@@ -35,9 +37,13 @@ export default function AdminManagementPage() {
     }
   };
 
+  const createWard = () => {
+    // customAxios.post;
+  };
+
   const closeInviteModal = (e) => {
     if (e.target === e.currentTarget) {
-      setShowInviteForm(false);
+      CloseModal();
       setInviteCode(null);
       setCount(30);
     }
@@ -92,6 +98,9 @@ export default function AdminManagementPage() {
               type={"purple03"}
               size={["24px", "24px"]}
               props={"cursor: pointer; font-size: 16px;"}
+              onClick={() => {
+                OpenModal("ward");
+              }}
             >
               +
             </Box>
@@ -143,7 +152,7 @@ export default function AdminManagementPage() {
               size={["24px", "24px"]}
               props={"cursor: pointer; font-size: 16px;"}
               onClick={() => {
-                setShowInviteForm(true);
+                OpenModal("Nurse");
               }}
             >
               +
@@ -195,6 +204,9 @@ export default function AdminManagementPage() {
               type={"purple03"}
               size={["24px", "24px"]}
               props={"cursor: pointer; font-size: 16px;"}
+              onClick={() => {
+                OpenModal("equipment");
+              }}
             >
               +
             </Box>
@@ -223,8 +235,8 @@ export default function AdminManagementPage() {
         <hr style={{ width: "100%", margin: "20px 0px" }} />
         <AdminManagementItem type={"equipment"} />
       </Box>
-      {showInviteForm &&
-        (inviteCode ? (
+      {isModal === "Nurse" ? (
+        inviteCode ? (
           <div
             style={{
               position: "absolute",
@@ -299,7 +311,54 @@ export default function AdminManagementPage() {
               </Box>
             </Box>
           </div>
-        ))}
+        )
+      ) : isModal === "ward" ? (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "#00000039",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onClick={closeInviteModal}
+        >
+          <Box
+            type={"white"}
+            size={["500px", "400px"]}
+            props={"flex-direction: column; gap: 40px;"}
+          >
+            ward
+          </Box>
+        </div>
+      ) : isModal === "equipment" ? (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "#00000039",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onClick={closeInviteModal}
+        >
+          <Box
+            type={"white"}
+            size={["500px", "400px"]}
+            props={"flex-direction: column; gap: 40px;"}
+          >
+            equipment
+          </Box>
+        </div>
+      ) : null}
     </div>
   );
 }
