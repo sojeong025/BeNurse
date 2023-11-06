@@ -25,9 +25,7 @@ import { Common } from "../../../utils/global.styles";
 export default function ScheduleCalendar() {
   const [open, setOpen] = useState(false);
   const today = new Date();
-  const [currentDate, setCurrentDate] = useState(
-    new Date(today.getFullYear(), today.getMonth(), 1),
-  );
+  const [currentDate, setCurrentDate] = useState(today);
   const handlers = useSwipeable({
     onSwipedLeft: () => nextMonth(),
     onSwipedRight: () => prevMonth(),
@@ -90,7 +88,7 @@ export default function ScheduleCalendar() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const isOffApplicationPossible = () => {
     const currentDay = currentDate.getDate();
-    return currentDay >= 10 && currentDay <= 20;
+    return currentDay >= 6 && currentDay <= 20;
   };
 
   const handleOffApplicationClick = (event) => {
@@ -181,8 +179,38 @@ export default function ScheduleCalendar() {
               >
                 다음 오프 신청 기간
                 <br />
-                {currentDate.getFullYear()}.{currentDate.getMonth() + 3}.10 ~
-                {currentDate.getFullYear()}.{currentDate.getMonth() + 3}.20
+                {currentDate.getDate() > 20
+                  ? currentDate.getMonth() + 2 > 12
+                    ? currentDate.getFullYear() + 1
+                    : currentDate.getFullYear()
+                  : currentDate.getMonth() + 1 > 12
+                  ? currentDate.getFullYear() + 1
+                  : currentDate.getFullYear()}
+                .
+                {currentDate.getDate() > 20
+                  ? (currentDate.getMonth() + 2) % 12 === 0
+                    ? 12
+                    : (currentDate.getMonth() + 2) % 12
+                  : (currentDate.getMonth() + 1) % 12 === 0
+                  ? 12
+                  : (currentDate.getMonth() + 1) % 12}
+                .10 ~
+                {currentDate.getDate() > 20
+                  ? currentDate.getMonth() + 2 > 12
+                    ? currentDate.getFullYear() + 1
+                    : currentDate.getFullYear()
+                  : currentDate.getMonth() + 1 > 12
+                  ? currentDate.getFullYear() + 1
+                  : currentDate.getFullYear()}
+                .
+                {currentDate.getDate() > 20
+                  ? (currentDate.getMonth() + 2) % 12 === 0
+                    ? 12
+                    : (currentDate.getMonth() + 2) % 12
+                  : (currentDate.getMonth() + 1) % 12 === 0
+                  ? 12
+                  : (currentDate.getMonth() + 1) % 12}
+                .20
               </div>
             </div>
           </Modal>

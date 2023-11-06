@@ -1,23 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Common } from "../../../utils/global.styles";
-import { IoChevronBackOutline } from "react-icons/io5"
-import { GoBell } from "react-icons/go"
+import { IoChevronBackOutline } from "react-icons/io5";
+import { GoBell } from "react-icons/go";
 
-export default function NavBar() {
+export default function NavBar({ onTempSave }) {
   const navigate = useNavigate();
 
+  // 이전으로 가기
   const onPrevClick = () => {
     navigate(-1);
   };
 
+  const onNextClick = () => {
+    navigate("/main");
+  };
+
   // 왼쪽에 뒤로가기 필요하면 여기 넣기
-  const backRoutes = ["/mypage", "/notice", "/device", "/patient"]
-  const shouldDisplayBackIcon = backRoutes.includes(location.pathname)
+  const backRoutes = [
+    "/mypage",
+    "/notice",
+    "/notice/write",
+    "/off-application",
+  ];
 
-  // 알림버튼 없애려면 여기 넣기
-  const noNotice = ["/notice/write", "/schedule"]
+  // 알림버튼 필요하면 여기 넣기
+  const bellRoutes = ["/main", "/handover"];
+  // 다음 버튼 필요하면 여기 넣기
+  const nextRoutes = ["/off-application"];
+  // 임시저장 필요하면 여기 넣기
+  const temSaveRoutes = ["/handover-write/patients/write"];
 
+  const path = useLocation().pathname;
+  const shouldDisplayBackIcon = backRoutes.includes(path);
+  const shouldDisplayNextIcon = nextRoutes.includes(path);
+  const shouldDisplayTempSaveIcon = temSaveRoutes.includes(path);
+  const shouldDisplayBellIcon =
+    !nextRoutes.includes(path) && bellRoutes.includes(path);
 
   const [visibility, setVisibility] = useState("flex");
   const [navTitle, setNavTitle] = useState("Be Nurse");
@@ -26,7 +45,6 @@ export default function NavBar() {
   const [navBoxShadow, setNavBoxShadow] = useState(
     "0px 4px 8px 0px rgba(213, 213, 213, 0.36) ",
   );
-  const path = useLocation().pathname;
 
   useEffect(() => {
     if (path.startsWith("/schedule")) {
@@ -114,12 +132,25 @@ export default function NavBar() {
         boxShadow: navBoxShadow,
       }}
     >
-      <div onClick={shouldDisplayBackIcon ? onPrevClick : null} style={{ paddingLeft: "14px", display: "flex", alignItems: "flex-end" }}>
-        <IoChevronBackOutline size={20} style={{ visibility: shouldDisplayBackIcon ? 'visible' : 'hidden' }} />
+      <div
+        onClick={shouldDisplayBackIcon ? onPrevClick : null}
+        style={{
+          paddingLeft: "14px",
+          display: "flex",
+          alignItems: "cneter",
+          width: "80px",
+        }}
+      >
+        <IoChevronBackOutline
+          size={20}
+          style={{ visibility: shouldDisplayBackIcon ? "visible" : "hidden" }}
+        />
       </div>
 
       <div
         style={{
+          flex: 1,
+          textAlign: "center",
           fontSize: Common.fontSize.fontM,
           fontWeight: Common.fontWeight.extrabold,
           letterSpacing: "1px",
@@ -127,10 +158,55 @@ export default function NavBar() {
       >
         {navTitle}
       </div>
-      <div style={{paddingRight: "14px", display:"flex", alignItems:"flex-end"}}>
-  <GoBell size={20} style={{ visibility: noNotice.includes(path) ? 'hidden' : 'visible' }} />
-</div>
 
+      {shouldDisplayTempSaveIcon ? (
+        <div
+          onClick={onTempSave}
+          style={{
+            paddingRight: "14px",
+            display: "flex",
+            justifyContent: "end",
+            width: "80px",
+            fontSize: "16px",
+            fontWeight: "bold",
+            color: "blue",
+          }}
+        >
+          임시저장
+        </div>
+      ) : shouldDisplayNextIcon ? (
+        <div
+          onClick={onNextClick}
+          style={{
+            paddingRight: "14px",
+            display: "flex",
+            justifyContent: "end",
+            width: "80px",
+          }}
+        >
+          다음
+        </div>
+      ) : shouldDisplayBellIcon ? (
+        <div
+          style={{
+            paddingRight: "14px",
+            display: "flex",
+            justifyContent: "end",
+            width: "80px",
+          }}
+        >
+          <GoBell size={20} />
+        </div>
+      ) : (
+        <div
+          style={{
+            paddingRight: "14px",
+            display: "flex",
+            justifyContent: "end",
+            width: "80px",
+          }}
+        />
+      )}
     </div>
   );
 }

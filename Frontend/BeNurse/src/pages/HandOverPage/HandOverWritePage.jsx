@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import Container from "@components/atoms/Container/Container";
 import PatientItem from "@components/templates/Patient/PatientItem";
 import Input from "@components/atoms/Input/Input";
+import Button from "@components/atoms/Button/Button";
 
 import { Select } from "./HandOverWritePage.styles";
 
 import { usePatientStore } from "@store/store";
 
 export default function HandOverWritePage() {
+  const navigate = useNavigate();
+
   const { setSelectedPatient } = usePatientStore();
 
   useEffect(() => {
@@ -65,6 +68,69 @@ export default function HandOverWritePage() {
       group: "내과 B동",
       room: "B503",
     },
+    {
+      id: "5",
+      name: "김김김",
+      age: "13",
+      gender: "여",
+      cc: "다리 외상",
+      group: "내과 B동",
+      room: "B503",
+    },
+    {
+      id: "6",
+      name: "김김김",
+      age: "13",
+      gender: "여",
+      cc: "다리 외상",
+      group: "내과 B동",
+      room: "B503",
+    },
+    {
+      id: "7",
+      name: "김김김",
+      age: "13",
+      gender: "여",
+      cc: "다리 외상",
+      group: "내과 B동",
+      room: "B503",
+    },
+    {
+      id: "8",
+      name: "김김김",
+      age: "13",
+      gender: "여",
+      cc: "다리 외상",
+      group: "내과 B동",
+      room: "B503",
+    },
+    {
+      id: "9",
+      name: "김김김",
+      age: "13",
+      gender: "여",
+      cc: "다리 외상",
+      group: "내과 B동",
+      room: "B503",
+    },
+    {
+      id: "10",
+      name: "김김김",
+      age: "13",
+      gender: "여",
+      cc: "다리 외상",
+      group: "내과 B동",
+      room: "B503",
+    },
+    {
+      id: "11",
+      name: "김김김",
+      age: "13",
+      gender: "여",
+      cc: "다리 외상",
+      group: "내과 B동",
+      room: "B503",
+    },
   ];
 
   return (
@@ -74,50 +140,76 @@ export default function HandOverWritePage() {
     >
       <div
         style={{
+          position: "relative",
           marginTop: "30px",
           paddingTop: "74px",
           width: "calc(100% - 28px)",
         }}
       >
-        {/* 인수인계 대상자(환자) 선택하기 */}
-        <Select>
-          <div className="header">
-            <h1 className="title">인계 환자 선택하기</h1>
-            <p>
-              {currentDate.getFullYear()}.{currentDate.getMonth() + 1}.
-              {String(currentDate.getDate()).padStart(2, "0")} ({day}) 인계장
-            </p>
-          </div>
-          <div>
-            <Input
-              variant={"search"}
-              placeholder={"환자 이름으로 검색"}
-            />
-          </div>
-        </Select>
+        <div>
+          {/* 인수인계 대상자(환자) 선택하기 */}
+          <Select>
+            <div className="header">
+              <h1 className="title">인계 환자 선택하기</h1>
+              <p>
+                {currentDate.getFullYear()}.{currentDate.getMonth() + 1}.
+                {String(currentDate.getDate()).padStart(2, "0")} ({day}) 인계장
+              </p>
+            </div>
+            <div>
+              <Input
+                variant={"search"}
+                placeholder={"환자 이름으로 검색"}
+              />
+            </div>
+          </Select>
 
+          <div
+            style={{
+              width: "100%",
+              height: "550px",
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+              gap: "9px",
+              overflowY: "auto",
+              paddingBottom: "40px",
+              boxSizing: "border-box",
+            }}
+          >
+            {patients.map((patientInfo) => (
+              <NavLink
+                to="patients/write"
+                key={patientInfo.id}
+                onClick={() => setSelectedPatient(patientInfo)}
+              >
+                <PatientItem
+                  type="patient"
+                  patientInfo={patientInfo}
+                />
+              </NavLink>
+            ))}
+          </div>
+        </div>
+
+        {/* 인수자 선택
+        - 환자가 최소 1명 이상 선택되었을 경우 뜨도록
+      */}
         <div
           style={{
+            position: "absolute",
+            top: "720px",
             width: "100%",
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "flex-start",
-            alignItems: "flex-start",
-            gap: "9px",
           }}
         >
-          {patients.map((patientInfo) => (
-            <NavLink
-              to="patients/write"
-              key={patientInfo.id}
-              onClick={() => setSelectedPatient(patientInfo)}
-            >
-              <PatientItem
-                type="patient"
-                patientInfo={patientInfo}
-              />
-            </NavLink>
-          ))}
+          <Button
+            width="100%"
+            variant="primary"
+            onClick={() => navigate("nurse")}
+          >
+            인수자 선택
+          </Button>
         </div>
       </div>
     </Container>

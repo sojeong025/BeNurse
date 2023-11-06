@@ -1,9 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Common } from "../../../utils/global.styles";
 
 import Input from "@components/atoms/Input/Input";
+import Button from "@components/atoms/Button/Button";
 
 export default function HandOverDetailSign() {
+  const [inputs, setInputs] = useState([{ name: "특이사항 1", value: "" }]);
+  const [showWarning, setShowWarning] = useState(false);
+
+  const addInput = () => {
+    if (inputs[inputs.length - 1].value) {
+      setInputs([
+        ...inputs,
+        { name: `특이사항 ${inputs.length + 1}`, value: "" },
+      ]);
+      setShowWarning(false);
+    } else {
+      setShowWarning(true);
+    }
+  };
+
+  const handleInputChange = (e, index) => {
+    const { value } = e.target;
+    const newInputs = [...inputs];
+    newInputs[index].value = value;
+    setInputs(newInputs);
+    if (value) setShowWarning(false);
+  };
+
   return (
     <div
       style={{
@@ -34,14 +58,42 @@ export default function HandOverDetailSign() {
           color: Common.color.black02,
           fontSize: Common.fontSize.fontS,
           fontWeight: Common.fontWeight.bold,
+          height: "540px",
+          overflowY: "auto",
         }}
       >
-        <p>특이 사항 1</p>
-        <Input variant={"default"} />
-        <p>특이 사항 2</p>
-        <Input variant={"default"} />
-        <p>특이 사항 3</p>
-        <Input variant={"default"} />
+        {inputs.map((input, index) => (
+          <React.Fragment key={index}>
+            <p>{input.name}</p>
+            <Input
+              variant={"default"}
+              value={input.value}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </React.Fragment>
+        ))}
+        <div style={{ height: "50px", width: "100%" }}>
+          {showWarning && (
+            <p
+              style={{
+                color: "red",
+                fontSize: `${Common.fontSize.fontXXS}`,
+                marginBottom: "15px",
+                marginTop: "-10px",
+              }}
+            >
+              내용을 입력해주세요.
+            </p>
+          )}
+          <Button
+            variant="primary"
+            height="50px"
+            width="100%"
+            onClick={addInput}
+          >
+            추가
+          </Button>
+        </div>
       </div>
     </div>
   );

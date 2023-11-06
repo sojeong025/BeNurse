@@ -13,8 +13,8 @@ export const Select = styled.div`
   }
   h1 {
     font-size: ${Common.fontSize.fontM};
-    color: ${Common.color.black03};
-    font-weight: ${Common.fontWeight.bold};
+    color: ${Common.color.black02};
+    font-weight: ${Common.fontWeight.extrabold};
   }
   p {
     padding-top: 4px;

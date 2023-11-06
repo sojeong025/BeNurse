@@ -5,6 +5,11 @@ import { Tabs } from "antd";
 export const StyledDiv = styled.div`
   width: 100%;
   margin-top: 84px;
+
+  & .ant-tabs {
+    font-family: "NanumSquareNeo";
+  } 
+
   &&
     :where(.css-dev-only-do-not-override-xu9wm8).ant-tabs
     .ant-tabs-tab.ant-tabs-tab-active
