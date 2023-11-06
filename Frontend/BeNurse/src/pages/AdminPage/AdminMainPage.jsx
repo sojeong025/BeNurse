@@ -6,14 +6,15 @@ import { BsFillArrowRightCircleFill } from "react-icons/bs";
 import { customAxios } from "../../libs/axios";
 import manage from "@assets/Images/manage.png";
 import web_write from "@assets/Images/web_write.png";
+import empty from "@assets/Images/empty.png";
 import AdminCalendar from "../../components/templates/Admin/AdminCalendar";
+import { useAdminStore } from "../../store/store";
 
 export default function AdminMainPage() {
+  const [hospital, setHospital] = useState(null);
+  const { schedule, setSchedule } = useAdminStore((state) => state);
   const navigate = useNavigate();
-  const today = new Date();
-  const [currentDate, setCurrentDate] = useState(
-    new Date(today.getFullYear(), today.getMonth(), 1),
-  );
+
   const createSchedule = () => {
     navigate("../create-schedule");
   };
@@ -23,30 +24,9 @@ export default function AdminMainPage() {
 
   useEffect(() => {
     customAxios.get("Hospital").then((res) => {
-      console.log(res);
+      setHospital(res.data.responseData);
     });
   }, []);
-
-  useEffect(() => {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth() + 1;
-    const lastDay = new Date(year, month, 0).getDate();
-
-    const startDate = `${year}-${month.toString().padStart(2, "0")}-01`;
-    const endDate = `${year}-${month.toString().padStart(2, "0")}-${lastDay}`;
-
-    customAxios
-      .get("Schedule", {
-        params: {
-          endDate: endDate,
-          startDate: startDate,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
-  }, [currentDate]);
 
   return (
     <div
@@ -71,11 +51,31 @@ export default function AdminMainPage() {
           type={"white"}
           size={["830px", "600px"]}
           flex={["flex-start", "flex-start"]}
-          props={
-            "position: relative; flex-direction: column; box-sizing: border-box; padding: 30px;"
-          }
+          props={"position: relative; box-sizing: border-box; padding: 30px;"}
         >
           <AdminCalendar />
+          {schedule ? (
+            <div></div>
+          ) : (
+            <div
+              style={{
+                width: "50%",
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                opacity: 0.5,
+              }}
+            >
+              <img
+                style={{ width: "140px", marginBottom: "10px" }}
+                src={empty}
+                alt=""
+              />
+              <p>근무표가 없어요</p>
+            </div>
+          )}
         </Box>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: "50px" }}>
@@ -176,17 +176,17 @@ export default function AdminMainPage() {
               <span style={{ fontWeight: Common.fontWeight.bold }}>
                 의료법인
               </span>{" "}
-              갑을의료재단 갑을녹산병원
+              {hospital ? hospital.name : null}
             </p>
             <p>
               <span style={{ fontWeight: Common.fontWeight.bold }}>주소</span>{" "}
-              (46744)부산광역시 강서구 녹산산단321로 24-8
+              {hospital ? hospital.address : null}
             </p>
             <p>
               <span style={{ fontWeight: Common.fontWeight.bold }}>
                 대표 전화
               </span>{" "}
-              051-974-8300
+              {hospital ? hospital.tel : null}
             </p>
           </div>
         </Box>

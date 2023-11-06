@@ -71,3 +71,12 @@ export const useModalStore = create((set) => ({
     }));
   },
 }));
+
+export const useAdminStore = create((set) => ({
+  schedule: null,
+  setSchedule: (newSchedule) => {
+    set((state) => ({
+      schedule: newSchedule,
+    }));
+  },
+}));
