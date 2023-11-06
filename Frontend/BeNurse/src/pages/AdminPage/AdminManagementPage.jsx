@@ -110,6 +110,9 @@ export default function AdminManagementPage() {
               type={"purple03"}
               size={["70px", "30px"]}
               props={"cursor: pointer; font-size: 12px;"}
+              onClick={() => {
+                setEdit("");
+              }}
             >
               저장
             </Box>
@@ -163,6 +166,9 @@ export default function AdminManagementPage() {
               type={"purple03"}
               size={["70px", "30px"]}
               props={"cursor: pointer; font-size: 12px;"}
+              onClick={() => {
+                setEdit("");
+              }}
             >
               저장
             </Box>
@@ -216,6 +222,9 @@ export default function AdminManagementPage() {
               type={"purple03"}
               size={["70px", "30px"]}
               props={"cursor: pointer; font-size: 12px;"}
+              onClick={() => {
+                setEdit("");
+              }}
             >
               저장
             </Box>

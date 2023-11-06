@@ -8,6 +8,7 @@ import {
   WeekdayRow,
   Weekday,
   Td,
+  SelectCircle,
 } from "./AdminCalendar.styles";
 import { useAdminStore } from "../../../store/store";
 
@@ -58,8 +59,6 @@ export default function AdminCalendar() {
     const types = ["day", "evening", "night", "off"];
     return types[Math.floor(Math.random() * types.length)];
   };
-
-  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const weeks = createCalendar(currentDate);
 
@@ -132,15 +131,7 @@ export default function AdminCalendar() {
                   >
                     {date.day}
                     {date.isCurMonth && selectedDate === date.day && (
-                      <div
-                        style={{
-                          width: "24px",
-                          height: "24px",
-                          backgroundColor: Common.color.purple03,
-                          borderRadius: "30px",
-                          marginTop: "16px",
-                        }}
-                      />
+                      <SelectCircle />
                     )}
                   </div>
                 </Td>

@@ -44,10 +44,8 @@ export default function EmployeeItem() {
           src={nurse}
           alt=""
         />
-        <div>
-          <p>김대웅</p>
-          <p>970417</p>
-        </div>
+        <p>김대웅</p>
+        <p>1년차</p>
         <p>정형외과 5동</p>
         <Select
           style={{ width: "100px", fontSize: "14px" }}
