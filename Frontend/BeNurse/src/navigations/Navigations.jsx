@@ -34,6 +34,7 @@ import TemporaryListPage from "@pages/HandOverPage/TemporaryListPage";
 
 import SchedulePage from "@pages/SchedulePage/SchedulePage";
 import OffApplicationPage from "@pages/SchedulePage/OffApplicationPage";
+import OffwritePage from "@pages/SchedulePage/OffwritePage";
 import OffFinishPage from "@pages/SchedulePage/OffFinishPage";
 
 import MyPage from "@pages/MyPage/MyPage";
@@ -179,6 +180,10 @@ export default function routes() {
       <Route
         path="/off-application"
         element={<OffApplicationPage />}
+      />
+      <Route
+        path="/off-application-write"
+        element={<OffwritePage />}
       />
       <Route
         path="/off-application-finish"

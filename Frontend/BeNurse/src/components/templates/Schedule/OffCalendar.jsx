@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { BsCheck } from "react-icons/bs";
 import { Common } from "../../../utils/global.styles";
-import offpencil from "@assets/Icons/offpencil.svg";
 import {
   CalendarWrapper,
   Table,
@@ -10,20 +9,12 @@ import {
   Td,
   CheckBox,
 } from "./ScheduleCalendar.styles";
-import Modal from "../../atoms/Modal/Modal";
-import OffContext from "./OffContext";
+import { useOffDateStore } from "../../../store/store";
 
 export default function ScheduleCalendar() {
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(today);
-  const [selectDates, setSelectDates] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const { selectedDates, setSelectedDates } = useOffDateStore();
 
   const createCalendar = (date) => {
     const startDay = date.getDay();
@@ -63,7 +54,16 @@ export default function ScheduleCalendar() {
   const weeks = createCalendar(currentDate);
 
   const handleDateSelection = (date) => {
-    setSelectDates((prev) => [...prev, date]);
+    console.log("handleDateSelection called with", date);
+    setSelectedDates((prev) => {
+      if (prev.includes(date)) {
+        return prev.filter((d) => d !== date);
+      } else {
+        const updatedDates = [...prev, date];
+        console.log(updatedDates);
+        return updatedDates;
+      }
+    });
   };
 
   return (
@@ -136,8 +136,12 @@ export default function ScheduleCalendar() {
                       <CheckBox>
                         <input
                           type="checkbox"
+                          checked={selectedDates.includes(date.day)}
                           id={`checkbox-${i}-${j}`}
-                          onChange={() => handleDateSelection(date.day)}
+                          onChange={() => {
+                            console.log("Checkbox changed for date", date.day);
+                            handleDateSelection(date.day);
+                          }}
                         />
                         <span>
                           <BsCheck size={24} />

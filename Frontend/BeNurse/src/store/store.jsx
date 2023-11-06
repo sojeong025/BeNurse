@@ -83,8 +83,7 @@ export const useAdminStore = create((set) => ({
 
 export const useOffDateStore = create((set) => ({
   selectedDates: [],
-  setSelectedDates: (dates) => {
-    console.log("setSelectedDates called with", dates);
-    set(() => ({ selectedDates: dates }));
+  setSelectedDates: (updateFunction) => {
+    set((state) => ({ selectedDates: updateFunction(state.selectedDates) }));
   },
 }));
