@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "../../components/atoms/Box/Box";
 import { Common } from "../../utils/global.styles";
+import calendar from "@assets/Images/calendar.png";
 
 export default function ScheduleCreateIntroPage() {
+  const [bool, setBool] = useState(false);
+
+  setInterval(() => {
+    setBool(!bool);
+  }, 500);
+
   return (
     <Box
       type={"white"}
@@ -10,6 +17,16 @@ export default function ScheduleCreateIntroPage() {
       props={"flex-direction: column; font-size: 20px;"}
       flex={["space-around", "center"]}
     >
+      <img
+        style={{
+          marginTop: "30px",
+          width: "160px",
+          translate: bool ? "0px -6px" : "0px 6px",
+          transition: "translate 0.5s ease-in-out",
+        }}
+        src={calendar}
+        alt=""
+      />
       <div
         style={{
           display: "flex",

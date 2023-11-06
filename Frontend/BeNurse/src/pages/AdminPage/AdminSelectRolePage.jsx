@@ -39,7 +39,7 @@ export default function AdminSelectRolePage() {
       name,
       tel,
     };
-    customAxios.post("benurse/Hospital", newHospital).then((res) => {
+    customAxios.post("Hospital", newHospital).then((res) => {
       if (res.status === 200) {
         setPopUp(true);
       }
@@ -316,9 +316,7 @@ export default function AdminSelectRolePage() {
               src={Complete}
               alt=""
             />
-            <p style={{ marginBottom: "30px" }}>
-              병원이 등록이 완료되었습니다!
-            </p>
+            <p style={{ marginBottom: "30px" }}>병원 등록이 완료되었습니다!</p>
             <Box
               type={"purple03"}
               size={["40%", "40px"]}

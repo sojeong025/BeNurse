@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Common } from "../../../utils/global.styles";
+import { customAxios } from "../../../libs/axios";
 import "react-spring-bottom-sheet/dist/style.css";
 import {
   CalendarWrapper,
@@ -8,12 +9,14 @@ import {
   Weekday,
   Td,
 } from "./AdminCalendar.styles";
+import { useAdminStore } from "../../../store/store";
 
 export default function AdminCalendar() {
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(
     new Date(today.getFullYear(), today.getMonth(), 1),
   );
+  const { schedule, setSchedule } = useAdminStore((state) => state);
   const [selectedDate, setSelectedDate] = useState(today.getDate());
 
   const createCalendar = (date) => {
@@ -61,8 +64,30 @@ export default function AdminCalendar() {
   const weeks = createCalendar(currentDate);
 
   useEffect(() => {
-    console.log(today.getDate());
-  }, []);
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1;
+    const lastDay = new Date(year, month, 0).getDate();
+
+    const startDate = `${year}-${month
+      .toString()
+      .padStart(2, "0")}-${selectedDate.toString().padStart(2, "0")}`;
+    const endDate = `${year}-${month.toString().padStart(2, "0")}-${selectedDate
+      .toString()
+      .padStart(2, "0")}`;
+
+    customAxios
+      .get("Schedule", {
+        params: {
+          endDate: endDate,
+          startDate: startDate,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setSchedule(res.data.responseData);
+      })
+      .catch((err) => console.log(err));
+  }, [selectedDate]);
 
   return (
     <CalendarWrapper>
