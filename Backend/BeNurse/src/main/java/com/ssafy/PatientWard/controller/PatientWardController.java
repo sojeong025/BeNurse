@@ -1,6 +1,7 @@
 package com.ssafy.PatientWard.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.PatientWard.model.PatientWard;
 import com.ssafy.PatientWard.service.PatientWardRepository;
 import com.ssafy.common.utils.APIResponse;
-import com.ssafy.device.model.Device;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
 
@@ -107,5 +107,23 @@ public class PatientWardController {
 		
 		List<PatientWard> patientWard = pwRepo.findAllByHospitalIDAndWardIDAndIsHospitalized(nurse.getHospitalID(), ID, true);
 	    return new APIResponse<>(patientWard, HttpStatus.OK);
+	}
+	
+	// 환자 입원 정보 조회
+	@GetMapping("/search")
+	@ApiOperation(value = "환자 병동 조회", notes = "환자 ID로 해당 환자의 병동을 조회한다.") 
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공", response = PatientWard.class),
+        @ApiResponse(code = 404, message = "결과 없음"),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	public APIResponse<PatientWard> getPatientWard(@RequestParam("patientID") long ID) {
+		try {
+			Optional<PatientWard> patient = pwRepo.findById(ID);
+			return new APIResponse<>(patient.get(), HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.NOT_FOUND);
+		}
 	}
 }
