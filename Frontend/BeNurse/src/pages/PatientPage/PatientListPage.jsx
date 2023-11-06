@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 import Input from "@components/atoms/Input/Input";
@@ -8,52 +8,24 @@ import PatientFilterSelect from "@components/templates/Patient/PatientFilterSele
 import { Common } from "@utils/global.styles.jsx";
 
 import { usePatientStore } from "@store/store";
+import { customAxios } from "../../libs/axios";
 
 export default function PatientListPage() {
+  const [patients, setPatients] = useState([]);
   const { setSelectedPatient } = usePatientStore();
 
   useEffect(() => {
+    customAxios
+      .get("emr/patient/all")
+      .then((res) => {
+        console.log("환자 목록 불러오기", res.data.responseData);
+        setPatients(res.data.responseData);
+      })
+      .catch((error) => {
+        console.error("환자 목록 로드 실패:", error);
+      });
     setSelectedPatient({});
   }, []);
-
-  const patients = [
-    {
-      id: "1",
-      name: "종박사",
-      age: "32",
-      gender: "남",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "2",
-      name: "김싸피",
-      age: "45",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "3",
-      name: "이이이",
-      age: "64",
-      gender: "남",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "4",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-  ];
 
   return (
     <div
@@ -109,13 +81,21 @@ export default function PatientListPage() {
         >
           {patients.map((patientInfo) => (
             <NavLink
-              to="detail"
-              key={patientInfo.id}
-              onClick={() => setSelectedPatient(patientInfo)}
+              to={patientInfo.patient.id + "/detail"}
+              key={patientInfo.patient.id}
+              onClick={() =>
+                setSelectedPatient({
+                  ...patientInfo.patient,
+                  cc: patientInfo.cc[0] ? patientInfo.cc[0].content : " ",
+                })
+              }
             >
               <PatientItem
                 type="patient"
-                patientInfo={patientInfo}
+                patientInfo={{
+                  ...patientInfo.patient,
+                  cc: patientInfo.cc[0] ? patientInfo.cc[0].content : " ",
+                }}
               />
             </NavLink>
           ))}

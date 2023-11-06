@@ -80,7 +80,7 @@ export default function NavBar({ onTempSave }) {
       setNavBoxShadow("0px 4px 8px 0px rgba(213, 213, 213, 0.36) ");
       setVisibility("flex");
     } else if (path.startsWith("/patient")) {
-      if (path === "/patient/detail/journal") {
+      if (/^\/patient\/\d+\/detail\/journal$/.test(path)) {
         setNavTitle("간호 일지");
         setNavColor(Common.color.purple03);
         setNavFontColor(Common.color.white01);

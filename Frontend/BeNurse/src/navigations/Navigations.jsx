@@ -97,11 +97,11 @@ export default function routes() {
           element={<PatientListPage />}
         />
         <Route
-          path="detail"
+          path=":patientId/detail"
           element={<PatientDetailPage />}
         />
         <Route
-          path="detail/journal"
+          path=":patientId/detail/journal"
           element={<PatientJournalPage />}
         >
           <Route
