@@ -29,7 +29,7 @@ public interface EMRService {
 	APIResponse<Journal> getJournalByID(@RequestParam("id") long id);
 
 	// 간호일지 정보 등록 POST
-	@PostMapping(value="/journal", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	@PostMapping(value="/journal")
 	APIResponse<Void> registJournalById(@RequestBody Journal journal);
 
 	// 모든 간호일지 조회 GET
@@ -41,8 +41,8 @@ public interface EMRService {
 	APIResponse<Void> deleteJournalByPatientID(@RequestParam("id") long patient_id);
 
 	// 간호일지 정보 수정 PUT
-	@PutMapping(value="/journal", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	APIResponse<Void> updateJournal(Journal journal);
+	@PutMapping(value="/journal")
+	APIResponse<Void> updateJournal(@RequestBody Journal journal);
 
 	// 간호일지 삭제 DELETE
 	@DeleteMapping(value="/journal")
@@ -55,8 +55,8 @@ public interface EMRService {
 	/* 주호소 CC 2ea */
 	
 	// 주호소 등록 POST
-	@PostMapping(value="/cc", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	APIResponse<Void> registPatientById(CC cc);
+	@PostMapping(value="/cc")
+	APIResponse<Void> registPatientById(@RequestBody CC cc);
 	
 	// 주호소 삭제 DELETE
 	@DeleteMapping(value="/cc")
@@ -65,7 +65,7 @@ public interface EMRService {
 //	/* 환자 등록 Patient 6ea */
 	
 	// 환자 정보 등록 POST
-	@PostMapping(value="/patient", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	@PostMapping(value="/patient")
 	APIResponse<Void> registPatientById(@RequestBody Patient patient);
 
 	// 환자 정보 조회 GET
@@ -81,8 +81,8 @@ public interface EMRService {
 	APIResponse<List<PatientResponse>> searchPatient(@RequestParam("name") String name);
 
 	// 환자 정보 수정 PUT
-	@PutMapping(value="/patient", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	APIResponse<Void> updatePatient(Patient patient);
+	@PutMapping(value="/patient")
+	APIResponse<Void> updatePatient(@RequestBody Patient patient);
 
 	// 환자 정보 삭제 DELETE
 	@DeleteMapping(value="/patient")
