@@ -1,7 +1,7 @@
 import React from "react";
 import { Common } from "@utils/global.styles.jsx";
 
-export default function PatientDetailItem({ name }) {
+export default function PatientDetailItem({ name, value, onChange }) {
   return (
     <div
       style={{
@@ -31,9 +31,12 @@ export default function PatientDetailItem({ name }) {
           outline: "none",
           paddingLeft: "10px",
           boxSizing: "border-box",
+          fontSize: "14px",
         }}
         type="text"
         variant={"default"}
+        value={value}
+        onChange={onChange}
       />
     </div>
   );

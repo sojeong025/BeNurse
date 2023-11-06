@@ -26,7 +26,7 @@ export default function PatientItem({ type, patientInfo }) {
         }}
       >
         <p style={{ fontSize: Common.fontSize.fontXXS }}>
-          {patientInfo.group} {patientInfo.room}
+          {/* {patientInfo.patient.group} {patientInfo.patient.room} */}
         </p>
         <img
           src={patientImg}

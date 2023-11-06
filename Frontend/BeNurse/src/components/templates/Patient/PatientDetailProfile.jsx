@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { Common } from "@utils/global.styles.jsx";
 
 import * as S from "./PatientDetailProfile.styles";
@@ -11,11 +12,12 @@ import patientImg from "@assets/Images/patient_male.png";
 
 // Icons
 import schedule from "@assets/Icons/schedule.svg";
+import { PiNotepad } from "react-icons/pi";
 
 // Store
 import { usePatientStore } from "@store/store";
 
-export default function PatientDetailProfile() {
+export default function PatientDetailProfile({ patient }) {
   const { selectedPatient } = usePatientStore((state) => state);
 
   return (
@@ -34,9 +36,9 @@ export default function PatientDetailProfile() {
 
         <div>
           <div>
-            <span className="patient_name">{selectedPatient.name}</span>
+            <span className="patient_name">{patient.name}</span>
             <span className="patient_ageGen">
-              / {selectedPatient.age}세 {selectedPatient.gender}
+              / {patient.age}세 {patient.gender}
             </span>
           </div>
 
@@ -47,12 +49,36 @@ export default function PatientDetailProfile() {
                 src={schedule}
                 alt=""
               />
-              2023.10.19 입원
+              {patient.hospitalization} 입원
             </div>
-
-            <div style={{ marginLeft: "12px" }}>담당 간호사 박삼성</div>
           </div>
         </div>
+
+        <NavLink to={"/patient/" + patient.id + "/detail/journal"}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              background: Common.color.white01,
+              padding: "10px 7px",
+              borderRadius: "10px",
+            }}
+          >
+            <div>
+              <PiNotepad size={22} />
+            </div>
+            <span
+              style={{
+                color: Common.color.black02,
+                fontSize: Common.fontSize.fontXS,
+                fontWeight: Common.fontWeight.bold,
+              }}
+            >
+              간호일지
+            </span>
+          </div>
+        </NavLink>
       </S.PatientDetailProfileBox>
     </Box>
   );

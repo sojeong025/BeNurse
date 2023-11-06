@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Common } from "@utils/global.styles.jsx";
-
+import { useParams } from "react-router-dom";
 import * as S from "./PatientJournalWritePage.styles";
 import Container from "../../components/atoms/Container/Container";
 import Button from "../../components/atoms/Button/Button";
@@ -9,12 +9,49 @@ import PatientDetailProfile from "../../components/templates/Patient/PatientDeta
 
 import { ConfigProvider, Select } from "antd";
 
+import { customAxios } from "../../libs/axios";
+
 export default function PatientJournalUpdatePage() {
   const onChange = (value) => {
     console.log(`selected ${value}`);
   };
   const filterOption = (input, option) =>
     (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
+  const [patient, setPatient] = useState({
+    id: "",
+    age: "",
+    discharge: "",
+    disease: "",
+    drinking: "",
+    gender: "",
+    hospitalization: "",
+    surgery: "",
+    history: "",
+    medicine: "",
+    name: "",
+    selfmedicine: "",
+    smoking: "",
+    alergy: "",
+    surgery: "",
+    cc: [],
+  });
+  const { patientId } = useParams();
+
+  useEffect(() => {
+    customAxios
+      .get("emr/patient?id=" + patientId)
+      .then((res) => {
+        console.log("환자 정보 불러오기", res.data.responseData);
+        setPatient({
+          ...res.data.responseData.patient,
+          cc: res.data.responseData.cc,
+        });
+      })
+      .catch((error) => {
+        console.error("환자 정보 로드 실패:", error);
+      });
+  }, []);
 
   return (
     <Container>
@@ -24,7 +61,7 @@ export default function PatientJournalUpdatePage() {
           width: "calc(100% - 28px)",
         }}
       >
-        <PatientDetailProfile />
+        <PatientDetailProfile patient={patient} />
         <S.WriteContainer>
           <S.WriteTypeSelect>
             <ConfigProvider
