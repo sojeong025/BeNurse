@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Common } from "../../utils/global.styles";
 import Box from "../../components/atoms/Box/Box";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
+import { customAxios } from "../../libs/axios";
 import manage from "@assets/Images/manage.png";
 import web_write from "@assets/Images/web_write.png";
+import AdminCalendar from "../../components/templates/Admin/AdminCalendar";
 
 export default function AdminMainPage() {
   const navigate = useNavigate();
@@ -16,6 +18,12 @@ export default function AdminMainPage() {
   const management = () => {
     navigate("../management");
   };
+
+  useEffect(() => {
+    customAxios.get("Hospital").then((res) => {
+      console.log(res);
+    });
+  }, []);
 
   return (
     <div
@@ -38,22 +46,12 @@ export default function AdminMainPage() {
       >
         <Box
           type={"white"}
-          size={["400px", "400px"]}
+          size={["830px", "560px"]}
           flex={["flex-start", "flex-start"]}
           props={
             "position: relative; flex-direction: column; box-sizing: border-box; padding: 30px;"
           }
         >
-          {/* <img
-            style={{
-              position: "absolute",
-              bottom: "-20px",
-              right: "-50px",
-              width: "160px",
-            }}
-            src={megaphone}
-            alt=""
-          /> */}
           <div
             style={{
               display: "flex",
@@ -62,57 +60,16 @@ export default function AdminMainPage() {
               width: "100%",
             }}
           >
-            <p style={{ fontSize: "22px", fontWeight: "600" }}>공지사항</p>
-            <div style={{ cursor: "pointer" }}>
-              <p style={{ fontSize: "14px", fontWeight: "600" }}>전체보기</p>
-            </div>
+            <p style={{ fontSize: "22px", fontWeight: "600" }}>근무표</p>
           </div>
           <hr style={{ width: "100%" }} />
-        </Box>
-        <Box
-          type={"white"}
-          size={["400px", "160px"]}
-          flex={["flex-start", "flex-end"]}
-          props={
-            "position: relative; box-sizing: border-box; padding: 30px; cursor: pointer;"
-          }
-        >
-          <p
-            style={{
-              fontSize: "22px",
-              fontWeight: "600",
-              marginRight: "10px",
-              color: Common.color.purple03,
-              lineHeight: "30px",
-            }}
-          >
-            환자 정보
-            <br />
-            입/퇴원 관리
-          </p>
-          <BsFillArrowRightCircleFill
-            style={{ zIndex: 100, marginBottom: "4px" }}
-            size={24}
-            color={Common.color.purple03}
-          />
-          <img
-            style={{
-              transform: "matrix(0, 1, 1, 0, 0, 0) rotate(-90deg)",
-              position: "absolute",
-              zIndex: 1,
-              width: "200px",
-              top: "-20px",
-              right: "0px",
-            }}
-            src={manage}
-            alt=""
-          />
+          <AdminCalendar />
         </Box>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: "30px" }}>
         <Box
           type={"purple03"}
-          size={["500px", "160px"]}
+          size={["500px", "180px"]}
           flex={["flex-start", "flex-end"]}
           props={
             "box-sizing: border-box; padding: 30px; position: relative; cursor: pointer;"
@@ -140,10 +97,48 @@ export default function AdminMainPage() {
         </Box>
         <Box
           type={"white"}
-          size={["500px", "400px"]}
+          size={["500px", "180px"]}
+          flex={["flex-end", "flex-end"]}
+          props={
+            "position: relative; box-sizing: border-box; padding: 30px; cursor: pointer;"
+          }
+          onClick={management}
+        >
+          <img
+            style={{
+              transform: "matrix(0, 1, 1, 0, 0, 0) rotate(-90deg)",
+              position: "absolute",
+              zIndex: 1,
+              width: "240px",
+              top: "-30px",
+              left: "10px",
+            }}
+            src={manage}
+            alt=""
+          />
+          <p
+            style={{
+              fontSize: "22px",
+              fontWeight: "600",
+              marginRight: "10px",
+              color: Common.color.purple03,
+              lineHeight: "30px",
+            }}
+          >
+            병동 관리하기
+          </p>
+          <BsFillArrowRightCircleFill
+            style={{ zIndex: 100, marginBottom: "4px" }}
+            size={24}
+            color={Common.color.purple03}
+          />
+        </Box>
+        <Box
+          type={"purple00"}
+          size={["500px", "140px"]}
           flex={["flex-start", "flex-start"]}
           props={
-            "position: relative; flex-direction: column; box-sizing: border-box; padding: 30px;"
+            "position: relative; flex-direction: column; box-sizing: border-box; padding: 22px; color: #757575;"
           }
         >
           <div
@@ -154,21 +149,15 @@ export default function AdminMainPage() {
               width: "100%",
             }}
           >
-            <p style={{ fontSize: "22px", fontWeight: "600" }}>병원 정보</p>
-            <div
-              style={{ cursor: "pointer" }}
-              onClick={management}
-            >
-              <p style={{ fontSize: "14px", fontWeight: "600" }}>병동 관리</p>
-            </div>
+            <p style={{ fontSize: "16px", fontWeight: "600" }}>병원 정보</p>
           </div>
           <hr style={{ width: "100%" }} />
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: "14px",
-              fontSize: "18px",
+              gap: "12px",
+              fontSize: "14px",
             }}
           >
             <p>

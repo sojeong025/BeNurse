@@ -50,3 +50,17 @@ export const useBottomSheetStore = create((set) => ({
     }));
   },
 }));
+
+export const useModalStore = create((set) => ({
+  isModal: false,
+  OpenModal: (category) => {
+    set((state) => ({
+      isModal: category,
+    }));
+  },
+  CloseModal: () => {
+    set((state) => ({
+      isModal: false,
+    }));
+  },
+}));

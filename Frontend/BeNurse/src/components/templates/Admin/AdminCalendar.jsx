@@ -3,7 +3,7 @@ import { useSwipeable } from "react-swipeable";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import Modal from "../../atoms/Modal/Modal";
-import NurseItem from "./NurseItem";
+import NurseItem from "../Schedule/NurseItem";
 import no from "@assets/Images/no.png";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import off from "@assets/Icons/off.svg";
@@ -18,11 +18,11 @@ import {
   Td,
   ScheduleTypeCircle,
   NurseScrollWrapper,
-} from "./ScheduleCalendar.styles";
+} from "./AdminCalendar.styles";
 import { NavLink } from "react-router-dom";
-import { Common } from "../../../utils/global.styles";
+import { Common } from "@utils/global.styles";
 
-export default function ScheduleCalendar() {
+export default function AdminCalendar() {
   const [open, setOpen] = useState(false);
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(
@@ -123,69 +123,7 @@ export default function ScheduleCalendar() {
           <NavLink
             to="/off-application"
             onClick={handleOffApplicationClick}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                color: "#ffffff",
-              }}
-            >
-              <img
-                src={off}
-                alt=""
-                style={{ width: "20px", height: "20px" }}
-              />
-              <div style={{ fontSize: "12px" }}>오프신청</div>
-            </div>
-          </NavLink>
-          <Modal
-            visible={modalIsOpen}
-            closable={false}
-            maskClosable={true}
-            onClose={handleCloseModal}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <img
-                src={no}
-                style={{ width: "64px", marginBottom: "10px" }}
-                alt=""
-              />
-              <div
-                style={{
-                  fontSize: Common.fontSize.fontM,
-                  fontWeight: Common.fontWeight.bold,
-                  textAlign: "center",
-                  marginBottom: "10px",
-                }}
-              >
-                오프 신청 기간이 아닙니다.
-              </div>
-              <div
-                style={{
-                  fontSize: Common.fontSize.fontXS,
-                  fontWeight: Common.fontWeight.regular,
-                  lineHeight: "22px",
-                  textAlign: "center",
-                  marginBottom: "10px",
-                }}
-              >
-                다음 오프 신청 기간
-                <br />
-                {currentDate.getFullYear()}.{currentDate.getMonth() + 3}.10 ~
-                {currentDate.getFullYear()}.{currentDate.getMonth() + 3}.20
-              </div>
-            </div>
-          </Modal>
+          ></NavLink>
         </div>
       </Header>
       <StateWrapper>
