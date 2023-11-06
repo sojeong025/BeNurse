@@ -1,5 +1,6 @@
 package com.ssafy.PatientWard.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.PatientWard.model.PatientWard;
 import com.ssafy.PatientWard.service.PatientWardRepository;
 import com.ssafy.common.utils.APIResponse;
+import com.ssafy.hospital.model.Ward;
+import com.ssafy.hospital.service.WardRepository;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
 
@@ -34,6 +37,9 @@ public class PatientWardController {
 
 	@Autowired
 	PatientWardRepository pwRepo;
+
+	@Autowired
+	WardRepository wardRepo;
 	
 	@Autowired
 	OauthService oauthService;
@@ -90,12 +96,12 @@ public class PatientWardController {
 	
 	// 병동 환자 검색
 	@GetMapping("/search")
-	@ApiOperation(value = "병동 환자 검색", notes = "병동 ID로 해당 병동의 환자 ID를 조회한다.") 
+	@ApiOperation(value = "병동 환자 검색", notes = "병동 이름으로 해당 병동의 환자 ID를 조회한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공", response = PatientWard.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<List<PatientWard>> PatientWardSearch(@RequestHeader("Authorization") String token, @RequestParam("wardID") long ID) {
+	public APIResponse<List<PatientWard>> PatientWardSearch(@RequestHeader("Authorization") String token, @RequestParam("wardName") String name) {
 		Nurse nurse;
 		// 사용자 조회
 		try {
@@ -104,9 +110,16 @@ public class PatientWardController {
 			e.printStackTrace();
 			return new APIResponse(HttpStatus.UNAUTHORIZED);
 		}
+		List<Ward> wardList = wardRepo.findAllByHospitalIDAndNameContaining(nurse.getHospitalID(), name);
 		
-		List<PatientWard> patientWard = pwRepo.findAllByHospitalIDAndWardIDAndIsHospitalized(nurse.getHospitalID(), ID, true);
-	    return new APIResponse<>(patientWard, HttpStatus.OK);
+		
+		List<PatientWard> patientWard = new ArrayList<>();
+		for(Ward w : wardList) {
+			List<PatientWard> pwList = pwRepo.findAllByHospitalIDAndWardIDAndIsHospitalized(nurse.getHospitalID(), w.getID(), true);
+			for(PatientWard pw : pwList)
+				patientWard.add(pw);
+		}
+		return new APIResponse<>(patientWard, HttpStatus.OK);
 	}
 	
 	// 환자 입원 정보 조회

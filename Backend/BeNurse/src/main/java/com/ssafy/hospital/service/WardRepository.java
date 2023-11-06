@@ -12,4 +12,6 @@ public interface WardRepository extends JpaRepository<Ward, Long>{
 
 	List<Ward> findAllByHospitalID(long hospitalID);
 
+	List<Ward> findAllByHospitalIDAndNameContaining(long hospitalID, String name);
+
 }

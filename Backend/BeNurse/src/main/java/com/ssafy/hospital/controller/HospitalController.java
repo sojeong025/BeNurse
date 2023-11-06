@@ -19,6 +19,7 @@ import com.ssafy.common.utils.IDRequest;
 import com.ssafy.hospital.model.Hospital;
 import com.ssafy.hospital.service.HospitalRepository;
 import com.ssafy.nurse.model.Nurse;
+import com.ssafy.nurse.service.NurseRepository;
 import com.ssafy.oauth.serivce.OauthService;
 
 import io.swagger.annotations.Api;
@@ -34,6 +35,9 @@ public class HospitalController {
 
 	@Autowired
 	HospitalRepository hospitalRepo;
+	
+	@Autowired
+	NurseRepository nurseRepo;
 	
 	@Autowired
 	OauthService oauthService;
@@ -140,6 +144,7 @@ public class HospitalController {
 		
 	    Hospital savedHospital = hospitalRepo.save(hospital);
 		nurse.setHospitalID(savedHospital.getID());
+		nurseRepo.save(nurse);
 		
 	    return new APIResponse<>(savedHospital, HttpStatus.OK);
 	}
