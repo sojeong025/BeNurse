@@ -19,7 +19,7 @@ import com.ssafy.emr.model.Patient;
 import com.ssafy.emr.model.PatientResponse;
 import com.ssafy.emr.utils.JournalSearchCondition;
 
-@FeignClient(name="EMRClient", url="k9e105.p.ssafy.io:9004/api/emr")
+@FeignClient(name="EMRClient", url="https://k9e105.p.ssafy.io:9004/api/emr")
 public interface EMRService {
 
 	/* 간호일지 Journal 6ea */
