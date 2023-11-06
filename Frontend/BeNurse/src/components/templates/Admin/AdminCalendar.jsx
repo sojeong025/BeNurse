@@ -1,39 +1,20 @@
-import React, { useState } from "react";
-import { useSwipeable } from "react-swipeable";
-import { BottomSheet } from "react-spring-bottom-sheet";
+import React, { useEffect, useState } from "react";
+import { Common } from "../../../utils/global.styles";
 import "react-spring-bottom-sheet/dist/style.css";
-import Modal from "../../atoms/Modal/Modal";
-import NurseItem from "../Schedule/NurseItem";
-import no from "@assets/Images/no.png";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
-import off from "@assets/Icons/off.svg";
 import {
   CalendarWrapper,
-  Header,
   Table,
   WeekdayRow,
   Weekday,
-  StateWrapper,
-  State,
   Td,
-  ScheduleTypeCircle,
-  NurseScrollWrapper,
 } from "./AdminCalendar.styles";
-import { NavLink } from "react-router-dom";
-import { Common } from "@utils/global.styles";
 
 export default function AdminCalendar() {
-  const [open, setOpen] = useState(false);
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(
     new Date(today.getFullYear(), today.getMonth(), 1),
   );
-  const handlers = useSwipeable({
-    onSwipedLeft: () => nextMonth(),
-    onSwipedRight: () => prevMonth(),
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true,
-  });
+  const [selectedDate, setSelectedDate] = useState(today.getDate());
 
   const createCalendar = (date) => {
     const startDay = date.getDay();
@@ -75,63 +56,21 @@ export default function AdminCalendar() {
     return types[Math.floor(Math.random() * types.length)];
   };
 
-  const prevMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1),
-    );
-  };
-
-  const nextMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1),
-    );
-  };
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const isOffApplicationPossible = () => {
-    const currentDay = currentDate.getDate();
-    return currentDay >= 10 && currentDay <= 20;
-  };
-
-  const handleOffApplicationClick = (event) => {
-    if (!isOffApplicationPossible()) {
-      event.preventDefault();
-      setModalIsOpen(true);
-    }
-  };
-  const handleCloseModal = () => {
-    setModalIsOpen(false);
-  };
 
   const weeks = createCalendar(currentDate);
 
+  useEffect(() => {
+    console.log(today.getDate());
+  }, []);
+
   return (
-    <CalendarWrapper {...handlers}>
-      <Header>
-        <div style={{ display: "flex" }}>
-          <button onClick={prevMonth}>
-            <MdKeyboardArrowLeft />
-          </button>
-          <h2>
-            {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
-          </h2>
-          <button onClick={nextMonth}>
-            <MdKeyboardArrowRight />
-          </button>
-        </div>
-        <div>
-          <NavLink
-            to="/off-application"
-            onClick={handleOffApplicationClick}
-          ></NavLink>
-        </div>
-      </Header>
-      <StateWrapper>
-        <State type={"day"}>DAY</State>
-        <State type={"evening"}>EVENING</State>
-        <State type={"night"}>NIGHT</State>
-        <State type={"off"}>OFF</State>
-      </StateWrapper>
+    <CalendarWrapper>
+      <div style={{ display: "flex", marginLeft: "18px" }}>
+        <h2>
+          {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
+        </h2>
+      </div>
       <Table>
         <thead>
           <WeekdayRow>
@@ -149,10 +88,15 @@ export default function AdminCalendar() {
             <tr key={i}>
               {week.map((date, j) => (
                 <Td
+                  id={j}
                   lastRow={i === weeks.length - 1}
                   key={j}
                   isCurMonth={date.isCurMonth}
                   isSunday={j === 0}
+                  onClick={() => {
+                    setSelectedDate(date.day);
+                  }}
+                  style={{ cursor: "pointer" }}
                 >
                   <div
                     style={{
@@ -160,16 +104,18 @@ export default function AdminCalendar() {
                       flexDirection: "column",
                       alignItems: "center",
                     }}
-                    onClick={(e) => {
-                      console.log(date.day);
-                      setOpen(true);
-                    }}
                   >
                     {date.day}
-                    {date.isCurMonth && (
-                      <ScheduleTypeCircle type={date.type}>
-                        {date.type.charAt(0).toUpperCase()}
-                      </ScheduleTypeCircle>
+                    {date.isCurMonth && selectedDate === date.day && (
+                      <div
+                        style={{
+                          width: "24px",
+                          height: "24px",
+                          backgroundColor: Common.color.purple03,
+                          borderRadius: "30px",
+                          marginTop: "16px",
+                        }}
+                      />
                     )}
                   </div>
                 </Td>
@@ -178,41 +124,6 @@ export default function AdminCalendar() {
           ))}
         </tbody>
       </Table>
-      <BottomSheet
-        open={open}
-        onDismiss={() => {
-          setOpen(false);
-        }}
-      >
-        <NurseScrollWrapper>
-          <span
-            style={{
-              color: Common.color.black02,
-              fontSize: Common.fontSize.fontM,
-              fontWeight: Common.fontWeight.bold,
-            }}
-          >
-            2023.11.12 (일)
-          </span>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
-              gap: "20px",
-            }}
-          >
-            <NurseItem />
-            <NurseItem />
-            <NurseItem />
-            <NurseItem />
-            <NurseItem />
-            <NurseItem />
-            <NurseItem />
-            <NurseItem />
-          </div>
-        </NurseScrollWrapper>
-      </BottomSheet>
     </CalendarWrapper>
   );
 }
