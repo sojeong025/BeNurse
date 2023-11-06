@@ -2,7 +2,7 @@ import React from "react";
 import HandOverListItem from "./HandOverListItem";
 import { NavLink } from "react-router-dom";
 
-export default function HandOverList(linkto) {
+export default function HandOverList({ linkto }) {
   if (linkto === "write") {
     return (
       <div
@@ -13,7 +13,7 @@ export default function HandOverList(linkto) {
           margin: "0 auto",
         }}
       >
-        <div style={{ padding: "0px 20px 20px 20px", boxSizing: "border-box" }}>
+        <div style={{ padding: "0px 0 20px 0", boxSizing: "border-box" }}>
           <NavLink to="/handover-write">
             <HandOverListItem />
           </NavLink>
