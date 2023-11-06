@@ -13,7 +13,6 @@ export default function AdminManagementPage() {
   const [inviteCode, setInviteCode] = useState(null);
 
   const inputName = (e) => {
-    console.log(e.target.value);
     setNurseName(e.target.value);
   };
 
@@ -24,11 +23,11 @@ export default function AdminManagementPage() {
       };
       customAxios.post("invite", data).then((res) => {
         const code = res.data.responseData.split("");
-        console.log(code);
         setInviteCode(code);
         setTimeout(() => {
           setShowInviteForm(false);
           setInviteCode(null);
+          setCount(30);
         }, 30000);
       });
     } else {
@@ -40,6 +39,7 @@ export default function AdminManagementPage() {
     if (e.target === e.currentTarget) {
       setShowInviteForm(false);
       setInviteCode(null);
+      setCount(30);
     }
   };
 
@@ -52,7 +52,9 @@ export default function AdminManagementPage() {
       if (count === 0) {
         clearInterval(id);
       }
-      return () => clearInterval(id);
+      return () => {
+        clearInterval(id);
+      };
     }
   }, [count, inviteCode]);
 
