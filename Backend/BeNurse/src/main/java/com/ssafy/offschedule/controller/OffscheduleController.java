@@ -42,13 +42,13 @@ public class OffscheduleController {
 	
 	// 휴무 일정 신청 POST
 	@PostMapping("")
-	@ApiOperation(value = "휴무 일정 신청", notes = "날짜, 시간, 사유로 휴무 일정 신청")
+	@ApiOperation(value = "휴무 일정 신청", notes = "날짜, 시간, 사유로 휴무 일정 신청\nid는 자동 생성, offdate는 \"yyyy-MM-dd\" 양식으로 보내면 됩니다.")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = Offschedule.class),
-		@ApiResponse(code = 404, message = "결과 없음"),
+		@ApiResponse(code = 406, message = "실패"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Offschedule> registOffschedule(@RequestHeader("Authorization") String token, @RequestBody Offschedule offschedule) {
+	public APIResponse<Offschedule> registOffschedule(@RequestHeader("Authorization") String token, @RequestBody List<Offschedule> offschedule) {
 		Nurse nurse;
 		// 사용자 조회
 		try {
@@ -58,10 +58,16 @@ public class OffscheduleController {
 			return new APIResponse(HttpStatus.UNAUTHORIZED);
 		}
 		
-		offschedule.setNurseID(nurse.getID());
-		
-		Offschedule savedOffschedule = offscheduleRepo.save(offschedule);
-		return new APIResponse<>(savedOffschedule, HttpStatus.OK);
+		try {
+		for(Offschedule off : offschedule) {
+			off.setNurseID(nurse.getID());
+			offscheduleRepo.save(off);
+		}
+		return new APIResponse<>(HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.NOT_ACCEPTABLE);
+		}
 	}
 	
 	// 휴무 신청 내역 삭제 DELETE
