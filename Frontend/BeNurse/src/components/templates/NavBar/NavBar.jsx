@@ -12,7 +12,22 @@ export default function NavBar({ onTempSave }) {
     navigate(-1);
   };
 
-  const onNext = () => {};
+  // 다음으로 가기
+  // 1. 주소 설정
+  const routeSequence = {
+    "/off-application": "/off-application-write",
+  };
+
+  const onNext = () => {
+    if (nextRoutes.includes(path)) {
+      const nextPath = routeSequence[path];
+      if (nextPath) {
+        navigate(nextPath);
+      } else {
+        console.error(`다음 경로 정보가 없습니다: ${path}`);
+      }
+    }
+  };
 
   // 왼쪽에 뒤로가기 필요하면 여기 넣기
   const backRoutes = [
@@ -20,6 +35,7 @@ export default function NavBar({ onTempSave }) {
     "/notice",
     "/notice/write",
     "/off-application",
+    "/off-application-write",
   ];
 
   // 알림버튼 필요하면 여기 넣기

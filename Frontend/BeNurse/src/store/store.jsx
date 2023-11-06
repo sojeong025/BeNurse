@@ -75,8 +75,16 @@ export const useModalStore = create((set) => ({
 export const useAdminStore = create((set) => ({
   schedule: null,
   setSchedule: (newSchedule) => {
-    set((state) => ({
+    set(() => ({
       schedule: newSchedule,
     }));
+  },
+}));
+
+export const useOffDateStore = create((set) => ({
+  selectedDates: [],
+  setSelectedDates: (dates) => {
+    console.log("setSelectedDates called with", dates);
+    set(() => ({ selectedDates: dates }));
   },
 }));
