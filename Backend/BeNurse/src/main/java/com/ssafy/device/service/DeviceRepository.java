@@ -9,11 +9,9 @@ import org.springframework.stereotype.Repository;
 import com.ssafy.device.model.Device;
 
 @Repository
-public interface DeviceRepository extends JpaRepository<Device, Long> {
+public interface DeviceRepository extends JpaRepository<Device, String> {
 
 
 	List<Device> findAllByHospitalID(long hospitalID);
-
-	Optional<Device> findByIDAndHospitalID(long ID, long hospitalID);
 
 }

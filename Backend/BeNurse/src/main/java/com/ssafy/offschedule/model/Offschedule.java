@@ -36,9 +36,6 @@ public class Offschedule {
 	@Column(name = "NURSE_ID")
 	private long nurseID;
 	
-	@Column(name = "NAME")
-	private String name;
-	
 	@Column(name = "OFF_DATE")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate offdate;

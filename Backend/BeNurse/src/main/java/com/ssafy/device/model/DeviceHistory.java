@@ -36,11 +36,11 @@ public class DeviceHistory {
 	@Column(name = "PATIENT_ID")
 	private long patientID;
 	
-	@Column(name = "FLOOR")
-	private long floor;
+	@Column(name = "BEACON_ID")
+	private String beaconID;
 	
-	@Column(name = "LOCATION")
-	private String location;
+	@Column(name = "DEVICE_ID")
+	private String deviceID;
 	
 	@Column(name = "NURSE_ID")
 	private long nurseID;

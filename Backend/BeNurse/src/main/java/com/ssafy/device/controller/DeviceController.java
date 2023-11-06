@@ -1,6 +1,5 @@
 package com.ssafy.device.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.Handover.model.Handover;
+import com.ssafy.Handover.model.HandoverList;
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.device.model.Device;
+import com.ssafy.device.model.DeviceHistory;
+import com.ssafy.device.service.DeviceHistoryRepository;
 import com.ssafy.device.service.DeviceRepository;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
@@ -38,6 +41,9 @@ public class DeviceController {
 	DeviceRepository deviceRepo;
 	
 	@Autowired
+	DeviceHistoryRepository dhRepo;
+	
+	@Autowired
 	OauthService oauthService;
 	
 	// 장비 등록 POST
@@ -48,8 +54,18 @@ public class DeviceController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Device> registOffschedule(@RequestBody Device device) {
-		device.setTime(LocalDateTime.now());
+	public APIResponse<Device> registDevice(@RequestHeader("Authorization") String token, @RequestBody Device device) {
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		
+		if(!nurse.isAdmin())
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
 		
 		Device savedDevice = deviceRepo.save(device);
 		return new APIResponse<>(savedDevice, HttpStatus.OK);
@@ -63,7 +79,19 @@ public class DeviceController {
 		    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
 		    @ApiResponse(code = 500, message = "서버 오류")
 		})
-		public APIResponse<Device> updateDeviceByDeviceId(@RequestBody Device updatedDevice){
+		public APIResponse<Device> updateDeviceByDeviceId(@RequestHeader("Authorization") String token, @RequestBody Device updatedDevice){
+			Nurse nurse;
+			// 사용자 조회
+			try {
+				nurse = oauthService.getUser(token);
+			}catch (Exception e) {
+				e.printStackTrace();
+				return new APIResponse(HttpStatus.UNAUTHORIZED);
+			}
+			
+			if(!nurse.isAdmin())
+				return new APIResponse(HttpStatus.UNAUTHORIZED);
+			
 			Optional<Device> optionDevice = deviceRepo.findById(updatedDevice.getID());
 			
 		    if (optionDevice.isPresent()) {
@@ -85,10 +113,26 @@ public class DeviceController {
 			@ApiResponse(code = 404, message = "결과 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 		})
-	    public APIResponse<Void> deleteDeviceByDeviceId(@RequestParam("ID") long ID) {
-		    Optional<Device> device = deviceRepo.findById(ID);
-
+	    public APIResponse<Void> deleteDeviceByDeviceId(@RequestHeader("Authorization") String token, @RequestParam("ID") String ID) {
+			Nurse nurse;
+			// 사용자 조회
+			try {
+				nurse = oauthService.getUser(token);
+			}catch (Exception e) {
+				e.printStackTrace();
+				return new APIResponse(HttpStatus.UNAUTHORIZED);
+			}
+			
+			if(!nurse.isAdmin())
+				return new APIResponse(HttpStatus.UNAUTHORIZED);
+			
+			Optional<Device> device = deviceRepo.findById(ID);
 		    if(device.isPresent()) {
+		    	List<DeviceHistory> list = dhRepo.findAllByDeviceID(ID);
+		    	for(DeviceHistory l : list) {
+		    		dhRepo.delete(l);
+		    	}
+
 		    	deviceRepo.delete(device.get());
 				return new APIResponse(HttpStatus.OK);
 			}
@@ -117,7 +161,7 @@ public class DeviceController {
 		    return new APIResponse<>(device, HttpStatus.OK);
 		}
 		
-		// 특정 공지사항 조회 GET
+		// 특정 장비 조회 GET
 		@GetMapping("")
 		@ApiOperation(value = "특정 장비 조회", notes = "장비 ID로 특정 장비 조회") 
 		@ApiResponses({
@@ -125,17 +169,8 @@ public class DeviceController {
 		    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
 		    @ApiResponse(code = 500, message = "서버 오류")
 		})
-		public APIResponse<Device> getDeviceById(@RequestHeader("Authorization") String token, @RequestParam("ID") long ID) {
-			Nurse nurse;
-			// 사용자 조회
-			try {
-				nurse = oauthService.getUser(token);
-			}catch (Exception e) {
-				e.printStackTrace();
-				return new APIResponse(HttpStatus.UNAUTHORIZED);
-			}
-			
-			Optional<Device> device = deviceRepo.findByIDAndHospitalID(ID, nurse.getHospitalID());
+		public APIResponse<Device> getDeviceById( @RequestParam("ID") String ID) {
+			Optional<Device> device = deviceRepo.findById(ID);
 
 		    if (device.isPresent())
 		        return new APIResponse(device.get(), HttpStatus.OK);

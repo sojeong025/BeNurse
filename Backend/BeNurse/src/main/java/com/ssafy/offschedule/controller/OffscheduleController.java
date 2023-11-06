@@ -59,7 +59,6 @@ public class OffscheduleController {
 		}
 		
 		offschedule.setNurseID(nurse.getID());
-		offschedule.setName(nurse.getName());
 		
 		Offschedule savedOffschedule = offscheduleRepo.save(offschedule);
 		return new APIResponse<>(savedOffschedule, HttpStatus.OK);

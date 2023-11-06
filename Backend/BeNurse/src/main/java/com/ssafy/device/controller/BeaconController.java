@@ -48,9 +48,18 @@ public class BeaconController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Beacon> registBeacon(@RequestBody Beacon beacon) {
+	public APIResponse<Beacon> registBeacon(@RequestHeader("Authorization") String token, @RequestBody Beacon beacon) {
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
 		
-		beacon.setTime(LocalDateTime.now());
+		if(!nurse.isAdmin())
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
 		
 	    Beacon savedBeacon = beaconRepo.save(beacon);
 	    return new APIResponse<>(savedBeacon, HttpStatus.OK);
@@ -64,7 +73,19 @@ public class BeaconController {
 	    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Beacon> updateBeaconById(@RequestBody Beacon updatedBeacon){
+	public APIResponse<Beacon> updateBeaconById(@RequestHeader("Authorization") String token, @RequestBody Beacon updatedBeacon){
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		
+		if(!nurse.isAdmin())
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		
 		Optional<Beacon> optionBeacon = beaconRepo.findById(updatedBeacon.getID());
 		
 	    if (optionBeacon.isPresent()) {
@@ -86,8 +107,20 @@ public class BeaconController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Void> deleteBeaconById(@RequestParam("ID") long ID) {
-	    Optional<Beacon> beacon = beaconRepo.findById(ID);
+	public APIResponse<Void> deleteBeaconById(@RequestHeader("Authorization") String token, @RequestParam("ID") String ID) {
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		
+		if(!nurse.isAdmin())
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		
+		Optional<Beacon> beacon = beaconRepo.findById(ID);
 
 	    if(beacon.isPresent()) {
 	    	beaconRepo.delete(beacon.get());
@@ -126,18 +159,8 @@ public class BeaconController {
 	    @ApiResponse(code = 404, message = "비콘을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Beacon> getBeaconById(@RequestHeader("Authorization") String token, @RequestParam("ID") long ID) {
-		Nurse nurse;
-		// 사용자 조회
-		try {
-			nurse = oauthService.getUser(token);
-		}catch (Exception e) {
-			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
-		}
-		
-		
-		Optional<Beacon> beacon = beaconRepo.findByHospitalIDAndID(nurse.getHospitalID(), ID);
+	public APIResponse<Beacon> getBeaconById(@RequestParam("ID") String ID) {
+		Optional<Beacon> beacon = beaconRepo.findById(ID);
 
 	    if (beacon.isPresent())
 	        return new APIResponse(beacon.get(), HttpStatus.OK);

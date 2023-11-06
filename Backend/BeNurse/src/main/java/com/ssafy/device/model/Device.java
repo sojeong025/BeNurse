@@ -1,13 +1,9 @@
 package com.ssafy.device.model;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +24,7 @@ public class Device {
 
 	@Id
 	@Column(name = "ID")
-	private long ID;
+	private String ID;
 	
 	@Column(name = "NAME")
 	private String name;
@@ -44,8 +40,4 @@ public class Device {
 	
 	@Column(name = "AS_TEL")
 	private String asTel;
-	
-	@Column(name = "TIME")
-	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	private LocalDateTime time;
 }

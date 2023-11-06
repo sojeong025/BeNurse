@@ -15,23 +15,17 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@Table(name = "BEACON")
+@Table(name = "PATIENT_NFC")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @ToString
-public class Beacon {
+public class PatientNFC {
 
 	@Id
 	@Column(name = "ID")
 	private String ID;
 	
-	@Column(name = "LOCATION")
-	private String location;
-	
-	@Column(name = "FLOOR")
-	private long floor;
-	
-	@Column(name = "HOSPITAL_ID")
-	private long hospitalID;
+	@Column(name = "PATIENT_ID")
+	private long patientID;
 }
