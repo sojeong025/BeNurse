@@ -93,7 +93,7 @@ export default function ScheduleCalendar() {
               lineHeight: "24px",
             }}
           >
-            원하는 오프 신청일을 설정해주세요. <br />
+            원하는 오프 신청일을 클릭해주세요. <br />
             다음 버튼을 눌러 사유를 작성해주세요.
           </div>
         </div>

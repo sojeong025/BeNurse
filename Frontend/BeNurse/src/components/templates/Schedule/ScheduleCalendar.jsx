@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSwipeable } from "react-swipeable";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
@@ -21,6 +21,7 @@ import {
 } from "./ScheduleCalendar.styles";
 import { NavLink } from "react-router-dom";
 import { Common } from "../../../utils/global.styles";
+import { customAxios } from "../../../libs/axios";
 
 export default function ScheduleCalendar() {
   const [open, setOpen] = useState(false);
@@ -102,6 +103,27 @@ export default function ScheduleCalendar() {
   };
 
   const weeks = createCalendar(currentDate);
+
+  useEffect(() => {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1;
+    const lastDay = new Date(year, month, 0).getDate();
+
+    const startDate = `${year}-${month.toString().padStart(2, "0")}-01`;
+    const endDate = `${year}-${month.toString().padStart(2, "0")}-${lastDay}`;
+
+    customAxios
+      .get("Schedule", {
+        params: {
+          endDate: endDate,
+          startDate: startDate,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  }, [currentDate]);
 
   return (
     <CalendarWrapper {...handlers}>

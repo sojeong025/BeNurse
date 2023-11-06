@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Common } from "../../../utils/global.styles";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { GoBell } from "react-icons/go";
+import { useOffApplicationStore } from "../../../store/store";
 
 export default function NavBar({ onTempSave }) {
   const navigate = useNavigate();
@@ -12,8 +13,10 @@ export default function NavBar({ onTempSave }) {
     navigate(-1);
   };
 
-  const onNextClick = () => {
-    navigate("/main");
+  const { setShowOffContext } = useOffApplicationStore();
+
+  const onNext = () => {
+    setShowOffContext(true);
   };
 
   // 왼쪽에 뒤로가기 필요하면 여기 넣기
@@ -176,12 +179,15 @@ export default function NavBar({ onTempSave }) {
         </div>
       ) : shouldDisplayNextIcon ? (
         <div
-          onClick={onNextClick}
+          onClick={onNext}
           style={{
             paddingRight: "14px",
             display: "flex",
             justifyContent: "end",
             width: "80px",
+            fontSize: "16px",
+            fontWeight: "bold",
+            color: "blue",
           }}
         >
           다음
