@@ -48,8 +48,8 @@ public interface EMRService {
 	@DeleteMapping(value="/journal")
 	APIResponse<Void> deleteJournal(@RequestParam("id") long id);
 	
-	// 간호일지 검색 GET
-	@GetMapping(value="/journal/search")
+	// 간호일지 검색 POST
+	@PostMapping(value="/journal/search")
 	APIResponse<List<Journal>> searchJournal(@SpringQueryMap JournalSearchCondition search);
 
 	/* 주호소 CC 2ea */
