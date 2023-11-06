@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,13 +75,13 @@ public class JournalController {
 		return new APIResponse(journals, HttpStatus.OK);
 	}
 	
-	@GetMapping("/search")
+	@PostMapping("/search")
 	@ApiOperation(value = "간호일지 검색", notes = "조건에 따른 간호일지 정보를 검색한다.")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = List.class),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<List<Journal>> searchJournal(JournalSearchCondition search){
+	public APIResponse<List<Journal>> searchJournal(@RequestBody JournalSearchCondition search){
 		List<Journal> resp;
 		
 		if(search.getCategory() == null)
