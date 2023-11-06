@@ -64,7 +64,7 @@ public class DeviceController {
 		    @ApiResponse(code = 500, message = "서버 오류")
 		})
 		public APIResponse<Device> updateDeviceByDeviceId(@RequestBody Device updatedDevice){
-			Optional<Device> optionDevice = deviceRepo.findById(updatedDevice.getDeviceID());
+			Optional<Device> optionDevice = deviceRepo.findById(updatedDevice.getID());
 			
 		    if (optionDevice.isPresent()) {
 		        Device existingDevice = optionDevice.get();
@@ -85,8 +85,8 @@ public class DeviceController {
 			@ApiResponse(code = 404, message = "결과 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 		})
-	    public APIResponse<Void> deleteDeviceByDeviceId(@RequestParam("DeviceID") long DeviceID) {
-		    Optional<Device> device = deviceRepo.findById(DeviceID);
+	    public APIResponse<Void> deleteDeviceByDeviceId(@RequestParam("ID") long ID) {
+		    Optional<Device> device = deviceRepo.findById(ID);
 
 		    if(device.isPresent()) {
 		    	deviceRepo.delete(device.get());
@@ -125,7 +125,7 @@ public class DeviceController {
 		    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
 		    @ApiResponse(code = 500, message = "서버 오류")
 		})
-		public APIResponse<Device> getDeviceById(@RequestHeader("Authorization") String token, @RequestParam("DeviceID") long DeviceID) {
+		public APIResponse<Device> getDeviceById(@RequestHeader("Authorization") String token, @RequestParam("ID") long ID) {
 			Nurse nurse;
 			// 사용자 조회
 			try {
@@ -135,7 +135,7 @@ public class DeviceController {
 				return new APIResponse(HttpStatus.UNAUTHORIZED);
 			}
 			
-			Optional<Device> device = deviceRepo.findByDeviceIDAndHospitalID(DeviceID, nurse.getHospitalID());
+			Optional<Device> device = deviceRepo.findByIDAndHospitalID(ID, nurse.getHospitalID());
 
 		    if (device.isPresent())
 		        return new APIResponse(device.get(), HttpStatus.OK);

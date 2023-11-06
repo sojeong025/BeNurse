@@ -27,8 +27,8 @@ import lombok.ToString;
 public class Device {
 
 	@Id
-	@Column(name = "DEVICE_ID")
-	private long deviceID;
+	@Column(name = "ID")
+	private long ID;
 	
 	@Column(name = "NAME")
 	private String name;
@@ -36,11 +36,11 @@ public class Device {
 	@Column(name = "HOSPITAL_ID")
 	private long hospitalID;
 
-	@Column(name = "DEVICEIMG")
-	private String deviceImg;
+	@Column(name = "IMG")
+	private String Img;
 	
-	@Column(name = "DEVICE_INFO")
-	private String deviceInfo;
+	@Column(name = "INFO")
+	private String Info;
 	
 	@Column(name = "AS_TEL")
 	private String asTel;
