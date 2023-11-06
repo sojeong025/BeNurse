@@ -24,7 +24,7 @@ export default function BottomButton({
         padding: "0 14px",
         fontSize: "14px",
         boxSizing: "border-box",
-        zIndex: "999",
+        zIndex: "99",
       }}
     >
       <Box
