@@ -69,7 +69,7 @@ export default function HandOverWritePage() {
       room: "B503",
     },
     {
-      id: "4",
+      id: "5",
       name: "김김김",
       age: "13",
       gender: "여",
@@ -78,7 +78,7 @@ export default function HandOverWritePage() {
       room: "B503",
     },
     {
-      id: "4",
+      id: "6",
       name: "김김김",
       age: "13",
       gender: "여",
@@ -87,7 +87,7 @@ export default function HandOverWritePage() {
       room: "B503",
     },
     {
-      id: "4",
+      id: "7",
       name: "김김김",
       age: "13",
       gender: "여",
@@ -96,7 +96,7 @@ export default function HandOverWritePage() {
       room: "B503",
     },
     {
-      id: "4",
+      id: "8",
       name: "김김김",
       age: "13",
       gender: "여",
@@ -105,7 +105,7 @@ export default function HandOverWritePage() {
       room: "B503",
     },
     {
-      id: "4",
+      id: "9",
       name: "김김김",
       age: "13",
       gender: "여",
@@ -114,7 +114,7 @@ export default function HandOverWritePage() {
       room: "B503",
     },
     {
-      id: "4",
+      id: "10",
       name: "김김김",
       age: "13",
       gender: "여",
@@ -123,7 +123,7 @@ export default function HandOverWritePage() {
       room: "B503",
     },
     {
-      id: "4",
+      id: "11",
       name: "김김김",
       age: "13",
       gender: "여",
