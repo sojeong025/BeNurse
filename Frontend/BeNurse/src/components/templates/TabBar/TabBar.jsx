@@ -32,7 +32,7 @@ export default function TabBar() {
     if (location.pathname.startsWith("/admin")) {
       setVisibility("none");
     }
-    if (location.pathname.startsWith("/handover-write/patients")) {
+    if (location.pathname.startsWith("/handover-write")) {
       setVisibility("none");
     }
   }, [location]);
