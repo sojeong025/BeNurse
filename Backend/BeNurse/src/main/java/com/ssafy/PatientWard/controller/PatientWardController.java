@@ -110,7 +110,7 @@ public class PatientWardController {
 	}
 	
 	// 환자 입원 정보 조회
-	@GetMapping("/search")
+	@GetMapping("")
 	@ApiOperation(value = "환자 병동 조회", notes = "환자 ID로 해당 환자의 병동을 조회한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공", response = PatientWard.class),
