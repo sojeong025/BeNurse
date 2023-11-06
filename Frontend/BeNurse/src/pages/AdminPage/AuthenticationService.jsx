@@ -12,7 +12,7 @@ export const AuthenticationService = {
     try {
       console.log("Received code:", code);
       const response = await axios.get(
-        `http://k9e105.p.ssafy.io:9000/api/benurse/oauth`,
+        `https://k9e105.p.ssafy.io:9000/api/benurse/oauth`,
         {
           params: {
             code: code,

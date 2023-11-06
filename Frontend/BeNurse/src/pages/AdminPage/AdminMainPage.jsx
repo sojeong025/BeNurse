@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Common } from "../../utils/global.styles";
 import Box from "../../components/atoms/Box/Box";
@@ -10,11 +10,13 @@ import AdminCalendar from "../../components/templates/Admin/AdminCalendar";
 
 export default function AdminMainPage() {
   const navigate = useNavigate();
-
+  const today = new Date();
+  const [currentDate, setCurrentDate] = useState(
+    new Date(today.getFullYear(), today.getMonth(), 1),
+  );
   const createSchedule = () => {
     navigate("../create-schedule");
   };
-
   const management = () => {
     navigate("../management");
   };
@@ -24,6 +26,27 @@ export default function AdminMainPage() {
       console.log(res);
     });
   }, []);
+
+  useEffect(() => {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1;
+    const lastDay = new Date(year, month, 0).getDate();
+
+    const startDate = `${year}-${month.toString().padStart(2, "0")}-01`;
+    const endDate = `${year}-${month.toString().padStart(2, "0")}-${lastDay}`;
+
+    customAxios
+      .get("Schedule", {
+        params: {
+          endDate: endDate,
+          startDate: startDate,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  }, [currentDate]);
 
   return (
     <div
@@ -46,27 +69,16 @@ export default function AdminMainPage() {
       >
         <Box
           type={"white"}
-          size={["830px", "560px"]}
+          size={["830px", "600px"]}
           flex={["flex-start", "flex-start"]}
           props={
             "position: relative; flex-direction: column; box-sizing: border-box; padding: 30px;"
           }
         >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <p style={{ fontSize: "22px", fontWeight: "600" }}>근무표</p>
-          </div>
-          <hr style={{ width: "100%" }} />
           <AdminCalendar />
         </Box>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: "30px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "50px" }}>
         <Box
           type={"purple03"}
           size={["500px", "180px"]}
@@ -136,7 +148,7 @@ export default function AdminMainPage() {
         <Box
           type={"purple00"}
           size={["500px", "140px"]}
-          flex={["flex-start", "flex-start"]}
+          flex={["flex-end", "flex-start"]}
           props={
             "position: relative; flex-direction: column; box-sizing: border-box; padding: 22px; color: #757575;"
           }
