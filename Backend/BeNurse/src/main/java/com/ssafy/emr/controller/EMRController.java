@@ -21,11 +21,11 @@ import com.ssafy.common.utils.APIResponse;
 import com.ssafy.emr.model.CC;
 import com.ssafy.emr.model.Journal;
 import com.ssafy.emr.model.Patient;
+import com.ssafy.emr.model.PatientRequest;
 import com.ssafy.emr.model.PatientResponse;
 import com.ssafy.emr.model.PatientWardResponse;
 import com.ssafy.emr.service.EMRService;
 import com.ssafy.emr.utils.JournalSearchCondition;
-import com.ssafy.hospital.model.Hospital;
 import com.ssafy.hospital.service.HospitalRepository;
 import com.ssafy.hospital.service.WardRepository;
 
@@ -175,8 +175,40 @@ public class EMRController {
 	@ApiResponses({ 
 		@ApiResponse(code = 201, message = "등록 성공", response = Patient.class),
 		@ApiResponse(code = 500, message = "서버 오류") })
-	public APIResponse<Void> registPatientById(@RequestBody Patient patient) {
-		return emrService.registPatientById(patient);
+	public APIResponse<Void> registPatientById(@RequestBody PatientRequest patientRequest) {
+		try {
+			Patient patient = new Patient();
+			patient.setID(patientRequest.getID());
+			patient.setName(patientRequest.getName());
+			patient.setAge(patientRequest.getAge());
+			patient.setGender(patientRequest.getGender());
+			patient.setImg(patientRequest.getImg());
+			patient.setDisease(patientRequest.getDisease());
+			patient.setSurgery(patientRequest.getSurgery());
+			patient.setHospitalization(patientRequest.getHospitalization());
+			patient.setDischarge(patientRequest.getDischarge());
+			patient.setHistory(patientRequest.getHistory());
+			patient.setMedicine(patientRequest.getMedicine());
+			patient.setDrinking(patientRequest.isDrinking());
+			patient.setSmoking(patientRequest.isSmoking());
+			patient.setAlergy(patientRequest.getAlergy());
+			patient.setSelfmedicine(patientRequest.getSelfmedicine());
+			
+			
+			PatientWard pw = new PatientWard();
+			pw.setHospitalID(patientRequest.getHospitalID());
+			pw.setWardID(patientRequest.getWardID());
+			pw.setID(patientRequest.getID());
+			pw.setHospitalized(true);
+			
+			emrService.registPatientById(patient);
+			pwRepo.save(pw);
+			
+			return new APIResponse<>(HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	// 환자 정보 조회 GET
