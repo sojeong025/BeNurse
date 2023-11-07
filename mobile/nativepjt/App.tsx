@@ -14,7 +14,8 @@ import {
 
 import {WebView} from 'react-native-webview';
 
-import Scan_Modal from './components/bluetooth/bluetoothscan';
+// import Scan_Modal from './components/bluetooth/bluetoothscan';
+import Native from './components/native/native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -47,7 +48,6 @@ function App(): JSX.Element {
   };
 
   useEffect(() => {
-    // StatusBar.setBarStyle('light-content');
     //   handleAndroidPermissions();
   }, []);
 
@@ -86,10 +86,10 @@ function App(): JSX.Element {
                 backgroundColor: 'white',
                 padding: 20,
                 borderRadius: 10,
-                width: 500,
+                width: 300,
                 height: 400,
               }}>
-              <Scan_Modal />
+              <Native nurse="0" hospital="0" />
             </View>
             <View style={{alignItems: 'center', marginTop: 10}}>
               <Button title="Close Modal" onPress={toggleModal} />

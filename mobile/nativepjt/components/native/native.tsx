@@ -20,6 +20,7 @@ import BleManager, {
 } from 'react-native-ble-manager';
 
 import {data_templat, our_beacon, temp_data} from './interface';
+import axios, {AxiosResponse} from 'axios';
 ///////////////////////////////////////////////////////////////////////////////
 //ble신호 스캔 시작 함수
 const startScan = () => {
@@ -72,12 +73,12 @@ const SECONDS_TO_SCAN_FOR = 7;
 const SERVICE_UUIDS: string[] = [];
 const ALLOW_DUPLICATES = false;
 
-function App(nurse: string, hospital: string) {
+function Native(nurse: string, Auth: string) {
   const [read_data, setread_data] = useState<data_templat>(
     new data_templat(nurse),
   );
   const [infostatus, setinfostatus] = useState<Number>(0);
-  const [beacon, setbeacon] = useState<string[]>([]);
+  const beacon = useRef<string[]>([]);
   const init = useRef(true);
   const isblescan = useRef(false);
 
@@ -92,25 +93,69 @@ function App(nurse: string, hospital: string) {
 
   //인식된 태그의 정보 처리 함수
   const nfctagsave = tag => {
-    //데이터 받아오기
-    temp_data(tag.id).then(nfcdata => {
-      //조건 분기 환자인 경우
-      if (nfcdata.type === 'patient') {
-        console.log(nfcdata.data.name);
-        //데이터 저장
-        setread_data(data => data.set_patient(nfcdata.data.name));
-        //비트연산으로 데이터 저장 상태 갱신
-        setinfostatus(num => num | 0b01);
-      }
-      // 조건 분기 장비인 경우
-      else if (nfcdata.type === 'device') {
-        console.log(nfcdata.data.name);
-        //데이터 저장
-        setread_data(data => data.set_device(nfcdata.data.name));
-        //비트연산으로 데이터 저장 상태 갱신
-        setinfostatus(num => num | 0b10);
-      }
-    });
+    interface devicedata {
+      name: string;
+      hospitalID: number;
+      img: string;
+      info: string;
+      asTel: string;
+      id: string;
+      device: boolean;
+    }
+    interface patientdata {
+      patientID: number;
+      id: string;
+      device: boolean;
+    }
+    interface responseData {
+      responseData: devicedata | patientdata;
+      status: number;
+    }
+
+    const url = 'https://k9e105.p.ssafy.io:9000/api/benurse/nfc';
+    const header = {
+      accept: '*/*',
+    };
+    const params = {
+      ID: tag.id,
+    };
+
+    axios
+      .get(url, {headers: header, params: params})
+      .then((response: AxiosResponse<responseData>) => {
+        const nfcdata: devicedata | patientdata = response.data.responseData;
+        console.log(nfcdata);
+
+        if ('patientID' in nfcdata) {
+          console.log(nfcdata.patientID);
+          //데이터 저장
+          axios
+            .get('https://k9e105.p.ssafy.io:9000/api/benurse/emr/patient', {
+              headers: header,
+              params: {id: nfcdata.patientID},
+            })
+            .then(response => {
+              setread_data(data =>
+                data.set_patient(
+                  response.data.responseData.patient.patient.name,
+                ),
+              );
+            });
+          //비트연산으로 데이터 저장 상태 갱신
+          setinfostatus(num => num | 0b01);
+        }
+        // 조건 분기 장비인 경우
+        else if (nfcdata.device) {
+          console.log(nfcdata.name);
+          //데이터 저장
+          setread_data(data => data.set_device(nfcdata.name));
+          //비트연산으로 데이터 저장 상태 갱신
+          setinfostatus(num => num | 0b10);
+        }
+      })
+      .catch(err => {
+        console.error('Error:', err);
+      });
   };
 
   const whenscanstopped = () => {
@@ -118,7 +163,7 @@ function App(nurse: string, hospital: string) {
     BleManager.getDiscoveredPeripherals([])
       .then(peripheralsArray => {
         const closestbeacon = peripheralsArray
-          .filter(device => beacon.includes(device.id))
+          .filter(device => beacon.current.includes(device.id))
           .reduce((prev, current) => {
             return prev.rssi > current.rssi ? prev : current;
           });
@@ -130,20 +175,53 @@ function App(nurse: string, hospital: string) {
       });
   };
 
+  const get_our_beacon = (Auth: String) => {
+    interface beacon {
+      location: string;
+      floor: number;
+      hospitalID: number;
+      id: string;
+    }
+    interface responseData {
+      responseData: beacon[];
+      status: number;
+    }
+
+    type BeaconIds = responseData['responseData'][number]['id'][];
+
+    const url = 'https://k9e105.p.ssafy.io:9000/api/benurse/beacon/all';
+    const headers = {
+      accept: '*/*',
+      Authorization:
+        'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzamFzMDQyQG5hdmVyLmNvbSIsImF1dGgiOiJVc2VyIiwiZXhwIjoxNjk5NDEzNzIxfQ.IKMGVEFh6bfiIYvlpYl59m3-7RZWirPoaj51OwdDPOI',
+    };
+
+    axios
+      .get(url, {headers: headers})
+      .then((response: AxiosResponse<responseData>) => {
+        const beaconIds: BeaconIds = response.data.responseData.map(
+          beacon => beacon.id,
+        );
+        beacon.current = beaconIds;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
+
   useEffect(() => {
-    console.log('useEffect');
     // 최초 랜더링 시에만 실행
     if (init.current) {
       //현재 병원의 비콘 받아오기
-      our_beacon(hospital).then((beaconlist: string[]) => {
-        setbeacon(beaconlist);
-      });
+      get_our_beacon(Auth);
+
       //Nfc시작 및 스캔 이벤트 등록
       NfcManager.start();
       NfcManager.setEventListener(NfcEvents.DiscoverTag, nfctagsave);
       //최초 실행을 위한 init처리
       init.current = false;
     }
+
     //nfc스캔 시작(렌더링시 시작하기 위함)
     try {
       NfcManager.registerTagEvent();
@@ -158,6 +236,7 @@ function App(nurse: string, hospital: string) {
       NfcManager.unregisterTagEvent();
     }
 
+    //데이터 충족시 alert
     if (infostatus === 0b111) {
       Alert.alert('3가지 정보 스캔 완료');
     }
@@ -217,4 +296,4 @@ function App(nurse: string, hospital: string) {
   );
 }
 
-export default App;
+export default Native;
