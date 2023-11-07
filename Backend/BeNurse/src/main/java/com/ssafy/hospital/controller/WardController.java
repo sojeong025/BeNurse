@@ -70,7 +70,7 @@ public class WardController {
 	    @ApiResponse(code = 404, message = "병원을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<List<Ward>> getAllWardByHospitalId(@RequestHeader("Authorizaion") String token) {
+	public APIResponse<List<Ward>> getAllWardByHospitalId(@RequestHeader("Authorization") String token) {
 		Nurse nurse;
 		// 사용자 조회
 		try {
