@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.common.utils.IDRequest;
-import com.ssafy.common.utils.NameRequest;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.nurse.service.NurseRepository;
 import com.ssafy.oauth.serivce.OauthService;
@@ -58,7 +58,7 @@ public class NurseController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
 		List<Nurse> nurselist = nurseRepo.findAllByHospitalID(nurse.getHospitalID());
@@ -78,7 +78,7 @@ public class NurseController {
 		if(nurse.isPresent())
 			return new APIResponse<>(nurse.get(), HttpStatus.OK);
 		else
-			return new APIResponse<>(HttpStatus.NOT_FOUND);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}
 	
 	@GetMapping("/name")
@@ -106,7 +106,7 @@ public class NurseController {
 			return new APIResponse(user, HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 	}
 	
@@ -141,7 +141,7 @@ public class NurseController {
 
 	        return new APIResponse<>(updatedNurse, HttpStatus.OK);
 	    } else	
-	        return new APIResponse<>(HttpStatus.NOT_FOUND);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}
 	
 	@DeleteMapping("")
@@ -160,6 +160,6 @@ public class NurseController {
 			return new APIResponse(HttpStatus.OK);
 		}
 		else
-			return new APIResponse(HttpStatus.NOT_FOUND);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	} 
 }
