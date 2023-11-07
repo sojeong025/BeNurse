@@ -43,4 +43,7 @@ public class Offschedule {
 	
 	@Column(name = "REASON")
 	private String reason;
+	
+	@Column(name = "HOSPITAL_ID")
+	private long hospitalID;
 }

@@ -12,4 +12,6 @@ import com.ssafy.offschedule.model.Offschedule;
 @Repository
 public interface OffscheduleRepository extends JpaRepository<Offschedule, Long> {
 	List<Offschedule> findAllBynurseID(long nurseID);
+
+	List<Offschedule> findAllByHospitalID(long hospitalID);
 }

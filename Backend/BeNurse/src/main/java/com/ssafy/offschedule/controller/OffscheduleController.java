@@ -68,6 +68,7 @@ public class OffscheduleController {
 				off.setNurseID(nurse.getID());
 				off.setOffdate(LocalDate.parse(date, formatter));
 				off.setReason(offreq.getContent());
+				off.setHospitalID(nurse.getHospitalID());
 				offscheduleRepo.save(off);
 			}
 			return new APIResponse<>(HttpStatus.OK);
@@ -119,8 +120,16 @@ public class OffscheduleController {
 	    @ApiResponse(code = 404, message = "휴무를 찾을 수 없음."),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<List<Offschedule>> getAllOffschedule() {
-		List<Offschedule> offschedule = offscheduleRepo.findAll();
+	public APIResponse<List<Offschedule>> getAllOffschedule(@RequestHeader("Authorization") String token) {
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		List<Offschedule> offschedule = offscheduleRepo.findAllByHospitalID(nurse.getHospitalID());
 		return new APIResponse(offschedule, HttpStatus.OK);
 	}
 
