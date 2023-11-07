@@ -154,7 +154,7 @@ public class ScheduleController {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 
-	    List<Schedule> schedule = scheduleRepo.findByNurseIDAndWorkdateBetweenAndWorktimeNot(nurse.getID(), startDate, endDate, "O");
+	    List<Schedule> schedule = scheduleRepo.findByNurseIDAndWorkdateBetween(nurse.getID(), startDate, endDate);
 	    if (schedule.isEmpty()) {
 	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND); // 근무 일정을 찾을 수 없을 경우 404 반환
 	    }
@@ -232,7 +232,7 @@ public class ScheduleController {
 			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
 	) {
 	    // 여기서 간호사ID와 기간에 따라 근무 일정을 조회하도록 변경
-	    List<Schedule> schedule = scheduleRepo.findByNurseIDAndWorkdateBetweenAndWorktimeNot(ID, startDate, endDate, "O");
+	    List<Schedule> schedule = scheduleRepo.findByNurseIDAndWorkdateBetween(ID, startDate, endDate);
 	    if (schedule.isEmpty()) {
 	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND); // 근무 일정을 찾을 수 없을 경우 404 반환
 	    }

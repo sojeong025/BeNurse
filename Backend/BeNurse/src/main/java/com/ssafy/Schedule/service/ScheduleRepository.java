@@ -15,4 +15,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 	List<Schedule> findAllByworkdateBetweenAndWorktimeNot(LocalDate startDate, LocalDate endDate, String worktime);
 	List<Schedule> findByNurseIDAndWorkdateBetweenAndWorktimeNot(long nurseID, LocalDate startDate, LocalDate endDate, String worktime);
 	List<Schedule> findByHospitalIDAndWorkdateBetweenAndWorktimeNot(long hospitalID, LocalDate startDate, LocalDate endDate, String worktime);
+	List<Schedule> findByNurseIDAndWorkdateBetween(long id, LocalDate startDate, LocalDate endDate);
 }
