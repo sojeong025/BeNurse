@@ -9,13 +9,15 @@ const OAuth2RedirectHandler = () => {
   let params = new URL(document.URL).searchParams;
   let code = params.get("code");
   let navigate = useNavigate();
-  const [nurseID, setNurseID] = useState();
+  const [hospitalID, setHospitalID] = useState();
 
   const getUserInfo = async () => {
     try {
       const response = await customAxios.get("oauth/test/user");
-      setNurseID(response.data.responseData.id);
-      return response.data.responseData.id;
+      console.log("사용자 정보 조회 성공", response);
+      console.log(response.data.responseData.hospitalID);
+      setHospitalID(response.data.responseData.hospitalID);
+      return response.data.responseData.hospitalID;
     } catch (error) {
       console.log("사용자 정보 조회 실패", error);
     }
@@ -32,12 +34,12 @@ const OAuth2RedirectHandler = () => {
         res.data.responseData.accessToken,
       );
 
-      const nurseID = await getUserInfo();
+      const hospitalID = await getUserInfo();
 
       let preLocation = localStorage.getItem("preLoginpath");
 
       if (preLocation === "/login") {
-        if (nurseID === 0) {
+        if (hospitalID === 0) {
           navigate("/login/join");
         } else {
           navigate("/main");
