@@ -24,7 +24,11 @@ export default function JournalTimeLine({ patientId }) {
     customAxios
       .post("emr/journal/search", {
         patientID: patientId,
-        time: selectedDate.startOf("day").add(1, "day").toISOString(),
+        time: moment(selectedDate)
+          .add(1, "day")
+          .startOf("day")
+          .add(9, "hours")
+          .toISOString(),
       })
       .then((res) => {
         console.log("간호일지 목록 불러오기", res.data.responseData);
