@@ -1,7 +1,7 @@
 import React from "react";
 import { Common } from "../../../utils/global.styles";
 
-export default function EquipmentItem() {
+export default function EquipmentItem({ item }) {
   return (
     <div
       style={{
@@ -15,7 +15,7 @@ export default function EquipmentItem() {
         transition: "all 0.2s",
       }}
     >
-      EKG(심전도기)
+      {item.name}
     </div>
   );
 }

@@ -4,12 +4,6 @@ import { customAxios } from "../../libs/axios";
 import { Outlet } from "react-router-dom";
 
 export default function ScheduleCreatePage() {
-  const OffApplication = customAxios
-    .get("benurse/Offschedule/all")
-    .then((res) => {
-      console.log(res);
-    });
-
   return (
     <div
       style={{

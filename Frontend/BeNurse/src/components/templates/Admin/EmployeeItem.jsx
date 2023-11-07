@@ -3,7 +3,7 @@ import { Common } from "../../../utils/global.styles";
 import nurse from "@assets/Images/patient_temp.png";
 import { ConfigProvider, Select } from "antd";
 
-export default function EmployeeItem() {
+export default function EmployeeItem({ item }) {
   const onChange = (value) => {
     console.log(`selected ${value}`);
   };
@@ -44,13 +44,39 @@ export default function EmployeeItem() {
           src={nurse}
           alt=""
         />
-        <div>
-          <p>김대웅</p>
-          <p>970417</p>
-        </div>
-        <p>정형외과 5동</p>
+        <p>{item.name}</p>
+        <p>{item.annual}년차</p>
         <Select
-          style={{ width: "100px", fontSize: "14px" }}
+          style={{ width: "80px", fontSize: "14px" }}
+          placeholder="병동"
+          optionFilterProp="children"
+          onChange={onChange}
+          filterOption={filterOption}
+          options={[
+            {
+              value: "내과",
+              label: "내과",
+            },
+            {
+              value: "외과",
+              label: "외과",
+            },
+            {
+              value: "신경과",
+              label: "신경과",
+            },
+            {
+              value: "순환기 내과",
+              label: "순환기 내과",
+            },
+            {
+              value: "성형외과",
+              label: "성형외과",
+            },
+          ]}
+        />
+        <Select
+          style={{ width: "80px", fontSize: "14px" }}
           placeholder="직급"
           optionFilterProp="children"
           onChange={onChange}

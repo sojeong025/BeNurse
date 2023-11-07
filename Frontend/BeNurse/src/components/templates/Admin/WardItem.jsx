@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function WardItem({ name }) {
+export default function WardItem({ item }) {
   const [expanded, setExpanded] = useState(false);
   return (
     <div
@@ -18,7 +18,7 @@ export default function WardItem({ name }) {
         setExpanded(!expanded);
       }}
     >
-      <p>{name}</p>
+      <p>{item.name}</p>
       <div
         style={{
           display: "flex",
@@ -28,12 +28,7 @@ export default function WardItem({ name }) {
           opacity: expanded ? "1" : "0",
           transition: "all 0.2s",
         }}
-      >
-        <p>{name} 1병동</p>
-        <p>{name} 2병동</p>
-        <p>{name} 3병동</p>
-        <p>{name} 4병동</p>
-      </div>
+      ></div>
     </div>
   );
 }

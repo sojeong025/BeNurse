@@ -19,7 +19,7 @@ import {
   ScheduleTypeCircle,
   NurseScrollWrapper,
 } from "./ScheduleCalendar.styles";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Common } from "../../../utils/global.styles";
 import { customAxios } from "../../../libs/axios";
 
@@ -33,8 +33,32 @@ export default function ScheduleCalendar() {
     preventDefaultTouchmoveEvent: true,
     trackMouse: true,
   });
+  const [id, setId] = useState();
+  const [offApplications, setOffApplications] = useState([]);
+  const [modalMessage, setModalMessage] = useState("");
+  const navigate = useNavigate();
 
-  const createCalendar = (date) => {
+  useEffect(() => {
+    customAxios.get("oauth/test/user").then((res) => {
+      setId(res.data.responseData.id);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (id) {
+      customAxios
+        .get("Offschedule", {
+          params: {
+            ID: id,
+          },
+        })
+        .then((res) => {
+          setOffApplications(res.data.responseData);
+        });
+    }
+  }, [id]);
+
+  const createCalendar = (date, scheduleData) => {
     const startDay = date.getDay();
     const totalDays = new Date(
       date.getFullYear(),
@@ -49,7 +73,14 @@ export default function ScheduleCalendar() {
 
     let dates = [];
     for (let i = 1; i <= totalDays; i++) {
-      dates.push({ day: i, isCurMonth: true, type: getRandomType() });
+      const dateString = `${date.getFullYear()}-${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}-${i.toString().padStart(2, "0")}`;
+      dates.push({
+        day: i,
+        isCurMonth: true,
+        type: scheduleData[dateString]?.worktime || "O",
+      });
     }
 
     for (let i = 0; i < startDay; i++) {
@@ -69,11 +100,6 @@ export default function ScheduleCalendar() {
     return weeks;
   };
 
-  const getRandomType = () => {
-    const types = ["day", "evening", "night", "off"];
-    return types[Math.floor(Math.random() * types.length)];
-  };
-
   const prevMonth = () => {
     setCurrentDate(
       new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1),
@@ -89,20 +115,56 @@ export default function ScheduleCalendar() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const isOffApplicationPossible = () => {
     const currentDay = currentDate.getDate();
-    return currentDay >= 6 && currentDay <= 20;
+    return currentDay >= 10 && currentDay <= 20;
   };
 
   const handleOffApplicationClick = (event) => {
+    event.preventDefault();
     if (!isOffApplicationPossible()) {
-      event.preventDefault();
+      setModalMessage("오프 신청 기간이 아닙니다.");
       setModalIsOpen(true);
+    } else if (offApplications.length > 0) {
+      setModalMessage("이미 오프신청이 되어있습니다.");
+      setModalIsOpen(true);
+    } else {
+      navigate("/off-application");
     }
   };
   const handleCloseModal = () => {
     setModalIsOpen(false);
   };
 
-  const weeks = createCalendar(currentDate);
+  const [weeks, setWeeks] = useState([]);
+  const [scheduleData, setScheduleData] = useState({});
+  const [selectedDate, setSelectedDate] = useState("");
+  const [nurseData, setNurseData] = useState([]);
+
+  const handleDateClick = (e, date) => {
+    e.preventDefault();
+    console.log(date.day);
+    const selectedDate = `${currentDate.getFullYear()}-${(
+      currentDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}-${date.day.toString().padStart(2, "0")}`;
+    setSelectedDate(selectedDate);
+    setOpen(true);
+
+    customAxios
+      .get("Schedule/all", {
+        params: {
+          startDate: selectedDate,
+          endDate: selectedDate,
+        },
+      })
+      .then((res) => {
+        setNurseData(res.data.responseData);
+      });
+  };
+
+  useEffect(() => {
+    setWeeks(createCalendar(currentDate, scheduleData));
+  }, [currentDate, scheduleData]);
 
   useEffect(() => {
     const year = currentDate.getFullYear();
@@ -120,7 +182,11 @@ export default function ScheduleCalendar() {
         },
       })
       .then((res) => {
-        console.log(res);
+        let scheduleData = {};
+        res.data.responseData.forEach((item) => {
+          scheduleData[item.workdate] = item;
+        });
+        setScheduleData(scheduleData);
       })
       .catch((err) => console.log(err));
   }, [currentDate]);
@@ -140,27 +206,23 @@ export default function ScheduleCalendar() {
           </button>
         </div>
         <div>
-          <NavLink
-            to="/off-application"
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              color: "#ffffff",
+            }}
             onClick={handleOffApplicationClick}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                color: "#ffffff",
-              }}
-            >
-              <img
-                src={off}
-                alt=""
-                style={{ width: "20px", height: "20px" }}
-              />
-              <div style={{ fontSize: "12px" }}>오프신청</div>
-            </div>
-          </NavLink>
+            <img
+              src={off}
+              alt=""
+              style={{ width: "20px", height: "20px" }}
+            />
+            <div style={{ fontSize: "12px" }}>오프신청</div>
+          </div>
           <Modal
             visible={modalIsOpen}
             closable={false}
@@ -188,7 +250,7 @@ export default function ScheduleCalendar() {
                   marginBottom: "10px",
                 }}
               >
-                오프 신청 기간이 아닙니다.
+                {modalMessage}
               </div>
               <div
                 style={{
@@ -239,10 +301,10 @@ export default function ScheduleCalendar() {
         </div>
       </Header>
       <StateWrapper>
-        <State type={"day"}>DAY</State>
-        <State type={"evening"}>EVENING</State>
-        <State type={"night"}>NIGHT</State>
-        <State type={"off"}>OFF</State>
+        <State type={"D"}>DAY</State>
+        <State type={"E"}>EVENING</State>
+        <State type={"N"}>NIGHT</State>
+        <State type={"O"}>OFF</State>
       </StateWrapper>
       <Table>
         <thead>
@@ -272,15 +334,32 @@ export default function ScheduleCalendar() {
                       flexDirection: "column",
                       alignItems: "center",
                     }}
-                    onClick={(e) => {
-                      console.log(date.day);
-                      setOpen(true);
-                    }}
+                    onClick={(e) => handleDateClick(e, date)}
                   >
                     {date.day}
                     {date.isCurMonth && (
-                      <ScheduleTypeCircle type={date.type}>
-                        {date.type.charAt(0).toUpperCase()}
+                      <ScheduleTypeCircle
+                        type={
+                          scheduleData[
+                            `${currentDate.getFullYear()}-${(
+                              currentDate.getMonth() + 1
+                            )
+                              .toString()
+                              .padStart(2, "0")}-${date.day
+                              .toString()
+                              .padStart(2, "0")}`
+                          ]?.worktime || ""
+                        }
+                      >
+                        {scheduleData[
+                          `${currentDate.getFullYear()}-${(
+                            currentDate.getMonth() + 1
+                          )
+                            .toString()
+                            .padStart(2, "0")}-${date.day
+                            .toString()
+                            .padStart(2, "0")}`
+                        ]?.worktime || ""}
                       </ScheduleTypeCircle>
                     )}
                   </div>
@@ -304,7 +383,7 @@ export default function ScheduleCalendar() {
               fontWeight: Common.fontWeight.bold,
             }}
           >
-            2023.11.12 (일)
+            {selectedDate}
           </span>
           <div
             style={{
@@ -314,14 +393,12 @@ export default function ScheduleCalendar() {
               gap: "20px",
             }}
           >
-            <NurseItem />
-            <NurseItem />
-            <NurseItem />
-            <NurseItem />
-            <NurseItem />
-            <NurseItem />
-            <NurseItem />
-            <NurseItem />
+            {nurseData.map((nurse, index) => (
+              <NurseItem
+                key={index}
+                nurse={nurse}
+              />
+            ))}
           </div>
         </NurseScrollWrapper>
       </BottomSheet>
