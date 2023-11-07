@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.Schedule.model.Schedule;
 import com.ssafy.Schedule.service.ScheduleRepository;
@@ -97,7 +98,7 @@ public class ScheduleController {
 
 	        return new APIResponse<>(HttpStatus.OK);
 	    } else	
-	        return new APIResponse<>(HttpStatus.NOT_FOUND);
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	    
 	}
 	
@@ -118,7 +119,7 @@ public class ScheduleController {
 			return new APIResponse(HttpStatus.OK);
 		}
 		else
-			return new APIResponse(HttpStatus.NOT_FOUND);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
 	} 
 	
@@ -142,12 +143,12 @@ public class ScheduleController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 
 	    List<Schedule> schedule = scheduleRepo.findByNurseIDAndWorkdateBetween(nurse.getID(), startDate, endDate);
 	    if (schedule.isEmpty()) {
-	        return new APIResponse(HttpStatus.NOT_FOUND); // 근무 일정을 찾을 수 없을 경우 404 반환
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND); // 근무 일정을 찾을 수 없을 경우 404 반환
 	    }
 	    return new APIResponse(schedule, HttpStatus.OK);
 	}
@@ -172,7 +173,7 @@ public class ScheduleController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 
 	    List<Schedule> schedule = scheduleRepo.findByHospitalIDAndWorkdateBetween(nurse.getHospitalID(), startDate, endDate);
@@ -197,7 +198,7 @@ public class ScheduleController {
 	    // 여기서 간호사ID와 기간에 따라 근무 일정을 조회하도록 변경
 	    List<Schedule> schedule = scheduleRepo.findByNurseIDAndWorkdateBetween(ID, startDate, endDate);
 	    if (schedule.isEmpty()) {
-	        return new APIResponse(HttpStatus.NOT_FOUND); // 근무 일정을 찾을 수 없을 경우 404 반환
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND); // 근무 일정을 찾을 수 없을 경우 404 반환
 	    }
 	    return new APIResponse(schedule, HttpStatus.OK);
 	}

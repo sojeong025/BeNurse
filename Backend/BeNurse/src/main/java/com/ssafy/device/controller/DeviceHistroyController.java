@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.device.model.Device;
@@ -57,7 +58,7 @@ public class DeviceHistroyController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		deviceHistory.setNurseID(nurse.getID());
 		deviceHistory.setTime(LocalDateTime.now());

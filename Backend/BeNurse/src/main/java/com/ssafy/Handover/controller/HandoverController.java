@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.Handover.model.Handover;
 import com.ssafy.Handover.model.HandoverList;
@@ -101,7 +102,7 @@ public class HandoverController {
 
 	        return new APIResponse<>(existingHandover, HttpStatus.OK);
 	    } else	
-	        return new APIResponse<>(HttpStatus.NOT_FOUND);
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}
 	
 	// 인수자 인계장 조회 GET
@@ -118,7 +119,7 @@ public class HandoverController {
 	    if (handover.isPresent())
 	        return new APIResponse<>(handover.get(), HttpStatus.OK);
 	    else
-	        return new APIResponse<>(HttpStatus.NOT_FOUND);
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}
 	
 	// 인계장 삭제 DELETE
@@ -138,6 +139,6 @@ public class HandoverController {
 			return new APIResponse(HttpStatus.OK);
 		}
 		else
-			return new APIResponse(HttpStatus.NOT_FOUND);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	} 
 } 

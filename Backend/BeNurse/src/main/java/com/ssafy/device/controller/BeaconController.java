@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.device.model.Beacon;
@@ -55,11 +56,11 @@ public class BeaconController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
 		if(!nurse.isAdmin())
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
 		
 	    Beacon savedBeacon = beaconRepo.save(beacon);
 	    return new APIResponse<>(savedBeacon, HttpStatus.OK);
@@ -80,11 +81,11 @@ public class BeaconController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
 		if(!nurse.isAdmin())
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
 		
 		Optional<Beacon> optionBeacon = beaconRepo.findById(updatedBeacon.getID());
 		
@@ -95,7 +96,7 @@ public class BeaconController {
 
 	        return new APIResponse<>(existingBeacon, HttpStatus.OK);
 	    } else	
-	        return new APIResponse<>(HttpStatus.NOT_FOUND);
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	    
 	}
 	
@@ -114,11 +115,11 @@ public class BeaconController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
 		if(!nurse.isAdmin())
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
 		
 		Optional<Beacon> beacon = beaconRepo.findById(ID);
 
@@ -127,7 +128,7 @@ public class BeaconController {
 			return new APIResponse(HttpStatus.OK);
 		}
 		else
-			return new APIResponse(HttpStatus.NOT_FOUND);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}
 	
 	// 전체 바콘 조회 GET
@@ -144,7 +145,7 @@ public class BeaconController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
 		List<Beacon> beacon = beaconRepo.findAllByHospitalID(nurse.getHospitalID());
@@ -165,6 +166,6 @@ public class BeaconController {
 	    if (beacon.isPresent())
 	        return new APIResponse(beacon.get(), HttpStatus.OK);
 	    else
-	        return new APIResponse(HttpStatus.NOT_FOUND);
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}
 }

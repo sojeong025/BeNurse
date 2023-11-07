@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.Schedule.model.Schedule;
 import com.ssafy.common.utils.APIResponse;
@@ -58,7 +59,7 @@ public class OffscheduleController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -74,7 +75,7 @@ public class OffscheduleController {
 			return new APIResponse<>(HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.NOT_ACCEPTABLE);
+			throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 	
@@ -94,7 +95,7 @@ public class OffscheduleController {
 			return new APIResponse(HttpStatus.OK);
 		}
 		else
-			return new APIResponse(HttpStatus.NOT_FOUND);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
 	} 
 	
@@ -127,7 +128,7 @@ public class OffscheduleController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		List<Offschedule> offschedule = offscheduleRepo.findAllByHospitalID(nurse.getHospitalID());
 		return new APIResponse(offschedule, HttpStatus.OK);

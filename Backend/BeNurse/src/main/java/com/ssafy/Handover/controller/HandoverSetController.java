@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.Handover.model.Handover;
 import com.ssafy.Handover.model.HandoverList;
@@ -74,7 +75,7 @@ public class HandoverSetController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		handoverSet.setGiveID(nurse.getID());
 		// 데이터베이스에 저장
@@ -102,7 +103,7 @@ public class HandoverSetController {
 
 	        return new APIResponse<>(updatedHandoverSet, HttpStatus.OK);
 	    } else	
-	        return new APIResponse<>(HttpStatus.NOT_FOUND);
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}
 
 	// 인수자 인계장 조회 GET [인계자 ID]
@@ -120,7 +121,7 @@ public class HandoverSetController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
 		List<HandoverSet> handoverSet = setRepo.findAllByGiveID(nurse.getID());
@@ -154,7 +155,7 @@ public class HandoverSetController {
 			return new APIResponse(HttpStatus.OK);
 		}
 		else
-			return new APIResponse(HttpStatus.NOT_FOUND);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}  
 
 	// 인수자 인계장 조회 GET [인계자 ID]
@@ -173,7 +174,7 @@ public class HandoverSetController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
 		// 읽음 여부 갱신
@@ -187,7 +188,7 @@ public class HandoverSetController {
 	    		myhoRepo.save(mh);
 	    	}
 	    }else
-	        return new APIResponse<>(HttpStatus.NOT_FOUND);
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		
 		
 		List<HandoverList> list = listRepo.findAllBySetID(ID);

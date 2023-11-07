@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.common.jwt.TokenInfo;
 import com.ssafy.common.utils.APIResponse;
@@ -42,7 +43,7 @@ public class OauthController {
 				return new APIResponse(oauthService.kakaoLogin(kakao_redirect_url, code), HttpStatus.OK);
 			} catch (Exception e) {
 				e.printStackTrace();
-				return new APIResponse(HttpStatus.UNAUTHORIZED);
+				throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 
 			}
 	}
@@ -60,7 +61,7 @@ public class OauthController {
 			return new APIResponse(user, HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 	}
 }

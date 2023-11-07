@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.PatientWard.model.PatientWard;
 import com.ssafy.PatientWard.service.PatientWardRepository;
@@ -106,7 +107,7 @@ public class EMRController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		journal.setWriterID(nurse.getID());
 		return emrService.registJournalById(journal);
@@ -226,7 +227,7 @@ public class EMRController {
 			return new APIResponse<>(HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse<>(HttpStatus.BAD_REQUEST);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -251,7 +252,7 @@ public class EMRController {
 			return new APIResponse(pwr, HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -267,7 +268,7 @@ public class EMRController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
 		List<PatientWardResponse> resp = new ArrayList<>();
@@ -275,7 +276,7 @@ public class EMRController {
 		
 		Optional<Hospital> hospital = hospitalRepo.findById(nurse.getHospitalID());
 		if(hospital.isEmpty())
-			return new APIResponse<>(HttpStatus.NOT_FOUND);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		
 		for(PatientWard pw : pwlist) {
 			try {
@@ -322,7 +323,7 @@ public class EMRController {
 			return new APIResponse(pwrlist, HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

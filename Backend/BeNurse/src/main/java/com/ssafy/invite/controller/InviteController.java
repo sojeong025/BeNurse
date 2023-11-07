@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.common.utils.NameRequest;
@@ -60,7 +61,7 @@ public class InviteController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
 		// 초대 코드 생성
@@ -94,7 +95,7 @@ public class InviteController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		Nurse user = nurse;
 		// 초대코드 조회
@@ -108,7 +109,7 @@ public class InviteController {
 			return new APIResponse(HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.BAD_REQUEST);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -127,7 +128,7 @@ public class InviteController {
 			return new APIResponse(invite, HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.BAD_REQUEST);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 	

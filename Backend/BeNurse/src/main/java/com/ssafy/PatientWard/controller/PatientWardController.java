@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.PatientWard.model.PatientWard;
 import com.ssafy.PatientWard.service.PatientWardRepository;
@@ -87,7 +88,7 @@ public class PatientWardController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
 		List<PatientWard> patientWard = pwRepo.findAllByHospitalIDAndIsHospitalized(nurse.getHospitalID(),true);
@@ -108,7 +109,7 @@ public class PatientWardController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		List<Ward> wardList = wardRepo.findAllByHospitalIDAndNameContaining(nurse.getHospitalID(), name);
 		
@@ -136,7 +137,7 @@ public class PatientWardController {
 			return new APIResponse<>(patient.get(), HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.NOT_FOUND);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
 	}
 }

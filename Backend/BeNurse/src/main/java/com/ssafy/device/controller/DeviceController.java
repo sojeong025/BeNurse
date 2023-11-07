@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.device.model.Device;
@@ -64,11 +65,11 @@ public class DeviceController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
 		if(!nurse.isAdmin())
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
 		
 		NFC nfc = new NFC();
 		nfc.setID(device.getID());
@@ -94,11 +95,11 @@ public class DeviceController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
 		if(!nurse.isAdmin())
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
 		
 		Optional<Device> optionDevice = deviceRepo.findById(updatedDevice.getID());
 		
@@ -109,7 +110,7 @@ public class DeviceController {
 
 	        return new APIResponse<>(existingDevice, HttpStatus.OK);
 	    } else	
-	        return new APIResponse<>(HttpStatus.NOT_FOUND);
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	    
 	}
 		
@@ -163,7 +164,7 @@ public class DeviceController {
 				nurse = oauthService.getUser(token);
 			}catch (Exception e) {
 				e.printStackTrace();
-				return new APIResponse(HttpStatus.UNAUTHORIZED);
+				throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 			}
 			
 			List<Device> device = deviceRepo.findAllByHospitalID(nurse.getHospitalID());

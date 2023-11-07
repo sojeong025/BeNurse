@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.common.utils.IDRequest;
@@ -57,7 +58,7 @@ public class HospitalController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
 		Optional<Hospital> hospital = hospitalRepo.findById(nurse.getHospitalID());
@@ -65,7 +66,7 @@ public class HospitalController {
 	    if (hospital.isPresent())
 	        return new APIResponse<>(hospital.get(), HttpStatus.OK);
 	    else
-	        return new APIResponse<>(HttpStatus.NOT_FOUND);
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}
 	
 	// 병원 삭제 DELETE
@@ -84,7 +85,7 @@ public class HospitalController {
 			return new APIResponse<>(HttpStatus.OK);
 		}
 		else
-			return new APIResponse<>(HttpStatus.NOT_FOUND);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
 	}
 	
@@ -121,7 +122,7 @@ public class HospitalController {
 
 	        return new APIResponse<>(HttpStatus.OK);
 	    } else	
-	        return new APIResponse<>(HttpStatus.NOT_FOUND);
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	    
 	}
 	
@@ -139,7 +140,7 @@ public class HospitalController {
 			nurse = oauthService.getUser(token);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new APIResponse(HttpStatus.UNAUTHORIZED);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
 	    Hospital savedHospital = hospitalRepo.save(hospital);
