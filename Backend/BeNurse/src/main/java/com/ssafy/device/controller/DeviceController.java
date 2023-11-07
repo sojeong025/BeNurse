@@ -113,41 +113,41 @@ public class DeviceController {
 	    
 	}
 		
-		// 장비 삭제 DELETE
-		@DeleteMapping("")
-		@ApiOperation(value = "장비 삭제", notes = "장비를 삭제한다.")
-		@ApiResponses({
-			@ApiResponse(code = 200, message = "성공", response = Device.class),
-			@ApiResponse(code = 404, message = "결과 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-		})
-	    public APIResponse<Void> deleteDeviceByDeviceId(@RequestHeader("Authorization") String token, @RequestParam("ID") String ID) {
-			Nurse nurse;
-			// 사용자 조회
-			try {
-				nurse = oauthService.getUser(token);
-			}catch (Exception e) {
-				e.printStackTrace();
-				return new APIResponse(HttpStatus.UNAUTHORIZED);
-			}
-			
-			if(!nurse.isAdmin())
-				return new APIResponse(HttpStatus.UNAUTHORIZED);
-			
-			Optional<Device> device = deviceRepo.findById(ID);
-		    if(device.isPresent()) {
-		    	List<DeviceHistory> list = dhRepo.findAllByDeviceID(ID);
-		    	for(DeviceHistory l : list) {
-		    		dhRepo.delete(l);
-		    	}
-
-		    	deviceRepo.delete(device.get());
-		    	nfcRepo.deleteById(ID);
-				return new APIResponse(HttpStatus.OK);
-			}
-			else
-				return new APIResponse(HttpStatus.NOT_FOUND);
-		} 
+//		// 장비 삭제 DELETE
+//		@DeleteMapping("")
+//		@ApiOperation(value = "장비 삭제", notes = "장비를 삭제한다.")
+//		@ApiResponses({
+//			@ApiResponse(code = 200, message = "성공", response = Device.class),
+//			@ApiResponse(code = 404, message = "결과 없음"),
+//			@ApiResponse(code = 500, message = "서버 오류")
+//		})
+//	    public APIResponse<Void> deleteDeviceByDeviceId(@RequestHeader("Authorization") String token, @RequestParam("ID") String ID) {
+//			Nurse nurse;
+//			// 사용자 조회
+//			try {
+//				nurse = oauthService.getUser(token);
+//			}catch (Exception e) {
+//				e.printStackTrace();
+//				return new APIResponse(HttpStatus.UNAUTHORIZED);
+//			}
+//			
+//			if(!nurse.isAdmin())
+//				return new APIResponse(HttpStatus.UNAUTHORIZED);
+//			
+//			Optional<Device> device = deviceRepo.findById(ID);
+//		    if(device.isPresent()) {
+//		    	List<DeviceHistory> list = dhRepo.findAllByDeviceID(ID);
+//		    	for(DeviceHistory l : list) {
+//		    		dhRepo.delete(l);
+//		    	}
+//
+//		    	deviceRepo.delete(device.get());
+//		    	nfcRepo.deleteById(ID);
+//				return new APIResponse(HttpStatus.OK);
+//			}
+//			else
+//				return new APIResponse(HttpStatus.NOT_FOUND);
+//		} 
 		
 		// 전체 장비 조회 GET
 		@GetMapping("/all")
@@ -170,20 +170,20 @@ public class DeviceController {
 		    return new APIResponse<>(device, HttpStatus.OK);
 		}
 		
-		// 특정 장비 조회 GET
-		@GetMapping("")
-		@ApiOperation(value = "특정 장비 조회", notes = "장비 ID로 특정 장비 조회") 
-		@ApiResponses({
-		    @ApiResponse(code = 200, message = "성공", response = Device.class),
-		    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
-		    @ApiResponse(code = 500, message = "서버 오류")
-		})
-		public APIResponse<Device> getDeviceById( @RequestParam("ID") String ID) {
-			Optional<Device> device = deviceRepo.findById(ID);
-
-		    if (device.isPresent())
-		        return new APIResponse(device.get(), HttpStatus.OK);
-		    else
-		        return new APIResponse(HttpStatus.NOT_FOUND);
-		}
+//		// 특정 장비 조회 GET
+//		@GetMapping("")
+//		@ApiOperation(value = "특정 장비 조회", notes = "장비 ID로 특정 장비 조회") 
+//		@ApiResponses({
+//		    @ApiResponse(code = 200, message = "성공", response = Device.class),
+//		    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
+//		    @ApiResponse(code = 500, message = "서버 오류")
+//		})
+//		public APIResponse<Device> getDeviceById( @RequestParam("ID") String ID) {
+//			Optional<Device> device = deviceRepo.findById(ID);
+//
+//		    if (device.isPresent())
+//		        return new APIResponse(device.get(), HttpStatus.OK);
+//		    else
+//		        return new APIResponse(HttpStatus.NOT_FOUND);
+//		}
 }

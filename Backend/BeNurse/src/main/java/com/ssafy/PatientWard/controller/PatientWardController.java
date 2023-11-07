@@ -75,7 +75,7 @@ public class PatientWardController {
 	
 	// 병동 환자 조회 GET
 	@GetMapping("/all")
-	@ApiOperation(value = "병동 환자 조회", notes = "병동 환자 조회한다.") 
+	@ApiOperation(value = "병동 환자 조회", notes = "병원 내 모든 환자의 병동 정보를 조회한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공", response = PatientWard.class),
         @ApiResponse(code = 500, message = "서버 오류")

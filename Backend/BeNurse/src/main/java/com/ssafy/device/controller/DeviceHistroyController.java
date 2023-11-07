@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin(origins = "*")
-@Api(value = "장비 사용 API", tags = { "장비를 사용합니다." })
+@Api(value = "장비 사용 API", tags = { "장비 사용 기록." })
 @RestController
 @RequestMapping("/api/benurse/device-history")
 public class DeviceHistroyController {
@@ -68,7 +68,7 @@ public class DeviceHistroyController {
 	
 	// 장비 사용 내역 조회 GET
 	@GetMapping("/all")
-	@ApiOperation(value = "전체 장비 사용 내역 조회", notes = "모든 장비 사용 내역을 조회한다.") 
+	@ApiOperation(value = "장비 사용 내역 전체 조회", notes = "모든 장비 사용 내역을 조회한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공", response = DeviceHistory.class),
         @ApiResponse(code = 500, message = "서버 오류")

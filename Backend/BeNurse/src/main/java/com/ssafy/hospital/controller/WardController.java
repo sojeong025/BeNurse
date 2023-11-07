@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin(origins = "*")
-@Api(value = "병동등록 API", tags = { "병동등록." })
+@Api(value = "병동 API", tags = { "병동." })
 @RestController
 @RequestMapping("/api/benurse/ward")
 public class WardController {
@@ -117,9 +117,9 @@ public class WardController {
 	}
 	
 	@DeleteMapping("")
-	@ApiOperation(value = "병원 삭제", notes = "병원 삭제")
+	@ApiOperation(value = "병동 삭제", notes = "병동 삭제")
 	@ApiResponses({
-		@ApiResponse(code = 200, message = "성공", response = Hospital.class),
+		@ApiResponse(code = 200, message = "성공", response = Ward.class),
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
