@@ -12,7 +12,7 @@ export default function PatientJournalMain() {
   return (
     <div style={{ width: "100%", marginTop: "73px" }}>
       <JournalDatePicker />
-      <JournalTimeLine />
+      <JournalTimeLine patientId={patientId} />
       <Link
         to="write"
         style={{

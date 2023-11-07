@@ -96,7 +96,7 @@ export const DateButton = styled.div`
   font-size: ${Common.fontSize.fontS};
   font-weight: ${Common.fontWeight.bold};
 
-  & > p:first-child {
+  & > p:first-of-type {
     font-size: 10px;
   }
 
