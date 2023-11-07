@@ -254,10 +254,30 @@ public class EMRController {
 
 	// 모든 환자 조회 GET
 	@GetMapping("/patient/all")
-	@ApiOperation(value = "모든 환자 조회", notes = "모든 환자 정보를 조회한다.")
+	@ApiOperation(value = "모든 환자 조회", notes = "소속 병원 내 모든 환자 정보를 조회한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공", response = List.class),
 			@ApiResponse(code = 500, message = "서버 오류") })
-	public APIResponse<List<PatientResponse>> getAllPatient() {
+	public APIResponse<List<PatientResponse>> getAllPatient(@RequestHeader("Authorization") String token) {
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		
+		List<PatientResponse> resp = new ArrayList<>();
+		List<PatientWard> pwlist = pwRepo.findAllByHospitalIDAndIsHospitalized(nurse.getHospitalID(), true);
+		
+		for(PatientWard pw : pwlist) {
+			try {
+				resp.add(emrService.getPatientById(pw.getID()).getResponseData());
+			}catch (Exception e) {
+				log.error("not valid patient (id:"+pw.getID()+")");
+			}
+		}
+		
 		return emrService.getAllPatient();
 	}
 
