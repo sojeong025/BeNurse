@@ -45,7 +45,7 @@ export default function OffwritePage() {
             <div
               style={{ marginBottom: "10px", fontSize: Common.fontSize.fontS }}
             >
-              ◾ 신청 날짜 :
+              ◾ 신청 날짜 : &nbsp;
               {Array.isArray(selectedDates) &&
                 selectedDates
                   .sort((a, b) => new Date(a) - new Date(b))
