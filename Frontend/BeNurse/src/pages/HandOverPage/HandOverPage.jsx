@@ -6,11 +6,12 @@ import { WorkPart, TemporaryBox, HandoverList } from "./HandOverPage.styles";
 import write from "@assets/Images/write.png";
 import nurse from "@assets/Images/nurse.png";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import HandOverListItem from "@components/templates/HandOver/HandOverListItem";
+import HandOverList from "@components/templates/HandOver/HandOverList";
 
 export default function HandOverPage() {
   return (
     <Container
+      overflow="hidden"
       backgroundColor={"purple"}
       flex={["center", "flex-start"]}
     >
@@ -89,7 +90,13 @@ export default function HandOverPage() {
                     top: "20%",
                   }}
                 />
-                <span style={{ fontWeight: "bold", marginLeft: "36px" }}>
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    marginLeft: "36px",
+                    fontSize: "18px",
+                  }}
+                >
                   새 인계장 작성하기
                 </span>
               </Box>
@@ -106,9 +113,19 @@ export default function HandOverPage() {
               flex={["start", "center"]}
             >
               <div className="temporary-box">
-                <p className="temporary-title">임시저장 불러오기</p>
+                <p
+                  className="temporary-title"
+                  style={{ fontSize: "16px" }}
+                >
+                  임시저장 불러오기
+                </p>
                 <div className="right">
-                  <p className="list-count">3</p>
+                  <p
+                    className="list-count"
+                    style={{ fontSize: "14px" }}
+                  >
+                    3
+                  </p>
                   <p className="arrow">
                     <MdKeyboardArrowRight />
                   </p>
@@ -136,10 +153,7 @@ export default function HandOverPage() {
           >
             <div className="temporary-container">
               <div>
-                <HandOverListItem />
-                <HandOverListItem />
-                <HandOverListItem />
-                <HandOverListItem />
+                <HandOverList />
               </div>
             </div>
           </Box>

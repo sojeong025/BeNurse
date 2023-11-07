@@ -1,8 +1,57 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Common } from "../../../utils/global.styles";
+import { IoChevronBackOutline } from "react-icons/io5";
+import { GoBell } from "react-icons/go";
 
-export default function NavBar() {
+export default function NavBar({ onTempSave }) {
+  const navigate = useNavigate();
+
+  // 이전으로 가기
+  const onPrevClick = () => {
+    navigate(-1);
+  };
+
+  // 다음으로 가기
+  // 1. 주소 설정
+  const routeSequence = {
+    "/off-application": "/off-application-write",
+  };
+
+  const onNext = () => {
+    if (nextRoutes.includes(path)) {
+      const nextPath = routeSequence[path];
+      if (nextPath) {
+        navigate(nextPath);
+      } else {
+        console.error(`다음 경로 정보가 없습니다: ${path}`);
+      }
+    }
+  };
+
+  // 왼쪽에 뒤로가기 필요하면 여기 넣기
+  const backRoutes = [
+    "/mypage",
+    "/notice",
+    "/notice/write",
+    "/off-application",
+    "/off-application-write",
+  ];
+
+  // 알림버튼 필요하면 여기 넣기
+  const bellRoutes = ["/main", "/handover"];
+  // 다음 버튼 필요하면 여기 넣기
+  const nextRoutes = ["/off-application"];
+  // 임시저장 필요하면 여기 넣기
+  const temSaveRoutes = ["/handover-write/patients/write"];
+
+  const path = useLocation().pathname;
+  const shouldDisplayBackIcon = backRoutes.includes(path);
+  const shouldDisplayNextIcon = nextRoutes.includes(path);
+  const shouldDisplayTempSaveIcon = temSaveRoutes.includes(path);
+  const shouldDisplayBellIcon =
+    !nextRoutes.includes(path) && bellRoutes.includes(path);
+
   const [visibility, setVisibility] = useState("flex");
   const [navTitle, setNavTitle] = useState("Be Nurse");
   const [navColor, setNavColor] = useState(Common.color.white01);
@@ -10,7 +59,6 @@ export default function NavBar() {
   const [navBoxShadow, setNavBoxShadow] = useState(
     "0px 4px 8px 0px rgba(213, 213, 213, 0.36) ",
   );
-  const path = useLocation().pathname;
 
   useEffect(() => {
     if (path.startsWith("/schedule")) {
@@ -32,7 +80,7 @@ export default function NavBar() {
       setNavBoxShadow("0px 4px 8px 0px rgba(213, 213, 213, 0.36) ");
       setVisibility("flex");
     } else if (path.startsWith("/patient")) {
-      if (path === "/patient/detail/journal") {
+      if (/^\/patient\/\d+\/detail\/journal$/.test(path)) {
         setNavTitle("간호 일지");
         setNavColor(Common.color.purple03);
         setNavFontColor(Common.color.white01);
@@ -88,7 +136,7 @@ export default function NavBar() {
         top: 0,
         zIndex: 2,
         display: visibility,
-        justifyContent: "center",
+        justifyContent: "space-between",
         alignItems: "flex-end",
         width: "412px",
         height: "74px",
@@ -98,15 +146,84 @@ export default function NavBar() {
         boxShadow: navBoxShadow,
       }}
     >
-      <span
+      <div
+        onClick={shouldDisplayBackIcon ? onPrevClick : null}
         style={{
+          paddingLeft: "14px",
+          display: "flex",
+          alignItems: "cneter",
+          width: "80px",
+        }}
+      >
+        <IoChevronBackOutline
+          size={20}
+          style={{ visibility: shouldDisplayBackIcon ? "visible" : "hidden" }}
+        />
+      </div>
+
+      <div
+        style={{
+          flex: 1,
+          textAlign: "center",
           fontSize: Common.fontSize.fontM,
           fontWeight: Common.fontWeight.extrabold,
           letterSpacing: "1px",
         }}
       >
         {navTitle}
-      </span>
+      </div>
+
+      {shouldDisplayTempSaveIcon ? (
+        <div
+          onClick={onTempSave}
+          style={{
+            paddingRight: "14px",
+            display: "flex",
+            justifyContent: "end",
+            width: "80px",
+            fontSize: "16px",
+            fontWeight: "bold",
+            color: "blue",
+          }}
+        >
+          임시저장
+        </div>
+      ) : shouldDisplayNextIcon ? (
+        <div
+          onClick={onNext}
+          style={{
+            paddingRight: "14px",
+            display: "flex",
+            justifyContent: "end",
+            width: "80px",
+            fontSize: "16px",
+            fontWeight: "bold",
+            color: "blue",
+          }}
+        >
+          다음
+        </div>
+      ) : shouldDisplayBellIcon ? (
+        <div
+          style={{
+            paddingRight: "14px",
+            display: "flex",
+            justifyContent: "end",
+            width: "80px",
+          }}
+        >
+          <GoBell size={20} />
+        </div>
+      ) : (
+        <div
+          style={{
+            paddingRight: "14px",
+            display: "flex",
+            justifyContent: "end",
+            width: "80px",
+          }}
+        />
+      )}
     </div>
   );
 }

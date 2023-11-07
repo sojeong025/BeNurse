@@ -82,7 +82,7 @@ export const TemporaryBox = styled.div`
 
 export const HandoverList = styled.div`
   & .temporary-container {
-    margin: 18px;
+    margin-top: 10px;
   }
 
   & .handover-header {

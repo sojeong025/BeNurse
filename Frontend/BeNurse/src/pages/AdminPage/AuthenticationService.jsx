@@ -16,7 +16,7 @@ export const AuthenticationService = {
         {
           params: {
             code: code,
-            redirectUri: REDIRECT_URI,
+            redirect_uri: REDIRECT_URI,
           },
         },
       );

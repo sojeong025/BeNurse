@@ -18,7 +18,10 @@ import PatientJournalUpdatePage from "@pages/PatientPage/PatientJournalUpdatePag
 
 import HandOverPage from "@pages/HandOverPage/HandOverPage";
 import HandOverWritePage from "@pages/HandOverPage/HandOverWritePage";
+import HandOverWriteStep from "../pages/HandOverPage/HandOverWriteStep";
 import HandOverListPage from "@pages/HandOverPage/HandOverListPage";
+import HandOverNurseSelectPage from "@pages/HandOverPage/HandOverNurseSelectPage";
+import HandOverFinishPage from "../pages/HandOverPage/HandOverFinishPage";
 
 import HandOverDetailPage from "../pages/HandOverPage/HandOverDetailPage";
 import HandOverPatientList from "../components/templates/HandOver/HandOverPatientList";
@@ -31,6 +34,7 @@ import TemporaryListPage from "@pages/HandOverPage/TemporaryListPage";
 
 import SchedulePage from "@pages/SchedulePage/SchedulePage";
 import OffApplicationPage from "@pages/SchedulePage/OffApplicationPage";
+import OffwritePage from "@pages/SchedulePage/OffwritePage";
 import OffFinishPage from "@pages/SchedulePage/OffFinishPage";
 
 import MyPage from "@pages/MyPage/MyPage";
@@ -93,11 +97,11 @@ export default function routes() {
           element={<PatientListPage />}
         />
         <Route
-          path="detail"
+          path=":patientId/detail"
           element={<PatientDetailPage />}
         />
         <Route
-          path="detail/journal"
+          path=":patientId/detail/journal"
           element={<PatientJournalPage />}
         >
           <Route
@@ -123,6 +127,18 @@ export default function routes() {
         element={<HandOverWritePage />}
       />
       <Route
+        path="/handover-write/patients/write"
+        element={<HandOverWriteStep />}
+      />
+      <Route
+        path="/handover-write/nurse"
+        element={<HandOverNurseSelectPage />}
+      />
+      <Route
+        path="/handover-write/complete"
+        element={<HandOverFinishPage />}
+      />
+      <Route
         path="/handover-list"
         element={<HandOverListPage />}
       />
@@ -130,6 +146,7 @@ export default function routes() {
         path="/handover-list/patients"
         element={<HandOverPatientList />}
       />
+
       <Route
         path="/handover-list/patients/detail"
         element={<HandOverDetailPage />}
@@ -163,6 +180,10 @@ export default function routes() {
       <Route
         path="/off-application"
         element={<OffApplicationPage />}
+      />
+      <Route
+        path="/off-application-write"
+        element={<OffwritePage />}
       />
       <Route
         path="/off-application-finish"

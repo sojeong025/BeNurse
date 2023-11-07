@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSwipeable } from "react-swipeable";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
@@ -21,13 +21,12 @@ import {
 } from "./ScheduleCalendar.styles";
 import { NavLink } from "react-router-dom";
 import { Common } from "../../../utils/global.styles";
+import { customAxios } from "../../../libs/axios";
 
 export default function ScheduleCalendar() {
   const [open, setOpen] = useState(false);
   const today = new Date();
-  const [currentDate, setCurrentDate] = useState(
-    new Date(today.getFullYear(), today.getMonth(), 1),
-  );
+  const [currentDate, setCurrentDate] = useState(today);
   const handlers = useSwipeable({
     onSwipedLeft: () => nextMonth(),
     onSwipedRight: () => prevMonth(),
@@ -90,7 +89,7 @@ export default function ScheduleCalendar() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const isOffApplicationPossible = () => {
     const currentDay = currentDate.getDate();
-    return currentDay >= 10 && currentDay <= 20;
+    return currentDay >= 6 && currentDay <= 20;
   };
 
   const handleOffApplicationClick = (event) => {
@@ -104,6 +103,27 @@ export default function ScheduleCalendar() {
   };
 
   const weeks = createCalendar(currentDate);
+
+  useEffect(() => {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1;
+    const lastDay = new Date(year, month, 0).getDate();
+
+    const startDate = `${year}-${month.toString().padStart(2, "0")}-01`;
+    const endDate = `${year}-${month.toString().padStart(2, "0")}-${lastDay}`;
+
+    customAxios
+      .get("Schedule", {
+        params: {
+          endDate: endDate,
+          startDate: startDate,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  }, [currentDate]);
 
   return (
     <CalendarWrapper {...handlers}>
@@ -181,8 +201,38 @@ export default function ScheduleCalendar() {
               >
                 다음 오프 신청 기간
                 <br />
-                {currentDate.getFullYear()}.{currentDate.getMonth() + 3}.10 ~
-                {currentDate.getFullYear()}.{currentDate.getMonth() + 3}.20
+                {currentDate.getDate() > 20
+                  ? currentDate.getMonth() + 2 > 12
+                    ? currentDate.getFullYear() + 1
+                    : currentDate.getFullYear()
+                  : currentDate.getMonth() + 1 > 12
+                  ? currentDate.getFullYear() + 1
+                  : currentDate.getFullYear()}
+                .
+                {currentDate.getDate() > 20
+                  ? (currentDate.getMonth() + 2) % 12 === 0
+                    ? 12
+                    : (currentDate.getMonth() + 2) % 12
+                  : (currentDate.getMonth() + 1) % 12 === 0
+                  ? 12
+                  : (currentDate.getMonth() + 1) % 12}
+                .10 ~
+                {currentDate.getDate() > 20
+                  ? currentDate.getMonth() + 2 > 12
+                    ? currentDate.getFullYear() + 1
+                    : currentDate.getFullYear()
+                  : currentDate.getMonth() + 1 > 12
+                  ? currentDate.getFullYear() + 1
+                  : currentDate.getFullYear()}
+                .
+                {currentDate.getDate() > 20
+                  ? (currentDate.getMonth() + 2) % 12 === 0
+                    ? 12
+                    : (currentDate.getMonth() + 2) % 12
+                  : (currentDate.getMonth() + 1) % 12 === 0
+                  ? 12
+                  : (currentDate.getMonth() + 1) % 12}
+                .20
               </div>
             </div>
           </Modal>

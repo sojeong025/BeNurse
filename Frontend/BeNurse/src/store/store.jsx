@@ -14,6 +14,13 @@ export const useDateStore = create((set) => ({
   },
 }));
 
+export const usePatientStore = create((set) => ({
+  selectedPatient: {},
+  setSelectedPatient: (patient) => {
+    set((state) => ({ selectedPatient: patient }));
+  },
+}));
+
 export const useDeviceStore = create((set) => ({
   isListActivated: false,
   ActivateList: () => {
@@ -68,8 +75,15 @@ export const useModalStore = create((set) => ({
 export const useAdminStore = create((set) => ({
   schedule: null,
   setSchedule: (newSchedule) => {
-    set((state) => ({
+    set(() => ({
       schedule: newSchedule,
     }));
+  },
+}));
+
+export const useOffDateStore = create((set) => ({
+  selectedDates: [],
+  setSelectedDates: (updateFunction) => {
+    set((state) => ({ selectedDates: updateFunction(state.selectedDates) }));
   },
 }));

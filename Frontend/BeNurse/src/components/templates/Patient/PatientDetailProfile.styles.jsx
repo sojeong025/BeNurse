@@ -6,6 +6,8 @@ export const PatientDetailProfileBox = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 20px;
+  width: 100%;
+  padding: 0 20px;
 
   & .patient_image {
     border-radius: 50%;

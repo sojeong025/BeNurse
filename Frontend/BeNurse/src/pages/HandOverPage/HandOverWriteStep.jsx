@@ -8,9 +8,9 @@ import HandOverDetailDosage from "@components/templates/HandOver/HandOverDetailD
 import HandOverDetailCC from "@components/templates/HandOver/HandOverDetailCC";
 import HandOverDetailSign from "@components/templates/HandOver/HandOverDetailSign";
 
-import * as S from "./HandOverDetailPage.styles";
+import * as S from "./HandOverWriteStep.styles";
 
-export default function HandOverDetailPage() {
+export default function HandOverWriteStep() {
   const [bgColor, setBgColor] = useState("white");
 
   const steps = [
@@ -55,7 +55,6 @@ export default function HandOverDetailPage() {
     key: item.title,
     title: "",
   }));
-
   return (
     <Container backgroundColor={bgColor}>
       <div style={{ width: "100%", marginTop: "100px" }}>

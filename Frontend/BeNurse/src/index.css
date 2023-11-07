@@ -149,6 +149,11 @@ textarea:focus-visible {
   --rsbs-mr: env(safe-area-inset-right);
   --rsbs-overlay-rounded: 16px;
 
+  & [data-rsbs-backdrop="true"],
+  & [data-rsbs-overlay="true"] {
+    z-index: 100;
+  }
+
   & ::before {
     width: 100px;
     height: 6px;
@@ -162,4 +167,16 @@ textarea:focus-visible {
 
 #root {
   position: relative;
+}
+
+.handover-detail [data-rsbs-overlay] {
+  z-index: 98;
+}
+
+.handover-detail [data-rsbs-header] {
+  background: #9669f9;
+  border-radius: 16px 16px 0 0;
+}
+.handover-detail [data-rsbs-scroll] {
+  margin-top: -1px;
 }

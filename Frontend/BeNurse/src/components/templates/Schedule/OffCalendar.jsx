@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { BsCheck } from "react-icons/bs";
 import { Common } from "../../../utils/global.styles";
-import offpencil from "@assets/Icons/offpencil.svg";
 import {
   CalendarWrapper,
   Table,
@@ -10,21 +9,12 @@ import {
   Td,
   CheckBox,
 } from "./ScheduleCalendar.styles";
-import Modal from "../../atoms/Modal/Modal";
-import OffContext from "./OffContext";
+import { useOffDateStore } from "../../../store/store";
 
 export default function ScheduleCalendar() {
   const today = new Date();
-  const [currentDate, setCurrentDate] = useState(
-    new Date(today.getFullYear(), today.getMonth(), 1),
-  );
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const [currentDate, setCurrentDate] = useState(today);
+  const { selectedDates, setSelectedDates } = useOffDateStore();
 
   const createCalendar = (date) => {
     const startDay = date.getDay();
@@ -63,6 +53,19 @@ export default function ScheduleCalendar() {
 
   const weeks = createCalendar(currentDate);
 
+  const handleDateSelection = (date) => {
+    console.log("handleDateSelection called with", date);
+    setSelectedDates((prev) => {
+      if (prev.includes(date)) {
+        return prev.filter((d) => d !== date);
+      } else {
+        const updatedDates = [...prev, date];
+        console.log(updatedDates);
+        return updatedDates;
+      }
+    });
+  };
+
   return (
     <CalendarWrapper>
       <div
@@ -83,8 +86,15 @@ export default function ScheduleCalendar() {
           >
             {currentDate.getFullYear()}년 {currentDate.getMonth() + 2}월
           </div>
-          <div style={{ fontSize: Common.fontSize.fontS, marginBottom: "5px" }}>
-            원하는 오프 신청일을 설정해주세요.
+          <div
+            style={{
+              fontSize: Common.fontSize.fontS,
+              marginBottom: "5px",
+              lineHeight: "24px",
+            }}
+          >
+            원하는 오프 신청일을 클릭해주세요. <br />
+            다음 버튼을 눌러 사유를 작성해주세요.
           </div>
         </div>
         <div
@@ -96,26 +106,7 @@ export default function ScheduleCalendar() {
             marginTop: "30px",
             cursor: "pointer",
           }}
-        >
-          <img
-            src={offpencil}
-            alt=""
-            style={{ width: "18px", marginBottom: "5px" }}
-          />
-          <button
-            onClick={openModal}
-            style={{
-              fontSize: Common.fontSize.fontXS,
-              fontWeight: Common.fontWeight.bold,
-              color: Common.color.purple03,
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            사유등록
-          </button>
-        </div>
+        ></div>
       </div>
       <Table>
         <thead>
@@ -145,7 +136,12 @@ export default function ScheduleCalendar() {
                       <CheckBox>
                         <input
                           type="checkbox"
+                          checked={selectedDates.includes(date.day)}
                           id={`checkbox-${i}-${j}`}
+                          onChange={() => {
+                            console.log("Checkbox changed for date", date.day);
+                            handleDateSelection(date.day);
+                          }}
                         />
                         <span>
                           <BsCheck size={24} />
@@ -159,12 +155,6 @@ export default function ScheduleCalendar() {
           ))}
         </tbody>
       </Table>
-      <Modal
-        visible={isModalOpen}
-        onClose={closeModal}
-      >
-        <OffContext />
-      </Modal>
     </CalendarWrapper>
   );
 }

@@ -10,11 +10,12 @@ export default defineConfig({
       { find: "@components", replacement: "/src/components" },
       { find: "@assets", replacement: "/src/assets" },
       { find: "@utils", replacement: "/src/utils" },
+      { find: "@store", replacement: "/src/store" },
     ],
   },
   server: {
     watch: {
       usePolling: true,
-    }
+    },
   },
 });

@@ -22,6 +22,7 @@ export default function TabBar() {
       location.pathname === "/" ||
       location.pathname.startsWith("/login") ||
       location.pathname === "/off-application" ||
+      location.pathname === "/off-application-write" ||
       location.pathname === "/off-application-finish" ||
       location.pathname.startsWith("/handover-list/patients/detail")
     ) {
@@ -30,6 +31,9 @@ export default function TabBar() {
       setVisibility("flex");
     }
     if (location.pathname.startsWith("/admin")) {
+      setVisibility("none");
+    }
+    if (location.pathname.startsWith("/handover-write")) {
       setVisibility("none");
     }
   }, [location]);

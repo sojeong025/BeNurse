@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { Common } from "@utils/global.styles.jsx";
 
 export const HorizontalDatePicker = styled.div`
-  margin-top: 73px;
   padding-bottom: 10px;
   height: 115px;
   width: 100%;

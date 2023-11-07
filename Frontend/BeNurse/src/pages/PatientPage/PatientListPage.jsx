@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 import Input from "@components/atoms/Input/Input";
@@ -7,7 +7,26 @@ import PatientFilterSelect from "@components/templates/Patient/PatientFilterSele
 
 import { Common } from "@utils/global.styles.jsx";
 
+import { usePatientStore } from "@store/store";
+import { customAxios } from "../../libs/axios";
+
 export default function PatientListPage() {
+  const [patients, setPatients] = useState([]);
+  const { setSelectedPatient } = usePatientStore();
+
+  useEffect(() => {
+    customAxios
+      .get("emr/patient/all")
+      .then((res) => {
+        console.log("환자 목록 불러오기", res.data.responseData);
+        setPatients(res.data.responseData);
+      })
+      .catch((error) => {
+        console.error("환자 목록 로드 실패:", error);
+      });
+    setSelectedPatient({});
+  }, []);
+
   return (
     <div
       style={{
@@ -60,48 +79,26 @@ export default function PatientListPage() {
             gap: "10px",
           }}
         >
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
-          <NavLink to="detail">
-            <PatientItem type={"patient"} />
-          </NavLink>
+          {patients.map((patientInfo) => (
+            <NavLink
+              to={patientInfo.patient.id + "/detail"}
+              key={patientInfo.patient.id}
+              onClick={() =>
+                setSelectedPatient({
+                  ...patientInfo.patient,
+                  cc: patientInfo.cc[0] ? patientInfo.cc[0].content : " ",
+                })
+              }
+            >
+              <PatientItem
+                type="patient"
+                patientInfo={{
+                  ...patientInfo.patient,
+                  cc: patientInfo.cc[0] ? patientInfo.cc[0].content : " ",
+                }}
+              />
+            </NavLink>
+          ))}
         </div>
       </div>
     </div>
