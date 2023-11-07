@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,11 +21,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin(origins = "*")
 @Api(value = "EMR 환자 정보 API", tags = { "CC." })
 @RestController
 @RequestMapping("/api/emr/cc")
+@Slf4j
 public class CCController {
 	@Autowired
 	CCRepository ccRepo;
@@ -33,7 +36,8 @@ public class CCController {
 	@ApiOperation(value = "주호소 등록", notes = "<strong>주호소 객체</strong>를 통해 주호소를 등록한다.")
 	@ApiResponses({ @ApiResponse(code = 201, message = "등록 성공", response = Patient.class),
 			@ApiResponse(code = 500, message = "서버 오류") })
-	public APIResponse<Void> registPatientById(CC cc) {
+	public APIResponse<Void> registPatientById(@RequestBody CC cc) {
+		log.info(cc.toString());
 		ccRepo.save(cc);
 		return new APIResponse(HttpStatus.CREATED);
 	}
@@ -43,6 +47,7 @@ public class CCController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공"), @ApiResponse(code = 404, message = "결과 없음"),
 			@ApiResponse(code = 500, message = "서버 오류") })
 	public APIResponse<Void> deletePatient(@RequestParam("id") long id) {
+		log.info(String.valueOf(id));
 		Optional<CC> found = ccRepo.findById(id);
 		if (found.isPresent()) {
 			ccRepo.delete(found.get());

@@ -42,7 +42,7 @@ public class JournalController {
 		@ApiResponse(code = 201, message = "등록 성공", response = Journal.class),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Void> registJournalById(Journal journal) {
+	public APIResponse<Void> registJournalById(@RequestBody Journal journal) {
 		log.info(journal.toString());
 		journal.setDatetime(LocalDateTime.now());
 		journalRepo.save(journal);
@@ -57,6 +57,7 @@ public class JournalController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<Journal> getJournalById(@RequestParam("id") long id) {
+		log.info(String.valueOf(id));
 		Optional<Journal> journal = journalRepo.findById(id);
 		if (journal.isPresent())
 			return new APIResponse(journal.get(), HttpStatus.OK);
@@ -71,6 +72,7 @@ public class JournalController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public APIResponse<List<Journal>> getAllJournal() {
+		log.info("no param");
 		List<Journal> journals = journalRepo.findAll();
 		return new APIResponse(journals, HttpStatus.OK);
 	}
@@ -82,6 +84,7 @@ public class JournalController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<List<Journal>> searchJournal(@RequestBody JournalSearchCondition search){
+		log.info(search.toString());
 		List<Journal> resp;
 		
 		if(search.getCategory() == null)
@@ -98,7 +101,8 @@ public class JournalController {
         @ApiResponse(code = 404, message = "결과 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<Void> updateJournal(Journal journal){
+	public APIResponse<Void> updateJournal(@RequestBody Journal journal){
+		log.info(journal.toString());
 		Optional<Journal> found = journalRepo.findById(journal.getID());
 		if(found.isPresent()) {
 			journalRepo.save(journal);
@@ -117,6 +121,7 @@ public class JournalController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public APIResponse<Void> deleteJournal(@RequestParam("id") long id){
+		log.info(String.valueOf(id));
 		Optional<Journal> found = journalRepo.findById(id);
 		if(found.isPresent()) {
 			journalRepo.delete(found.get());
@@ -135,6 +140,7 @@ public class JournalController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public APIResponse<Void> deleteJournalByPatientID(@RequestParam("id") long patient_id){
+		log.info(String.valueOf(patient_id));
 		List<Journal> found = journalRepo.findAllByPatientID(patient_id);
 		for(Journal j : found) {
 			journalRepo.delete(j);
