@@ -63,11 +63,11 @@ public class OffscheduleController {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 		try {
-			for(String date : offreq.getOffdate()) {
+			for(String date : offreq.getDate()) {
 				Offschedule off = new Offschedule();
 				off.setNurseID(nurse.getID());
 				off.setOffdate(LocalDate.parse(date, formatter));
-				off.setReason(offreq.getReason());
+				off.setReason(offreq.getContent());
 				offscheduleRepo.save(off);
 			}
 			return new APIResponse<>(HttpStatus.OK);
