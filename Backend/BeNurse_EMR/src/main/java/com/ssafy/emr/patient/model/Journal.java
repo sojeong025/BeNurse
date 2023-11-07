@@ -1,5 +1,6 @@
 package com.ssafy.emr.patient.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -24,7 +25,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Journal {
+public class Journal implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")

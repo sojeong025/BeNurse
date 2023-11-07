@@ -1,5 +1,6 @@
 package com.ssafy.emr.patient.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -29,7 +30,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Patient {
+public class Patient implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
