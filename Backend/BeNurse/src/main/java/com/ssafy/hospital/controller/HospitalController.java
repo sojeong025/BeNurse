@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin(origins = "*")
-@Api(value = "병원등록 API", tags = { "병원등록." })
+@Api(value = "병원 API", tags = { "병원." })
 @RestController
 @RequestMapping("/api/benurse/Hospital")
 public class HospitalController {

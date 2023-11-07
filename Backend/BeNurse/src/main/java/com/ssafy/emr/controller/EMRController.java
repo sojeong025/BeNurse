@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,8 @@ import com.ssafy.emr.utils.JournalSearchCondition;
 import com.ssafy.hospital.model.Hospital;
 import com.ssafy.hospital.service.HospitalRepository;
 import com.ssafy.hospital.service.WardRepository;
+import com.ssafy.nurse.model.Nurse;
+import com.ssafy.oauth.serivce.OauthService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -54,6 +57,9 @@ public class EMRController {
 	
 	@Autowired
 	PatientWardRepository pwRepo;
+	
+	@Autowired
+	OauthService oauthService;
 	
 	/* 간호일지 Journal */
 	
@@ -90,8 +96,17 @@ public class EMRController {
 		@ApiResponse(code = 201, message = "등록 성공", response = Journal.class),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Void> registJournalById(@RequestBody Journal journal) {
+	public APIResponse<Void> registJournalById(@RequestHeader("Authorization") String token, @RequestBody Journal journal) {
 		log.info(journal.toString());
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		journal.setWriterID(nurse.getID());
 		return emrService.registJournalById(journal);
 	}
 

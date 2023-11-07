@@ -1,5 +1,7 @@
 package com.ssafy.offschedule.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +22,7 @@ import com.ssafy.common.utils.APIResponse;
 import com.ssafy.common.utils.IDRequest;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
+import com.ssafy.offschedule.model.OffScheduleRequest;
 import com.ssafy.offschedule.model.Offschedule;
 import com.ssafy.offschedule.service.OffscheduleRepository;
 
@@ -48,7 +51,7 @@ public class OffscheduleController {
 		@ApiResponse(code = 406, message = "실패"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Offschedule> registOffschedule(@RequestHeader("Authorization") String token, @RequestBody List<Offschedule> offschedule) {
+	public APIResponse<Offschedule> registOffschedule(@RequestHeader("Authorization") String token, @RequestBody OffScheduleRequest offreq) {
 		Nurse nurse;
 		// 사용자 조회
 		try {
@@ -57,13 +60,17 @@ public class OffscheduleController {
 			e.printStackTrace();
 			return new APIResponse(HttpStatus.UNAUTHORIZED);
 		}
-		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
 		try {
-		for(Offschedule off : offschedule) {
-			off.setNurseID(nurse.getID());
-			offscheduleRepo.save(off);
-		}
-		return new APIResponse<>(HttpStatus.OK);
+			for(String date : offreq.getOffdate()) {
+				Offschedule off = new Offschedule();
+				off.setNurseID(nurse.getID());
+				off.setOffdate(LocalDate.parse(date, formatter));
+				off.setReason(offreq.getReason());
+				offscheduleRepo.save(off);
+			}
+			return new APIResponse<>(HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
 			return new APIResponse(HttpStatus.NOT_ACCEPTABLE);

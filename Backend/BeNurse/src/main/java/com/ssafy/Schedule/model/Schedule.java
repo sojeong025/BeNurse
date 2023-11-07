@@ -35,6 +35,12 @@ public class Schedule {
 	
 	@Column(name = "NURSE_ID")
 	private long nurseID;
+
+	@Column(name = "WARD_ID")
+	private long wardID;
+
+	@Column(name = "HOSPITAL_ID")
+	private long hospitalID;
 	
 	@Column(name = "WORK_TIME")
 	private String worktime;
@@ -43,7 +49,5 @@ public class Schedule {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate workdate;
 	
-	@Column(name = "WORK_PLACE")
-	private String workplace;
 	
 }

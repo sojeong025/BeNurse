@@ -14,4 +14,5 @@ import com.ssafy.Schedule.model.Schedule;
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 	List<Schedule> findAllByworkdateBetween(LocalDate startDate, LocalDate endDate);
 	List<Schedule> findByNurseIDAndWorkdateBetween(long nurseID, LocalDate startDate, LocalDate endDate);
+	List<Schedule> findByHospitalIDAndWorkdateBetween(long hospitalID, LocalDate startDate, LocalDate endDate);
 }

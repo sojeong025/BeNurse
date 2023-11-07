@@ -1,6 +1,7 @@
 package com.ssafy.offschedule.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

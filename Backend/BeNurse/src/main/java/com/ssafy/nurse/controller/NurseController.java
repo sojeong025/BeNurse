@@ -82,7 +82,7 @@ public class NurseController {
 	}
 	
 	@GetMapping("/name")
-	@ApiOperation(value = "간호사 이름 검색", notes = "간호사 이름으로 간호사를 조회한다.") 
+	@ApiOperation(value = "이름으로 간호사 검색", notes = "간호사 이름으로 간호사를 조회한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공", response = List.class),
         @ApiResponse(code = 500, message = "서버 오류")
@@ -112,7 +112,7 @@ public class NurseController {
 	
 	
 	@GetMapping("/hospital")
-	@ApiOperation(value = "간호사 병원 검색", notes = "소속 병원 ID로 간호사를 조회한다.") 
+	@ApiOperation(value = "병원 ID로 간호사 검색", notes = "소속 병원 ID로 간호사를 조회한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공", response = List.class),
         @ApiResponse(code = 500, message = "서버 오류")

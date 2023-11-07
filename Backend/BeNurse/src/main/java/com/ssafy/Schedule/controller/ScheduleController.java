@@ -22,6 +22,8 @@ import com.ssafy.Schedule.model.Schedule;
 import com.ssafy.Schedule.service.ScheduleRepository;
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.common.utils.IDRequest;
+import com.ssafy.hospital.service.HospitalRepository;
+import com.ssafy.hospital.service.WardRepository;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
 
@@ -40,11 +42,17 @@ public class ScheduleController {
 	ScheduleRepository scheduleRepo;
 	
 	@Autowired
+	HospitalRepository hospitalRepo;
+	
+	@Autowired
+	WardRepository wardRepo;
+	
+	@Autowired
 	OauthService oauthService;
 	
 	// 근무일정추가 POST <- 작성자가 권한이 있는지 확인.
 	@PostMapping("")
-	@ApiOperation(value = "근무 일정 추가", notes = "간호사, 근무 날짜와 시간, 근무지로 근무 일정을 추가")
+	@ApiOperation(value = "근무 일정 추가", notes = "병원, 병동, 간호사, 근무 날짜와 시간, 근무지로 근무 일정을 추가")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = Schedule.class),
 		@ApiResponse(code = 404, message = "결과 없음"),
@@ -72,8 +80,11 @@ public class ScheduleController {
 	    	Schedule existingSchedule = optionSchedule.get();
 
 	        // 기존 근무일정 정보를 업데이트
-	        if (updatedSchedule.getWorkplace() != null) {
-	            existingSchedule.setWorkplace(updatedSchedule.getWorkplace());
+	        if (updatedSchedule.getHospitalID() != 0) {
+	            existingSchedule.setHospitalID(updatedSchedule.getHospitalID());
+	        }
+	        if (updatedSchedule.getWardID() != 0) {
+	            existingSchedule.setWardID(updatedSchedule.getWardID());
 	        }
 	        if (updatedSchedule.getWorktime() != null) {
 	            existingSchedule.setWorktime(updatedSchedule.getWorktime());
@@ -144,17 +155,27 @@ public class ScheduleController {
 	
 	// 근무표 조회 GET
 	@GetMapping("/all")
-	@ApiOperation(value = "근무표 조회", notes = "기간 내의 모든 근무 일정 조회") 
+	@ApiOperation(value = "근무표 조회", notes = "소속 병원의 기간 내의 모든 근무 일정 조회") 
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = Schedule.class),
 	    @ApiResponse(code = 404, message = "근무를 찾을 수 없음."),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<List<Schedule>> getScheduleByDate(
+			@RequestHeader("Authorization") String token, 
 			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
 			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
-	){	
-	    List<Schedule> schedule = scheduleRepo.findAllByworkdateBetween(startDate, endDate);
+	){
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+
+	    List<Schedule> schedule = scheduleRepo.findByHospitalIDAndWorkdateBetween(nurse.getHospitalID(), startDate, endDate);
 	    return new APIResponse(schedule, HttpStatus.OK);
 
 	}	
