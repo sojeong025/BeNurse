@@ -54,7 +54,7 @@ export const ChangeHospitalBtn = styled.div`
   padding: 20px 0;
   border-radius: 10px;
   box-sizing: border-box;
-  & p:first-child {
+  & p:first-of-type {
     font-size: ${Common.fontSize.fontS};
     font-weight: ${Common.fontWeight.extrabold};
     margin-bottom: 10px;
