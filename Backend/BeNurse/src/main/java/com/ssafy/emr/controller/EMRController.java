@@ -243,6 +243,10 @@ public class EMRController {
 		try {
 			// EMR에서 환자 조회
 			APIResponse<PatientResponse> pr = emrService.getPatientById(id);
+			if(pr.getResponseData() == null) {
+				log.error("not found patient (id:" + id+")");
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+			}
 			pwr.setPatient(pr.getResponseData());
 			
 			// 환자 병동 정보 조회
@@ -281,7 +285,12 @@ public class EMRController {
 		for(PatientWard pw : pwlist) {
 			try {
 				PatientWardResponse pwr = new PatientWardResponse();
-				pwr.setPatient(emrService.getPatientById(pw.getID()).getResponseData());
+				APIResponse<PatientResponse> pr = emrService.getPatientById(pw.getID());
+				if(pr.getResponseData() == null) {
+					log.error("not found patient (id:" + pw.getID()+")");
+					continue;
+				}
+				pwr.setPatient(pr.getResponseData());
 				pwr.setHospital(hospital.get());
 				pwr.setWard(wardRepo.findById(pw.getWardID()).get());
 				resp.add(pwr);
