@@ -79,6 +79,12 @@ export const useAdminStore = create((set) => ({
       schedule: newSchedule,
     }));
   },
+  selectedDate: null,
+  setSelectedDate: (date) => {
+    set(() => ({
+      selectedDate: date,
+    }));
+  },
 }));
 
 export const useOffDateStore = create((set) => ({

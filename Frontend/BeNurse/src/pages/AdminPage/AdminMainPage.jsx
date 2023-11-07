@@ -8,11 +8,18 @@ import manage from "@assets/Images/manage.png";
 import web_write from "@assets/Images/web_write.png";
 import empty from "@assets/Images/empty.png";
 import AdminCalendar from "../../components/templates/Admin/AdminCalendar";
+import nurseImg from "@assets/Images/patient_temp.png";
 import { useAdminStore } from "../../store/store";
 
 export default function AdminMainPage() {
   const [hospital, setHospital] = useState(null);
-  const { schedule, setSchedule } = useAdminStore((state) => state);
+  const today = new Date();
+  const [currentDate, setCurrentDate] = useState(
+    new Date(today.getFullYear(), today.getMonth(), 1),
+  );
+  const [wards, setWards] = useState(null);
+  const { schedule, setSchedule, selectedDate, setSelectedDate } =
+    useAdminStore((state) => state);
   const navigate = useNavigate();
 
   const createSchedule = () => {
@@ -25,6 +32,10 @@ export default function AdminMainPage() {
   useEffect(() => {
     customAxios.get("Hospital").then((res) => {
       setHospital(res.data.responseData);
+    });
+
+    customAxios.get("ward/all").then((res) => {
+      setWards(res.data.responseData);
     });
   }, []);
 
@@ -54,28 +65,97 @@ export default function AdminMainPage() {
           props={"position: relative; box-sizing: border-box; padding: 30px;"}
         >
           <AdminCalendar />
-          {schedule ? (
-            <div></div>
-          ) : (
-            <div
-              style={{
-                width: "50%",
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                opacity: 0.5,
-              }}
-            >
-              <img
-                style={{ width: "140px", marginBottom: "10px" }}
-                src={empty}
-                alt=""
-              />
-              <p>근무표가 없어요</p>
-            </div>
-          )}
+          <div>
+            <p style={{ marginLeft: "20px", marginBottom: "20px" }}>
+              {selectedDate}일 근무자
+            </p>
+            {schedule && schedule.length > 0 ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "500px",
+                  overflow: "scroll",
+                  gap: "16px",
+                  marginLeft: "20px",
+                }}
+              >
+                {schedule?.map((item) => {
+                  const year = currentDate.getFullYear();
+                  const month = currentDate.getMonth() + 1;
+                  const ward = wards.filter((ward) => ward.id === item.wardID);
+                  return (
+                    item.workdate ===
+                      `${year}-${month
+                        .toString()
+                        .padStart(2, "0")}-${selectedDate
+                        ?.toString()
+                        .padStart(2, "0")}` && (
+                      <Box
+                        type={"white"}
+                        size={["360px", "70px"]}
+                        flex={["flex-start", "center"]}
+                        props={
+                          "box-sizing: border-box; padding-right: 14px; gap: 20px;"
+                        }
+                      >
+                        <div
+                          style={{
+                            width: "20px",
+                            height: "70px",
+                            borderRadius: "16px 0px 0px 16px",
+                            backgroundColor:
+                              item.worktime === "D"
+                                ? Common.color.day
+                                : item.worktime === "E"
+                                ? Common.color.evening
+                                : Common.color.night,
+                          }}
+                        />
+                        <img
+                          style={{
+                            width: "50px",
+                            border: "1px solid gray",
+                            borderRadius: "100px",
+                          }}
+                          src={nurseImg}
+                          alt=""
+                        />
+                        <div style={{ width: "160px" }}>
+                          <p style={{ fontSize: "16px", fontWeight: "600" }}>
+                            {item.name}
+                          </p>
+                          <p style={{ fontSize: "14px", marginTop: "6px" }}>
+                            {ward[0].name}{" "}
+                            {item.annual > 0 ? item.annual + "년차" : "신입"}
+                          </p>
+                        </div>
+                      </Box>
+                    )
+                  );
+                })}
+              </div>
+            ) : (
+              <div
+                style={{
+                  width: "380px",
+                  height: "500px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  opacity: 0.5,
+                }}
+              >
+                <img
+                  style={{ width: "140px", marginBottom: "10px" }}
+                  src={empty}
+                  alt=""
+                />
+                <p>근무표가 없어요</p>
+              </div>
+            )}
+          </div>
         </Box>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: "50px" }}>

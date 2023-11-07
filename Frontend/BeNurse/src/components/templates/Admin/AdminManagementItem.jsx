@@ -3,12 +3,12 @@ import WardItem from "./WardItem";
 import EmployeeItem from "./EmployeeItem";
 import EquipmentItem from "./EquipmentItem";
 
-export default function AdminManagementItem({ type }) {
+export default function AdminManagementItem({ type, item }) {
   if (type === "ward") {
-    return <WardItem name="소아기 내과" />;
+    return <WardItem item={item} />;
   } else if (type === "employee") {
-    return <EmployeeItem />;
+    return <EmployeeItem item={item} />;
   } else {
-    return <EquipmentItem />;
+    return <EquipmentItem item={item} />;
   }
 }

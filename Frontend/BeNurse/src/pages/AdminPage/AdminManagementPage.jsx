@@ -7,6 +7,9 @@ import { useModalStore } from "../../store/store";
 import AdminManagementItem from "../../components/templates/Admin/AdminManagementItem";
 
 export default function AdminManagementPage() {
+  const [devices, setDevices] = useState(null);
+  const [nurses, setNurses] = useState(null);
+  const [wards, setWards] = useState(null);
   const [edit, setEdit] = useState("");
   const [count, setCount] = useState(30);
   const [nurseName, setNurseName] = useState("");
@@ -48,6 +51,18 @@ export default function AdminManagementPage() {
       setCount(30);
     }
   };
+
+  useEffect(() => {
+    customAxios.get("ward/all").then((res) => {
+      setWards(res.data.responseData);
+    });
+    customAxios.get("nurse/all").then((res) => {
+      setNurses(res.data.responseData);
+    });
+    customAxios.get("device/all").then((res) => {
+      setDevices(res.data.responseData);
+    });
+  }, []);
 
   useEffect(() => {
     if (inviteCode) {
@@ -130,7 +145,14 @@ export default function AdminManagementPage() {
           )}
         </div>
         <hr style={{ width: "100%", margin: "20px 0px" }} />
-        <AdminManagementItem type={"ward"} />
+        {wards?.map((item) => {
+          return (
+            <AdminManagementItem
+              type={"ward"}
+              item={item}
+            />
+          );
+        })}
       </Box>
       <Box
         type={"white"}
@@ -186,7 +208,14 @@ export default function AdminManagementPage() {
           )}
         </div>
         <hr style={{ width: "100%", margin: "20px 0px" }} />
-        <AdminManagementItem type={"employee"} />
+        {nurses?.map((item) => {
+          return (
+            <AdminManagementItem
+              type={"employee"}
+              item={item}
+            />
+          );
+        })}
       </Box>
       <Box
         type={"white"}
@@ -242,7 +271,14 @@ export default function AdminManagementPage() {
           )}
         </div>
         <hr style={{ width: "100%", margin: "20px 0px" }} />
-        <AdminManagementItem type={"equipment"} />
+        {devices?.map((item) => {
+          return (
+            <AdminManagementItem
+              type={"equipment"}
+              item={item}
+            />
+          );
+        })}
       </Box>
       {isModal === "Nurse" ? (
         inviteCode ? (

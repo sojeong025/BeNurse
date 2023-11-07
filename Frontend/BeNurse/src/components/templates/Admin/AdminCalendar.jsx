@@ -17,8 +17,8 @@ export default function AdminCalendar() {
   const [currentDate, setCurrentDate] = useState(
     new Date(today.getFullYear(), today.getMonth(), 1),
   );
-  const { schedule, setSchedule } = useAdminStore((state) => state);
-  const [selectedDate, setSelectedDate] = useState(today.getDate());
+  const { schedule, setSchedule, selectedDate, setSelectedDate } =
+    useAdminStore((state) => state);
 
   const createCalendar = (date) => {
     const startDay = date.getDay();
@@ -69,24 +69,27 @@ export default function AdminCalendar() {
 
     const startDate = `${year}-${month
       .toString()
-      .padStart(2, "0")}-${selectedDate.toString().padStart(2, "0")}`;
+      .padStart(2, "0")}-${selectedDate?.toString().padStart(2, "0")}`;
     const endDate = `${year}-${month.toString().padStart(2, "0")}-${selectedDate
-      .toString()
+      ?.toString()
       .padStart(2, "0")}`;
 
     customAxios
-      .get("Schedule", {
+      .get("Schedule/all", {
         params: {
           endDate: endDate,
           startDate: startDate,
         },
       })
       .then((res) => {
-        console.log(res.data);
         setSchedule(res.data.responseData);
       })
       .catch((err) => console.log(err));
   }, [selectedDate]);
+
+  useEffect(() => {
+    setSelectedDate(today.getDate());
+  }, []);
 
   return (
     <CalendarWrapper>
