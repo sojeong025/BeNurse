@@ -53,14 +53,19 @@ export default function ScheduleCalendar() {
 
   const weeks = createCalendar(currentDate);
 
-  const handleDateSelection = (date) => {
-    console.log("handleDateSelection called with", date);
+  const handleDateSelection = (day) => {
+    const date = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      day + 1,
+    );
+    const dateString = date.toISOString().slice(0, 10);
+    console.log("dateString", dateString);
     setSelectedDates((prev) => {
-      if (prev.includes(date)) {
-        return prev.filter((d) => d !== date);
+      if (prev.includes(dateString)) {
+        return prev.filter((d) => d !== dateString);
       } else {
-        const updatedDates = [...prev, date];
-        console.log(updatedDates);
+        const updatedDates = [...prev, dateString];
         return updatedDates;
       }
     });
@@ -136,11 +141,19 @@ export default function ScheduleCalendar() {
                       <CheckBox>
                         <input
                           type="checkbox"
-                          checked={selectedDates.includes(date.day)}
+                          checked={selectedDates.includes(
+                            new Date(
+                              currentDate.getFullYear(),
+                              currentDate.getMonth() + 1,
+                              date.day + 1,
+                            )
+                              .toISOString()
+                              .slice(0, 10),
+                          )}
                           id={`checkbox-${i}-${j}`}
                           onChange={() => {
-                            console.log("Checkbox changed for date", date.day);
                             handleDateSelection(date.day);
+                            console.log("클릭할때마다", date.day);
                           }}
                         />
                         <span>

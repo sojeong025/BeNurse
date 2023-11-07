@@ -52,13 +52,13 @@ export const State = styled.div`
     border-radius: 100%;
     background-color: ${({ type }) => {
       switch (type) {
-        case "day":
+        case "D":
           return Common.color.day;
-        case "evening":
+        case "E":
           return Common.color.evening;
-        case "night":
+        case "N":
           return Common.color.night;
-        case "off":
+        case "O":
           return Common.color.off;
       }
     }};
@@ -106,13 +106,13 @@ export const ScheduleTypeCircle = styled.div`
   margin-top: 10px;
   background-color: ${({ type }) => {
     switch (type) {
-      case "day":
+      case "D":
         return Common.color.day;
-      case "evening":
+      case "E":
         return Common.color.evening;
-      case "night":
+      case "N":
         return Common.color.night;
-      case "off":
+      case "O":
         return Common.color.off;
     }
   }};

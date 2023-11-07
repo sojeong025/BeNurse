@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ScheduleCalendar from "@components/templates/Schedule/ScheduleCalendar";
 import Container from "@components/atoms/Container/Container";
 
