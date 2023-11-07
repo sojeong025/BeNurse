@@ -42,11 +42,11 @@ public class JournalController {
 		@ApiResponse(code = 201, message = "등록 성공", response = Journal.class),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Void> registJournalById(@RequestBody Journal journal) {
+	public APIResponse<Journal> registJournalById(@RequestBody Journal journal) {
 		log.info(journal.toString());
 		journal.setDatetime(LocalDateTime.now());
-		journalRepo.save(journal);
-		return new APIResponse(HttpStatus.CREATED);
+		Journal savedJournal = journalRepo.save(journal);
+		return new APIResponse(savedJournal, HttpStatus.CREATED);
 	}
 	
 	@GetMapping("")

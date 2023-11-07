@@ -36,10 +36,10 @@ public class CCController {
 	@ApiOperation(value = "주호소 등록", notes = "<strong>주호소 객체</strong>를 통해 주호소를 등록한다.")
 	@ApiResponses({ @ApiResponse(code = 201, message = "등록 성공", response = Patient.class),
 			@ApiResponse(code = 500, message = "서버 오류") })
-	public APIResponse<Void> registPatientById(@RequestBody CC cc) {
+	public APIResponse<CC> registPatientById(@RequestBody CC cc) {
 		log.info(cc.toString());
-		ccRepo.save(cc);
-		return new APIResponse(HttpStatus.CREATED);
+		CC savedCC = ccRepo.save(cc);
+		return new APIResponse(savedCC, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("")
