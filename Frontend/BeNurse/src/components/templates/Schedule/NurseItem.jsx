@@ -9,13 +9,11 @@ export default function NurseItem({ nurse }) {
 
   useEffect(() => {
     customAxios.get("ward/all").then((res) => {
-      console.log("병동가져와", res);
       setWards(res.data.responseData);
     });
   }, []);
 
   const ward = wards?.filter((ward) => ward.id === nurse.wardID);
-  console.log("와드 확인", ward);
 
   return (
     <Box

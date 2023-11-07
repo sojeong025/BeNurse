@@ -40,7 +40,6 @@ export default function ScheduleCalendar() {
 
   useEffect(() => {
     customAxios.get("oauth/test/user").then((res) => {
-      console.log("사용자정보조회", res);
       setId(res.data.responseData.id);
     });
   }, []);
@@ -54,7 +53,6 @@ export default function ScheduleCalendar() {
           },
         })
         .then((res) => {
-          console.log("오프신청 내역 조회", res);
           setOffApplications(res.data.responseData);
         });
     }
@@ -160,7 +158,6 @@ export default function ScheduleCalendar() {
         },
       })
       .then((res) => {
-        console.log("모든 간호사 스케쥴 확인", res);
         setNurseData(res.data.responseData);
       });
   };
@@ -185,7 +182,6 @@ export default function ScheduleCalendar() {
         },
       })
       .then((res) => {
-        console.log("내스케쥴 확인", res);
         let scheduleData = {};
         res.data.responseData.forEach((item) => {
           scheduleData[item.workdate] = item;
