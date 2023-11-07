@@ -1,9 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "../../atoms/Box/Box";
 import { Common } from "../../../utils/global.styles";
-import nurse from "@assets/Images/patient_temp.png";
+import nurseimg from "@assets/Images/patient_temp.png";
+import { customAxios } from "../../../libs/axios";
 
-export default function NurseItem() {
+export default function NurseItem({ nurse }) {
+  const [wards, setWards] = useState();
+
+  useEffect(() => {
+    customAxios.get("ward/all").then((res) => {
+      console.log("병동가져와", res);
+      setWards(res.data.responseData);
+    });
+  }, []);
+
+  const ward = wards?.filter((ward) => ward.id === nurse.wardID);
+  console.log("와드 확인", ward);
+
   return (
     <Box
       type={"white"}
@@ -14,7 +27,12 @@ export default function NurseItem() {
         style={{
           width: "20px",
           height: "100%",
-          backgroundColor: "#FFE15D",
+          backgroundColor:
+            nurse.worktime === "D"
+              ? Common.color.day
+              : nurse.worktime === "E"
+              ? Common.color.evening
+              : Common.color.night,
           borderRadius: "16px 0px 0px 16px",
         }}
       ></div>
@@ -30,17 +48,17 @@ export default function NurseItem() {
           fontSize: Common.fontSize.fontS,
         }}
       >
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-            <img
-              style={{
-                height: "48px",
-                borderRadius: "50px",
-                border: "1px solid gray",
-              }}
-              src={nurse}
-              alt=""
-            />
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+          <img
+            style={{
+              height: "48px",
+              borderRadius: "50px",
+              border: "1px solid gray",
+            }}
+            src={nurseimg}
+            alt=""
+          />
+          {ward && (
             <div>
               <p
                 style={{
@@ -48,7 +66,7 @@ export default function NurseItem() {
                   marginBottom: "6px",
                 }}
               >
-                정은경 간호사
+                {nurse.name}
               </p>
               <p
                 style={{
@@ -56,20 +74,12 @@ export default function NurseItem() {
                   fontSize: Common.fontSize.fontXXS,
                 }}
               >
-                내과 A병동 2년차
+                {ward[0].name}
+                {nurse.annual}년 차
               </p>
             </div>
-          </div>
+          )}
         </div>
-        <p
-          style={{
-            fontSize: Common.fontSize.fontXS,
-            fontWeight: Common.fontWeight.extrabold,
-            color: Common.color.black01,
-          }}
-        >
-          DAY
-        </p>
       </div>
     </Box>
   );
