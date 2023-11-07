@@ -80,5 +80,8 @@ public class Patient {
 
 	@Column(name = "SELFMEDICINE")
 	private String selfmedicine;
+	
+	@Column(name = "CC_MAIN")
+	private String ccMain;
 
 }
