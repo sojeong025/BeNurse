@@ -45,14 +45,24 @@ public class NurseController {
 	// 간호사 계정 생성은 로그인 과정에서 생성되기 때문에 Post 없음
 	
 	@GetMapping("/all")
-	@ApiOperation(value = "전체 간호사 조회", notes = "모든 간호사를 조회한다.") 
+	@ApiOperation(value = "전체 간호사 조회", notes = "소속 병원 내의 모든 간호사를 조회한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공", response = List.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<List<Nurse>> getAllNotice() {
-		List<Nurse> nurse = nurseRepo.findAll();
-	    return new APIResponse<>(nurse, HttpStatus.OK);
+	public APIResponse<List<Nurse>> getAllNotice(@RequestHeader("Authorization") String token) {
+
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new APIResponse(HttpStatus.UNAUTHORIZED);
+		}
+		
+		List<Nurse> nurselist = nurseRepo.findAllByHospitalID(nurse.getHospitalID());
+	    return new APIResponse<>(nurselist, HttpStatus.OK);
 	}
 
 	@GetMapping("")
