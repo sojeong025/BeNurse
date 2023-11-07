@@ -4,10 +4,10 @@ import { Navigate } from "react-router-dom";
 
 // Comoponents
 import Box from "@components/atoms/Box/Box";
+import PatientImages from "./PatientImages";
 
 // Images
 import patientImg from "@assets/Images/patient_male.png";
-import { BsPlusCircleFill } from "react-icons/bs";
 
 export default function PatientItem({ type, patientInfo }) {
   return (
@@ -25,13 +25,12 @@ export default function PatientItem({ type, patientInfo }) {
           height: "140px",
         }}
       >
-        <p style={{ fontSize: Common.fontSize.fontXXS }}>
-          {/* {patientInfo.patient.group} {patientInfo.patient.room} */}
-        </p>
-        <img
-          src={patientImg}
+        <p style={{ fontSize: Common.fontSize.fontXXS }}>{patientInfo.ward}</p>
+        <PatientImages
+          age={patientInfo.age}
+          gender={patientInfo.gender}
+          imgNum={patientInfo.img}
           style={{ borderRadius: "300px", width: "60px" }}
-          alt=""
         />
         <p
           style={{
@@ -43,11 +42,12 @@ export default function PatientItem({ type, patientInfo }) {
         </p>
         <p
           style={{
+            textAlign: "center",
             fontSize: Common.fontSize.fontS,
             fontWeight: Common.fontWeight.regular,
           }}
         >
-          {patientInfo.cc}
+          {patientInfo.gender} {patientInfo.age}세
         </p>
       </div>
     </Box>

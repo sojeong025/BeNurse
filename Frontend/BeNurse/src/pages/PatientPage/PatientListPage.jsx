@@ -11,7 +11,7 @@ import { usePatientStore } from "@store/store";
 import { customAxios } from "../../libs/axios";
 
 export default function PatientListPage() {
-  const [patients, setPatients] = useState([]);
+  const [patients, setPatients] = useState();
   const { setSelectedPatient } = usePatientStore();
 
   useEffect(() => {
@@ -52,7 +52,6 @@ export default function PatientListPage() {
           variant={"search"}
           placeholder={"환자 이름으로 검색"}
         />
-        <PatientFilterSelect />
       </div>
       <div
         style={{
@@ -60,9 +59,9 @@ export default function PatientListPage() {
           flexDirection: "column",
           alignItems: "flex-start",
           paddingBottom: "50px",
-          marginTop: "110px",
+          marginTop: "65px",
           paddingTop: "20px",
-          height: "591px",
+          height: "636px",
           overflow: "scroll",
           gap: "15px",
           boxSizing: "border-box",
@@ -75,30 +74,29 @@ export default function PatientListPage() {
             flexWrap: "wrap",
             justifyContent: "flex-start",
             alignItems: "flex-start",
-
             gap: "10px",
           }}
         >
-          {patients.map((patientInfo) => (
-            <NavLink
-              to={patientInfo.patient.id + "/detail"}
-              key={patientInfo.patient.id}
+          {patients &&
+            patients.map((patientInfo) => (
+              <NavLink
+              to={patientInfo.patient.patient.id + "/detail"}
+              key={patientInfo.patient.patient.id}
               onClick={() =>
                 setSelectedPatient({
-                  ...patientInfo.patient,
-                  cc: patientInfo.cc[0] ? patientInfo.cc[0].content : " ",
+                  ...patientInfo.patient.patient,
                 })
               }
-            >
-              <PatientItem
-                type="patient"
-                patientInfo={{
-                  ...patientInfo.patient,
-                  cc: patientInfo.cc[0] ? patientInfo.cc[0].content : " ",
-                }}
-              />
-            </NavLink>
-          ))}
+              >
+                <PatientItem
+                  type="patient"
+                  patientInfo={{
+                    ...patientInfo.patient.patient,
+                    ward: patientInfo.ward.name,
+                  }}
+                />
+              </NavLink>
+            ))}
         </div>
       </div>
     </div>

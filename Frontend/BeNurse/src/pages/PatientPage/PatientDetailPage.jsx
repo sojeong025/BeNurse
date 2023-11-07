@@ -13,23 +13,7 @@ import * as S from "./PatientDetail.styles";
 import Box from "@components/atoms/Box/Box";
 
 export default function PatientDetailPage() {
-  const [patient, setPatient] = useState({
-    id: "",
-    age: "",
-    discharge: "",
-    disease: "",
-    drinking: "",
-    gender: "",
-    hospitalization: "",
-    history: "",
-    medicine: "",
-    name: "",
-    selfmedicine: "",
-    smoking: "",
-    alergy: "",
-    surgery: "",
-    cc: [],
-  });
+  const [patient, setPatient] = useState({});
   const { patientId } = useParams();
 
   useEffect(() => {
@@ -38,8 +22,7 @@ export default function PatientDetailPage() {
       .then((res) => {
         console.log("환자 정보 불러오기", res.data.responseData);
         setPatient({
-          ...res.data.responseData.patient,
-          cc: res.data.responseData.cc,
+          ...res.data.responseData.patient.patient,
         });
       })
       .catch((error) => {
@@ -79,9 +62,9 @@ export default function PatientDetailPage() {
             <S.PatientDetailItemContainer>
               <PatientDetailItem
                 name="주호소"
-                value={patient.cc.length > 0 ? patient.cc[0].content : ""}
+                value={patient.ccMain}
                 onChange={(e) => {
-                  // TODO: 주호소 수정할 때 어떻게 하지?
+                  setPatient({ ...patient, ccMain: e.target.value });
                 }}
               />
               <PatientDetailItem

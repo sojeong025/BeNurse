@@ -6,6 +6,7 @@ import * as S from "./PatientDetailProfile.styles";
 
 // Components
 import Box from "@components/atoms/Box/Box";
+import PatientImages from "./PatientImages";
 
 // Images
 import patientImg from "@assets/Images/patient_male.png";
@@ -28,10 +29,11 @@ export default function PatientDetailProfile({ patient }) {
       font={"16px"}
     >
       <S.PatientDetailProfileBox>
-        <img
+        <PatientImages
+          age={patient.age}
+          gender={patient.gender}
+          imgNum={patient.img}
           className="patient_image"
-          src={patientImg}
-          alt=""
         />
 
         <div>
