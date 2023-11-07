@@ -211,7 +211,8 @@ public class EMRController {
 			patient.setSmoking(patientRequest.isSmoking());
 			patient.setAlergy(patientRequest.getAlergy());
 			patient.setSelfmedicine(patientRequest.getSelfmedicine());
-
+			patient.setCcMain(patientRequest.getCcMain());
+			
 			APIResponse<Patient> resp = emrService.registPatientById(patient);
 			
 			PatientWard pw = new PatientWard();

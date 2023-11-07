@@ -33,6 +33,7 @@ public class PatientRequest {
 	private boolean smoking;
 	private String alergy;
 	private String selfmedicine;
+	private String ccMain;
 	
 	private long hospitalID;
 	private long wardID;
