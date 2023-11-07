@@ -2,6 +2,7 @@ package com.ssafy.emr.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ import com.ssafy.emr.model.PatientResponse;
 import com.ssafy.emr.model.PatientWardResponse;
 import com.ssafy.emr.service.EMRService;
 import com.ssafy.emr.utils.JournalSearchCondition;
+import com.ssafy.hospital.model.Hospital;
 import com.ssafy.hospital.service.HospitalRepository;
 import com.ssafy.hospital.service.WardRepository;
 import com.ssafy.nurse.model.Nurse;
@@ -257,7 +259,7 @@ public class EMRController {
 	@ApiOperation(value = "모든 환자 조회", notes = "소속 병원 내 모든 환자 정보를 조회한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공", response = List.class),
 			@ApiResponse(code = 500, message = "서버 오류") })
-	public APIResponse<List<PatientResponse>> getAllPatient(@RequestHeader("Authorization") String token) {
+	public APIResponse<List<PatientWardResponse>> getAllPatient(@RequestHeader("Authorization") String token) {
 		Nurse nurse;
 		// 사용자 조회
 		try {
@@ -267,18 +269,26 @@ public class EMRController {
 			return new APIResponse(HttpStatus.UNAUTHORIZED);
 		}
 		
-		List<PatientResponse> resp = new ArrayList<>();
+		List<PatientWardResponse> resp = new ArrayList<>();
 		List<PatientWard> pwlist = pwRepo.findAllByHospitalIDAndIsHospitalized(nurse.getHospitalID(), true);
+		
+		Optional<Hospital> hospital = hospitalRepo.findById(nurse.getHospitalID());
+		if(hospital.isEmpty())
+			return new APIResponse<>(HttpStatus.NOT_FOUND);
 		
 		for(PatientWard pw : pwlist) {
 			try {
-				resp.add(emrService.getPatientById(pw.getID()).getResponseData());
+				PatientWardResponse pwr = new PatientWardResponse();
+				pwr.setPatient(emrService.getPatientById(pw.getID()).getResponseData());
+				pwr.setHospital(hospital.get());
+				pwr.setWard(wardRepo.findById(pw.getWardID()).get());
+				resp.add(pwr);
 			}catch (Exception e) {
 				log.error("not valid patient (id:"+pw.getID()+")");
 			}
 		}
 		
-		return emrService.getAllPatient();
+		return new APIResponse(resp, HttpStatus.OK);
 	}
 
 	// 환자 검색 GET
