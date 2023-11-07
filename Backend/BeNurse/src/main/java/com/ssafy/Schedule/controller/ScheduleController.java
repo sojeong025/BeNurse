@@ -178,7 +178,7 @@ public class ScheduleController {
 	
 	// 근무표 조회 GET
 	@GetMapping("/all")
-	@ApiOperation(value = "근무표 조회", notes = "소속 병원의 기간 내의 모든 근무 일정 조회") 
+	@ApiOperation(value = "근무표 조회", notes = "소속 병원의 기간 내의 모든 근무 일정 조회 (Off 제외)")
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = ScheduleResponse.class),
 	    @ApiResponse(code = 404, message = "근무를 찾을 수 없음."),
@@ -198,7 +198,7 @@ public class ScheduleController {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 
-	    List<Schedule> schedule = scheduleRepo.findByHospitalIDAndWorkdateBetweenAndWorktimeNot(nurse.getHospitalID(), startDate, endDate, "O");
+	    List<Schedule> schedule = scheduleRepo.findByHospitalIDAndWorkdateBetweenAndWorktimeNotAndNurseIDNot(nurse.getHospitalID(), startDate, endDate, "O", nurse.getID());
 
 	    List<ScheduleResponse> resp = new ArrayList<>();
 	    for(Schedule s : schedule) {
