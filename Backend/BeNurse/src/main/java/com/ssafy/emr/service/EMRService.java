@@ -50,7 +50,7 @@ public interface EMRService {
 	
 	// 간호일지 검색 POST
 	@PostMapping(value="/journal/search")
-	APIResponse<List<Journal>> searchJournal(@SpringQueryMap JournalSearchCondition search);
+	APIResponse<List<Journal>> searchJournal(@RequestBody JournalSearchCondition search);
 
 	/* 주호소 CC 2ea */
 	
