@@ -36,5 +36,4 @@ public class PatientRequest {
 	
 	private long hospitalID;
 	private long wardID;
-
 }
