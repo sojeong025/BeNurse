@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-
+import moment from "moment";
 import { Common } from "@utils/global.styles.jsx";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { customAxios } from "../../libs/axios";
 
@@ -13,6 +13,8 @@ import PatientDetailProfile from "../../components/templates/Patient/PatientDeta
 import { ConfigProvider, Select } from "antd";
 
 export default function PatientJournalWritePage() {
+  const navigate = useNavigate();
+
   const [journal, setJournal] = useState({});
 
   const [patient, setPatient] = useState({
@@ -41,8 +43,8 @@ export default function PatientJournalWritePage() {
       .then((res) => {
         console.log("환자 정보 불러오기", res.data.responseData);
         setPatient({
-          ...res.data.responseData.patient,
-          cc: res.data.responseData.cc,
+          ...res.data.responseData.patient.patient,
+          cc: res.data.responseData.patient.cc,
         });
       })
       .catch((error) => {
@@ -130,16 +132,17 @@ export default function PatientJournalWritePage() {
                 .post("emr/journal", {
                   category: journal.category,
                   content: journal.content,
-                  datetime: new Date().toISOString(),
+                  datetime: moment().add(9, "hours").toISOString(),
                   id: 0,
                   patientID: patientId,
                   writerID: 2, //TODO - 현재 로그인한 간호사 id 가져오는 걸로 바꿔주기
                 })
                 .then((res) => {
                   console.log("간호 일지 작성 성공", res);
+                  navigate(-1);
                 })
                 .catch((error) => {
-                  console.error("환자 정보 로드 실패:", error);
+                  console.error("간호 일지 작성 실패:", error);
                 });
             }}
           >

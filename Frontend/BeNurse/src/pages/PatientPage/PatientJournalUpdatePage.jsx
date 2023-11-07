@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Common } from "@utils/global.styles.jsx";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./PatientJournalWritePage.styles";
 import Container from "../../components/atoms/Container/Container";
 import Button from "../../components/atoms/Button/Button";
@@ -12,11 +12,15 @@ import { ConfigProvider, Select } from "antd";
 import { customAxios } from "../../libs/axios";
 
 export default function PatientJournalUpdatePage() {
+  const navigate = useNavigate();
+
   const onChange = (value) => {
-    console.log(`selected ${value}`);
+    setJournal({ ...journal, category: value });
   };
   const filterOption = (input, option) =>
     (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
+  const [journal, setJournal] = useState({});
 
   const [patient, setPatient] = useState({
     id: "",
@@ -36,7 +40,7 @@ export default function PatientJournalUpdatePage() {
     surgery: "",
     cc: [],
   });
-  const { patientId } = useParams();
+  const { patientId, journalId } = useParams();
 
   useEffect(() => {
     customAxios
@@ -44,12 +48,22 @@ export default function PatientJournalUpdatePage() {
       .then((res) => {
         console.log("환자 정보 불러오기", res.data.responseData);
         setPatient({
-          ...res.data.responseData.patient,
-          cc: res.data.responseData.cc,
+          ...res.data.responseData.patient.patient,
+          cc: res.data.responseData.patient.cc,
         });
       })
       .catch((error) => {
         console.error("환자 정보 로드 실패:", error);
+      });
+
+    customAxios
+      .get("emr/journal?id=" + journalId)
+      .then((res) => {
+        console.log("간호일지 정보 불러오기", res.data.responseData);
+        setJournal(res.data.responseData);
+      })
+      .catch((error) => {
+        console.error("간호일지 정보 로드 실패:", error);
       });
   }, []);
 
@@ -78,9 +92,10 @@ export default function PatientJournalUpdatePage() {
               }}
             >
               <Select
-                placeholder="과명"
+                placeholder="카테고리"
                 optionFilterProp="children"
                 onChange={onChange}
+                value={journal.category}
                 filterOption={filterOption}
                 size="large"
                 options={[
@@ -115,18 +130,24 @@ export default function PatientJournalUpdatePage() {
 
           <S.WriteContentInput
             placeholder={"간호 수행 내용을 입력해주세요."}
-            // value={noticeData.content}
+            value={journal.content}
             onChange={(e) => {
-              console.log(e);
-              // setNoticeData({ ...noticeData, content: e.target.value });
+              setJournal({ ...journal, content: e.target.value });
             }}
           />
           <Button
             variant="primary"
-            onClick={
-              () => console.log("hi")
-              // onClickUploadBtn(noticeData.title, noticeData.content)
-            }
+            onClick={() => {
+              customAxios
+                .put("emr/journal", journal)
+                .then((res) => {
+                  console.log("간호일지 수정 성공", res);
+                  navigate(-1);
+                })
+                .catch((error) => {
+                  console.error("간호일지 수정 실패:", error);
+                });
+            }}
           >
             수정하기
           </Button>
