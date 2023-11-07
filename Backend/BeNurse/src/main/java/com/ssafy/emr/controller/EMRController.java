@@ -96,7 +96,7 @@ public class EMRController {
 		@ApiResponse(code = 201, message = "등록 성공", response = Journal.class),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Void> registJournalById(@RequestHeader("Authorization") String token, @RequestBody Journal journal) {
+	public APIResponse<Journal> registJournalById(@RequestHeader("Authorization") String token, @RequestBody Journal journal) {
 		log.info(journal.toString());
 		Nurse nurse;
 		// 사용자 조회
@@ -167,7 +167,7 @@ public class EMRController {
 		@ApiResponse(code = 201, message = "등록 성공"),
 		@ApiResponse(code = 500, message = "서버 오류") 
 	})
-	public APIResponse<Void> registPatientById(@RequestBody CC cc) {
+	public APIResponse<CC> registPatientById(@RequestBody CC cc) {
 		return emrService.registPatientById(cc);
 	}
 
@@ -191,6 +191,7 @@ public class EMRController {
 		@ApiResponse(code = 201, message = "등록 성공", response = Patient.class),
 		@ApiResponse(code = 500, message = "서버 오류") })
 	public APIResponse<Void> registPatientById(@RequestBody PatientRequest patientRequest) {
+		log.info(patientRequest.toString());
 		try {
 			Patient patient = new Patient();
 			patient.setID(patientRequest.getID());
@@ -208,15 +209,15 @@ public class EMRController {
 			patient.setSmoking(patientRequest.isSmoking());
 			patient.setAlergy(patientRequest.getAlergy());
 			patient.setSelfmedicine(patientRequest.getSelfmedicine());
-			
+
+			APIResponse<Patient> resp = emrService.registPatientById(patient);
 			
 			PatientWard pw = new PatientWard();
 			pw.setHospitalID(patientRequest.getHospitalID());
 			pw.setWardID(patientRequest.getWardID());
-			pw.setID(patientRequest.getID());
+			pw.setID(resp.getResponseData().getID());
 			pw.setHospitalized(true);
 			
-			emrService.registPatientById(patient);
 			pwRepo.save(pw);
 			
 			return new APIResponse<>(HttpStatus.OK);
@@ -241,7 +242,7 @@ public class EMRController {
 			pwr.setPatient(pr.getResponseData());
 			
 			// 환자 병동 정보 조회
-			PatientWard pw = pwRepo.findById(pwr.getPatient().getPatient().getID()).get();
+			PatientWard pw = pwRepo.findById(id).get();
 			pwr.setHospital(hospitalRepo.findById(pw.getHospitalID()).get());
 			pwr.setWard(wardRepo.findById(pw.getWardID()).get());
 			return new APIResponse(pwr, HttpStatus.OK);

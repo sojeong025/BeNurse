@@ -30,7 +30,7 @@ public interface EMRService {
 
 	// 간호일지 정보 등록 POST
 	@PostMapping(value="/journal")
-	APIResponse<Void> registJournalById(@RequestBody Journal journal);
+	APIResponse<Journal> registJournalById(@RequestBody Journal journal);
 
 	// 모든 간호일지 조회 GET
 	@GetMapping(value="/journal/all")
@@ -56,7 +56,7 @@ public interface EMRService {
 	
 	// 주호소 등록 POST
 	@PostMapping(value="/cc")
-	APIResponse<Void> registPatientById(@RequestBody CC cc);
+	APIResponse<CC> registPatientById(@RequestBody CC cc);
 	
 	// 주호소 삭제 DELETE
 	@DeleteMapping(value="/cc")
@@ -66,7 +66,7 @@ public interface EMRService {
 	
 	// 환자 정보 등록 POST
 	@PostMapping(value="/patient")
-	APIResponse<Void> registPatientById(@RequestBody Patient patient);
+	APIResponse<Patient> registPatientById(@RequestBody Patient patient);
 
 	// 환자 정보 조회 GET
 	@GetMapping(value="/patient")
