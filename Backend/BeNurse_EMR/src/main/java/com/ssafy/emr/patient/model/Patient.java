@@ -81,5 +81,8 @@ public class Patient implements Serializable{
 
 	@Column(name = "SELFMEDICINE")
 	private String selfmedicine;
+	
+	@Column(name = "CC_MAIN")
+	private String ccMain;
 
 }
