@@ -74,17 +74,18 @@ export default function AdminCalendar() {
       ?.toString()
       .padStart(2, "0")}`;
 
-    customAxios
-      .get("Schedule/all", {
-        params: {
-          endDate: endDate,
-          startDate: startDate,
-        },
-      })
-      .then((res) => {
-        setSchedule(res.data.responseData);
-      })
-      .catch((err) => console.log(err));
+    selectedDate &&
+      customAxios
+        .get("Schedule/all", {
+          params: {
+            endDate: endDate,
+            startDate: startDate,
+          },
+        })
+        .then((res) => {
+          setSchedule(res.data.responseData);
+        })
+        .catch((err) => console.log(err));
   }, [selectedDate]);
 
   useEffect(() => {

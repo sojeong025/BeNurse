@@ -130,6 +130,7 @@ export default function DevicePage() {
 
     useLayoutEffect(() => {
       if (target) {
+<<<<<<< Updated upstream
         gsap.to(camera.position, {
           x: 0,
           y: -60,
@@ -137,6 +138,10 @@ export default function DevicePage() {
           duration: 0.8,
           ease: "ease-in-out",
         });
+=======
+        beacon &&
+          gsap.to(camera.position, locationData[beacon.location].camera);
+>>>>>>> Stashed changes
       } else {
         gsap.to(camera.position, {
           x: 1,
