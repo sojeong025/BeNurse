@@ -4,6 +4,7 @@ import Box from "../../components/atoms/Box/Box";
 import Input from "@components/atoms/Input/Input";
 import { customAxios } from "../../libs/axios";
 import { useModalStore } from "../../store/store";
+import { useInviteStore } from "../../store/store";
 import AdminManagementItem from "../../components/templates/Admin/AdminManagementItem";
 
 export default function AdminManagementPage() {
@@ -15,6 +16,7 @@ export default function AdminManagementPage() {
   const [nurseName, setNurseName] = useState("");
   const [showWardForm, setShowWardForm] = useState(false);
   const [inviteCode, setInviteCode] = useState(null);
+  const { isComplete, setIsComplete } = useInviteStore((state) => state);
   const { isModal, OpenModal, CloseModal } = useModalStore((state) => state);
 
   const inputName = (e) => {
@@ -51,6 +53,15 @@ export default function AdminManagementPage() {
       setCount(30);
     }
   };
+
+  useEffect(() => {
+    if (isComplete) {
+      CloseModal();
+      setInviteCode(null);
+      setCount(30);
+      setIsComplete(false);
+    }
+  }, [isComplete]);
 
   useEffect(() => {
     customAxios.get("ward/all").then((res) => {

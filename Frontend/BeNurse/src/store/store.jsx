@@ -102,3 +102,12 @@ export const useWardStore = create((set) => ({
     }));
   },
 }));
+
+export const useInviteStore = create((set) => ({
+  isComplete: false,
+  setIsComplete: (state) => {
+    set(() => ({
+      isComplete: state,
+    }));
+  },
+}));

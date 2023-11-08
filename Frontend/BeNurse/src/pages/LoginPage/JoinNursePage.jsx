@@ -3,6 +3,7 @@ import * as S from "./JoinNursePage.styles";
 import { Common } from "@utils/global.styles.jsx";
 import { useNavigate } from "react-router-dom";
 import { css, keyframes } from "@emotion/react";
+import { useInviteStore } from "../../store/store";
 import { customAxios } from "../../libs/axios";
 
 import Container from "../../components/atoms/Container/Container";
@@ -14,6 +15,7 @@ import join_verify from "@assets/Images/join_verify.png";
 export default function JoinNursePage() {
   const [otp, setOtp] = useState("");
   const [hasErrored, setHasErrored] = useState(false);
+  const { isComplete, setIsComplete } = useInviteStore((state) => state);
   const handleChange = (enteredOtp) => {
     setOtp(enteredOtp);
     setHasErrored(false);
@@ -25,6 +27,7 @@ export default function JoinNursePage() {
     customAxios
       .post("invite/auth", { code: otp })
       .then((res) => {
+        setIsComplete(true);
         navigate("/main");
       })
       .catch((err) => {
