@@ -9,11 +9,11 @@ import PatientDetailProfile from "../../components/templates/Patient/PatientDeta
 
 import { ConfigProvider, Select } from "antd";
 
+import { useDateStore } from "@store/store";
 import { customAxios } from "../../libs/axios";
 
 export default function PatientJournalUpdatePage() {
   const navigate = useNavigate();
-
   const onChange = (value) => {
     setJournal({ ...journal, category: value });
   };

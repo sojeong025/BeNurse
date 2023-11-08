@@ -24,7 +24,9 @@ export default function JournalTimeLine({ patientId }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setSelectedDate(moment().startOf("day"));
+    if (!selectedDate) {
+      setSelectedDate(moment().startOf("day"));
+    }
   }, []);
 
   useEffect(() => {
