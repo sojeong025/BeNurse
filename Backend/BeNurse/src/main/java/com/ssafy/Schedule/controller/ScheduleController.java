@@ -3,7 +3,6 @@ package com.ssafy.Schedule.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.ssafy.Schedule.model.Schedule;
 import com.ssafy.Schedule.model.ScheduleResponse;
 import com.ssafy.Schedule.service.ScheduleRepository;
+import com.ssafy.Schedule.service.ScheduleService;
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.common.utils.IDRequest;
 import com.ssafy.hospital.service.HospitalRepository;
@@ -59,6 +59,9 @@ public class ScheduleController {
 	@Autowired
 	NurseRepository nurseRepo;
 	
+	@Autowired
+	ScheduleService scheduleServ;
+	
 	// 근무일정추가 POST <- 작성자가 권한이 있는지 확인.
 	@PostMapping("")
 	@ApiOperation(value = "근무 일정 추가", notes = "병원, 병동, 간호사, 근무 날짜와 시간, 근무지로 근무 일정을 추가")
@@ -83,31 +86,13 @@ public class ScheduleController {
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<Void> updateScheduleById(@RequestBody Schedule updatedSchedule){
-		Optional<Schedule> optionSchedule = scheduleRepo.findById(updatedSchedule.getID());
-		
-	    if (optionSchedule.isPresent()) {
-	    	Schedule existingSchedule = optionSchedule.get();
-
-	        // 기존 근무일정 정보를 업데이트
-	        if (updatedSchedule.getHospitalID() != 0) {
-	            existingSchedule.setHospitalID(updatedSchedule.getHospitalID());
-	        }
-	        if (updatedSchedule.getWardID() != 0) {
-	            existingSchedule.setWardID(updatedSchedule.getWardID());
-	        }
-	        if (updatedSchedule.getWorktime() != null) {
-	            existingSchedule.setWorktime(updatedSchedule.getWorktime());
-	        }
-	        if (updatedSchedule.getWorkdate() != null) {
-	            existingSchedule.setWorkdate(updatedSchedule.getWorkdate());
-	        }
-	        // 업데이트된 근무일정을 저장
-	        Schedule updated = scheduleRepo.save(existingSchedule);
-
+		try {
+	        Schedule savedSchedule = scheduleServ.save(updatedSchedule);
 	        return new APIResponse<>(HttpStatus.OK);
-	    } else	
+	    } catch (Exception e) {	
+	    	e.printStackTrace();
 	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-	    
+	    }
 	}
 	
 	
@@ -120,15 +105,14 @@ public class ScheduleController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<Void> deleteScheduleById(@RequestBody IDRequest req) {
-	    Optional<Schedule> schedule = scheduleRepo.findById(req.getID());
-
-	    if(schedule.isPresent()) {
-	    	scheduleRepo.delete(schedule.get());
+	    try {
+	    	scheduleServ.delete(req.getID());
 			return new APIResponse(HttpStatus.OK);
-		}
-		else
+		} catch (Exception e) {
+			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
+		}
 	} 
 	
 	
