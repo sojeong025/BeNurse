@@ -61,14 +61,14 @@ public class HandoverSetController {
 	
 	
 	// 인계장 묶음 생성 POST
-	@PostMapping("/")
+	@PostMapping("")
 	@ApiOperation(value = "인계장 묶음 생성", notes = "인계장 묶음 생성")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = HandoverSet.class),
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<HandoverSet> registHandover(@RequestHeader("Authorization") String token, @RequestBody HandoverSet handoverSet) {
+	public APIResponse<HandoverSet> registHandover(@RequestHeader("Authorization") String token) {
 		Nurse nurse;
 		// 사용자 조회
 		try {
@@ -77,6 +77,7 @@ public class HandoverSetController {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
+		HandoverSet handoverSet = new HandoverSet();
 		handoverSet.setGiveID(nurse.getID());
 		// 데이터베이스에 저장
 	    HandoverSet savedHandoverSet = setRepo.save(handoverSet);
@@ -85,7 +86,7 @@ public class HandoverSetController {
 	}
 	
 	// 인계장 묶음 수정 PUT
-	@PutMapping("/")
+	@PutMapping("")
 	@ApiOperation(value = "인계장 묶음 수정", notes = "인계장 묶음 수정")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = HandoverSet.class),
