@@ -55,11 +55,11 @@ public class WardController {
 	    @ApiResponse(code = 404, message = "병원을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Hospital> getHospitalById(@RequestParam("ID") long ID) {
-	    Optional<Hospital> hospital = hospitalRepo.findById(ID);
+	public APIResponse<Ward> getHospitalById(@RequestParam("ID") long ID) {
+	    Optional<Ward> ward = wardRepo.findById(ID);
 
-	    if (hospital.isPresent())
-	        return new APIResponse<>(hospital.get(), HttpStatus.OK);
+	    if (ward.isPresent())
+	        return new APIResponse<>(ward.get(), HttpStatus.OK);
 	    else
 	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}
@@ -125,10 +125,10 @@ public class WardController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<Void> deleteHospitalById(@RequestBody IDRequest req) {
-	    Optional<Hospital> hospital = hospitalRepo.findById(req.getID());
+	    Optional<Ward> ward = wardRepo.findById(req.getID());
 
-	    if(hospital.isPresent()) {
-	    	hospitalRepo.delete(hospital.get());
+	    if(ward.isPresent()) {
+	    	wardRepo.delete(ward.get());
 			return new APIResponse<>(HttpStatus.OK);
 		}
 		else
