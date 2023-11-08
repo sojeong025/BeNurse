@@ -40,7 +40,7 @@ export default function PatientJournalItem({ journal, handleOpenModal }) {
           <hr style={{ width: "100%", border: "0.5px solid #D0BFFF" }} />
           <div className="journal_bottom">
             <div className="journal_type">{journal.category}</div>
-            <div>{journal.writer} 간호사</div>
+            <div>{journal.name} 간호사</div>
           </div>
         </S.JournalContentBox>
       </LongPressable>
