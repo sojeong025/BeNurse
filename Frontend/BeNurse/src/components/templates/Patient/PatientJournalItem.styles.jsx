@@ -35,8 +35,6 @@ export const JournalContentBox = styled.div`
   border-radius: 12px;
   margin-top: -6px;
   transition: all 0.5s ease-in-out;
-  /* border: 1.5px solid
-    ${({ isAuthor }) => (isAuthor ? "#956eff78" : "transparent")}; */
 
   & > .journal_top {
     font-size: ${Common.fontSize.fontXS};
@@ -55,7 +53,18 @@ export const JournalContentBox = styled.div`
   }
 
   & .journal_type {
-    background: ${Common.color.purpleGrad01};
+    background: ${({ type }) =>
+      type == "활력징후"
+        ? "#c4d3ff"
+        : type == "검사 전후 간호"
+        ? "#fff5cf"
+        : type == "수술 전후 간호"
+        ? "#e2ffee"
+        : type == "환자 상태"
+        ? "#ffd6d6"
+        : type == "교육"
+        ? "#ebebeb"
+        : Common.color.purpleGrad01};
     padding: 4px 10px;
     border-radius: 10px;
     color: ${Common.color.black03};

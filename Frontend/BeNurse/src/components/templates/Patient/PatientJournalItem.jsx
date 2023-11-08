@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Common } from "@utils/global.styles";
 import * as S from "./PatientJournalItem.styles";
 import moment from "moment";
 
-import Box from "../../atoms/Box/Box";
 import LongPressable from "react-longpressable";
 
 import { useBottomSheetStore } from "../../../store/store";
@@ -47,6 +45,7 @@ export default function PatientJournalItem({ journal, handleOpenModal }) {
         <S.JournalContentBox
           isAuthor={currentNurseId == journal.writerID}
           isSelected={isSelected}
+          type={journal.category}
         >
           <div className="journal_top">{journal.content}</div>
           <hr style={{ width: "100%", border: "0.5px solid #D0BFFF" }} />
