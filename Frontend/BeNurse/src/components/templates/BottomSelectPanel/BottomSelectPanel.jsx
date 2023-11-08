@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
@@ -52,7 +52,12 @@ export default function BottomSelectPanel({ modifyLabel, deleteLabel }) {
           type={"transparent"}
           size={["412px", "70px"]}
         >
-          <S.PanelButton>
+          <S.PanelButton
+            onClick={(e) => {
+              deleteLink(e);
+              DeactivateEdit();
+            }}
+          >
             <FaTrashAlt
               color="#555555"
               size={18}

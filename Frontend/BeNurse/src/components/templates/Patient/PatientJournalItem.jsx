@@ -8,13 +8,13 @@ import LongPressable from "react-longpressable";
 
 import { useBottomSheetStore } from "../../../store/store";
 
-export default function PatientJournalItem({ journal }) {
+export default function PatientJournalItem({ journal, handleOpenModal }) {
   const { isEditActivated, ActivateEdit, selectedID, setSelectedID } =
     useBottomSheetStore((state) => state);
   const [isSelected, setIsSelected] = useState(false);
 
   const onLongPress = (id) => {
-    ActivateEdit(`${id}/update`, "");
+    ActivateEdit(`${id}/update`, (e) => handleOpenModal(e, id));
   };
 
   const expandItem = () => {
