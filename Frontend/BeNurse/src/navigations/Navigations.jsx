@@ -127,7 +127,7 @@ export default function routes() {
         element={<HandOverWritePage />}
       />
       <Route
-        path="/handover-write/patients/write"
+        path="/handover-write/:patientId/patients/write"
         element={<HandOverWriteStep />}
       />
       <Route

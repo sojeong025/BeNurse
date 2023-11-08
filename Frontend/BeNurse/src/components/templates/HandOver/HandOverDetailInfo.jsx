@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PatientDetailHeader from "@components/templates/Patient/PatientDetailHeader";
 import PatientDetailItem from "@components/templates/Patient/PatientDetailItem";
 import PatientDetailProfile from "@components/templates/Patient/PatientDetailProfile";
@@ -6,28 +6,31 @@ import {
   PatientDetailContainer,
   PatientDetailItemContainer,
 } from "@pages/PatientPage/PatientDetail.styles.jsx";
+import { customAxios } from "../../../libs/axios";
+import { useParams } from "react-router-dom";
 
 export default function HandOverDetailInfo() {
-  const tempPatient = {
-    id: "13",
-    age: "25",
-    discharge: "",
-    disease: "다리 외상",
-    drinking: false,
-    gender: "여",
-    hospitalization: "2023-11-07",
-    history: "당뇨",
-    medicine: "",
-    name: "김이박",
-    selfmedicine: "타이레놀",
-    smoking: true,
-    alergy: "마늘",
-    surgery: "다리 수술",
-    cc: [{ content: "아파요" }],
-  };
+  const [patient, setPatient] = useState({});
+  const { patientId } = useParams();
+  console.log("환자ID", patientId);
+
+  useEffect(() => {
+    customAxios
+      .get("emr/patient?id=" + patientId)
+      .then((res) => {
+        console.log("인수인계 환자 정보 불러오기", res.data.responseData);
+        setPatient({
+          ...res.data.responseData.patient.patient,
+        });
+      })
+      .catch((error) => {
+        console.error("환자 정보 로드 실패:", error);
+      });
+  }, []);
+
   return (
     <div style={{ width: "calc(100% - 28px)", margin: "0 auto" }}>
-      <PatientDetailProfile patient={tempPatient} />
+      <PatientDetailProfile patient={patient} />
       <PatientDetailContainer
         style={{
           overflowY: "scroll",
@@ -46,8 +49,20 @@ export default function HandOverDetailInfo() {
           }}
         >
           <PatientDetailItemContainer>
-            <PatientDetailItem name="진단명" />
-            <PatientDetailItem name="수술명" />
+            <PatientDetailItem
+              name="진단명"
+              value={patient.disease}
+              onChange={(e) => {
+                setPatient({ ...patient, disease: e.target.value });
+              }}
+            />
+            <PatientDetailItem
+              name="수술명"
+              value={patient.surgery}
+              onChange={(e) => {
+                setPatient({ ...patient, surgery: e.target.value });
+              }}
+            />
           </PatientDetailItemContainer>
         </div>
         <PatientDetailHeader type="" />
@@ -61,11 +76,48 @@ export default function HandOverDetailInfo() {
           }}
         >
           <PatientDetailItemContainer>
-            <PatientDetailItem name="병증이력" />
-            <PatientDetailItem name="투약" />
-            <PatientDetailItem name="음주" />
-            <PatientDetailItem name="흡연" />
-            <PatientDetailItem name="알레르기" />
+            <PatientDetailItem
+              name="병증이력"
+              value={patient.history}
+              onChange={(e) => {
+                setPatient({ ...patient, history: e.target.value });
+              }}
+            />
+            <PatientDetailItem
+              name="투약"
+              value={patient.medicine}
+              onChange={(e) => {
+                setPatient({ ...patient, medicine: e.target.value });
+              }}
+            />
+            <PatientDetailItem
+              name="음주"
+              value={patient.drinking}
+              onChange={(e) => {
+                setPatient({ ...patient, drinking: e.target.value });
+              }}
+            />
+            <PatientDetailItem
+              name="흡연"
+              value={patient.smoking}
+              onChange={(e) => {
+                setPatient({ ...patient, smoking: e.target.value });
+              }}
+            />
+            <PatientDetailItem
+              name="알레르기"
+              value={patient.alergy}
+              onChange={(e) => {
+                setPatient({ ...patient, alergy: e.target.value });
+              }}
+            />
+            <PatientDetailItem
+              name="자가약"
+              value={patient.selfmedicine}
+              onChange={(e) => {
+                setPatient({ ...patient, selfmedicine: e.target.value });
+              }}
+            />
           </PatientDetailItemContainer>
         </div>
       </PatientDetailContainer>

@@ -23,11 +23,27 @@ export default function HandOverWritePage() {
   }, []);
 
   // 전체 인계장 SET 생성 => 인계장 ID 생성
+  const [handoversId, setHandoversId] = useState();
   useEffect(() => {
     customAxios.post("HandoverSet").then((res) => {
       console.log("전체 인계장 묶음 ID 생성용", res);
+      setHandoversId(res.data.responseData.id);
     });
   }, []);
+
+  // 환자 카드 선택시 인계장 생성
+  const handlePatientCardClick = (patientInfo) => {
+    setSelectedPatient(patientInfo);
+
+    const handover = {};
+    const data = {
+      handover: handover,
+      setID: handoversId,
+    };
+    customAxios.post("Handover", data).then((res) => {
+      console.log("POST 요청 결과", res);
+    });
+  };
 
   const [patientInfo, setPatientInfo] = useState([]);
 
@@ -104,7 +120,7 @@ export default function HandOverWritePage() {
               <NavLink
                 to={patientInfo.id + "/patients/write"}
                 key={patientInfo.id}
-                onClick={() => setSelectedPatient(patientInfo)}
+                onClick={handlePatientCardClick}
               >
                 <PatientItem
                   type="handoverpatient"
