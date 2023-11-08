@@ -110,6 +110,7 @@ public class EMRController {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		journal.setWriterID(nurse.getID());
+		journal.setName(nurse.getName());
 		return emrService.registJournalById(journal);
 	}
 
