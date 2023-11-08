@@ -1,6 +1,7 @@
 package com.ssafy.emr.patient.controller;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,7 @@ public class JournalController {
 	})
 	public APIResponse<Journal> registJournalById(@RequestBody Journal journal) {
 		log.info(journal.toString());
-		journal.setDatetime(LocalDateTime.now());
+		journal.setDatetime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
 		Journal savedJournal = journalRepo.save(journal);
 		return new APIResponse(savedJournal, HttpStatus.CREATED);
 	}
