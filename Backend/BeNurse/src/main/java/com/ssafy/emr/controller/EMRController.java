@@ -2,7 +2,6 @@ package com.ssafy.emr.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.PatientWard.model.PatientWard;
 import com.ssafy.PatientWard.service.PatientWardRepository;
+import com.ssafy.PatientWard.service.PatientWardService;
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.emr.model.CC;
 import com.ssafy.emr.model.Journal;
@@ -30,8 +30,8 @@ import com.ssafy.emr.model.PatientWardResponse;
 import com.ssafy.emr.service.EMRService;
 import com.ssafy.emr.utils.JournalSearchCondition;
 import com.ssafy.hospital.model.Hospital;
-import com.ssafy.hospital.service.HospitalRepository;
-import com.ssafy.hospital.service.WardRepository;
+import com.ssafy.hospital.service.HospitalService;
+import com.ssafy.hospital.service.WardService;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
 
@@ -53,13 +53,16 @@ public class EMRController {
 	EMRService emrService;
 	
 	@Autowired
-	HospitalRepository hospitalRepo;
+	HospitalService hospitalServ;
 	
 	@Autowired
-	WardRepository wardRepo;
+	WardService wardServ;
 	
 	@Autowired
 	PatientWardRepository pwRepo;
+	
+	@Autowired
+	PatientWardService pwServ;
 	
 	@Autowired
 	OauthService oauthService;
@@ -251,9 +254,9 @@ public class EMRController {
 			pwr.setPatient(pr.getResponseData());
 			
 			// 환자 병동 정보 조회
-			PatientWard pw = pwRepo.findById(id).get();
-			pwr.setHospital(hospitalRepo.findById(pw.getHospitalID()).get());
-			pwr.setWard(wardRepo.findById(pw.getWardID()).get());
+			PatientWard pw = pwServ.findById(id);
+			pwr.setHospital(hospitalServ.findById(pw.getHospitalID()));
+			pwr.setWard(wardServ.findById(pw.getWardID()));
 			return new APIResponse(pwr, HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -279,9 +282,12 @@ public class EMRController {
 		List<PatientWardResponse> resp = new ArrayList<>();
 		List<PatientWard> pwlist = pwRepo.findAllByHospitalIDAndIsHospitalized(nurse.getHospitalID(), true);
 		
-		Optional<Hospital> hospital = hospitalRepo.findById(nurse.getHospitalID());
-		if(hospital.isEmpty())
+		Hospital hospital;
+		try {
+			hospital = hospitalServ.findById(nurse.getHospitalID());
+		}catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		}
 		
 		for(PatientWard pw : pwlist) {
 			try {
@@ -292,8 +298,8 @@ public class EMRController {
 					continue;
 				}
 				pwr.setPatient(pr.getResponseData());
-				pwr.setHospital(hospital.get());
-				pwr.setWard(wardRepo.findById(pw.getWardID()).get());
+				pwr.setHospital(hospital);
+				pwr.setWard(wardServ.findById(pw.getWardID()));
 				resp.add(pwr);
 			}catch (Exception e) {
 				log.error("not valid patient (id:"+pw.getID()+")");
@@ -321,10 +327,11 @@ public class EMRController {
 		List<PatientResponse> resp = new ArrayList<>();
 		List<PatientWard> pwlist = pwRepo.findAllByHospitalIDAndIsHospitalizedAndWardID(nurse.getHospitalID(), true, nurse.getWardID());
 		
-		Optional<Hospital> hospital = hospitalRepo.findById(nurse.getHospitalID());
-		
-		if(hospital.isEmpty())
+		try {
+			Hospital hospital = hospitalServ.findById(nurse.getHospitalID());
+		}catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		}
 		
 		for(PatientWard pw : pwlist) {
 			try {
@@ -361,9 +368,9 @@ public class EMRController {
 			
 				try {
 					// 환자 병동 정보 조회
-					PatientWard pw = pwRepo.findById(pwr.getPatient().getPatient().getID()).get();
-					pwr.setHospital(hospitalRepo.findById(pw.getHospitalID()).get());
-					pwr.setWard(wardRepo.findById(pw.getWardID()).get());
+					PatientWard pw = pwServ.findById(pwr.getPatient().getPatient().getID());
+					pwr.setHospital(hospitalServ.findById(pw.getHospitalID()));
+					pwr.setWard(wardServ.findById(pw.getWardID()));
 					pwrlist.add(pwr);
 				}catch (Exception e) {
 					log.error("not valid patient (id:"+pwr.getPatient().getPatient().getID()+")");

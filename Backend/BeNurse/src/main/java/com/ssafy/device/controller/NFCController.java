@@ -19,12 +19,13 @@ import com.ssafy.device.model.Device;
 import com.ssafy.device.model.DeviceHistory;
 import com.ssafy.device.model.NFC;
 import com.ssafy.device.model.NFCResponse;
-import com.ssafy.device.model.PatientNFC;
 import com.ssafy.device.service.DeviceHistoryRepository;
 import com.ssafy.device.service.DeviceRepository;
+import com.ssafy.device.service.DeviceService;
 import com.ssafy.device.service.NFCRepository;
 import com.ssafy.device.service.NFCService;
 import com.ssafy.device.service.PatientNFCRepository;
+import com.ssafy.device.service.PatientNFCService;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
 
@@ -46,7 +47,13 @@ public class NFCController {
 	PatientNFCRepository pnfcRepo;
 	
 	@Autowired
+	PatientNFCService pnfcServ;
+
+	@Autowired
 	DeviceRepository deviceRepo;
+	
+	@Autowired
+	DeviceService deviceServ;
 	
 	@Autowired
 	DeviceHistoryRepository dhRepo;
@@ -70,10 +77,10 @@ public class NFCController {
 	    	NFC nfc = nfcServ.findById(ID);
 	    	NFCResponse resp;
 	    	if(nfc.isDevice()) {
-	    		resp = deviceRepo.findById(ID).get();
+	    		resp = deviceServ.findById(ID);
 	    		resp.setDevice(true);
 	    	}else {
-				resp = pnfcRepo.findById(ID).get();
+				resp = pnfcServ.findById(ID);
 				resp.setDevice(false);
 	    	}
 	        return new APIResponse(resp, HttpStatus.OK);
@@ -108,21 +115,15 @@ public class NFCController {
 	    try {
 	    	NFC nfc = nfcServ.findById(ID);
 	    	if(nfc.isDevice()) {
-	    		Optional<Device> device = deviceRepo.findById(ID);
-	    		if(device.isPresent()) {
-		    		List<DeviceHistory> list = dhRepo.findAllByDeviceID(ID);
-			    	for(DeviceHistory l : list) {
-			    		dhRepo.delete(l);
-			    	}
-	    		}
-	    		deviceRepo.delete(device.get());
+	    		Device device = deviceServ.findById(ID);
+	    		List<DeviceHistory> list = dhRepo.findAllByDeviceID(ID);
+		    	for(DeviceHistory l : list)
+		    		dhRepo.delete(l);
+		    	
+	    		deviceRepo.delete(device);
 	    	}
-	    	else {
-	    		Optional<PatientNFC> pnfc = pnfcRepo.findById(ID);
-	    		if(pnfc.isPresent()) {
-	    			pnfcRepo.delete(pnfc.get());
-	    		}
-	    	}
+	    	else
+	    			pnfcServ.delete(ID);
 	    		
 	    	nfcRepo.delete(nfc);
 			return new APIResponse(HttpStatus.OK);

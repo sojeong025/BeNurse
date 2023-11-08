@@ -23,7 +23,9 @@ import com.ssafy.device.model.DeviceHistory;
 import com.ssafy.device.model.NFC;
 import com.ssafy.device.service.DeviceHistoryRepository;
 import com.ssafy.device.service.DeviceRepository;
+import com.ssafy.device.service.DeviceService;
 import com.ssafy.device.service.NFCRepository;
+import com.ssafy.hospital.model.Hospital;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
 
@@ -42,7 +44,7 @@ public class DeviceController {
 	DeviceRepository deviceRepo;
 	
 	@Autowired
-	DeviceHistoryRepository dhRepo;
+	DeviceService deviceServ;
 	
 	@Autowired
 	NFCRepository nfcRepo;
@@ -101,17 +103,14 @@ public class DeviceController {
 		if(!nurse.isAdmin())
 			throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
 		
-		Optional<Device> optionDevice = deviceRepo.findById(updatedDevice.getID());
-		
-	    if (optionDevice.isPresent()) {
-	        Device existingDevice = optionDevice.get();
-
-	        deviceRepo.save(existingDevice);
-
-	        return new APIResponse<>(existingDevice, HttpStatus.OK);
-	    } else	
+		try {
+			// 업데이트된 병원 정보를 저장
+			Device savedDevice = deviceServ.save(updatedDevice);
+	        return new APIResponse<>(savedDevice, HttpStatus.OK);
+	    }catch (Exception e) {
+	    	e.printStackTrace();
 	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-	    
+	    }
 	}
 		
 //		// 장비 삭제 DELETE

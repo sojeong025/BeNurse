@@ -1,8 +1,6 @@
 package com.ssafy.device.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.device.model.Beacon;
 import com.ssafy.device.service.BeaconRepository;
+import com.ssafy.device.service.BeaconService;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
 
@@ -37,6 +36,9 @@ public class BeaconController {
 
 	@Autowired
 	BeaconRepository beaconRepo;
+	
+	@Autowired
+	BeaconService beaconServ;
 	
 	@Autowired
 	OauthService oauthService;
@@ -87,16 +89,14 @@ public class BeaconController {
 		if(!nurse.isAdmin())
 			throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
 		
-		Optional<Beacon> optionBeacon = beaconRepo.findById(updatedBeacon.getID());
-		
-	    if (optionBeacon.isPresent()) {
-	        Beacon existingBeacon = optionBeacon.get();
-
-	        beaconRepo.save(existingBeacon);
-
-	        return new APIResponse<>(existingBeacon, HttpStatus.OK);
-	    } else	
+		try {
+			// 업데이트된 병원 정보를 저장
+			Beacon savedBeacon = beaconServ.save(updatedBeacon);
+	        return new APIResponse<>(savedBeacon, HttpStatus.OK);
+	    }catch (Exception e) {
+	    	e.printStackTrace();
 	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	    }
 	    
 	}
 	
@@ -121,14 +121,13 @@ public class BeaconController {
 		if(!nurse.isAdmin())
 			throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
 		
-		Optional<Beacon> beacon = beaconRepo.findById(ID);
-
-	    if(beacon.isPresent()) {
-	    	beaconRepo.delete(beacon.get());
-			return new APIResponse(HttpStatus.OK);
-		}
-		else
+		try {
+	    	beaconServ.delete(ID);
+			return new APIResponse<>(HttpStatus.OK);
+	    }catch (Exception e) {
+	    	e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	    }
 	}
 	
 	// 전체 바콘 조회 GET
@@ -161,11 +160,12 @@ public class BeaconController {
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<Beacon> getBeaconById(@RequestParam("ID") String ID) {
-		Optional<Beacon> beacon = beaconRepo.findById(ID);
-
-	    if (beacon.isPresent())
-	        return new APIResponse(beacon.get(), HttpStatus.OK);
-	    else
-	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		try {
+			Beacon beacon = beaconServ.findById(ID);
+			return new APIResponse<>(beacon, HttpStatus.CREATED);
+		}catch (Exception e) {
+			e.printStackTrace();
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND); 
+		}
 	}
 }

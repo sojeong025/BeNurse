@@ -1,5 +1,6 @@
 package com.ssafy.Handover.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -32,7 +33,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-public class HandoverSet {
+public class HandoverSet implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
