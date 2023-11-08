@@ -78,6 +78,7 @@ public class DeviceController {
 		nfc.setDevice(true);
 		nfcRepo.save(nfc);
 		
+		device.setHospitalID(nurse.getHospitalID());
 		Device savedDevice = deviceRepo.save(device);
 		return new APIResponse<>(savedDevice, HttpStatus.OK);
 	}
