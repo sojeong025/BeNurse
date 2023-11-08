@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import patient_default from "@assets/Images/patient_default.png";
 
 export default function PatientImages({
   gender,
@@ -7,6 +8,11 @@ export default function PatientImages({
   style,
   className,
 }) {
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleImageLoad = () => {
+    setIsCompleted(true);
+  };
   const [src, setSrc] = useState("");
   const women = [
     [
@@ -81,11 +87,24 @@ export default function PatientImages({
   return (
     <>
       <img
+        width="60px"
+        height="60px"
         className={className}
-        src={src}
+        src={isCompleted ? src : patient_default}
         style={style}
         alt=""
+        onLoad={handleImageLoad}
       />
+      {/* {!isCompleted && (
+        <img
+          width="60px"
+          height="60px"
+          className={className}
+          src={patient_default}
+          style={style}
+          alt=""
+        />
+      )} */}
     </>
   );
 }
