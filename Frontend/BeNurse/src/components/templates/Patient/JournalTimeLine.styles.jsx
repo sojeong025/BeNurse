@@ -20,7 +20,7 @@ export const JournalItemContainer = styled.div`
     position: absolute;
     top: 0;
     left: 21px;
-    height: 110%;
+    height: 113%;
     border-left: 2px solid ${Common.color.purple04};
     margin-top: -14px;
   }

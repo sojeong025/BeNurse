@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Common } from "../../../utils/global.styles";
+import { customAxios } from "../../../libs/axios";
 
-import nurse from "@assets/Images/patient_temp.png";
+import nurseImg from "@assets/Images/patient_temp.png";
 
-export default function RecentUsageItem() {
+export default function RecentUsageItem({ log }) {
+  const [nurse, setNurse] = useState(null);
+  const [time, setTime] = useState(null);
+  const [ward, setWard] = useState(null);
+
+  useEffect(() => {
+    customAxios.get("nurse?ID=" + log.nurseID).then((res) => {
+      setNurse(res.data.responseData);
+      customAxios.get("ward?ID=" + res.data.responseData.wardID).then((res) => {
+        setWard(res.data.responseData);
+      });
+    });
+
+    setTime(log.time.slice(11, 16));
+  }, []);
   return (
     <div
       style={{
@@ -20,7 +35,7 @@ export default function RecentUsageItem() {
           color: Common.color.purple04,
         }}
       >
-        08:20
+        {time && time}
       </p>
       <div
         style={{
@@ -36,7 +51,7 @@ export default function RecentUsageItem() {
             border: "1px solid gray",
             borderRadius: "50px",
           }}
-          src={nurse}
+          src={nurseImg}
           alt=""
         />
         <div
@@ -51,9 +66,11 @@ export default function RecentUsageItem() {
               marginBottom: "4px",
             }}
           >
-            정소정 간호사
+            {nurse && nurse.name} 간호사
           </p>
-          <p>내과 A병동 2년차</p>
+          <p>
+            {ward && ward.name} {nurse && nurse.annual}년차
+          </p>
         </div>
       </div>
       <p
@@ -62,7 +79,7 @@ export default function RecentUsageItem() {
           fontWeight: Common.fontWeight.bold,
         }}
       >
-        김갑수 환자
+        {log.patientName} 환자
       </p>
     </div>
   );
