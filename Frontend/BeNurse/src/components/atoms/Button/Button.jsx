@@ -27,7 +27,7 @@ export default function Button({
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
-  variant: PropTypes.oneOf(["default", "primary", "secondary"]),
+  variant: PropTypes.oneOf(["default", "primary", "secondary", "danger"]),
   width: PropTypes.string,
 };
 
