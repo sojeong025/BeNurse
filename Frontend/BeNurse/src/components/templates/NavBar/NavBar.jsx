@@ -36,6 +36,7 @@ export default function NavBar({ onTempSave }) {
     "/notice/write",
     "/off-application",
     "/off-application-write",
+    "/handover-write",
   ];
 
   // 알림버튼 필요하면 여기 넣기
@@ -46,7 +47,9 @@ export default function NavBar({ onTempSave }) {
   const temSaveRoutes = ["/handover-write"];
 
   const path = useLocation().pathname;
-  const shouldDisplayBackIcon = backRoutes.includes(path);
+  const shouldDisplayBackIcon = backRoutes.some((route) =>
+    path.startsWith(route),
+  );
   const shouldDisplayNextIcon = nextRoutes.includes(path);
   const shouldDisplayTempSaveIcon = temSaveRoutes.some((route) =>
     path.startsWith(route),

@@ -94,10 +94,20 @@ export default function HandOverWritePage() {
                 {String(currentDate.getDate()).padStart(2, "0")} ({day}) 인계장
               </p>
             </div>
+            <div
+              style={{
+                fontSize: "14px",
+                margin: "20px 0",
+                lineHeight: "22px",
+              }}
+            >
+              📩 각 환자의 상태와 필요한 정보를 포함한 <br />
+              인계장을 작성하여, 담당 인수자에게 전달하세요.
+            </div>
             <div>
               <Input
                 variant={"search"}
-                placeholder={"환자 이름으로 검색"}
+                placeholder={"담당 병동 내 환자 이름으로 검색"}
               />
             </div>
           </Select>
@@ -105,20 +115,21 @@ export default function HandOverWritePage() {
           <div
             style={{
               width: "100%",
-              height: "550px",
+              height: "530px",
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "flex-start",
               alignItems: "flex-start",
               gap: "9px",
               overflowY: "auto",
-              paddingBottom: "40px",
+              paddingTop: "5px",
+              paddingBottom: "30px",
               boxSizing: "border-box",
             }}
           >
             {patientInfo.map((patientInfo) => (
               <NavLink
-                to={patientInfo.id + "/patients/write"}
+                to={"/handover-write/" + patientInfo.id}
                 key={patientInfo.id}
                 onClick={handlePatientCardClick}
               >
@@ -134,7 +145,7 @@ export default function HandOverWritePage() {
         {/* 인수자 선택
         - 환자가 최소 1명 이상 선택되었을 경우 뜨도록
       */}
-        <div
+        {/* <div
           style={{
             position: "absolute",
             top: "720px",
@@ -148,7 +159,7 @@ export default function HandOverWritePage() {
           >
             인수자 선택
           </Button>
-        </div>
+        </div> */}
       </div>
     </Container>
   );
