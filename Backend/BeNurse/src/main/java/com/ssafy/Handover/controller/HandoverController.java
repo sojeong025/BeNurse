@@ -1,10 +1,6 @@
 package com.ssafy.Handover.controller;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +18,7 @@ import com.ssafy.Handover.model.HandoverList;
 import com.ssafy.Handover.model.HandoverPostRequest;
 import com.ssafy.Handover.service.HandoverListRepository;
 import com.ssafy.Handover.service.HandoverRepository;
+import com.ssafy.Handover.service.HandoverService;
 import com.ssafy.Handover.service.HandoverSetRepository;
 import com.ssafy.Handover.service.MyHandoverRepository;
 import com.ssafy.common.utils.APIResponse;
@@ -40,6 +37,9 @@ public class HandoverController {
 
 	@Autowired
 	HandoverRepository handoverRepo;
+	
+	@Autowired
+	HandoverService handoverServ;
 	
 	@Autowired
 	HandoverSetRepository handvoersetRepo;
@@ -81,28 +81,14 @@ public class HandoverController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<Handover> updateHandoverById(@RequestBody Handover updatedHandover) {
-		Optional<Handover> optionHandover = handoverRepo.findById(updatedHandover.getID());
-		
-	    if (optionHandover.isPresent()) {
-	        Handover existingHandover = optionHandover.get();
-
-	        // 기존 인계장 정보를 업데이트
-	        if (updatedHandover.getSpecial() != null) {
-	        	existingHandover.setSpecial(updatedHandover.getSpecial());
-	        }
-	        if (updatedHandover.getEtc() != null) {
-	        	existingHandover.setEtc(updatedHandover.getEtc());
-	        }
-	        if (updatedHandover.getCc() != null) {
-	        	existingHandover.setCc(updatedHandover.getCc());
-	        }
-
-	        // 업데이트된 인계장을 저장
-	        handoverRepo.save(existingHandover);
-
-	        return new APIResponse<>(existingHandover, HttpStatus.OK);
-	    } else	
+		try {
+			// 업데이트된 인계장 정보를 저장
+	    	Handover savedHandover = handoverServ.save(updatedHandover);
+	        return new APIResponse<>(savedHandover, HttpStatus.OK);
+	    }catch (Exception e) {
+	    	e.printStackTrace();
 	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	    }
 	}
 	
 	// 인수자 인계장 조회 GET
@@ -114,12 +100,13 @@ public class HandoverController {
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<Handover> getHandoverById(@RequestParam("ID") long ID) {
-	    Optional<Handover> handover = handoverRepo.findById(ID);
-
-	    if (handover.isPresent())
-	        return new APIResponse<>(handover.get(), HttpStatus.OK);
-	    else
+	    try {
+	    	Handover handover = handoverServ.findById(ID);
+	    	return new APIResponse<>(handover, HttpStatus.OK);
+	    }catch (Exception e) {
+	    	e.printStackTrace();
 	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	// 인계장 삭제 DELETE
@@ -130,15 +117,13 @@ public class HandoverController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-    @CacheEvict(value = "handover", key="#ID")
 	public APIResponse<Void> deleteHandoverById(@RequestBody IDRequest req) {
-	    Optional<Handover> handover = handoverRepo.findById(req.getID());
-
-	    if(handover.isPresent()) {
-	    	handoverRepo.delete(handover.get());
-			return new APIResponse(HttpStatus.OK);
-		}
-		else
+		try {
+	    	handoverServ.delete(req.getID());
+			return new APIResponse<>(HttpStatus.OK);
+	    }catch (Exception e) {
+	    	e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	    }
 	} 
 } 

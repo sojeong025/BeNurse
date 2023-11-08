@@ -20,7 +20,9 @@ import com.ssafy.Handover.model.MyHandover;
 import com.ssafy.Handover.model.ResponseSet;
 import com.ssafy.Handover.request.MyHandoverPostRequest;
 import com.ssafy.Handover.service.HandoverSetRepository;
+import com.ssafy.Handover.service.HandoverSetService;
 import com.ssafy.Handover.service.MyHandoverRepository;
+import com.ssafy.Handover.service.MyHandoverService;
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
@@ -42,7 +44,13 @@ public class MyHandoverController {
 	MyHandoverRepository myhoRepo;
 	
 	@Autowired
+	MyHandoverService myhoServ;
+	
+	@Autowired
 	HandoverSetRepository setRepo;
+	
+	@Autowired
+	HandoverSetService setServ;
 	
 	@Autowired
 	OauthService oauthService;
@@ -89,14 +97,18 @@ public class MyHandoverController {
 		
 		List<ResponseSet> resp = new ArrayList<>();
 		for(MyHandover mh : myhandover) {
-			ResponseSet rs = new ResponseSet();
-			HandoverSet set = setRepo.findById(mh.getSetID()).get();
-			rs.setHandoverSetID(set.getID());
-			rs.setGiveID(set.getGiveID());
-			rs.setTakeID(mh.getTakeID());
-			rs.setTime(set.getTime());
-			rs.setReaded(mh.isReaded());
-			resp.add(rs);
+			try {
+				ResponseSet rs = new ResponseSet();
+				HandoverSet set = setServ.findById(mh.getSetID());
+				rs.setHandoverSetID(set.getID());
+				rs.setGiveID(set.getGiveID());
+				rs.setTakeID(mh.getTakeID());
+				rs.setTime(set.getTime());
+				rs.setReaded(mh.isReaded());
+				resp.add(rs);
+			}catch (Exception e) {
+				log.error("not found myHandoverSet (id:"+mh.getSetID()+")");
+			}
 		}
 		
 	    return new APIResponse<>(resp, HttpStatus.OK);

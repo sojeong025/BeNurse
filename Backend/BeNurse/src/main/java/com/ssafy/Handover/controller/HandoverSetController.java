@@ -1,6 +1,5 @@
 package com.ssafy.Handover.controller;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,8 +25,11 @@ import com.ssafy.Handover.model.HandoverSet;
 import com.ssafy.Handover.model.MyHandover;
 import com.ssafy.Handover.service.HandoverListRepository;
 import com.ssafy.Handover.service.HandoverRepository;
+import com.ssafy.Handover.service.HandoverService;
 import com.ssafy.Handover.service.HandoverSetRepository;
+import com.ssafy.Handover.service.HandoverSetService;
 import com.ssafy.Handover.service.MyHandoverRepository;
+import com.ssafy.Handover.service.MyHandoverService;
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.common.utils.IDRequest;
 import com.ssafy.nurse.model.Nurse;
@@ -37,15 +39,20 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin(origins = "*")
 @Api(value = "인계장 묶음 API", tags = { "인계장 묶음." })
 @RestController
 @RequestMapping("/api/benurse/HandoverSet")
+@Slf4j
 public class HandoverSetController {
 	
 	@Autowired
 	HandoverSetRepository setRepo;
+	
+	@Autowired
+	HandoverSetService setServ;
 	
 	@Autowired
 	HandoverListRepository listRepo;
@@ -54,7 +61,13 @@ public class HandoverSetController {
 	HandoverRepository handoverRepo;
 	
 	@Autowired
+	HandoverService handoverServ;
+	
+	@Autowired
 	MyHandoverRepository myhoRepo;
+	
+	@Autowired
+	MyHandoverService myhoServ;
 	
 	@Autowired
 	OauthService oauthService;
@@ -94,17 +107,14 @@ public class HandoverSetController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<HandoverSet> updateHandoverSetById(@RequestBody HandoverSet updatedHandoverSet) {
-		Optional<HandoverSet> optionHandoverSet = setRepo.findById(updatedHandoverSet.getID());
-		
-	    if (optionHandoverSet.isPresent()) {
-	        updatedHandoverSet.setTime(LocalDateTime.now());
-	        
-	        // 업데이트된 인계장을 저장
-	        setRepo.save(updatedHandoverSet);
-
-	        return new APIResponse<>(updatedHandoverSet, HttpStatus.OK);
-	    } else	
+		try {
+			// 업데이트된 인계장을 저장
+			HandoverSet savedHandoverSet = setServ.save(updatedHandoverSet);
+	        return new APIResponse<>(savedHandoverSet, HttpStatus.OK);
+	    }catch (Exception e) {
+	    	e.printStackTrace();
 	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	    }
 	}
 
 	// 인수자 인계장 조회 GET [인계자 ID]
@@ -141,22 +151,13 @@ public class HandoverSetController {
 	})
     @CacheEvict(value = "handoverSet", key="#ID")
 	public APIResponse<Void> deleteHandoverSetById(@RequestBody IDRequest req) {
-	    Optional<HandoverSet> handoverSet = setRepo.findById(req.getID());
-
-	    if(handoverSet.isPresent()) {
-	    	List<HandoverList> list = listRepo.findAllBySetID(req.getID());
-	    	for(HandoverList l : list) {
-	    		Optional<Handover> handover = handoverRepo.findById(l.getHandoverID());
-	    		if(handover.isPresent())
-	    			handoverRepo.delete(handover.get());
-	    		listRepo.delete(l);
-	    	}
-
-	    	setRepo.delete(handoverSet.get());
-			return new APIResponse(HttpStatus.OK);
-		}
-		else
+		try {
+	    	setServ.delete(req.getID());
+			return new APIResponse<>(HttpStatus.OK);
+	    }catch (Exception e) {
+	    	e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	    }
 	}  
 
 	// 인수자 인계장 조회 GET [인계자 ID]
@@ -179,25 +180,29 @@ public class HandoverSetController {
 		}
 		
 		// 읽음 여부 갱신
-		Optional<HandoverSet> handoverSet = setRepo.findById(ID);
-		if (handoverSet.isPresent()) {
-	    	Optional<MyHandover> optionmh = myhoRepo.findBySetIDAndTakeIDAndReaded(ID, nurse.getID(),"N");
+		try {
+			HandoverSet handoverSet = setServ.findById(ID);
+	    	Optional<MyHandover> optionmh = myhoRepo.findBySetIDAndTakeIDAndReaded(ID, nurse.getID(), false);
+	    	
 	    	//
 	    	if(optionmh.isPresent()) {
 	    		MyHandover mh = optionmh.get();
 	    		mh.setReaded(true);
-	    		myhoRepo.save(mh);
+	    		myhoServ.save(mh);
 	    	}
-	    }else
+	    }catch (Exception e) {
 	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		
+	    }
 		
 		List<HandoverList> list = listRepo.findAllBySetID(ID);
 		List<Handover> resp = new ArrayList<>();
 		for(HandoverList l : list) {
-			Optional<Handover> handover = handoverRepo.findById(l.getHandoverID());
-			if(handover.isPresent())
-				resp.add(handover.get());
+			try {
+				Handover handover = handoverServ.findById(l.getHandoverID());
+				resp.add(handover);
+			}catch (Exception e) {
+				log.error("not found handover (id:"+ l.getHandoverID() +")");
+			}
 		}
 		return new APIResponse<>(resp, HttpStatus.OK);
 	}
