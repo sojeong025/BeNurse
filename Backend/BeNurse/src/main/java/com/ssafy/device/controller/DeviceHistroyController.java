@@ -27,11 +27,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin(origins = "*")
 @Api(value = "장비 사용 API", tags = { "장비 사용 기록." })
 @RestController
 @RequestMapping("/api/benurse/device-history")
+@Slf4j
 public class DeviceHistroyController {
 	
 	@Autowired
@@ -75,7 +77,10 @@ public class DeviceHistroyController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public APIResponse<List<DeviceHistory>> getAllDevice(@RequestParam("DeviceID") String deviceID) {
-		List<DeviceHistory> deviceHistory = dhRepo.findAllByDeviceID(deviceID);
+		LocalDateTime now = LocalDateTime.now();
+		log.info(now.minusDays(3).toString());	
+		log.info(now.toString());
+		List<DeviceHistory> deviceHistory = dhRepo.findAllByDeviceIDAndTimeBetween(deviceID, now.minusDays(3), now);
 	    return new APIResponse<>(deviceHistory, HttpStatus.OK);
 	}
 }
