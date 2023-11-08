@@ -43,12 +43,14 @@ export default function NavBar({ onTempSave }) {
   // 다음 버튼 필요하면 여기 넣기
   const nextRoutes = ["/off-application"];
   // 임시저장 필요하면 여기 넣기
-  const temSaveRoutes = ["/handover-write/patients/write"];
+  const temSaveRoutes = ["/handover-write"];
 
   const path = useLocation().pathname;
   const shouldDisplayBackIcon = backRoutes.includes(path);
   const shouldDisplayNextIcon = nextRoutes.includes(path);
-  const shouldDisplayTempSaveIcon = temSaveRoutes.includes(path);
+  const shouldDisplayTempSaveIcon = temSaveRoutes.some((route) =>
+    path.startsWith(route),
+  );
   const shouldDisplayBellIcon =
     !nextRoutes.includes(path) && bellRoutes.includes(path);
 
@@ -99,8 +101,14 @@ export default function NavBar({ onTempSave }) {
         setNavBoxShadow("0px 4px 8px 0px rgba(213, 213, 213, 0.36) ");
         setVisibility("flex");
       }
-    } else if (path.startsWith("/handover")) {
+    } else if (path === "/handover") {
       setNavTitle("인수인계");
+      setNavColor(Common.color.white01);
+      setNavFontColor(Common.color.black03);
+      setNavBoxShadow("0px 4px 8px 0px rgba(213, 213, 213, 0.36) ");
+      setVisibility("flex");
+    } else if (path.startsWith("/handover-write")) {
+      setNavTitle("인수인계 작성");
       setNavColor(Common.color.white01);
       setNavFontColor(Common.color.black03);
       setNavBoxShadow("0px 4px 8px 0px rgba(213, 213, 213, 0.36) ");
@@ -183,7 +191,7 @@ export default function NavBar({ onTempSave }) {
             width: "80px",
             fontSize: "16px",
             fontWeight: "bold",
-            color: "blue",
+            color: Common.color.purple03,
           }}
         >
           임시저장
