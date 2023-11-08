@@ -7,10 +7,7 @@ import { BsCalendarPlus } from "react-icons/bs";
 import Box from "@components/atoms/Box/Box";
 import PatientImages from "./PatientImages";
 
-// Images
-import patientImg from "@assets/Images/patient_male.png";
-
-export default function PatientItem({ type, patientInfo }) {
+export default function PatientItem({ patientInfo, type }) {
   return (
     <Box
       type={"white"}
