@@ -19,7 +19,7 @@ import BleManager, {
   Peripheral,
 } from 'react-native-ble-manager';
 
-import {data_templat, our_beacon, temp_data} from './interface';
+import {data_templat, proptemplat} from './interface';
 import axios, {AxiosResponse} from 'axios';
 ///////////////////////////////////////////////////////////////////////////////
 //ble신호 스캔 시작 함수
@@ -73,19 +73,17 @@ const SECONDS_TO_SCAN_FOR = 7;
 const SERVICE_UUIDS: string[] = [];
 const ALLOW_DUPLICATES = false;
 
-function Native(nurse: string, Auth: string) {
-  const [read_data, setread_data] = useState<data_templat>(
-    new data_templat(nurse),
-  );
+function Native(prop: proptemplat) {
+  const [read_data, setread_data] = useState<data_templat>(new data_templat());
   const [infostatus, setinfostatus] = useState<Number>(0);
   const beacon = useRef<string[]>([]);
-  const init = useRef(true);
-  const isblescan = useRef(false);
+  const init = useRef<boolean>(true);
+  const isblescan = useRef<boolean>(false);
 
   //저장된 정보를 초기화
   async function rescan() {
     isblescan.current = false;
-    setread_data(new data_templat(nurse));
+    setread_data(new data_templat());
     setinfostatus(0);
 
     Alert.alert('다시 스캔', '스캔을 다시 시작합니다.');
@@ -158,6 +156,7 @@ function Native(nurse: string, Auth: string) {
       });
   };
 
+  //스캔이 종료되었을 때 스캔된 비콘중 필터링 이후 가장 가까운 비콘 출력
   const whenscanstopped = () => {
     console.debug('[ScanStop] scan is stopped.');
     BleManager.getDiscoveredPeripherals([])
@@ -175,7 +174,7 @@ function Native(nurse: string, Auth: string) {
       });
   };
 
-  const get_our_beacon = (Auth: String) => {
+  const get_our_beacon = (Auth: string) => {
     interface beacon {
       location: string;
       floor: number;
@@ -192,8 +191,7 @@ function Native(nurse: string, Auth: string) {
     const url = 'https://k9e105.p.ssafy.io:9000/api/benurse/beacon/all';
     const headers = {
       accept: '*/*',
-      Authorization:
-        'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzamFzMDQyQG5hdmVyLmNvbSIsImF1dGgiOiJVc2VyIiwiZXhwIjoxNjk5NDEzNzIxfQ.IKMGVEFh6bfiIYvlpYl59m3-7RZWirPoaj51OwdDPOI',
+      Authorization: Auth,
     };
 
     axios
@@ -213,7 +211,7 @@ function Native(nurse: string, Auth: string) {
     // 최초 랜더링 시에만 실행
     if (init.current) {
       //현재 병원의 비콘 받아오기
-      get_our_beacon(Auth);
+      get_our_beacon(prop.Auth);
 
       //Nfc시작 및 스캔 이벤트 등록
       NfcManager.start();
