@@ -8,8 +8,6 @@ import Button from "../../components/atoms/Button/Button";
 import PatientDetailProfile from "../../components/templates/Patient/PatientDetailProfile";
 
 import { ConfigProvider, Select } from "antd";
-
-import { useDateStore } from "@store/store";
 import { customAxios } from "../../libs/axios";
 
 export default function PatientJournalUpdatePage() {
