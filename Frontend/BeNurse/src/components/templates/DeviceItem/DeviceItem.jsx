@@ -10,15 +10,16 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 //Images
 import temp from "@assets/Images/temp.png";
 
-export default function DeviceItem({ id }) {
+export default function DeviceItem({ listItem, item, beacon, onClick }) {
   return (
     <Box
-      type={id ? "transparent" : "white"}
-      margin={id ? "0px 0px 0px 0px" : "0px 0px 14px 0px"}
+      type={listItem ? "white" : "transparent"}
+      margin={listItem ? "0px 0px 14px 0px" : "0px 0px 0px 0px"}
       padding={"20px"}
-      size={id ? ["372px", "82px"] : ["348px", "82px"]}
+      size={listItem ? ["348px", "82px"] : ["372px", "82px"]}
       font={"16px"}
       flex={["flex-start", "center"]}
+      onClick={onClick}
     >
       <div
         style={{
@@ -88,7 +89,7 @@ export default function DeviceItem({ id }) {
               fontWeight: Common.fontWeight.extrabold,
             }}
           >
-            INFUSION PUMP
+            {item.name}
           </p>
           <p style={{ fontSize: Common.fontSize.fontXS }}>
             <span
@@ -98,21 +99,25 @@ export default function DeviceItem({ id }) {
             >
               자산 코드{" "}
             </span>
-            ED1390FA2
+            {item.id}
           </p>
           <p style={{ fontSize: Common.fontSize.fontXS }}>
-            <span
-              style={{
-                fontWeight: Common.fontWeight.bold,
-              }}
-            >
-              현재위치{" "}
-            </span>
-            내과 A동 A101호
+            {beacon ? (
+              <>
+                <span
+                  style={{
+                    fontWeight: Common.fontWeight.bold,
+                  }}
+                >
+                  현재위치{" "}
+                </span>
+                {beacon.floor}층 {beacon.location}
+              </>
+            ) : null}
           </p>
         </div>
       </div>
-      {id ? null : (
+      {listItem ? (
         <button
           style={{
             display: "flex",
@@ -130,7 +135,7 @@ export default function DeviceItem({ id }) {
             color={Common.color.purple04}
           />
         </button>
-      )}
+      ) : null}
     </Box>
   );
 }
