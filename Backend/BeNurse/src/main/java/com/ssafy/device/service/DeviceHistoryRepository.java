@@ -11,6 +11,6 @@ import com.ssafy.device.model.DeviceHistory;
 public interface DeviceHistoryRepository extends JpaRepository<DeviceHistory, Long> {
 
 	List<DeviceHistory> findAllByDeviceID(String deviceID);
-	List<DeviceHistory> findAllByDeviceIDAndTimeBetween(String deviceID, LocalDateTime start, LocalDateTime end);
+	List<DeviceHistory> findAllByDeviceIDAndTimeBetweenOrderByIDDesc(String deviceID, LocalDateTime start, LocalDateTime end);
 	
 }

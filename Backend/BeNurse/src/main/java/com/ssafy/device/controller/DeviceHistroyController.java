@@ -93,7 +93,7 @@ public class DeviceHistroyController {
 		LocalDateTime now = LocalDateTime.now();
 		log.info(now.minusDays(3).toString());	
 		log.info(now.toString());
-		List<DeviceHistory> deviceHistory = dhRepo.findAllByDeviceIDAndTimeBetween(deviceID, now.minusDays(3), now);
+		List<DeviceHistory> deviceHistory = dhRepo.findAllByDeviceIDAndTimeBetweenOrderByIDDesc(deviceID, now.minusDays(3), now);
 	    return new APIResponse<>(deviceHistory, HttpStatus.OK);
 	}
 }
