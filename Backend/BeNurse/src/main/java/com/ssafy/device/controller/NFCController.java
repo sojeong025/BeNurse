@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +23,7 @@ import com.ssafy.device.model.PatientNFC;
 import com.ssafy.device.service.DeviceHistoryRepository;
 import com.ssafy.device.service.DeviceRepository;
 import com.ssafy.device.service.NFCRepository;
+import com.ssafy.device.service.NFCService;
 import com.ssafy.device.service.PatientNFCRepository;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
@@ -55,6 +54,9 @@ public class NFCController {
 	@Autowired
 	OauthService oauthService;
 	
+	@Autowired
+	NFCService nfcServ;
+	
 	// NFC 조회 GET
 	@GetMapping("")
 	@ApiOperation(value = "특정 NFC 조회", notes = "NFC ID로 특정 장비 조회") 
@@ -64,11 +66,10 @@ public class NFCController {
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<NFCResponse> getNFCById( @RequestParam("ID") String ID) {
-		Optional<NFC> nfc = nfcRepo.findById(ID);
-
-	    if (nfc.isPresent()) {
+	    try {
+	    	NFC nfc = nfcServ.findById(ID);
 	    	NFCResponse resp;
-	    	if(nfc.get().isDevice()) {
+	    	if(nfc.isDevice()) {
 	    		resp = deviceRepo.findById(ID).get();
 	    		resp.setDevice(true);
 	    	}else {
@@ -76,9 +77,10 @@ public class NFCController {
 				resp.setDevice(false);
 	    	}
 	        return new APIResponse(resp, HttpStatus.OK);
-	    }
-	    else
-	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	    }catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+		}
 	}
 	
 	// NFC 삭제 DELETE
@@ -102,9 +104,10 @@ public class NFCController {
 		if(!nurse.isAdmin())
 			throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
 		
-		Optional<NFC> nfc = nfcRepo.findById(ID);
-	    if(nfc.isPresent()) {
-	    	if(nfc.get().isDevice()) {
+		
+	    try {
+	    	NFC nfc = nfcServ.findById(ID);
+	    	if(nfc.isDevice()) {
 	    		Optional<Device> device = deviceRepo.findById(ID);
 	    		if(device.isPresent()) {
 		    		List<DeviceHistory> list = dhRepo.findAllByDeviceID(ID);
@@ -121,11 +124,12 @@ public class NFCController {
 	    		}
 	    	}
 	    		
-	    	nfcRepo.delete(nfc.get());
+	    	nfcRepo.delete(nfc);
 			return new APIResponse(HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
-		else
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	} 
 
 }
