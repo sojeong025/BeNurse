@@ -16,6 +16,7 @@ const OAuth2RedirectHandler = () => {
       const response = await customAxios.get("oauth/test/user");
       console.log("사용자 정보 조회 성공", response);
       console.log(response.data.responseData.hospitalID);
+      localStorage.setItem("nurseID", response.data.responseData.id);
       setHospitalID(response.data.responseData.hospitalID);
       return response.data.responseData.hospitalID;
     } catch (error) {

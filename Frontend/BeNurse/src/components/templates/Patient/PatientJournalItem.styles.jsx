@@ -25,11 +25,11 @@ export const TimeChip = styled.div`
 `;
 
 export const JournalContentBox = styled.div`
-  min-width: 200px;
+  min-width: 297px;
   display: flex;
   flex-direction: column;
   padding: 8px;
-  max-height: ${({ isSelected }) => (isSelected ? "1000px" : "60px")};
+  max-height: ${({ isSelected }) => (isSelected ? "1000px" : "63px")};
   box-shadow: 2px 2px 5px 0 #c4afff71;
   background-color: #c4afff1c;
   border-radius: 12px;
@@ -53,12 +53,47 @@ export const JournalContentBox = styled.div`
   }
 
   & .journal_type {
-    background: ${Common.color.purpleGrad01};
+    background: ${({ type }) =>
+      type == "활력징후"
+        ? "#c4d3ff"
+        : type == "검사 전후 간호"
+        ? "#fff5cf"
+        : type == "수술 전후 간호"
+        ? "#e2ffee"
+        : type == "환자 상태"
+        ? "#ffd6d6"
+        : type == "교육"
+        ? "#ebebeb"
+        : Common.color.purpleGrad01};
     padding: 4px 10px;
     border-radius: 10px;
     color: ${Common.color.black03};
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .journal_nurse {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+  .name {
+    color: ${({ isAuthor }) =>
+      isAuthor ? `${Common.color.purple03}` : `${Common.color.black01}`};
+    font-weight: ${({ isAuthor }) =>
+      isAuthor
+        ? `${Common.fontWeight.extrabold}`
+        : `${Common.fontWeight.normal}`};
+  }
+  .author {
+    display: ${({ isAuthor }) => (isAuthor ? "flex" : "none")};
+    background-color: #956eff;
+    color: ${Common.color.white01};
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
   }
 `;

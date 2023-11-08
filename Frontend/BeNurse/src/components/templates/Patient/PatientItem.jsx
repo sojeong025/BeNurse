@@ -1,6 +1,7 @@
 import React from "react";
 import { Common } from "@utils/global.styles.jsx";
 import { Navigate } from "react-router-dom";
+import { BsCalendarPlus } from "react-icons/bs";
 
 // Comoponents
 import Box from "@components/atoms/Box/Box";
@@ -25,7 +26,35 @@ export default function PatientItem({ type, patientInfo }) {
           height: "140px",
         }}
       >
-        <p style={{ fontSize: Common.fontSize.fontXXS }}>{patientInfo.ward}</p>
+        <p
+          style={{
+            fontSize: Common.fontSize.fontXXS,
+            fontWeight: Common.fontWeight.bold,
+            wordSpacing: type === "patient" ? "0px" : "-3px",
+            display: "flex",
+          }}
+        >
+          {type === "patient" ? (
+            patientInfo.ward
+          ) : (
+            <>
+              <BsCalendarPlus
+                style={{
+                  marginRight: "5px",
+                }}
+              />
+              {` ${new Date(patientInfo.hospitalization).toLocaleDateString(
+                "ko-KR",
+                {
+                  year: "2-digit",
+                  month: "2-digit",
+                  day: "2-digit",
+                },
+              )}`}
+            </>
+          )}
+        </p>
+
         <PatientImages
           age={patientInfo.age}
           gender={patientInfo.gender}
@@ -44,7 +73,7 @@ export default function PatientItem({ type, patientInfo }) {
           style={{
             textAlign: "center",
             fontSize: Common.fontSize.fontS,
-            fontWeight: Common.fontWeight.regular,
+            fontWeight: Common.fontWeight.bold,
           }}
         >
           {patientInfo.gender} {patientInfo.age}세

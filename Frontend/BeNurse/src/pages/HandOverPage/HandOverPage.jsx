@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Container from "@components/atoms/Container/Container";
 import Box from "@components/atoms/Box/Box";
 import { NavLink } from "react-router-dom";
@@ -7,8 +7,18 @@ import write from "@assets/Images/write.png";
 import nurse from "@assets/Images/nurse.png";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import HandOverList from "@components/templates/HandOver/HandOverList";
+import { customAxios } from "../../libs/axios";
+import { useWardStore } from "../../store/store";
 
 export default function HandOverPage() {
+  const setWardId = useWardStore((state) => state.setWardId);
+
+  useEffect(() => {
+    customAxios.get("oauth/test/user").then((res) => {
+      console.log("인수인계 메인에서 사용자 정보 조회", res);
+      setWardId(res.data.responseData.wardID);
+    });
+  });
   return (
     <Container
       overflow="hidden"
