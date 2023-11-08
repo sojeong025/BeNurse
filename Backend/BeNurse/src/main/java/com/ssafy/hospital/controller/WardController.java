@@ -24,6 +24,7 @@ import com.ssafy.hospital.model.Hospital;
 import com.ssafy.hospital.model.Ward;
 import com.ssafy.hospital.service.HospitalRepository;
 import com.ssafy.hospital.service.WardRepository;
+import com.ssafy.hospital.service.WardService;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
 
@@ -45,6 +46,9 @@ public class WardController {
 	WardRepository wardRepo;
 	
 	@Autowired
+	WardService wardServ;
+	
+	@Autowired
 	OauthService oauthService;
 	
 	// 병동 정보 조회 GET
@@ -56,12 +60,13 @@ public class WardController {
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<Ward> getHospitalById(@RequestParam("ID") long ID) {
-	    Optional<Ward> ward = wardRepo.findById(ID);
-
-	    if (ward.isPresent())
-	        return new APIResponse<>(ward.get(), HttpStatus.OK);
-	    else
-	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		try {
+			Ward ward = wardServ.findById(ID);
+			return new APIResponse<>(ward, HttpStatus.CREATED);
+		}catch (Exception e) {
+			e.printStackTrace();
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND); 
+		}
 	}
 	
 	@GetMapping("/all")
@@ -125,14 +130,12 @@ public class WardController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<Void> deleteHospitalById(@RequestBody IDRequest req) {
-	    Optional<Ward> ward = wardRepo.findById(req.getID());
-
-	    if(ward.isPresent()) {
-	    	wardRepo.delete(ward.get());
-			return new APIResponse<>(HttpStatus.OK);
-		}
-		else
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
+		 try {
+		    	wardServ.delete(req.getID());
+				return new APIResponse<>(HttpStatus.OK);
+		    }catch (Exception e) {
+		    	e.printStackTrace();
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		    }
 	}
 }
