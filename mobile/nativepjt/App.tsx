@@ -17,7 +17,6 @@ import {WebView} from 'react-native-webview';
 
 // import Scan_Modal from './components/bluetooth/bluetoothscan';
 import Native from './components/native/native';
-import axios from 'axios';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -64,8 +63,8 @@ function App(): JSX.Element {
       <SafeAreaView style={styles.container}>
         <WebView
           style={styles.webview}
-          source={{uri: 'http://192.168.30.150:3000'}}
-          // source={{uri: 'http://k9e105.p.ssafy.io/'}}
+          // source={{uri: 'http://192.168.30.150:3000'}}
+          source={{uri: 'https://k9e105.p.ssafy.io/'}}
           onMessage={e => {
             const data = e.nativeEvent.data;
             Authtoken.current = data;

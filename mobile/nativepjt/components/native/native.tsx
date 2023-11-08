@@ -23,7 +23,7 @@ import {data_templat, proptemplat, postdata} from './interface';
 import axios, {AxiosResponse} from 'axios';
 ///////////////////////////////////////////////////////////////////////////////
 //ble신호 스캔 시작 함수
-const startScan = () => {
+const startScan = async () => {
   try {
     console.debug('[startScan] starting scan...');
     BleManager.scan(SERVICE_UUIDS, SECONDS_TO_SCAN_FOR, ALLOW_DUPLICATES, {
@@ -41,6 +41,7 @@ const startScan = () => {
     console.error('[startScan] ble scan error thrown', error);
   }
 };
+
 //권환 요청후 권한 요청 결과에따라 처리하는 함수
 const getAndroidPermission = (): Promise<void> => {
   return new Promise<void>((resolve, reject) => {
@@ -76,19 +77,19 @@ const ALLOW_DUPLICATES = true;
 function Native(prop: proptemplat) {
   const [read_data, setread_data] = useState<data_templat>(new data_templat());
   const [infostatus, setinfostatus] = useState<Number>(0);
-  const postdata = useRef<postdata>({beaconID: '', deviceID: '', patientID: 0});
+  const postData = useRef<postdata>({beaconID: '', deviceID: '', patientID: 0});
   const beacon = useRef<string[]>([]);
   const init = useRef<boolean>(true);
   const isblescan = useRef<boolean>(false);
 
   //저장된 정보를 초기화
-  async function rescan() {
+  const rescan = () => {
     isblescan.current = false;
     setread_data(new data_templat());
     setinfostatus(0);
 
     Alert.alert('다시 스캔', '스캔을 다시 시작합니다.');
-  }
+  };
 
   //인식된 태그의 정보 처리 함수
   const nfctagsave = tag => {
@@ -137,7 +138,7 @@ function Native(prop: proptemplat) {
                   response.data.responseData.patient.patient.name,
                 ),
               );
-              postdata.current.patientID = nfcdata.patientID;
+              postData.current.patientID = nfcdata.patientID;
               //비트연산으로 데이터 저장 상태 갱신
               setinfostatus(num => num | 0b01);
             });
@@ -146,7 +147,7 @@ function Native(prop: proptemplat) {
         else if (nfcdata.device) {
           //데이터 저장
           setread_data(data => data.set_device(nfcdata.name));
-          postdata.current.deviceID = nfcdata.id;
+          postData.current.deviceID = nfcdata.id;
           //비트연산으로 데이터 저장 상태 갱신
           setinfostatus(num => num | 0b10);
         }
@@ -157,7 +158,7 @@ function Native(prop: proptemplat) {
   };
 
   //스캔이 종료되었을 때 스캔된 비콘중 필터링 이후 가장 가까운 비콘 출력
-  const whenscanstopped = () => {
+  const whenscanstopped = async () => {
     console.debug('[ScanStop] scan is stopped.');
     BleManager.getDiscoveredPeripherals([])
       .then(peripheralsArray => {
@@ -167,7 +168,7 @@ function Native(prop: proptemplat) {
             return prev.rssi > current.rssi ? prev : current;
           });
         setread_data(data => data.set_location(closestbeacon.id));
-        postdata.current.beaconID = closestbeacon.id;
+        postData.current.beaconID = closestbeacon.id;
         setinfostatus(num => num | 0b100);
       })
       .catch(err => {
@@ -216,7 +217,7 @@ function Native(prop: proptemplat) {
       'Content-Type': 'application/json',
     };
 
-    axios.post(url, postdata.current, {headers: header}).then(response => {
+    axios.post(url, postData.current, {headers: header}).then(response => {
       console.log(response.data);
     });
   };
@@ -241,15 +242,15 @@ function Native(prop: proptemplat) {
       console.log('ex', ex);
     }
 
-    //데이터 조건 충족시 nfc스캔 중지
-    if ((infostatus & 0b11) === 0b11) {
-      console.debug('[NFCStop]nfc scan stop');
-      NfcManager.unregisterTagEvent();
-    }
+    // //데이터 조건 충족시 nfc스캔 중지
+    // if ((infostatus & 0b11) === 0b11) {
+    //   console.debug('[NFCStop]nfc scan stop');
+    //   NfcManager.unregisterTagEvent();
+    // }
 
     //데이터 충족시 alert
     if (infostatus === 0b111) {
-      console.log(postdata);
+      console.log(postData.current);
       // usedevice();
       Alert.alert('3가지 정보 스캔 완료');
     }
@@ -299,12 +300,12 @@ function Native(prop: proptemplat) {
       <Text> 환자 : {read_data.patient}</Text>
       <Text> 장비 : {read_data.device}</Text>
       <Text> 장소 : {read_data.location}</Text>
-      <Button
+      {/* <Button
         onPress={rescan}
         title="스캔 다시하기"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
-      />
+      /> */}
       {infostatus === 0b111 && <Button onPress={usedevice} title="저장하기" />}
     </>
   );

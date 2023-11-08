@@ -47,6 +47,8 @@ export interface proptemplat {
   Auth: string;
 }
 
+/////////////////////////////////////////////////////////////////////
+//api없어서 만든 임시 함수들
 export const temp_data = async (tagid: string): Promise<nfcdata> => {
   return new Promise<nfcdata>((resolve, reject) => {
     if (tagid === '533736E2500001') {
