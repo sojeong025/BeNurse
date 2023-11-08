@@ -6,6 +6,7 @@ export default function Button({
   children,
   variant,
   width,
+  height,
   radius,
   margin,
   ...props
@@ -14,6 +15,7 @@ export default function Button({
     <S.StyledButton
       variant={variant}
       width={width}
+      height={height}
       radius={radius}
       margin={margin}
       {...props}

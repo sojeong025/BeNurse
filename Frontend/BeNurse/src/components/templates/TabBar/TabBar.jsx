@@ -18,10 +18,23 @@ export default function TabBar() {
 
   useEffect(() => {
     console.log(location.pathname);
-    if (location.pathname.startsWith("/login")) {
+    if (
+      location.pathname === "/" ||
+      location.pathname.startsWith("/login") ||
+      location.pathname === "/off-application" ||
+      location.pathname === "/off-application-write" ||
+      location.pathname === "/off-application-finish" ||
+      location.pathname.startsWith("/handover-list/patients/detail")
+    ) {
       setVisibility("none");
     } else {
       setVisibility("flex");
+    }
+    if (location.pathname.startsWith("/admin")) {
+      setVisibility("none");
+    }
+    if (location.pathname.startsWith("/handover-write")) {
+      setVisibility("none");
     }
   }, [location]);
 
@@ -51,7 +64,7 @@ export default function TabBar() {
       </S.styledTabBarIcon>
       <S.styledTabBarIcon
         onClick={() => {
-          navigate("/");
+          navigate("/main");
         }}
       >
         <img

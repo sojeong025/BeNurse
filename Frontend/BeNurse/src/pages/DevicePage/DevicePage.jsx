@@ -6,18 +6,18 @@ import React, {
   useEffect,
 } from "react";
 import { Common } from "../../utils/global.styles";
-<<<<<<< Updated upstream
-=======
 import { customAxios } from "../../libs/axios";
 
->>>>>>> Stashed changes
 import DeviceItem from "../../components/templates/DeviceItem/DeviceItem";
+import RecentUsageList from "../../components/templates/DeviceItem/RecentUsageList";
+import RecentUsageHeader from "../../components/templates/DeviceItem/RecentUsageHeader";
 
 // three.js
 import * as THREE from "three";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { gsap } from "gsap/gsap-core";
+import { BottomSheet } from "react-spring-bottom-sheet";
 
 // emotion
 import Container from "../../components/atoms/Container/Container";
@@ -28,9 +28,14 @@ import Box from "../../components/atoms/Box/Box";
 // icons
 import deviceListIcon from "@assets/Icons/deviceList.svg";
 import mapIcon from "@assets/Icons/map.svg";
+import { MdHistory } from "react-icons/md";
+import { MdKeyboardArrowRight } from "react-icons/md";
 
 // zustand
 import { useDeviceStore } from "../../store/store";
+
+// Images
+import temp from "@assets/Images/temp.png";
 
 export default function DevicePage() {
   const [devices, setDevices] = useState(null);
@@ -204,7 +209,10 @@ export default function DevicePage() {
             variant="primary"
             width="50px"
             radius="10px"
-            onClick={DeactivateList}
+            onClick={() => {
+              setTarget(false);
+              DeactivateList();
+            }}
           >
             <img
               style={{ width: "24px" }}
@@ -351,8 +359,6 @@ export default function DevicePage() {
             <CameraMove />
           </Suspense>
         </Canvas>
-<<<<<<< Updated upstream
-=======
         <BottomSheet
           open={target}
           blocking={false}
@@ -373,7 +379,6 @@ export default function DevicePage() {
             usage={deviceHistory}
           />
         </BottomSheet>
->>>>>>> Stashed changes
       </Container>
     );
   }

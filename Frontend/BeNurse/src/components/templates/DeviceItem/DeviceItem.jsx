@@ -10,15 +10,6 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 //Images
 import temp from "@assets/Images/temp.png";
 
-<<<<<<< Updated upstream
-export default function DeviceItem() {
-  return (
-    <Box
-      type={"white"}
-      margin={"0px 0px 20px 0px"}
-      size={["384px", "132px"]}
-      font={"16px"}
-=======
 export default function DeviceItem({ listItem, item, beacon, onClick }) {
   return (
     <Box
@@ -29,44 +20,34 @@ export default function DeviceItem({ listItem, item, beacon, onClick }) {
       font={"16px"}
       flex={["flex-start", "center"]}
       onClick={onClick}
->>>>>>> Stashed changes
     >
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "flex-start",
           alignItems: "center",
           width: "334px",
           height: "82px",
         }}
       >
-        <div
+        <img
           style={{
-            width: "82px",
             height: "82px",
             border: `1px solid ${Common.color.purple01}`,
             borderRadius: "10px",
-            objectFit: "contain",
           }}
-        >
-          <img
-            style={{ borderRadius: "10px" }}
-            src={temp}
-            alt=""
-          />
-        </div>
+          src={temp}
+          alt=""
+        />
+
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "232px",
-            height: "72px",
+            flexDirection: "column",
+            marginLeft: "14px",
+            gap: "8px",
           }}
         >
-<<<<<<< Updated upstream
-          <div
-=======
           {true ? (
             <div
               style={{
@@ -99,40 +80,15 @@ export default function DeviceItem({ listItem, item, beacon, onClick }) {
                 color: "#289741",
               }}
             >
-              {item.device}
+              사용 가능
             </div>
           )}
           <p
->>>>>>> Stashed changes
             style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              height: "72px",
+              fontSize: Common.fontSize.fontM,
+              fontWeight: Common.fontWeight.extrabold,
             }}
           >
-<<<<<<< Updated upstream
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <span
-                style={{
-                  fontSize: Common.fontSize.fontL,
-                  fontWeight: Common.fontWeight.extrabold,
-                }}
-              >
-                INFUSION PUMP
-              </span>
-              <div>
-                <span style={{ fontSize: Common.fontSize.fontXS }}>
-                  ID: ED1390FA2
-                </span>
-              </div>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <div>
-                <span
-                  style={{
-                    fontSize: Common.fontSize.fontS,
-=======
             {item.name}
           </p>
           <p style={{ fontSize: Common.fontSize.fontXS }}>
@@ -150,39 +106,11 @@ export default function DeviceItem({ listItem, item, beacon, onClick }) {
               <>
                 <span
                   style={{
->>>>>>> Stashed changes
                     fontWeight: Common.fontWeight.bold,
                   }}
                 >
                   현재위치{" "}
                 </span>
-<<<<<<< Updated upstream
-                <span style={{ fontSize: Common.fontSize.fontS }}>
-                  내과 A동 A101호
-                </span>
-              </div>
-            </div>
-          </div>
-          <button
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "30px",
-              height: "30px",
-              border: "none",
-              borderRadius: "30px",
-              backgroundColor: Common.color.purple01,
-            }}
-          >
-            <MdKeyboardArrowRight
-              size={24}
-              color={Common.color.purple04}
-            />
-          </button>
-        </div>
-      </div>
-=======
                 {beacon.floor}층 {beacon.location}
               </>
             ) : null}
@@ -208,7 +136,6 @@ export default function DeviceItem({ listItem, item, beacon, onClick }) {
           />
         </button>
       ) : null}
->>>>>>> Stashed changes
     </Box>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ScheduleCalendar from "@components/templates/Schedule/ScheduleCalendar";
 import Container from "@components/atoms/Container/Container";
 
@@ -8,7 +8,9 @@ export default function SchedulePage() {
       backgroundColor={"white"}
       flex={["center", "flex-start"]}
     >
-      <ScheduleCalendar />
+      <div style={{ marginTop: "74px" }}>
+        <ScheduleCalendar />
+      </div>
     </Container>
   );
 }

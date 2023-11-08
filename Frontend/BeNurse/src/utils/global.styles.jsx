@@ -1,6 +1,7 @@
 export const Common = {
   color: {
     // 보라색
+    purple00: "#E7E6F5",
     purple01: "#E6DDFF",
     purple02: "#D0BFFF",
     purple03: "#9669F9",
@@ -33,10 +34,16 @@ export const Common = {
     focused: "#7F45FF",
     available: "#03AF00",
     occupied: "#C13232",
+
+    // 상태
+    success: "#198754",
+    warning: "#ffc107",
+    danger: "#ff3f52",
   },
 
   fontSize: {
     // 폰트 사이즈
+    fontXXS: "11px",
     fontXS: "12px",
     fontS: "14px",
     fontM: "16px",

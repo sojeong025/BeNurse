@@ -25,12 +25,12 @@ const variants = {
 export const StyledButton = styled.button`
   margin: ${({ margin }) => margin || "0 0 0 0"};
   width: ${({ width }) => width || "auto"};
-  font-size: 18px;
+  height: ${({ height }) => height || "50px"};
+  font-size: ${Common.fontSize.fontM};
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease-in-out;
-  height: 50px;
   cursor: pointer;
   border: none;
   border-radius: ${({ radius }) => radius || "16px"};

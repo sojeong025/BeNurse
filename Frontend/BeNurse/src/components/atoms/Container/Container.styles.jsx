@@ -6,7 +6,7 @@ export const StyledContainer = styled.div`
   justify-content: ${({ flex }) => (flex ? flex[0] : null)};
   align-items: ${({ flex }) => (flex ? flex[1] : null)};
   width: 412px;
-  height: 810px;
+  height: 820px;
   position: relative;
   background-color: ${({ backgroundColor }) =>
     backgroundColor === "white"
@@ -14,4 +14,5 @@ export const StyledContainer = styled.div`
       : backgroundColor === "purple"
       ? "#E7E6F5"
       : ""};
+  overflow: ${({ overflow }) => overflow};
 `;

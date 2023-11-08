@@ -15,7 +15,7 @@ export const StyledInputContainer = styled.div`
   display: flex;
   align-items: center;
   width: ${({ width }) => width || "auto"};
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
   height: 50px;
   border-radius: 10px;
@@ -36,7 +36,7 @@ export const StyledInput = styled.input`
   display: flex;
   align-items: center;
   width: calc(100% - 30px);
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
   height: 50px;
   color: #555555;
