@@ -20,6 +20,12 @@ const variants = {
     color: `${Common.color.purple04}`,
     boxShadow: "3px 3px 6px 1px rgba(150, 105, 249, 0.20)",
   },
+  danger: {
+    background: "linear-gradient(273deg, #ff3f52 14.46%, #ff3247 33.04%)",
+    backgroundHover: "linear-gradient(273deg, #f23c4f 14.46%, #ef2e41 33.04%)",
+    color: `${Common.color.white01}`,
+    boxShadow: "3px 3px 6px 4px rgba(84, 84, 84, 0.2)",
+  },
 };
 
 export const StyledButton = styled.button`
