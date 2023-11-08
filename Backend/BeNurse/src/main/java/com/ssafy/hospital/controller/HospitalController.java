@@ -1,7 +1,5 @@
 package com.ssafy.hospital.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -90,7 +88,6 @@ public class HospitalController {
 	    	e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	    }
-
 	}
 	
 	// 병원 정보 수정 PUT
@@ -112,6 +109,7 @@ public class HospitalController {
 	    }
 	}
 	
+	// 병원 정보 POST
 	@PostMapping("")
 	@ApiOperation(value = "병원 등록", notes = "서비스에 병원 정보를 등록")
 	@ApiResponses({

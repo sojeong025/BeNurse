@@ -11,7 +11,7 @@ import com.ssafy.Handover.model.MyHandover;
 @Repository
 public interface MyHandoverRepository extends JpaRepository<MyHandover, Long> {
 	List<MyHandover> findAllByTakeID(long id);
-	Optional<MyHandover> findBySetIDAndTakeIDAndReaded(long setID, long takeID, String readed);
+	Optional<MyHandover> findBySetIDAndTakeIDAndReaded(long setID, long takeID, boolean b);
 
 
 }

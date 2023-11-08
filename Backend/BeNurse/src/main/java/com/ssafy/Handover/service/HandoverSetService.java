@@ -1,4 +1,4 @@
-package com.ssafy.hospital.service;
+package com.ssafy.Handover.service;
 
 import java.util.Optional;
 
@@ -8,30 +8,29 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.hospital.model.Hospital;
+import com.ssafy.Handover.model.HandoverSet;
 
 @Service
-public class HospitalService {
-	
+public class HandoverSetService {
 	@Autowired
-	HospitalRepository hospitalRepo;
+	HandoverSetRepository handoverSetRepo;
 	
-	@Cacheable(value = "hospital", key = "#ID")
-	public Hospital findById(long ID) {
-		Optional<Hospital> option = hospitalRepo.findById(ID);
+	@Cacheable(value = "handoverSet", key = "#ID")
+	public HandoverSet findById(long ID) {
+		Optional<HandoverSet> option = handoverSetRepo.findById(ID);
 		if(option.isPresent())
 			return option.get();
 		else
 			throw new NullPointerException();
 	}
 	
-	@CachePut(value = "hospital", key="#hospital.ID")
-	public Hospital save(Hospital hospital) {
+	@CachePut(value = "handoverSet", key="#handoverSet.ID")
+	public HandoverSet save(HandoverSet handoverSet) {
 		try {
-			if(hospital.getID() == 0)
+			if(handoverSet.getID() == 0)
 				throw new NullPointerException();
-			Hospital exist = findById(hospital.getID());
-			return hospitalRepo.save(hospital);
+			HandoverSet exist = findById(handoverSet.getID());
+			return handoverSetRepo.save(handoverSet);
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new NullPointerException();
@@ -39,11 +38,11 @@ public class HospitalService {
 		
 	}
 	
-	@CacheEvict(value = "hospital", key = "#ID")
+	@CacheEvict(value = "handoverSet", key = "#ID")
 	public void delete(long ID) {
 		try {
-			Hospital hospital = findById(ID);
-			hospitalRepo.delete(hospital);
+			HandoverSet handoverSet = findById(ID);
+			handoverSetRepo.delete(handoverSet);
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new NullPointerException();
