@@ -74,6 +74,7 @@ public class DeviceHistroyController {
 			deviceHistory.setTime(LocalDateTime.now());
 			deviceHistory.setPatientName(pr.getResponseData().getPatient().getName());
 			
+			log.info(deviceHistory.toString());
 			DeviceHistory savedDeviceHistory = dhRepo.save(deviceHistory);
 		    return new APIResponse<>(savedDeviceHistory, HttpStatus.OK);
 		}catch (Exception e) {

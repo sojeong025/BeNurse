@@ -2,6 +2,8 @@ package com.ssafy.Schedule.model;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,7 +26,8 @@ public class ScheduleResponse {
 	private long hospitalID;
 	
 	private String worktime;
-	
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate workdate;
 	
 	public ScheduleResponse(Schedule s) {
