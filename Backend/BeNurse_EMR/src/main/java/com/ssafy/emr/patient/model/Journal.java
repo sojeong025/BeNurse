@@ -45,4 +45,7 @@ public class Journal implements Serializable{
 
 	@Column(name = "CATEGORY")
 	private String category;
+
+	@Column(name = "NAME")
+	private String name;
 }
