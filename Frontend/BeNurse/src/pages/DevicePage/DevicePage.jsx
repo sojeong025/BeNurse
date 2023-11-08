@@ -180,10 +180,8 @@ export default function DevicePage() {
 
     useLayoutEffect(() => {
       if (target) {
-        gsap.to(
-          camera.position,
-          beacon && locationData[beacon.location].camera,
-        );
+        beacon &&
+          gsap.to(camera.position, locationData[beacon.location].camera);
       } else {
         gsap.to(camera.position, {
           x: 1,

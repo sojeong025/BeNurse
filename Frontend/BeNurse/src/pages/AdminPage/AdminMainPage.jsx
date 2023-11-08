@@ -83,7 +83,7 @@ export default function AdminMainPage() {
                 {schedule?.map((item) => {
                   const year = currentDate.getFullYear();
                   const month = currentDate.getMonth() + 1;
-                  const ward = wards.filter((ward) => ward.id === item.wardID);
+                  const ward = wards?.filter((ward) => ward.id === item.wardID);
                   return (
                     item.workdate ===
                       `${year}-${month
@@ -126,7 +126,7 @@ export default function AdminMainPage() {
                             {item.name}
                           </p>
                           <p style={{ fontSize: "14px", marginTop: "6px" }}>
-                            {ward[0].name}{" "}
+                            {ward && ward[0].name}{" "}
                             {item.annual > 0 ? item.annual + "년차" : "신입"}
                           </p>
                         </div>

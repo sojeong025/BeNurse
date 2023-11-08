@@ -6,6 +6,8 @@ import Input from "@components/atoms/Input/Input";
 import { customAxios } from "../../libs/axios";
 import AdminCalendar from "../../components/templates/Admin/AdminCalendar";
 import nurseImg from "@assets/Images/patient_temp.png";
+import schedule from "@assets/Images/schedule.png";
+import OffApplyItem from "../../components/templates/Schedule/OffApplyItem";
 
 export default function ScheduleCreateIntroPage() {
   const [step, setStep] = useState(0);
@@ -72,7 +74,6 @@ export default function ScheduleCreateIntroPage() {
             style={{
               marginTop: "30px",
               width: "180px",
-              transform: "rotate(8deg)",
             }}
             src={calendar}
             alt=""
@@ -101,13 +102,38 @@ export default function ScheduleCreateIntroPage() {
             flexDirection: "column",
             alignItems: "center",
             height: "360px",
-            gap: "70px",
+            gap: "20px",
           }}
         >
-          <p style={{ fontSize: Common.fontSize.fontXL }}>
-            병동에 근무하는 인원은 총 몇명인가요?
-          </p>
-          <Input variant={"default"} />
+          <img
+            style={{
+              width: "240px",
+              marginBottom: "20px",
+              transform: "rotate(-10deg)",
+            }}
+            src={schedule}
+            alt=""
+          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <p
+              style={{
+                fontSize: Common.fontSize.fontXL,
+                marginBottom: "10px",
+              }}
+            >
+              병동에 근무하는 인원은 총 몇명인가요?
+            </p>
+            <Input
+              width={"240px"}
+              variant={"default"}
+            />
+          </div>
         </div>
       )}
       {step === 2 && (
@@ -134,13 +160,14 @@ export default function ScheduleCreateIntroPage() {
                 height: "460px",
               }}
             >
-              {entireNurse.map((nurse) => {
+              {entireNurse.map((nurse, index) => {
                 const ward = entireWard.filter(
                   (ward) => ward.id === nurse.wardID,
                 );
 
                 return (
                   <Box
+                    key={index}
                     type={"white"}
                     size={["340px", "80px"]}
                     props={"gap: 14px; cursor: pointer;"}
@@ -179,51 +206,27 @@ export default function ScheduleCreateIntroPage() {
                 display: "flex",
                 flexDirection: "column",
                 width: "300px",
-                height: "460px",
+                height: "560px",
                 fontSize: "16px",
-                gap: "30px",
+                gap: "10px",
               }}
             >
               <p>OFF 신청 목록</p>
-              {offKeys.map((key) => {
-                const nurseName = entireNurse.filter(
-                  (nurse) => nurse.id === offApply[key][0].nurseID,
-                );
-                return (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "10px",
-                      fontSize: "14px",
-                    }}
-                  >
-                    <p>{nurseName[0].name} 간호사</p>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "4px",
-                      }}
-                    >
-                      <p>신청 날짜</p>
-                      {offApply[key].map((apply) => (
-                        <p>{apply.offdate}</p>
-                      ))}
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "6px",
-                      }}
-                    >
-                      <p>사유</p>
-                      <p>{key}</p>
-                    </div>
-                  </div>
-                );
-              })}
+              <div style={{ overflow: "scroll" }}>
+                {offKeys.map((offkey, index) => {
+                  const nurseName = entireNurse.filter(
+                    (nurse) => nurse.id === offApply[offkey][0].nurseID,
+                  );
+                  return (
+                    <OffApplyItem
+                      key={index}
+                      nurseName={nurseName}
+                      offApply={offApply}
+                      offkey={offkey}
+                    />
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
