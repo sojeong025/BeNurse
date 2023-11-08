@@ -1,4 +1,4 @@
-package com.ssafy.notice.service;
+package com.ssafy.hospital.service;
 
 import java.util.Optional;
 
@@ -8,30 +8,30 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.notice.model.Notice;
+import com.ssafy.hospital.model.Ward;
 
 @Service
-public class NoticeService {
+public class WardService {
 	
 	@Autowired
-	NoticeRepository noticeRepo;
+	WardRepository wardRepo;
 	
-	@Cacheable(value = "notice", key = "#ID")
-	public Notice findById(long ID) {
-		Optional<Notice> option = noticeRepo.findById(ID);
+	@Cacheable(value = "ward", key = "#ID")
+	public Ward findById(long ID) {
+		Optional<Ward> option = wardRepo.findById(ID);
 		if(option.isPresent())
 			return option.get();
 		else
 			throw new NullPointerException();
 	}
 	
-	@CachePut(value = "notice", key="#notice.ID")
-	public Notice save(Notice notice) {
+	@CachePut(value = "ward", key="#ward.ID")
+	public Ward save(Ward ward) {
 		try {
-			if(notice.getID() == 0)
+			if(ward.getID() == 0)
 				throw new NullPointerException();
-			Notice exist = findById(notice.getID());
-			return noticeRepo.save(notice);
+			Ward exist = findById(ward.getID());
+			return wardRepo.save(ward);
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new NullPointerException();
@@ -39,11 +39,11 @@ public class NoticeService {
 		
 	}
 	
-	@CacheEvict(value = "notice", key = "#ID")
+	@CacheEvict(value = "ward", key = "#ID")
 	public void delete(long ID) {
 		try {
-			Notice notice = findById(ID);
-			noticeRepo.delete(notice);
+			Ward ward = findById(ID);
+			wardRepo.delete(ward);
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new NullPointerException();

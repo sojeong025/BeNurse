@@ -23,8 +23,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.common.utils.IDRequest;
+import com.ssafy.hospital.model.Hospital;
 import com.ssafy.notice.model.Notice;
 import com.ssafy.notice.service.NoticeRepository;
+import com.ssafy.notice.service.NoticeService;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
 
@@ -41,6 +43,9 @@ public class NoticeController {
 	
 	@Autowired
 	NoticeRepository noticeRepo;
+	
+	@Autowired
+	NoticeService noticeServ;
 	
 	@Autowired
 	OauthService oauthService;
@@ -101,14 +106,14 @@ public class NoticeController {
 	    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	@Cacheable(value="notice", key="#ID")
 	public APIResponse<Notice> getNoticeById(@RequestParam("ID") long ID) {
-	    Optional<Notice> notice = noticeRepo.findById(ID);
-
-	    if (notice.isPresent())
-	        return new APIResponse(notice.get(), HttpStatus.OK);
-	    else
-	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		try {
+			Notice notice = noticeServ.findById(ID);
+			return new APIResponse<>(notice, HttpStatus.CREATED);
+		}catch (Exception e) {
+			e.printStackTrace();
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND); 
+		}
 	}
 
 	// 공지사항 수정 PUT
@@ -119,28 +124,15 @@ public class NoticeController {
 	    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	@CachePut(value = "notice", key = "#updatedNotice.ID")
 	public APIResponse<Notice> updateNoticeById(@RequestBody Notice updatedNotice){
-		Optional<Notice> optionNotice = noticeRepo.findById(updatedNotice.getID());
-		
-	    if (optionNotice.isPresent()) {
-	        Notice existingNotice = optionNotice.get();
-
-	        // 기존 공지사항 정보를 업데이트
-	        if (updatedNotice.getTitle() != null) {
-	        	existingNotice.setTitle(updatedNotice.getTitle());
-	        }
-	        if (updatedNotice.getContent() != null) {
-	        	existingNotice.setContent(updatedNotice.getContent());
-	        }
-
-	        // 업데이트된 공지사항을 저장
-	        noticeRepo.save(existingNotice);
-
-	        return new APIResponse<>(existingNotice, HttpStatus.OK);
-	    } else	
+		try {
+			// 업데이트된 공지사항을 저장
+			Notice savedNotice = noticeServ.save(updatedNotice);
+	        return new APIResponse<>(savedNotice, HttpStatus.OK);
+	    }catch (Exception e) {
+	    	e.printStackTrace();
 	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-	    
+	    }
 	}
 	
 	// 공지사항 삭제 DELETE
@@ -151,15 +143,13 @@ public class NoticeController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-    @CacheEvict(value = "notice", key="#ID")
 	public APIResponse<Void> deleteNoticeById(@RequestBody IDRequest req) {
-	    Optional<Notice> notice = noticeRepo.findById(req.getID());
-
-	    if(notice.isPresent()) {
-	    	noticeRepo.delete(notice.get());
-			return new APIResponse(HttpStatus.OK);
-		}
-		else
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		 try {
+		    	noticeServ.delete(req.getID());
+				return new APIResponse<>(HttpStatus.OK);
+		    }catch (Exception e) {
+		    	e.printStackTrace();
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		    }
 	} 
 }
