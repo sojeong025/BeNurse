@@ -10,6 +10,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 //Images
 import temp from "@assets/Images/temp.png";
 
+<<<<<<< Updated upstream
 export default function DeviceItem() {
   return (
     <Box
@@ -17,6 +18,18 @@ export default function DeviceItem() {
       margin={"0px 0px 20px 0px"}
       size={["384px", "132px"]}
       font={"16px"}
+=======
+export default function DeviceItem({ listItem, item, beacon, onClick }) {
+  return (
+    <Box
+      type={listItem ? "white" : "transparent"}
+      margin={listItem ? "0px 0px 14px 0px" : "0px 0px 0px 0px"}
+      padding={"20px"}
+      size={listItem ? ["348px", "82px"] : ["372px", "82px"]}
+      font={"16px"}
+      flex={["flex-start", "center"]}
+      onClick={onClick}
+>>>>>>> Stashed changes
     >
       <div
         style={{
@@ -51,7 +64,46 @@ export default function DeviceItem() {
             height: "72px",
           }}
         >
+<<<<<<< Updated upstream
           <div
+=======
+          {true ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontSize: Common.fontSize.fontXS,
+                fontWeight: Common.fontWeight.bold,
+                width: "50px",
+                height: "22px",
+                borderRadius: "30px",
+                backgroundColor: "rgba(255, 229, 229, 1)",
+                color: "#D96363",
+              }}
+            >
+              사용중
+            </div>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontSize: Common.fontSize.fontXS,
+                fontWeight: Common.fontWeight.bold,
+                width: "58px",
+                height: "22px",
+                borderRadius: "30px",
+                backgroundColor: "#DDFEE4",
+                color: "#289741",
+              }}
+            >
+              {item.device}
+            </div>
+          )}
+          <p
+>>>>>>> Stashed changes
             style={{
               display: "flex",
               flexDirection: "column",
@@ -59,6 +111,7 @@ export default function DeviceItem() {
               height: "72px",
             }}
           >
+<<<<<<< Updated upstream
             <div style={{ display: "flex", flexDirection: "column" }}>
               <span
                 style={{
@@ -79,11 +132,31 @@ export default function DeviceItem() {
                 <span
                   style={{
                     fontSize: Common.fontSize.fontS,
+=======
+            {item.name}
+          </p>
+          <p style={{ fontSize: Common.fontSize.fontXS }}>
+            <span
+              style={{
+                fontWeight: Common.fontWeight.bold,
+              }}
+            >
+              자산 코드{" "}
+            </span>
+            {item.id}
+          </p>
+          <p style={{ fontSize: Common.fontSize.fontXS }}>
+            {beacon ? (
+              <>
+                <span
+                  style={{
+>>>>>>> Stashed changes
                     fontWeight: Common.fontWeight.bold,
                   }}
                 >
                   현재위치{" "}
                 </span>
+<<<<<<< Updated upstream
                 <span style={{ fontSize: Common.fontSize.fontS }}>
                   내과 A동 A101호
                 </span>
@@ -109,6 +182,33 @@ export default function DeviceItem() {
           </button>
         </div>
       </div>
+=======
+                {beacon.floor}층 {beacon.location}
+              </>
+            ) : null}
+          </p>
+        </div>
+      </div>
+      {listItem ? (
+        <button
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "30px",
+            height: "30px",
+            border: "none",
+            borderRadius: "30px",
+            backgroundColor: Common.color.purple01,
+          }}
+        >
+          <MdKeyboardArrowRight
+            size={24}
+            color={Common.color.purple04}
+          />
+        </button>
+      ) : null}
+>>>>>>> Stashed changes
     </Box>
   );
 }

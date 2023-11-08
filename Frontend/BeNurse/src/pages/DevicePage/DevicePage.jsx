@@ -6,6 +6,11 @@ import React, {
   useEffect,
 } from "react";
 import { Common } from "../../utils/global.styles";
+<<<<<<< Updated upstream
+=======
+import { customAxios } from "../../libs/axios";
+
+>>>>>>> Stashed changes
 import DeviceItem from "../../components/templates/DeviceItem/DeviceItem";
 
 // three.js
@@ -28,6 +33,11 @@ import mapIcon from "@assets/Icons/map.svg";
 import { useDeviceStore } from "../../store/store";
 
 export default function DevicePage() {
+  const [devices, setDevices] = useState(null);
+  const [selectedDevice, setSelectedDevice] = useState(null);
+  const [deviceHistory, setDeviceHistory] = useState(null);
+  const [historyKeys, setHistoryKeys] = useState(null);
+  const [beacon, setBeacon] = useState(null);
   const [target, setTarget] = useState(false);
   const [position, setPosition] = useState();
   const { isListActivated, ActivateList, DeactivateList } = useDeviceStore(
@@ -110,9 +120,9 @@ export default function DevicePage() {
   }
 
   // camera
-  function selectDeviceItem() {
-    console.log(1);
+  function selectDeviceItem(device) {
     setTarget(!target);
+    setSelectedDevice(device);
     DeactivateList();
   }
 
@@ -140,6 +150,39 @@ export default function DevicePage() {
       // camera={{ position: [0, -100, 120] }}
     }, [position, target]);
   };
+
+  useEffect(() => {
+    if (selectedDevice) {
+      customAxios
+        .get("device-history/all?DeviceID=" + selectedDevice.id)
+        .then((res) => {
+          const lastHistory =
+            res.data.responseData[res.data.responseData.length - 1];
+
+          const history = res.data.responseData;
+          const newHistory = {};
+          history.map((item) => {
+            const itemTime = item.time.slice(0, 10);
+            if (newHistory[itemTime]) {
+              newHistory[itemTime].push(item);
+            } else {
+              newHistory[itemTime] = [item];
+            }
+          });
+          setHistoryKeys(Object.keys(newHistory));
+          setDeviceHistory(newHistory);
+          customAxios.get("beacon?ID=" + lastHistory.beaconID).then((res) => {
+            setBeacon(res.data.responseData);
+          });
+        });
+    }
+  }, [selectedDevice]);
+
+  useEffect(() => {
+    customAxios.get("device/all").then((res) => {
+      setDevices(res.data.responseData);
+    });
+  }, []);
 
   if (isListActivated) {
     return (
@@ -191,20 +234,18 @@ export default function DevicePage() {
           }}
         >
           <div>
-            <div onClick={selectDeviceItem}>
-              <DeviceItem />
-            </div>
-            <DeviceItem onClick={selectDeviceItem} />
-            <DeviceItem onClick={selectDeviceItem} />
-            <DeviceItem onClick={selectDeviceItem} />
-            <DeviceItem onClick={selectDeviceItem} />
-            <DeviceItem onClick={selectDeviceItem} />
-            <DeviceItem onClick={selectDeviceItem} />
-            <DeviceItem onClick={selectDeviceItem} />
-            <DeviceItem onClick={selectDeviceItem} />
-            <DeviceItem onClick={selectDeviceItem} />
-            <DeviceItem onClick={selectDeviceItem} />
-            <DeviceItem onClick={selectDeviceItem} />
+            {devices?.map((device, index) => {
+              return (
+                <DeviceItem
+                  key={index}
+                  listItem={true}
+                  item={device}
+                  onClick={() => {
+                    selectDeviceItem(device);
+                  }}
+                />
+              );
+            })}
           </div>
         </div>
       </Container>
@@ -310,6 +351,29 @@ export default function DevicePage() {
             <CameraMove />
           </Suspense>
         </Canvas>
+<<<<<<< Updated upstream
+=======
+        <BottomSheet
+          open={target}
+          blocking={false}
+          onDismiss={() => {
+            setTarget(false);
+          }}
+          defaultSnap={({ maxHeight }) => maxHeight / 4}
+          snapPoints={({ maxHeight }) => [maxHeight / 4, maxHeight * 0.64]}
+        >
+          <DeviceItem
+            item={selectedDevice && selectedDevice}
+            beacon={beacon && beacon}
+          />
+          <hr style={{ margin: "0px 20px", border: "0.5px solid #D9D9D9" }} />
+          <RecentUsageHeader />
+          <RecentUsageList
+            historyKeys={historyKeys}
+            usage={deviceHistory}
+          />
+        </BottomSheet>
+>>>>>>> Stashed changes
       </Container>
     );
   }
