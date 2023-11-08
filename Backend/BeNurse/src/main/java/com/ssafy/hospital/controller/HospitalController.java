@@ -19,6 +19,7 @@ import com.ssafy.common.utils.APIResponse;
 import com.ssafy.common.utils.IDRequest;
 import com.ssafy.hospital.model.Hospital;
 import com.ssafy.hospital.service.HospitalRepository;
+import com.ssafy.hospital.service.HospitalService;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.nurse.service.NurseRepository;
 import com.ssafy.oauth.serivce.OauthService;
@@ -36,6 +37,9 @@ public class HospitalController {
 
 	@Autowired
 	HospitalRepository hospitalRepo;
+	
+	@Autowired
+	HospitalService hospitalServ;
 	
 	@Autowired
 	NurseRepository nurseRepo;
@@ -61,12 +65,13 @@ public class HospitalController {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
-		Optional<Hospital> hospital = hospitalRepo.findById(nurse.getHospitalID());
-
-	    if (hospital.isPresent())
-	        return new APIResponse<>(hospital.get(), HttpStatus.OK);
-	    else
-	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		try {
+			Hospital hospital = hospitalServ.findById(nurse.getHospitalID());
+			return new APIResponse<>(hospital, HttpStatus.CREATED);
+		}catch (Exception e) {
+			e.printStackTrace();
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND); 
+		}
 	}
 	
 	// 병원 삭제 DELETE
@@ -78,14 +83,13 @@ public class HospitalController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<Void> deleteHospitalById(@RequestBody IDRequest req) {
-	    Optional<Hospital> hospital = hospitalRepo.findById(req.getID());
-
-	    if(hospital.isPresent()) {
-	    	hospitalRepo.delete(hospital.get());
+	    try {
+	    	hospitalServ.delete(req.getID());
 			return new APIResponse<>(HttpStatus.OK);
-		}
-		else
+	    }catch (Exception e) {
+	    	e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	    }
 
 	}
 	
@@ -97,33 +101,15 @@ public class HospitalController {
 	    @ApiResponse(code = 404, message = "병원을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Void> updateHospitalById(@RequestBody Hospital updatedHospital){
-		Optional<Hospital> optionHospital = hospitalRepo.findById(updatedHospital.getID());
-		
-	    if (optionHospital.isPresent()) {
-	        Hospital existingHospital = optionHospital.get();
-
-	        // 기존 병원 정보를 업데이트
-	        if (updatedHospital.getName() != null) {
-	        	existingHospital.setName(updatedHospital.getName());
-	        }
-	        if (updatedHospital.getTel() != null) {
-	        	existingHospital.setTel(updatedHospital.getTel());
-	        }
-	        if (updatedHospital.getAddress() != null) {
-	        	existingHospital.setAddress(updatedHospital.getAddress());
-	        }
-	        if (updatedHospital.getEmr() != null) {
-	        	existingHospital.setEmr(updatedHospital.getEmr());
-	        }
-
-	        // 업데이트된 병원 정보를 저장
-	        hospitalRepo.save(existingHospital);
-
-	        return new APIResponse<>(HttpStatus.OK);
-	    } else	
+	public APIResponse<Hospital> updateHospitalById(@RequestBody Hospital updatedHospital){
+	    try {
+			// 업데이트된 병원 정보를 저장
+	    	Hospital savedHospital = hospitalServ.save(updatedHospital);
+	        return new APIResponse<>(savedHospital, HttpStatus.OK);
+	    }catch (Exception e) {
+	    	e.printStackTrace();
 	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-	    
+	    }
 	}
 	
 	@PostMapping("")
