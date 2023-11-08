@@ -7,6 +7,12 @@ interface nfcdata {
   data: nfcdata_data;
 }
 
+export interface postdata {
+  beaconID: string;
+  deviceID: string;
+  patientID: number;
+}
+
 export class data_templat {
   patient: string;
   device: string;

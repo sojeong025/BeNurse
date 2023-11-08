@@ -19,7 +19,7 @@ import BleManager, {
   Peripheral,
 } from 'react-native-ble-manager';
 
-import {data_templat, proptemplat} from './interface';
+import {data_templat, proptemplat, postdata} from './interface';
 import axios, {AxiosResponse} from 'axios';
 ///////////////////////////////////////////////////////////////////////////////
 //ble신호 스캔 시작 함수
@@ -71,11 +71,12 @@ const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
 const SECONDS_TO_SCAN_FOR = 7;
 const SERVICE_UUIDS: string[] = [];
-const ALLOW_DUPLICATES = false;
+const ALLOW_DUPLICATES = true;
 
 function Native(prop: proptemplat) {
   const [read_data, setread_data] = useState<data_templat>(new data_templat());
   const [infostatus, setinfostatus] = useState<Number>(0);
+  const postdata = useRef<postdata>({beaconID: '', deviceID: '', patientID: 0});
   const beacon = useRef<string[]>([]);
   const init = useRef<boolean>(true);
   const isblescan = useRef<boolean>(false);
@@ -122,10 +123,8 @@ function Native(prop: proptemplat) {
       .get(url, {headers: header, params: params})
       .then((response: AxiosResponse<responseData>) => {
         const nfcdata: devicedata | patientdata = response.data.responseData;
-        console.log(nfcdata);
 
         if ('patientID' in nfcdata) {
-          console.log(nfcdata.patientID);
           //데이터 저장
           axios
             .get('https://k9e105.p.ssafy.io:9000/api/benurse/emr/patient', {
@@ -138,15 +137,16 @@ function Native(prop: proptemplat) {
                   response.data.responseData.patient.patient.name,
                 ),
               );
+              postdata.current.patientID = nfcdata.patientID;
+              //비트연산으로 데이터 저장 상태 갱신
+              setinfostatus(num => num | 0b01);
             });
-          //비트연산으로 데이터 저장 상태 갱신
-          setinfostatus(num => num | 0b01);
         }
         // 조건 분기 장비인 경우
         else if (nfcdata.device) {
-          console.log(nfcdata.name);
           //데이터 저장
           setread_data(data => data.set_device(nfcdata.name));
+          postdata.current.deviceID = nfcdata.id;
           //비트연산으로 데이터 저장 상태 갱신
           setinfostatus(num => num | 0b10);
         }
@@ -167,6 +167,7 @@ function Native(prop: proptemplat) {
             return prev.rssi > current.rssi ? prev : current;
           });
         setread_data(data => data.set_location(closestbeacon.id));
+        postdata.current.beaconID = closestbeacon.id;
         setinfostatus(num => num | 0b100);
       })
       .catch(err => {
@@ -203,10 +204,22 @@ function Native(prop: proptemplat) {
         beacon.current = beaconIds;
       })
       .catch(error => {
-        console.error('Error:', error);
+        console.error('get_our_beacon:', error);
       });
   };
 
+  const usedevice = () => {
+    const url = 'https://k9e105.p.ssafy.io:9000/api/benurse/device-history';
+    const header = {
+      accept: '*/*',
+      Authorization: prop.Auth,
+      'Content-Type': 'application/json',
+    };
+
+    axios.post(url, postdata.current, {headers: header}).then(response => {
+      console.log(response.data);
+    });
+  };
   useEffect(() => {
     // 최초 랜더링 시에만 실행
     if (init.current) {
@@ -236,6 +249,8 @@ function Native(prop: proptemplat) {
 
     //데이터 충족시 alert
     if (infostatus === 0b111) {
+      console.log(postdata);
+      // usedevice();
       Alert.alert('3가지 정보 스캔 완료');
     }
 
@@ -290,6 +305,7 @@ function Native(prop: proptemplat) {
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
       />
+      {infostatus === 0b111 && <Button onPress={usedevice} title="저장하기" />}
     </>
   );
 }
