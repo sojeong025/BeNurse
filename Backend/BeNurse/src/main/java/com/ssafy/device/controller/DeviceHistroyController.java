@@ -1,6 +1,7 @@
 package com.ssafy.device.controller;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.common.utils.APIResponse;
-import com.ssafy.device.model.Device;
 import com.ssafy.device.model.DeviceHistory;
 import com.ssafy.device.service.BeaconRepository;
 import com.ssafy.device.service.DeviceHistoryRepository;
@@ -71,7 +71,7 @@ public class DeviceHistroyController {
 			APIResponse<PatientResponse> pr = emrService.getPatientById(deviceHistory.getPatientID());
 			
 			deviceHistory.setNurseID(nurse.getID());
-			deviceHistory.setTime(LocalDateTime.now());
+			deviceHistory.setTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
 			deviceHistory.setPatientName(pr.getResponseData().getPatient().getName());
 			
 			log.info(deviceHistory.toString());
@@ -91,7 +91,7 @@ public class DeviceHistroyController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public APIResponse<List<DeviceHistory>> getAllDevice(@RequestParam("DeviceID") String deviceID) {
-		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 		log.info(now.minusDays(3).toString());	
 		log.info(now.toString());
 		List<DeviceHistory> deviceHistory = dhRepo.findAllByDeviceIDAndTimeBetweenOrderByIDDesc(deviceID, now.minusDays(3), now);

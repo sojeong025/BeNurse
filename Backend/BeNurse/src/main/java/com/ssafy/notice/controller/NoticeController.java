@@ -1,13 +1,10 @@
 package com.ssafy.notice.controller;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.common.utils.IDRequest;
-import com.ssafy.hospital.model.Hospital;
 import com.ssafy.notice.model.Notice;
 import com.ssafy.notice.service.NoticeRepository;
 import com.ssafy.notice.service.NoticeService;
@@ -71,7 +67,7 @@ public class NoticeController {
 		notice.setHospitalID(nurse.getHospitalID());
 		notice.setWriterName(nurse.getName());
 		notice.setWriterID(nurse.getID());
-		notice.setTime(LocalDateTime.now());
+		notice.setTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
 		
 	    Notice savedNotice = noticeRepo.save(notice);
 	    return new APIResponse<>(savedNotice, HttpStatus.OK);
