@@ -36,6 +36,9 @@ public class DeviceHistory {
 	@Column(name = "PATIENT_ID")
 	private long patientID;
 	
+	@Column(name = "PATIENT_NAME")
+	private String patientName;
+	
 	@Column(name = "BEACON_ID")
 	private String beaconID;
 	

@@ -20,6 +20,8 @@ import com.ssafy.device.model.Device;
 import com.ssafy.device.model.DeviceHistory;
 import com.ssafy.device.service.BeaconRepository;
 import com.ssafy.device.service.DeviceHistoryRepository;
+import com.ssafy.emr.model.PatientResponse;
+import com.ssafy.emr.service.EMRService;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
 
@@ -45,9 +47,12 @@ public class DeviceHistroyController {
 	@Autowired
 	BeaconRepository beaconRepo;
 	
+	@Autowired
+	EMRService emrService;
+	
 	// 장비 사용 내역 등록 POST
 	@PostMapping("")
-	@ApiOperation(value = "장비 사용 내역 등록", notes = "장비 사용 내역을 등록한다.")
+	@ApiOperation(value = "장비 사용 내역 등록", notes = "장비 사용 내역을 등록한다.\n장비 ID, 환자 ID, 비콘 ID만 입력")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = DeviceHistory.class),
 		@ApiResponse(code = 404, message = "결과 없음"),
@@ -62,11 +67,19 @@ public class DeviceHistroyController {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
-		deviceHistory.setNurseID(nurse.getID());
-		deviceHistory.setTime(LocalDateTime.now());
-		
-		DeviceHistory savedDeviceHistory = dhRepo.save(deviceHistory);
-	    return new APIResponse<>(savedDeviceHistory, HttpStatus.OK);
+		try {
+			APIResponse<PatientResponse> pr = emrService.getPatientById(deviceHistory.getPatientID());
+			
+			deviceHistory.setNurseID(nurse.getID());
+			deviceHistory.setTime(LocalDateTime.now());
+			deviceHistory.setPatientName(pr.getResponseData().getPatient().getName());
+			
+			DeviceHistory savedDeviceHistory = dhRepo.save(deviceHistory);
+		    return new APIResponse<>(savedDeviceHistory, HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	// 장비 사용 내역 조회 GET
