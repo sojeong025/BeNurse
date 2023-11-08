@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.PatientWard.model.PatientWard;
 import com.ssafy.PatientWard.service.PatientWardRepository;
+import com.ssafy.PatientWard.service.PatientWardService;
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.hospital.model.Ward;
 import com.ssafy.hospital.service.WardRepository;
@@ -45,6 +46,9 @@ public class PatientWardController {
 	@Autowired
 	OauthService oauthService;
 	
+	@Autowired
+	PatientWardService pwServ;
+	
 	// 환자 병동 등록 POST
 	@PostMapping("")
 	@ApiOperation(value = "환자 병동 등록", notes = "환자의 병동을 등록합니다.")
@@ -70,13 +74,18 @@ public class PatientWardController {
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<PatientWard> updatePatientWardByDeviceId(@RequestBody PatientWard patientWard){
-		PatientWard savedPatientWard = pwRepo.save(patientWard);
-		return new APIResponse<>(savedPatientWard, HttpStatus.OK);
+		try {
+			PatientWard savedPatientWard = pwServ.save(patientWard);
+			return new APIResponse<>(savedPatientWard, HttpStatus.OK);
+		} catch (Exception e) {	
+	    	e.printStackTrace();
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	    }
 	}
 	
 	// 병동 환자 조회 GET
 	@GetMapping("/all")
-	@ApiOperation(value = "병동 환자 조회", notes = "병원 내 모든 환자의 병동 정보를 조회한다.") 
+	@ApiOperation(value = "병동 전체환자 조회", notes = "병원 내 모든 환자의 병동 정보를 조회한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공", response = PatientWard.class),
         @ApiResponse(code = 500, message = "서버 오류")
@@ -123,7 +132,7 @@ public class PatientWardController {
 		return new APIResponse<>(patientWard, HttpStatus.OK);
 	}
 	
-	// 환자 입원 정보 조회
+	// 환자 병동 조회 GET
 	@GetMapping("")
 	@ApiOperation(value = "환자 병동 조회", notes = "환자 ID로 해당 환자의 병동을 조회한다.") 
     @ApiResponses({
@@ -133,8 +142,8 @@ public class PatientWardController {
     })
 	public APIResponse<PatientWard> getPatientWard(@RequestParam("patientID") long ID) {
 		try {
-			Optional<PatientWard> patient = pwRepo.findById(ID);
-			return new APIResponse<>(patient.get(), HttpStatus.OK);
+			PatientWard patient = pwServ.findById(ID);
+			return new APIResponse<>(patient, HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
