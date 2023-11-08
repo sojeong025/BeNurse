@@ -1,7 +1,7 @@
 package com.ssafy.offschedule.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +32,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Offschedule {
+public class Offschedule implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
