@@ -12,6 +12,11 @@ export default function PatientJournalItem({ journal, handleOpenModal }) {
   const { isEditActivated, ActivateEdit, selectedID, setSelectedID } =
     useBottomSheetStore((state) => state);
   const [isSelected, setIsSelected] = useState(false);
+  const [currentNurseId, setCurrentNurseId] = useState(0);
+
+  useEffect(() => {
+    setCurrentNurseId(localStorage.getItem("nurseID"));
+  }, []);
 
   const onLongPress = (id) => {
     ActivateEdit(`${id}/update`, (e) => handleOpenModal(e, id));
@@ -23,7 +28,7 @@ export default function PatientJournalItem({ journal, handleOpenModal }) {
 
   return (
     <S.StyledJournalItem isSelected={isSelected}>
-      <S.TimeChip>
+      <S.TimeChip isAuthor={currentNurseId == journal.writerID}>
         <div className="time_point"></div>
         <div className="time_label">
           {moment(journal.datetime).format("HH:mm")}
@@ -31,16 +36,26 @@ export default function PatientJournalItem({ journal, handleOpenModal }) {
       </S.TimeChip>
 
       <LongPressable
-        onLongPress={() => onLongPress(journal.id)}
+        onLongPress={() => {
+          if (currentNurseId == journal.writerID) {
+            onLongPress(journal.id);
+          }
+        }}
         onShortPress={expandItem}
         longPressTime={400}
       >
-        <S.JournalContentBox isSelected={isSelected}>
+        <S.JournalContentBox
+          isAuthor={currentNurseId == journal.writerID}
+          isSelected={isSelected}
+        >
           <div className="journal_top">{journal.content}</div>
           <hr style={{ width: "100%", border: "0.5px solid #D0BFFF" }} />
           <div className="journal_bottom">
             <div className="journal_type">{journal.category}</div>
-            <div>{journal.name} 간호사</div>
+            <div className="journal_nurse">
+              <p className="author">ME</p>
+              <p className="name">{journal.name} 간호사</p>
+            </div>
           </div>
         </S.JournalContentBox>
       </LongPressable>

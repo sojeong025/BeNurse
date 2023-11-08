@@ -25,16 +25,18 @@ export const TimeChip = styled.div`
 `;
 
 export const JournalContentBox = styled.div`
-  min-width: 200px;
+  min-width: 297px;
   display: flex;
   flex-direction: column;
   padding: 8px;
-  max-height: ${({ isSelected }) => (isSelected ? "1000px" : "60px")};
+  max-height: ${({ isSelected }) => (isSelected ? "1000px" : "63px")};
   box-shadow: 2px 2px 5px 0 #c4afff71;
   background-color: #c4afff1c;
   border-radius: 12px;
   margin-top: -6px;
   transition: all 0.5s ease-in-out;
+  /* border: 1.5px solid
+    ${({ isAuthor }) => (isAuthor ? "#956eff78" : "transparent")}; */
 
   & > .journal_top {
     font-size: ${Common.fontSize.fontXS};
@@ -60,5 +62,29 @@ export const JournalContentBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .journal_nurse {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+  .name {
+    color: ${({ isAuthor }) =>
+      isAuthor ? `${Common.color.purple03}` : `${Common.color.black01}`};
+    font-weight: ${({ isAuthor }) =>
+      isAuthor
+        ? `${Common.fontWeight.extrabold}`
+        : `${Common.fontWeight.normal}`};
+  }
+  .author {
+    display: ${({ isAuthor }) => (isAuthor ? "flex" : "none")};
+    background-color: #956eff;
+    color: ${Common.color.white01};
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
   }
 `;
