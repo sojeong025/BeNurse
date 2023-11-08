@@ -302,6 +302,49 @@ public class EMRController {
 		
 		return new APIResponse(resp, HttpStatus.OK);
 	}
+	
+	// 병동 내 환자 조회 GET
+	@GetMapping("/patient/wardall")
+	@ApiOperation(value = "병동 내 모든 환자 조회", notes = "소속 병동 내 모든 환자 정보를 조회한다.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "성공", response = List.class),
+			@ApiResponse(code = 500, message = "서버 오류") })
+	public APIResponse<List<PatientWardResponse>> getAllPatientByWardID(@RequestHeader("Authorization") String token) {
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+		}
+		
+		List<PatientWardResponse> resp = new ArrayList<>();
+		List<PatientWard> pwlist = pwRepo.findAllByHospitalIDAndIsHospitalizedAndWardID(nurse.getHospitalID(), true, nurse.getWardID());
+		
+		Optional<Hospital> hospital = hospitalRepo.findById(nurse.getHospitalID());
+		
+		if(hospital.isEmpty())
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		
+		for(PatientWard pw : pwlist) {
+			try {
+				PatientWardResponse pwr = new PatientWardResponse();
+				APIResponse<PatientResponse> pr = emrService.getPatientById(pw.getID());
+				if(pr.getResponseData() == null) {
+					log.error("not found patient (id:" + pw.getID()+")");
+					continue;
+				}
+				pwr.setPatient(pr.getResponseData());
+				pwr.setHospital(hospital.get());
+				pwr.setWard(wardRepo.findById(pw.getWardID()).get());
+				resp.add(pwr);
+			}catch (Exception e) {
+				log.error("not valid patient (id:"+pw.getID()+")");
+			}
+		}
+		
+		return new APIResponse(resp, HttpStatus.OK);
+	}
 
 	// 환자 검색 GET
 	@GetMapping("/patient/search")
