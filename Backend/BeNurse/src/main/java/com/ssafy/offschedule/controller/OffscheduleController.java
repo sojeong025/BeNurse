@@ -26,6 +26,7 @@ import com.ssafy.oauth.serivce.OauthService;
 import com.ssafy.offschedule.model.OffScheduleRequest;
 import com.ssafy.offschedule.model.Offschedule;
 import com.ssafy.offschedule.service.OffscheduleRepository;
+import com.ssafy.offschedule.service.OffscheduleService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,6 +44,9 @@ public class OffscheduleController {
 	
 	@Autowired
 	OauthService oauthService;
+	
+	@Autowired
+	OffscheduleService osServ;
 	
 	// 휴무 일정 신청 POST
 	@PostMapping("")
@@ -88,15 +92,13 @@ public class OffscheduleController {
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public APIResponse<Void> deleteOffscheduleById(@RequestBody IDRequest req) {
-	    Optional<Offschedule> offschedule = offscheduleRepo.findById(req.getID());
-
-	    if(offschedule.isPresent()) {
-	    	offscheduleRepo.delete(offschedule.get());
+	    try {
+	    	osServ.delete(req.getID());
 			return new APIResponse(HttpStatus.OK);
-		}
-		else
+		}catch (Exception e) {
+	    	e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
+	    }
 	} 
 	
 	// 휴무 신청 내역 검색 GET
