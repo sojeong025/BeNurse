@@ -4,18 +4,43 @@ import Container from "@components/atoms/Container/Container";
 import PatientItem from "@components/templates/Patient/PatientItem";
 import Input from "@components/atoms/Input/Input";
 import Button from "@components/atoms/Button/Button";
+import { customAxios } from "../../libs/axios";
 
 import { Select } from "./HandOverWritePage.styles";
 
 import { usePatientStore } from "@store/store";
+import { useWardStore } from "../../store/store";
 
 export default function HandOverWritePage() {
   const navigate = useNavigate();
 
   const { setSelectedPatient } = usePatientStore();
+  const wardId = useWardStore((state) => state.wardId);
+  console.log("인계장 작성페이지에서 wardId 체크", wardId);
 
   useEffect(() => {
     setSelectedPatient({});
+  }, []);
+
+  // 전체 인계장 SET 생성 => 인계장 ID 생성
+  useEffect(() => {
+    customAxios.post("HandoverSet").then((res) => {
+      console.log("전체 인계장 묶음 ID 생성용", res);
+    });
+  }, []);
+
+  const [patientInfo, setPatientInfo] = useState([]);
+
+  useEffect(() => {
+    customAxios.get("emr/patient/wardall").then((res) => {
+      console.log("병동 내 환자만 조회 결과 확인", res.data.responseData);
+      const patientsCard = res.data.responseData.map((patientData) => {
+        return {
+          ...patientData.patient,
+        };
+      });
+      setPatientInfo(patientsCard);
+    });
   }, []);
 
   const today = new Date();
@@ -29,109 +54,6 @@ export default function HandOverWritePage() {
       today.getDay(),
     ),
   );
-
-  // 임시 환자 정보
-  const patients = [
-    {
-      id: "1",
-      name: "종박사",
-      age: "32",
-      gender: "남",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "2",
-      name: "김싸피",
-      age: "45",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "3",
-      name: "이이이",
-      age: "64",
-      gender: "남",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "4",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "5",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "6",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "7",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "8",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "9",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "10",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "11",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-  ];
 
   return (
     <Container
@@ -178,14 +100,14 @@ export default function HandOverWritePage() {
               boxSizing: "border-box",
             }}
           >
-            {patients.map((patientInfo) => (
+            {patientInfo.map((patientInfo) => (
               <NavLink
-                to="patients/write"
+                to={patientInfo.id + "/patients/write"}
                 key={patientInfo.id}
                 onClick={() => setSelectedPatient(patientInfo)}
               >
                 <PatientItem
-                  type="patient"
+                  type="handoverpatient"
                   patientInfo={patientInfo}
                 />
               </NavLink>

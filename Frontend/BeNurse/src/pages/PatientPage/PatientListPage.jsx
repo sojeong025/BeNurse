@@ -19,7 +19,13 @@ export default function PatientListPage() {
       .get("emr/patient/all")
       .then((res) => {
         console.log("환자 목록 불러오기", res.data.responseData);
-        setPatients(res.data.responseData);
+        const patientsData = res.data.responseData.map((patientData) => {
+          return {
+            ...patientData.patient.patient,
+            ward: patientData.ward.name,
+          };
+        });
+        setPatients(patientsData);
       })
       .catch((error) => {
         console.error("환자 목록 로드 실패:", error);
@@ -80,20 +86,13 @@ export default function PatientListPage() {
           {patients &&
             patients.map((patientInfo) => (
               <NavLink
-              to={patientInfo.patient.patient.id + "/detail"}
-              key={patientInfo.patient.patient.id}
-              onClick={() =>
-                setSelectedPatient({
-                  ...patientInfo.patient.patient,
-                })
-              }
+                to={patientInfo.id + "/detail"}
+                key={patientInfo.id}
+                onClick={() => setSelectedPatient(patientInfo)}
               >
                 <PatientItem
                   type="patient"
-                  patientInfo={{
-                    ...patientInfo.patient.patient,
-                    ward: patientInfo.ward.name,
-                  }}
+                  patientInfo={patientInfo}
                 />
               </NavLink>
             ))}
