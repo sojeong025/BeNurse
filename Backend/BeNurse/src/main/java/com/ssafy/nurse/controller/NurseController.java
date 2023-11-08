@@ -23,6 +23,7 @@ import com.ssafy.common.utils.APIResponse;
 import com.ssafy.common.utils.IDRequest;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.nurse.service.NurseRepository;
+import com.ssafy.nurse.service.NurseService;
 import com.ssafy.oauth.serivce.OauthService;
 
 import io.swagger.annotations.Api;
@@ -42,12 +43,15 @@ public class NurseController {
 	@Autowired
 	OauthService oauthService;
 	
+	@Autowired
+	NurseService nurseServ;
+	
 	// 간호사 계정 생성은 로그인 과정에서 생성되기 때문에 Post 없음
 	
 	@GetMapping("/all")
 	@ApiOperation(value = "전체 간호사 조회", notes = "소속 병원 내의 모든 간호사를 조회한다.") 
     @ApiResponses({
-        @ApiResponse(code = 200, message = "성공", response = List.class),
+        @ApiResponse(code = 200, message = "성공", response = Nurse.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public APIResponse<List<Nurse>> getAllNotice(@RequestHeader("Authorization") String token) {
@@ -72,13 +76,15 @@ public class NurseController {
         @ApiResponse(code = 404, message = "간호사를 찾을 수 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	@Cacheable(value="nurse", key="#ID")
 	public APIResponse<Nurse> getNurse(@RequestParam("ID") long ID) {
-		Optional<Nurse> nurse = nurseRepo.findById(ID);
-		if(nurse.isPresent())
-			return new APIResponse<>(nurse.get(), HttpStatus.OK);
-		else
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		
+		try {
+			Nurse nurse = nurseServ.findById(ID);
+			return new APIResponse<>(nurse, HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND); 
+		}
 	}
 	
 	@GetMapping("/name")
@@ -130,18 +136,14 @@ public class NurseController {
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
 	@CachePut(value = "nurse", key = "#updatedNurse.ID")
-	public APIResponse<Nurse> updateNurseById(@RequestBody Nurse updatedNurse){
-		Optional<Nurse> optionNurse = nurseRepo.findById(updatedNurse.getID());
-		
-	    if (optionNurse.isPresent()) {
-	        Nurse existingNurse = optionNurse.get();
-
-	        // 업데이트된 간호사 정보를 저장
-	        nurseRepo.save(updatedNurse);
-
+	public APIResponse<Nurse> updateNurseById(@RequestBody Nurse updatedNurse){		
+	    try {
+	        nurseServ.save(updatedNurse);
 	        return new APIResponse<>(updatedNurse, HttpStatus.OK);
-	    } else	
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	    }catch (Exception e) {
+	    	e.printStackTrace();
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	    }
 	}
 	
 	@DeleteMapping("")
@@ -151,15 +153,13 @@ public class NurseController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-    @CacheEvict(value = "nurse", key="#ID")
 	public APIResponse<Void> deleteNurseById(@RequestBody IDRequest req) {
-	    Optional<Nurse> nurse = nurseRepo.findById(req.getID());
-
-	    if(nurse.isPresent()) {
-	    	nurseRepo.delete(nurse.get());
+	    try {
+	    	nurseServ.delete(req.getID());
 			return new APIResponse(HttpStatus.OK);
-		}
-		else
+		}catch (Exception e) {
+	    	e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	    }
 	} 
 }
