@@ -75,7 +75,10 @@ export default function HandOverDetailNurse() {
         >
           <NavLink
             to={"/patient/" + patientId + "/detail/journal"}
-            state={{ from: "HandOver" }}
+            onClick={() => {
+              console.log(1);
+              localStorage.setItem("preJournal", "handover");
+            }}
           >
             <div
               style={{

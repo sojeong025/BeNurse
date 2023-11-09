@@ -30,7 +30,7 @@ export default function JournalTimeLine({ patientId }) {
     if (!selectedDate) {
       setSelectedDate(moment().startOf("day"));
     }
-    console.log(location.state);
+    console.log(localStorage.getItem("preJournal"));
   }, []);
 
   useEffect(() => {
