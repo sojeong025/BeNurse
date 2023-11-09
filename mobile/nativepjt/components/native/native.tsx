@@ -311,6 +311,7 @@ function Native(prop: proptemplat) {
       for (const listener of listeners) {
         listener.remove();
       }
+      NfcManager.unregisterTagEvent();
     };
   }, [read_data, infostatus]);
 

@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
 
 import {
-  Text,
   Dimensions,
   StyleSheet,
   SafeAreaView,
@@ -9,9 +8,9 @@ import {
   Modal,
   View,
   NativeEventEmitter,
-  Pressable,
   StatusBar,
   Platform,
+  Alert,
 } from 'react-native';
 
 import {WebView} from 'react-native-webview';
@@ -25,6 +24,7 @@ const windowHeight = Dimensions.get('window').height;
 function App(): JSX.Element {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const Authtoken = useRef<string>('');
+  const interval = useRef<boolean>(false);
 
   const handleAndroidPermissions = () => {
     if (Platform.OS === 'android' && Platform.Version >= 31) {
@@ -73,8 +73,17 @@ function App(): JSX.Element {
           // source={{uri: 'http://192.168.30.150:3000'}}
           source={{uri: 'https://k9e105.p.ssafy.io/'}}
           onMessage={e => {
+            if (interval.current) {
+              Alert.alert('', '잠시만 기다려 주세요');
+              return;
+            }
             const data = e.nativeEvent.data;
             Authtoken.current = data;
+            interval.current = true;
+            setTimeout(() => {
+              interval.current = false;
+            }, 7000);
+
             openModal();
           }}
         />
