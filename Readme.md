@@ -1,9 +1,9 @@
 <div align="center">
 
-# 🎙&nbsp; BeNurse
+# 🏥&nbsp; BeNurse
 간호사들의 <b>업무 편의성을</b>올려주는 서비스<br/>
 
-<img src="" width="700">
+<img src="/uploads/cc6e14bf4ffd6073f21c45a9b6b09db0/BeNurseIcon.png" width="700">
 </div>
 
 
@@ -27,13 +27,13 @@
 
 Mobile
 
-1️⃣ <b>Login & Invite_Code</b>
+👨‍⚕️ <b>Login & Invite_Code</b>
 
 |<img src="">|<img src="">|
 | :------: | :------: |
 | **Login Page** | **Invite Code** |
 <br>
-2️⃣ <b>Main</b>
+👨‍⚕️ <b>Main</b>
 
 |<img src="">|<img src="">|
 | :------: | :------: |
@@ -41,7 +41,7 @@ Mobile
 |<img src="">|<img src="">|
 | **My Page** | **Tip** |
 <br>
-3️⃣ <b>Handover</b>
+👨‍⚕️ <b>Handover</b>
 
 |<img src="">|<img src="">|
 | :------: | :------: |
@@ -52,7 +52,7 @@ Mobile
 | **Take&Give Handover** | **Temp Handover** |
 
 <br>
-3️⃣ <b>Schedule</b>
+👨‍⚕️ <b>Schedule</b>
 
 |<img src="">|<img src="">|
 | :------: | :------: |
@@ -61,7 +61,7 @@ Mobile
 | **Day Off Apply** | **Day Detail** |
 
 <br>
-📸 <b>Patient Management</b>
+👨‍⚕️ <b>Patient Management</b>
 
 |<img src="">|<img src="">|
 | :------: | :------: |
@@ -70,7 +70,7 @@ Mobile
 | **Patient Journal** ||
 
 <br>
-📸 <b>Device Management</b>
+👨‍⚕️ <b>Device Management</b>
 
 |<img src="">|<img src="">|
 | :------: | :------: |
@@ -81,25 +81,24 @@ Mobile
 
 Web
 
-1️⃣ <b>Login & Select Role</b>
+👩‍⚕️ <b>Login & Select Role</b>
 
 |<img src="">|<img src="">|
 | :------: | :------: |
 | **Login Page** | **Select Role** |
 <br>
-1️⃣ <b>Create Hospital</b>
+👩‍⚕️ <b>Create Hospital</b>
 
-|<img src="">||
-| :------: ||
-| **Create Hospital** ||
+|<img src="">|
+| **Create Hospital** |
 <br>
-1️⃣ <b>Main</b>
+👩‍⚕️ <b>Main</b>
 
 |<img src="">|<img src="">|
 | :------: | :------: |
 | **Main Page** | **Schedule** |
 <br>
-1️⃣ <b>Make Schedule & Management Hospital</b>
+👩‍⚕️ <b>Make Schedule & Management Hospital</b>
 
 |<img src="">|<img src="">|
 | :------: | :------: |
@@ -138,6 +137,7 @@ Web
 ### 💻 IDE
   - Visual Studio Code `1.83.0`
   - Eclipse `4.29.0`
+  - Android studio
 
 ### 📱 Frontend
 
@@ -157,8 +157,11 @@ Web
   - mariaDB
 
 
-### IoT
-
+### Mobile
+  - React Native
+  - NFC 
+  - BLE
+  - Android studio
 
 
 ### Infra
@@ -174,41 +177,29 @@ Web
 
 ## 5. 설계 문서
 
+### ◼ Figma
 
-### ◼ 요구사항 명세서
+<img src="/uploads/e41dcbe7fe227a7afc2047d7ce66b16a/피그마_웹.PNG"/>
 
-<img src=""/>
+<img src="/uploads/251534c659e7c6e9bc95413646cbb625/피그마_모바일.PNG"/>
 
-<img src=""/>
 
-<img src=""/>
+### ◼ 기능 명세서
 
-<img src=""/>
+<img src="/uploads/ed11dc42ae2bf967c0f818c23a8892f8/기능명세서_1_.PNG"/>
 
+<img src="/uploads/c048df57ce9c07b536ef55dfad5618c9/기능명세서_2_.PNG"/>
+
+<img src="/uploads/4828b5491894f9cf7e8206665c73f951/기능명세서_3_.PNG"/>
 
 
 ### ◼ API 명세서
 
-<img src=""/>
+<img src="/uploads/d4d24e064d37bad842aee830c555c322/API_1_.PNG"/>
 
-<img src=""/>
+<img src="/uploads/954964b821805fd627643149d1137018/API_2_.PNG"/>
 
-<img src=""/>
-
-<img src=""/>
-
-<img src=""/>
-
-<img src=""/>
-
-<img src=""/>
-
-<img src=""/>
-
-<img src=""/>
-
-<img src=""/>
-
+<img src="/uploads/8183c6fa36a244bb9ea1f2a879fd2e9f/API_3_.PNG"/>
 
 
 ### ◼ ERD
@@ -217,6 +208,19 @@ Web
 
 ### ◼ Swagger
 
+<img src="/uploads/48bc27e363090f955f5e942203296e7e/swagger_1_.PNG"/>
+
+<img src="/uploads/d53d760800c5d671e1b4a263c4e8eb45/swagger_2_.PNG"/>
+
+<img src="/uploads/b2d7f8b761f27c7894f68b21537a2ff9/swagger_3_.PNG"/>
+
+<img src="/uploads/f10102d3f6b27602dd0ce17ea977a24a/swagger_4_.PNG"/>
+
+<img src="/uploads/b9018c12b98f834a069bfe6489014620/swagger_5_.PNG"/>
+
+<img src="/uploads/d7d7289c48645f6de3845f5ed8aa995c/swagger_6_.PNG"/>
+
+<img src="/uploads/c8694f7432d04f0fa9c791bc7537a2ce/swagger_7_.PNG"/>
 
 ### ◼ 시스템 아키텍처
 
