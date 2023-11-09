@@ -3,7 +3,7 @@ import { Common } from "@utils/global.styles.jsx";
 
 export const TimeLineContainer = styled.div`
   padding-top: 10px;
-  height: calc(100% - 176px);
+  height: calc(100% - 137px);
   overflow-y: auto;
   width: 100%;
 `;

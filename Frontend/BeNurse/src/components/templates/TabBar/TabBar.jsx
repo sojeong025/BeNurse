@@ -17,14 +17,14 @@ export default function TabBar() {
   const location = useLocation();
 
   useEffect(() => {
-    console.log(location.pathname);
     if (
       location.pathname === "/" ||
       location.pathname.startsWith("/login") ||
       location.pathname === "/off-application" ||
       location.pathname === "/off-application-write" ||
       location.pathname === "/off-application-finish" ||
-      location.pathname.startsWith("/handover-list/patients/detail")
+      location.pathname.startsWith("/handover-list/patients/detail") ||
+      location.pathname.includes("/detail/journal")
     ) {
       setVisibility("none");
     } else {

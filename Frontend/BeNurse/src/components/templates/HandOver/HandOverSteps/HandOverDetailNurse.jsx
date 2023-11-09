@@ -73,7 +73,10 @@ export default function HandOverDetailNurse() {
             alignItems: "center",
           }}
         >
-          <NavLink to={"/patient/" + patientId + "/detail/journal"}>
+          <NavLink
+            to={"/patient/" + patientId + "/detail/journal"}
+            state={{ from: "HandOver" }}
+          >
             <div
               style={{
                 display: "flex",

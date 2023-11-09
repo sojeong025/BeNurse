@@ -17,8 +17,8 @@ export default function PatientJournalMain() {
         to="write"
         style={{
           position: "absolute",
-          right: "14px",
-          bottom: "80px",
+          right: "30px",
+          bottom: "40px",
           zIndex: 1,
         }}
       >

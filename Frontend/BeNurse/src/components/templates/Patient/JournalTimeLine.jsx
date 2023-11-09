@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import moment from "moment";
 
 import * as S from "./JournalTimeLine.styles";
@@ -24,11 +24,13 @@ export default function JournalTimeLine({ patientId }) {
   const { selectedDate, setSelectedDate } = useDateStore((state) => state);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (!selectedDate) {
       setSelectedDate(moment().startOf("day"));
     }
+    console.log(location.state);
   }, []);
 
   useEffect(() => {
@@ -85,7 +87,7 @@ export default function JournalTimeLine({ patientId }) {
         <div
           style={{
             width: "100%",
-            height: "calc(100% - 176px)",
+            height: "calc(100% - 137px)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
