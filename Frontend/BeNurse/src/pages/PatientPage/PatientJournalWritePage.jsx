@@ -11,6 +11,7 @@ import Button from "../../components/atoms/Button/Button";
 import PatientDetailProfile from "../../components/templates/Patient/PatientDetailProfile";
 
 import { ConfigProvider, Select } from "antd";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function PatientJournalWritePage() {
   const navigate = useNavigate();
@@ -60,6 +61,7 @@ export default function PatientJournalWritePage() {
 
   return (
     <Container>
+      <Toaster />
       <div
         style={{
           margin: "80px auto 0 auto",
@@ -83,7 +85,7 @@ export default function PatientJournalWritePage() {
               }}
             >
               <Select
-                placeholder="과명"
+                placeholder="카테고리"
                 optionFilterProp="children"
                 onChange={onChange}
                 filterOption={filterOption}
@@ -128,6 +130,34 @@ export default function PatientJournalWritePage() {
           <Button
             variant="primary"
             onClick={() => {
+              if (!journal.category) {
+                toast("카테고리를 선택해주세요.", {
+                  position: "bottom-center",
+                  icon: "🚨",
+                  duration: 1500,
+                  style: {
+                    fontSize: "14px",
+                    borderRadius: "40px",
+                    background: "#000000d1",
+                    color: "#fff",
+                  },
+                });
+                return;
+              }
+              if (!journal.content) {
+                toast("내용을 작성해주세요.", {
+                  position: "bottom-center",
+                  icon: "🚨",
+                  duration: 1500,
+                  style: {
+                    fontSize: "14px",
+                    borderRadius: "40px",
+                    background: "#000000d1",
+                    color: "#fff",
+                  },
+                });
+                return;
+              }
               customAxios
                 .post("emr/journal", {
                   category: journal.category,
@@ -135,7 +165,7 @@ export default function PatientJournalWritePage() {
                   datetime: moment().add(9, "hours").toISOString(),
                   id: 0,
                   patientID: patientId,
-                  writerID: 2, //TODO - 현재 로그인한 간호사 id 가져오는 걸로 바꿔주기
+                  writerID: localStorage.getItem("nurseID"),
                 })
                 .then((res) => {
                   console.log("간호 일지 작성 성공", res);
