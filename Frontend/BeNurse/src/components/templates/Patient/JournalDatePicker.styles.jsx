@@ -21,7 +21,7 @@ export const HorizontalDatePicker = styled.div`
     display: flex;
     width: 100%;
     padding: 0 11px;
-    justify-content: space-between;
+    justify-content: center;
     gap: 10px;
     align-items: center;
     color: ${Common.color.white01};
