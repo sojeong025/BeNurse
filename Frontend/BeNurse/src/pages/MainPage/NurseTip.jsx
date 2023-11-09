@@ -14,6 +14,8 @@ import nurse_tip_09 from "@assets/Images/BeNurse_tips/nurse_tip_09.png";
 import Box from "../../components/atoms/Box/Box";
 import * as S from "./MainPage.styles";
 
+import { Skeleton } from "antd";
+
 export default function NurseTip() {
   const tips = [
     {
@@ -65,6 +67,7 @@ export default function NurseTip() {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleTipBoxClick = (event, id) => {
     event.preventDefault();
@@ -75,6 +78,11 @@ export default function NurseTip() {
   const handleCloseModal = () => {
     setModalIsOpen(false);
     setModalContent({});
+    setIsLoading(true);
+  };
+
+  const onLoadHandler = () => {
+    setIsLoading(false);
   };
 
   return (
@@ -111,11 +119,13 @@ export default function NurseTip() {
             overflowX: "hidden",
           }}
         >
+          {isLoading ? <Skeleton active /> : <></>}
           <div style={{ maxHeight: "600px", overflowY: "auto" }}>
             <img
               width="100%"
               src={modalContent.imgSrc}
               alt=""
+              onLoad={onLoadHandler}
             />
           </div>
         </div>

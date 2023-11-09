@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Skeleton } from "antd";
 import { useParams } from "react-router-dom";
 import PatientDetailProfile from "../../components/templates/Patient/PatientDetailProfile";
 import PatientDetailHeader from "../../components/templates/Patient/PatientDetailHeader";
