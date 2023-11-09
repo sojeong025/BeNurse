@@ -14,8 +14,10 @@ import { customAxios } from "../../libs/axios";
 
 export default function PatientListPage() {
   const [isLoading, setIsLoading] = useState(true);
-  const [patients, setPatients] = useState();
+  const [patients, setPatients] = useState([]);
   const { setSelectedPatient } = usePatientStore();
+  const [searchingWord, setSearchingWord] = useState("");
+  const [filteredPatients, setFilteredPatients] = useState([]);
 
   useEffect(() => {
     customAxios
@@ -23,6 +25,7 @@ export default function PatientListPage() {
       .then((res) => {
         console.log("환자 목록 불러오기", res.data.responseData);
         setPatients(res.data.responseData);
+        setFilteredPatients(res.data.responseData);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -30,6 +33,14 @@ export default function PatientListPage() {
       });
     setSelectedPatient({});
   }, []);
+
+  useEffect(() => {
+    setFilteredPatients(
+      patients.filter((patientInfo) =>
+        patientInfo.patient.patient.name.includes(searchingWord),
+      ),
+    );
+  }, [searchingWord]);
 
   return (
     <div
@@ -55,6 +66,9 @@ export default function PatientListPage() {
           width={"356px"}
           variant={"search"}
           placeholder={"환자 이름으로 검색"}
+          onChange={(event) => {
+            setSearchingWord(event.target.value);
+          }}
         />
       </div>
       <div
@@ -101,8 +115,8 @@ export default function PatientListPage() {
                 height="60px"
               />
             </div>
-          ) : patients ? (
-            patients.map((patientInfo) => (
+          ) : filteredPatients.length > 0 ? (
+            filteredPatients.map((patientInfo) => (
               <NavLink
                 to={patientInfo.patient.patient.id + "/detail"}
                 key={patientInfo.patient.patient.id}
