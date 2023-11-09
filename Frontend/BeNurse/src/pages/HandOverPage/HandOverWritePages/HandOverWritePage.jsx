@@ -8,9 +8,13 @@ import { customAxios } from "../../../libs/axios";
 import { Select } from "./HandOverWritePage.styles";
 
 import { usePatientStore } from "@store/store";
+import { useHandoverSetStore } from "../../../store/store";
 import { useWardStore } from "../../../store/store";
 
 export default function HandOverWritePage() {
+  const setHandoverSetId = useHandoverSetStore(
+    (state) => state.setHandoverSetId,
+  );
   const { setSelectedPatient } = usePatientStore();
   const wardId = useWardStore((state) => state.wardId);
   console.log("인계장 작성페이지에서 wardId 체크", wardId);
@@ -20,26 +24,15 @@ export default function HandOverWritePage() {
   }, []);
 
   // 전체 인계장 SET 생성 => 인계장 ID 생성
-  const [handoversId, setHandoversId] = useState();
   useEffect(() => {
     customAxios.post("HandoverSet").then((res) => {
       console.log("전체 인계장 묶음 ID 생성용", res);
-      setHandoversId(res.data.responseData.id);
+      setHandoverSetId(res.data.responseData.id);
     });
   }, []);
 
-  // 환자 카드 선택시 인계장 생성
   const handlePatientCardClick = (patientInfo) => {
     setSelectedPatient(patientInfo);
-
-    const handover = {};
-    const data = {
-      handover: handover,
-      setID: handoversId,
-    };
-    customAxios.post("Handover", data).then((res) => {
-      console.log("POST 요청 결과", res);
-    });
   };
 
   const [patientInfo, setPatientInfo] = useState([]);
