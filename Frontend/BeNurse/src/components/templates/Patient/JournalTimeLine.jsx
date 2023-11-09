@@ -16,9 +16,11 @@ import Modal from "../../atoms/Modal/Modal";
 import PatientJournalItem from "./PatientJournalItem";
 import empty from "@assets/Images/empty.png";
 import trashcan from "@assets/Images/trashcan.png";
+import write_loading from "@assets/Images/write_loading.gif";
 
 export default function JournalTimeLine({ patientId }) {
   const [journalList, setJournalList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { selectedDate, setSelectedDate } = useDateStore((state) => state);
 
   const navigate = useNavigate();
@@ -30,6 +32,7 @@ export default function JournalTimeLine({ patientId }) {
   }, []);
 
   useEffect(() => {
+    setIsLoading(true);
     customAxios
       .post("emr/journal/search", {
         patientID: patientId,
@@ -47,6 +50,7 @@ export default function JournalTimeLine({ patientId }) {
           return dateA - dateB;
         });
         setJournalList(journalList);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("간호일지 목록 로드 실패:", error);
@@ -77,87 +81,107 @@ export default function JournalTimeLine({ patientId }) {
 
   return (
     <>
-      <S.TimeLineContainer {...handlers}>
-        <S.JournalItemContainer>
-          {journalList[0] != undefined ? (
-            <>
-              {journalList.map((journal) => (
-                <PatientJournalItem
-                  key={journal.id}
-                  journal={journal}
-                  handleOpenModal={handleOpenModal}
-                />
-              ))}
-              <div className="timeline-border"></div>
-            </>
-          ) : (
-            <div className="timeline-empty">
-              <img
-                src={empty}
-                alt=""
-                width="150px"
-                height="150px"
-              />
-              <p>등록된 기록이 없습니다.</p>
-            </div>
-          )}
-        </S.JournalItemContainer>
-        <Modal
-          visible={modalIsOpen}
-          closable={false}
-          maskClosable={true}
-          onClose={handleCloseModal}
-          width="300px"
+      {isLoading ? (
+        <div
+          style={{
+            width: "100%",
+            height: "calc(100% - 176px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            opacity: "0.9",
+          }}
         >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-              overflowX: "hidden",
-            }}
+          <img
+            width="90px"
+            height="90px"
+            src={write_loading}
+            alt=""
+          />
+        </div>
+      ) : (
+        <S.TimeLineContainer {...handlers}>
+          <S.JournalItemContainer>
+            {journalList[0] != undefined ? (
+              <>
+                {journalList.map((journal) => (
+                  <PatientJournalItem
+                    key={journal.id}
+                    journal={journal}
+                    handleOpenModal={handleOpenModal}
+                  />
+                ))}
+                <div className="timeline-border"></div>
+              </>
+            ) : (
+              <div className="timeline-empty">
+                <img
+                  src={empty}
+                  alt=""
+                  width="150px"
+                  height="150px"
+                />
+                <p>등록된 기록이 없습니다.</p>
+              </div>
+            )}
+          </S.JournalItemContainer>
+          <Modal
+            visible={modalIsOpen}
+            closable={false}
+            maskClosable={true}
+            onClose={handleCloseModal}
+            width="300px"
           >
             <div
               style={{
-                fontSize: "16px",
-                maxHeight: "600px",
-                overflowY: "auto",
                 display: "flex",
                 flexDirection: "column",
+                justifyContent: "center",
                 alignItems: "center",
-                gap: "20px",
+                width: "100%",
+                overflowX: "hidden",
               }}
             >
-              <img
-                src={trashcan}
-                style={{ width: "60px" }}
-                alt=""
-              />
-              <div>정말 삭제하시겠습니까?</div>
-              <Button
-                variant="danger"
-                width="100px"
-                onClick={() => {
-                  customAxios
-                    .delete("emr/journal?id=" + modalItem)
-                    .then((response) => {
-                      console.log("간호일지 삭제 성공");
-                      navigate(0);
-                      setModalIsOpen(false);
-                    })
-                    .catch((error) => {
-                      console.error("간호일지 삭제 실패:", error);
-                    });
+              <div
+                style={{
+                  fontSize: "16px",
+                  maxHeight: "600px",
+                  overflowY: "auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "20px",
                 }}
               >
-                삭제하기
-              </Button>
+                <img
+                  src={trashcan}
+                  style={{ width: "60px" }}
+                  alt=""
+                />
+                <div>정말 삭제하시겠습니까?</div>
+                <Button
+                  variant="danger"
+                  width="100px"
+                  onClick={() => {
+                    customAxios
+                      .delete("emr/journal?id=" + modalItem)
+                      .then((response) => {
+                        console.log("간호일지 삭제 성공");
+                        navigate(0);
+                        setModalIsOpen(false);
+                      })
+                      .catch((error) => {
+                        console.error("간호일지 삭제 실패:", error);
+                      });
+                  }}
+                >
+                  삭제하기
+                </Button>
+              </div>
             </div>
-          </div>
-        </Modal>
-      </S.TimeLineContainer>
+          </Modal>
+        </S.TimeLineContainer>
+      )}
     </>
   );
 }

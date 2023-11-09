@@ -8,18 +8,11 @@ import * as S from "./PatientDetailProfile.styles";
 import Box from "@components/atoms/Box/Box";
 import PatientImages from "./PatientImages";
 
-// Images
-import patientImg from "@assets/Images/patient_male.png";
-
 // Icons
 import schedule from "@assets/Icons/schedule.svg";
 import { PiNotepad } from "react-icons/pi";
 
-// Store
-import { usePatientStore } from "@store/store";
-
 export default function PatientDetailProfile({ patient }) {
-  const { selectedPatient } = usePatientStore((state) => state);
 
   return (
     <Box
