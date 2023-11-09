@@ -10,9 +10,34 @@ import { customAxios } from "../../../libs/axios";
 import { useParams, useNavigate } from "react-router-dom";
 import Container from "@components/atoms/Container/Container";
 import Button from "@components/atoms/Button/Button";
-import { usePatientStore } from "@store/store";
+import { useHandoverSetStore } from "../../../store/store";
 
 export default function HandOverPatientPage() {
+  const handoverSetId = useHandoverSetStore((state) => state.handoverSetId);
+
+  const handlePatientCardClick = () => {
+    const data = {
+      setID: handoverSetId,
+      handover: {
+        cc: [],
+        etc: [],
+        id: 0,
+        journals: [
+          {
+            comment: "",
+            journalID: 0,
+          },
+        ],
+        patientID: patientId,
+        special: [],
+      },
+    };
+    customAxios.post("Handover", data).then((res) => {
+      console.log("POST 요청 결과", res);
+      navigate("/handover-write/" + patientId + "/patients/write");
+    });
+  };
+
   const navigate = useNavigate();
   const [patient, setPatient] = useState({});
   const { patientId } = useParams();
@@ -130,9 +155,7 @@ export default function HandOverPatientPage() {
           <Button
             width="100%"
             variant="primary"
-            onClick={() =>
-              navigate("/handover-write/" + patientId + "/patients/write")
-            }
+            onClick={handlePatientCardClick}
           >
             인계장 작성
           </Button>

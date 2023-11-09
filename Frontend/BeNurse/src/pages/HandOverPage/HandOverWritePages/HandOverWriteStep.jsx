@@ -10,8 +10,10 @@ import HandOverDetailSign from "@components/templates/HandOver/HandOverSteps/Han
 import HandOverDetailEtc from "@components/templates/HandOver/HandOverSteps/HandOverDetailEtc";
 
 import * as S from "./HandOverWriteStep.styles";
+import { useNavigate } from "react-router-dom";
 
 export default function HandOverWriteStep() {
+  const navigate = useNavigate();
   const [bgColor, setBgColor] = useState("white");
 
   const steps = [
@@ -74,7 +76,7 @@ export default function HandOverWriteStep() {
           {current === steps.length - 1 && (
             <BottomButton
               onPrevClick={() => prev()}
-              onNextClick={() => message.success("Processing complete!")}
+              onNextClick={() => navigate("/handover-write")}
               nextText="완료"
             />
           )}
