@@ -10,7 +10,7 @@ export default function PatientJournalMain() {
   const { patientId } = useParams();
 
   return (
-    <div style={{ width: "100%", marginTop: "80px" }}>
+    <div style={{ width: "100%", marginTop: "83px" }}>
       <JournalDatePicker />
       <JournalTimeLine patientId={patientId} />
       <Link

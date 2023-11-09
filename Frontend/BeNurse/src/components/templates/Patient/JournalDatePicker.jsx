@@ -6,7 +6,10 @@ import { useDateStore } from "../../../store/store";
 
 import * as S from "./JournalDatePicker.styles";
 
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import {
+  BsFillArrowLeftCircleFill,
+  BsFillArrowRightCircleFill,
+} from "react-icons/bs";
 
 export default function JournalDatePicker() {
   const { selectedDate, setSelectedDate } = useDateStore((state) => state);
@@ -70,7 +73,7 @@ export default function JournalDatePicker() {
               setSelectedDate(moment(selectedDate).subtract(1, "months"))
             }
           >
-            <MdKeyboardArrowLeft />
+            <BsFillArrowLeftCircleFill />
           </S.MonthButton>
           <div>{moment(selectedDate).format("YYYY.MM")}</div>
           <S.MonthButton
@@ -78,7 +81,7 @@ export default function JournalDatePicker() {
               setSelectedDate(moment(selectedDate).add(1, "months"))
             }
           >
-            <MdKeyboardArrowRight />
+            <BsFillArrowRightCircleFill />
           </S.MonthButton>
         </div>
         <S.SelectedDateBox></S.SelectedDateBox>

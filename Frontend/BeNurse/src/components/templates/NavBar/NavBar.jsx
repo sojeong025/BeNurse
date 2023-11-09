@@ -47,8 +47,8 @@ export default function NavBar({ onTempSave }) {
   const temSaveRoutes = ["/handover-write/"];
 
   const path = useLocation().pathname;
-  const shouldDisplayBackIcon = backRoutes.some((route) =>
-    path.startsWith(route),
+  const shouldDisplayBackIcon = backRoutes.some(
+    (route) => path.startsWith(route) || /^\/patient\/\d+\/detail/.test(path),
   );
   const shouldDisplayNextIcon = nextRoutes.includes(path);
   const shouldDisplayTempSaveIcon = temSaveRoutes.some((route) =>
