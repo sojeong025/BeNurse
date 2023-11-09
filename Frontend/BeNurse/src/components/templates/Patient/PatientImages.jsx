@@ -86,25 +86,25 @@ export default function PatientImages({
 
   return (
     <>
-      <img
-        width="60px"
-        height="60px"
-        className={className}
-        src={isCompleted ? src : patient_default}
-        style={style}
-        alt=""
-        onLoad={handleImageLoad}
-      />
-      {/* {!isCompleted && (
+      {!isCompleted && (
         <img
           width="60px"
           height="60px"
           className={className}
-          src={patient_default}
           style={style}
-          alt=""
+          src={patient_default}
         />
-      )} */}
+      )}
+
+      <img
+        width="60px"
+        height="60px"
+        className={className}
+        src={src}
+        style={{ ...style, display: isCompleted ? "block" : "none" }}
+        alt=""
+        onLoad={handleImageLoad}
+      />
     </>
   );
 }
