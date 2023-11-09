@@ -24,46 +24,86 @@
 <br>
 
 ## 2. 서비스 화면
-1️⃣ <b>1</b>
+
+Mobile
+
+1️⃣ <b>Login & Invite_Code</b>
 
 |<img src="">|<img src="">|
 | :------: | :------: |
-| **Main Page** | **Login Page** |
-|<img src="">|<img src="">|
-| **About Page** | **About Page** |
+| **Login Page** | **Invite Code** |
 <br>
-2️⃣ <b>2</b>
+2️⃣ <b>Main</b>
 
 |<img src="">|<img src="">|
 | :------: | :------: |
-| **Store Page** | **Filter** |
+| **Main Page** | **Notice** |
 |<img src="">|<img src="">|
-| **Product Detail** | **Product Test** |
-|<img src="">||
-| **Purchase Page** ||
+| **My Page** | **Tip** |
 <br>
-3️⃣ <b>3</b>
+3️⃣ <b>Handover</b>
 
 |<img src="">|<img src="">|
 | :------: | :------: |
-| **No Voice** | **Record Page** |
+| **Handover Main Page** | **Create Handover** |
+|<img src="">|<img src="">|<img src="">|<img src="">|
+| **Create Handover** | **Create Handover** | **Create Handover** | **Create Handover** |
 |<img src="">|<img src="">|
-| **Voice Studying Page** | **Voice Finish Page** |
-|<img src="">||
-| **Product Custom Page** ||
+| **Take&Give Handover** | **Temp Handover** |
 
 <br>
-3️⃣ <b>4</b>
+3️⃣ <b>Schedule</b>
 
 |<img src="">|<img src="">|
 | :------: | :------: |
-| **Profile Page** | **My Voice Detail** |
+| **Weekly Schedule** | **Monthly Schedule** |
 |<img src="">|<img src="">|
-| **SellList Page** | **Sell Detail** |
+| **Day Off Apply** | **Day Detail** |
+
+<br>
+📸 <b>Patient Management</b>
+
+|<img src="">|<img src="">|
+| :------: | :------: |
+| **Patient List** | **Patient Detail** |
 |<img src="">||
-| **BuyList Page** ||
+| **Patient Journal** ||
+
+<br>
+📸 <b>Device Management</b>
+
 |<img src="">|<img src="">|
-| **UseList Page** | **VoiceUse Detail** |
+| :------: | :------: |
+| **Device Main** | **Device List** |
+|<img src="">|<img src="">|
+| **Device Location** | **Device Use List** |
+<br>
+
+Web
+
+1️⃣ <b>Login & Select Role</b>
+
+|<img src="">|<img src="">|
+| :------: | :------: |
+| **Login Page** | **Select Role** |
+<br>
+1️⃣ <b>Create Hospital</b>
+
+|<img src="">||
+| :------: ||
+| **Create Hospital** ||
+<br>
+1️⃣ <b>Main</b>
+
+|<img src="">|<img src="">|
+| :------: | :------: |
+| **Main Page** | **Schedule** |
+<br>
+1️⃣ <b>Make Schedule & Management Hospital</b>
+
+|<img src="">|<img src="">|
+| :------: | :------: |
+| **Make Schedule** | **Management** |
 
 <br>
 
@@ -93,11 +133,11 @@
 - 형상 관리 : Gitlab, Gerrit
 - 이슈 관리 : Jira
 - 커뮤니케이션 : Mattermost, Notion, Discord
-- 디자인 : Figma, PowerPoint
+- 디자인 : Figma, PowerPoint, ERD Cloud
 
 ### 💻 IDE
-- Visual Studio Code `1.83.0`
-- Spring Tool Suite 4 `4.20.0.RELEASE`
+  - Visual Studio Code `1.83.0`
+  - Eclipse `4.29.0`
 
 ### 📱 Frontend
 
@@ -109,11 +149,13 @@
   - jdbc
   - oauth2
   - lombok
-  - h2
   - mysql
   - swagger
   - jwt
-  - s3
+  - kakaoLogin
+  - openFeign
+  - mariaDB
+
 
 ### IoT
 
@@ -121,12 +163,12 @@
 
 ### Infra
 
-- AWS EC2
-- Nginx 1.18.0
-- Docker 20.10.12
-- Jenkins
-- Redis
-- Ubuntu 20.04.6 LTS
+  - AWS EC2
+  - Nginx 1.18.0
+  - Docker 20.10.12
+  - Jenkins
+  - Redis
+  - Ubuntu 20.04.6 LTS
 
 <br>
 
@@ -171,7 +213,7 @@
 
 ### ◼ ERD
 
-<img src=""/>
+<img src="/uploads/f88f560ac2368474907769dd0557b8c5/Be_Nurse__5_.png"/>
 
 ### ◼ Swagger
 
@@ -184,7 +226,7 @@
 
 | **[김대웅]()**                                                          | **[정소정]()**                                                           | **[정은경]()**                                                               | **[성제현]()**                                                               | **[이종윤]()**                                                              | **[김성현]()**                                                             |
 |:--------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------:|
-| <img title="" src="" alt="" width="500"> | <img title="" src="" alt="" width="500"> | <img title="" src="" alt="" width="500"> | <img title="" src="" alt="" width="500"> | <img title="" src="" alt="" width="500"> | <img title="" src="" alt="" width="500"> |
+| <img title="" src="/uploads/02b021833b3ac754d219c20a73b0b9cd/웅.png" alt="" width="500"> | <img title="" src="/uploads/58176afadd3eff28ad30876e4c6b7892/소.png" alt="" width="500"> | <img title="" src="/uploads/f1f3df21f874fe5872fd52f857b1a2cb/은.png" alt="" width="500"> | <img title="" src="/uploads/36fe29c1e382512affa6575ce0d9c0c2/SJH.jpg" alt="" width="500"> | <img title="" src="/uploads/290d11714d1efa79d20e4b90beb5b2ce/종.png" alt="" width="500"> | <img title="" src="/uploads/7e01e12d5190f50d8ec1c1c556d981f9/현.png" alt="" width="500"> |
 | Frontend                                                                                           | Frontend                                                                                           | Frontend                                                                                           | Backend & CI/CD                                                                                          | Backend & CI/CD                                                                                            | IoT                                                                                            |
 
 ## 😎 역할 분담
@@ -199,10 +241,10 @@
 
 **Backend & CI/CD**
 
-- 성제현: API 제작 / CI/CD 담당 /  / 
+- 성제현: API 제작 / Redis 캐싱 / 더미데이터 생성 / jenkins / DB 구축
 
-- 이종윤: API 제작 / CI/CD 담당 /  / 
+- 이종윤: API 제작 / Redis 캐싱 / ERD 설계 / EMR 서버 제작 / deploy / ssl / nginx
 
 **IoT**
 
-- 김성현 : IoT / 
+- 김성현 : IoT / NFC 태깅 / IoT 앱 연동
