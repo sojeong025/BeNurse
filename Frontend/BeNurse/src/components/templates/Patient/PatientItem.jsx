@@ -1,11 +1,13 @@
 import React from "react";
 import { Common } from "@utils/global.styles.jsx";
+import { Navigate } from "react-router-dom";
+import { BsCalendarPlus } from "react-icons/bs";
 
 // Comoponents
 import Box from "@components/atoms/Box/Box";
 import PatientImages from "./PatientImages";
 
-export default function PatientItem({ patientInfo }) {
+export default function PatientItem({ patientInfo, type }) {
   return (
     <Box
       type={"white"}
@@ -21,49 +23,58 @@ export default function PatientItem({ patientInfo }) {
           height: "140px",
         }}
       >
-        <>
-          <p style={{ fontSize: Common.fontSize.fontXXS }}>
-            {patientInfo.ward}
-          </p>
-          <div
-            style={{
-              height: "60px",
-              width: "60px",
-              display: "flex",
-              justifyContent: "center",
-              overflow: "hidden",
-            }}
-          >
-            <PatientImages
-              age={patientInfo.age}
-              gender={patientInfo.gender}
-              imgNum={patientInfo.img}
-              style={{
-                borderRadius: "300px",
-                width: "60px",
-                objectFit: "cover",
-              }}
-            />
-          </div>
+        <p
+          style={{
+            fontSize: Common.fontSize.fontXXS,
+            fontWeight: Common.fontWeight.bold,
+            wordSpacing: type === "patient" ? "0px" : "-3px",
+            display: "flex",
+          }}
+        >
+          {type === "patient" ? (
+            patientInfo.ward
+          ) : (
+            <>
+              <BsCalendarPlus
+                style={{
+                  marginRight: "5px",
+                }}
+              />
+              {` ${new Date(patientInfo.hospitalization).toLocaleDateString(
+                "ko-KR",
+                {
+                  year: "2-digit",
+                  month: "2-digit",
+                  day: "2-digit",
+                },
+              )}`}
+            </>
+          )}
+        </p>
 
-          <p
-            style={{
-              fontSize: Common.fontSize.fontS,
-              fontWeight: Common.fontWeight.extrabold,
-            }}
-          >
-            {patientInfo.name}
-          </p>
-          <p
-            style={{
-              textAlign: "center",
-              fontSize: Common.fontSize.fontS,
-              fontWeight: Common.fontWeight.regular,
-            }}
-          >
-            {patientInfo.gender} {patientInfo.age}세
-          </p>
-        </>
+        <PatientImages
+          age={patientInfo.age}
+          gender={patientInfo.gender}
+          imgNum={patientInfo.img}
+          style={{ borderRadius: "300px", width: "60px" }}
+        />
+        <p
+          style={{
+            fontSize: Common.fontSize.fontS,
+            fontWeight: Common.fontWeight.extrabold,
+          }}
+        >
+          {patientInfo.name}
+        </p>
+        <p
+          style={{
+            textAlign: "center",
+            fontSize: Common.fontSize.fontS,
+            fontWeight: Common.fontWeight.bold,
+          }}
+        >
+          {patientInfo.gender} {patientInfo.age}세
+        </p>
       </div>
     </Box>
   );

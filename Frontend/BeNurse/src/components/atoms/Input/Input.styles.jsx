@@ -24,6 +24,7 @@ export const StyledInputContainer = styled.div`
   background-color: #ffffff;
   color: #555555;
   padding: 0 14px;
+  ${({ props }) => props}
 `;
 
 export const IconWrapper = styled.div`
@@ -43,4 +44,5 @@ export const StyledInput = styled.input`
   outline: none;
   border: none;
   padding: 0;
+  ${({ style }) => style}
 `;

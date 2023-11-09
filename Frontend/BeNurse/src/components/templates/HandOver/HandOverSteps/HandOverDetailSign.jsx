@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import { Common } from "../../../utils/global.styles";
+import { Common } from "../../../../utils/global.styles";
 
 import Input from "@components/atoms/Input/Input";
 import Button from "@components/atoms/Button/Button";
 
-export default function HandOverDetailCC() {
-  const [inputs, setInputs] = useState([{ name: "주호소 1", value: "" }]);
+export default function HandOverDetailSign() {
+  const [inputs, setInputs] = useState([{ name: "특이사항 1", value: "" }]);
   const [showWarning, setShowWarning] = useState(false);
 
   const addInput = () => {
     if (inputs[inputs.length - 1].value) {
       setInputs([
         ...inputs,
-        { name: `주호소 ${inputs.length + 1}`, value: "" },
+        { name: `특이사항 ${inputs.length + 1}`, value: "" },
       ]);
       setShowWarning(false);
     } else {
@@ -35,7 +35,7 @@ export default function HandOverDetailCC() {
         flexDirection: "column",
         margin: "0 auto",
         marginTop: "20px",
-        gap: "20px",
+        gap: "10px",
         width: "calc(100% - 28px)",
       }}
     >
@@ -44,31 +44,43 @@ export default function HandOverDetailCC() {
           color: Common.color.black02,
           fontSize: Common.fontSize.fontM,
           fontWeight: Common.fontWeight.extrabold,
+          marginTop: "10px",
         }}
       >
-        주호소(Cheif Complain)
+        특이 사항(Significant)
+      </p>
+      <p
+        style={{
+          lineHeight: "20px",
+          fontSize: Common.fontSize.fontXS,
+        }}
+      >
+        환자의 특이사항은 정확한 진단과 효과적인 간호를 위해 중요합니다. <br />
+        가능한 모든 세부 사항을 꼼꼼하게 기록해주세요.
       </p>
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           width: "100%",
-          gap: "20px",
-          marginTop: "10px",
+          gap: "10px",
+          marginTop: "20px",
           color: Common.color.black02,
           fontSize: Common.fontSize.fontS,
           fontWeight: Common.fontWeight.bold,
-          height: "540px",
+          height: "490px",
+          paddingBottom: "70px",
           overflowY: "auto",
         }}
       >
         {inputs.map((input, index) => (
           <React.Fragment key={index}>
-            <p>{input.name}</p>
+            <p>▎{input.name}</p>
             <Input
               variant={"default"}
               value={input.value}
               onChange={(e) => handleInputChange(e, index)}
+              props={"margin-bottom: 14px;"}
             />
           </React.Fragment>
         ))}
@@ -79,7 +91,7 @@ export default function HandOverDetailCC() {
                 color: "red",
                 fontSize: `${Common.fontSize.fontXXS}`,
                 marginBottom: "15px",
-                marginTop: "-10px",
+                marginTop: "-16px",
               }}
             >
               내용을 입력해주세요.

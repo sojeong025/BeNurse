@@ -1,21 +1,59 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Container from "@components/atoms/Container/Container";
 import PatientItem from "@components/templates/Patient/PatientItem";
 import Input from "@components/atoms/Input/Input";
-import Button from "@components/atoms/Button/Button";
+import { customAxios } from "../../../libs/axios";
 
 import { Select } from "./HandOverWritePage.styles";
 
 import { usePatientStore } from "@store/store";
+import { useWardStore } from "../../../store/store";
 
 export default function HandOverWritePage() {
-  const navigate = useNavigate();
-
   const { setSelectedPatient } = usePatientStore();
+  const wardId = useWardStore((state) => state.wardId);
+  console.log("인계장 작성페이지에서 wardId 체크", wardId);
 
   useEffect(() => {
     setSelectedPatient({});
+  }, []);
+
+  // 전체 인계장 SET 생성 => 인계장 ID 생성
+  const [handoversId, setHandoversId] = useState();
+  useEffect(() => {
+    customAxios.post("HandoverSet").then((res) => {
+      console.log("전체 인계장 묶음 ID 생성용", res);
+      setHandoversId(res.data.responseData.id);
+    });
+  }, []);
+
+  // 환자 카드 선택시 인계장 생성
+  const handlePatientCardClick = (patientInfo) => {
+    setSelectedPatient(patientInfo);
+
+    const handover = {};
+    const data = {
+      handover: handover,
+      setID: handoversId,
+    };
+    customAxios.post("Handover", data).then((res) => {
+      console.log("POST 요청 결과", res);
+    });
+  };
+
+  const [patientInfo, setPatientInfo] = useState([]);
+
+  useEffect(() => {
+    customAxios.get("emr/patient/wardall").then((res) => {
+      console.log("병동 내 환자만 조회 결과 확인", res.data.responseData);
+      const patientsCard = res.data.responseData.map((patientData) => {
+        return {
+          ...patientData.patient,
+        };
+      });
+      setPatientInfo(patientsCard);
+    });
   }, []);
 
   const today = new Date();
@@ -29,109 +67,6 @@ export default function HandOverWritePage() {
       today.getDay(),
     ),
   );
-
-  // 임시 환자 정보
-  const patients = [
-    {
-      id: "1",
-      name: "종박사",
-      age: "32",
-      gender: "남",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "2",
-      name: "김싸피",
-      age: "45",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "3",
-      name: "이이이",
-      age: "64",
-      gender: "남",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "4",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "5",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "6",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "7",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "8",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "9",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "10",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-    {
-      id: "11",
-      name: "김김김",
-      age: "13",
-      gender: "여",
-      cc: "다리 외상",
-      group: "내과 B동",
-      room: "B503",
-    },
-  ];
 
   return (
     <Container
@@ -156,10 +91,20 @@ export default function HandOverWritePage() {
                 {String(currentDate.getDate()).padStart(2, "0")} ({day}) 인계장
               </p>
             </div>
+            <div
+              style={{
+                fontSize: "14px",
+                margin: "20px 0",
+                lineHeight: "22px",
+              }}
+            >
+              📝 각 환자의 상태와 필요한 정보를 포함한 <br />
+              인계장을 작성하여, 담당 인수자에게 전달하세요.
+            </div>
             <div>
               <Input
                 variant={"search"}
-                placeholder={"환자 이름으로 검색"}
+                placeholder={"담당 병동 내 환자 이름으로 검색"}
               />
             </div>
           </Select>
@@ -167,25 +112,26 @@ export default function HandOverWritePage() {
           <div
             style={{
               width: "100%",
-              height: "550px",
+              height: "525px",
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "flex-start",
               alignItems: "flex-start",
               gap: "9px",
               overflowY: "auto",
-              paddingBottom: "40px",
+              paddingTop: "5px",
+              paddingBottom: "30px",
               boxSizing: "border-box",
             }}
           >
-            {patients.map((patientInfo) => (
+            {patientInfo.map((patientInfo) => (
               <NavLink
-                to="patients/write"
+                to={"/handover-write/" + patientInfo.id}
                 key={patientInfo.id}
-                onClick={() => setSelectedPatient(patientInfo)}
+                onClick={handlePatientCardClick}
               >
                 <PatientItem
-                  type="patient"
+                  type="handoverpatient"
                   patientInfo={patientInfo}
                 />
               </NavLink>
@@ -196,7 +142,7 @@ export default function HandOverWritePage() {
         {/* 인수자 선택
         - 환자가 최소 1명 이상 선택되었을 경우 뜨도록
       */}
-        <div
+        {/* <div
           style={{
             position: "absolute",
             top: "720px",
@@ -210,7 +156,7 @@ export default function HandOverWritePage() {
           >
             인수자 선택
           </Button>
-        </div>
+        </div> */}
       </div>
     </Container>
   );

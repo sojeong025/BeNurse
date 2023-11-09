@@ -8,12 +8,14 @@ export default function Input({
   variant,
   onFocus,
   onChange,
+  props,
 }) {
   return (
     <StyledInputContainer
       type="text"
       width={width}
       variant={variant}
+      props={props}
     >
       {variant === "search" && (
         <IconWrapper>
@@ -30,6 +32,7 @@ export default function Input({
         variant={variant}
         onFocus={onFocus}
         onChange={onChange}
+        props={props}
       />
     </StyledInputContainer>
   );

@@ -6,6 +6,7 @@ export const Select = styled.div`
   flex-direction: column;
   margin-bottom: 20px;
   & .header {
+    margin-top: 5px;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -13,7 +14,7 @@ export const Select = styled.div`
   }
   h1 {
     font-size: ${Common.fontSize.fontM};
-    color: ${Common.color.black02};
+    color: ${Common.color.purple04};
     font-weight: ${Common.fontWeight.extrabold};
   }
   p {

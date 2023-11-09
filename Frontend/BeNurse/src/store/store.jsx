@@ -93,3 +93,21 @@ export const useOffDateStore = create((set) => ({
     set((state) => ({ selectedDates: updateFunction(state.selectedDates) }));
   },
 }));
+
+export const useWardStore = create((set) => ({
+  wardId: null,
+  setWardId: (id) => {
+    set(() => ({
+      wardId: id,
+    }));
+  },
+}));
+
+export const useInviteStore = create((set) => ({
+  isComplete: false,
+  setIsComplete: (state) => {
+    set(() => ({
+      isComplete: state,
+    }));
+  },
+}));

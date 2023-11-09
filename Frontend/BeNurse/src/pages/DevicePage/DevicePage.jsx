@@ -49,6 +49,56 @@ export default function DevicePage() {
     (state) => state,
   );
 
+  const locationData = {
+    소회의실: {
+      camera: {
+        x: -4,
+        y: -50,
+        z: 66,
+        duration: 0.8,
+        ease: "ease-in-out",
+      },
+      beacon: [-3, 2, 50],
+    },
+    로비: {
+      camera: {
+        x: -30,
+        y: -90,
+        z: 10,
+        duration: 0.8,
+        ease: "ease-in-out",
+      },
+      beacon: [-34, -5, -19],
+    },
+    201: {
+      camera: {
+        x: 0,
+        y: -70,
+        z: 36,
+        duration: 0.8,
+        ease: "ease-in-out",
+      },
+      beacon: [-3, 12, 19],
+    },
+    202: {
+      camera: {
+        x: 30,
+        y: -40,
+        z: 36,
+        duration: 0.8,
+        ease: "ease-in-out",
+      },
+      beacon: [27, 26, 19],
+    },
+  };
+
+  function activateNFC() {
+    const accessToken = localStorage.getItem("accessToken");
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(accessToken);
+    }
+  }
+
   //three.js models
   function GroundGLTF(props) {
     const groupRef = useRef();
@@ -106,12 +156,6 @@ export default function DevicePage() {
       beaconRef.current.rotation.z += 0.04;
     });
 
-    useLayoutEffect(() => {
-      if (target) {
-        gsap.to;
-      }
-    }, []);
-
     return (
       <mesh
         {...props}
@@ -136,13 +180,8 @@ export default function DevicePage() {
 
     useLayoutEffect(() => {
       if (target) {
-        gsap.to(camera.position, {
-          x: 0,
-          y: -60,
-          z: 80,
-          duration: 0.8,
-          ease: "ease-in-out",
-        });
+        beacon &&
+          gsap.to(camera.position, locationData[beacon.location].camera);
       } else {
         gsap.to(camera.position, {
           x: 1,
@@ -294,6 +333,16 @@ export default function DevicePage() {
             type="text"
           />
         </div>
+        <Box
+          type={"white"}
+          size={["80px", "80px"]}
+          props={
+            "position: absolute; right: 30px; bottom: 90px; z-index: 100; border-radius: 100px;"
+          }
+          onClick={activateNFC}
+        >
+          NFC
+        </Box>
         <Canvas
           style={{
             marginTop: "74px",
@@ -329,7 +378,7 @@ export default function DevicePage() {
             />
             <BeaconGLTF
               scale={0.4}
-              position={[-3, 2, 50]}
+              position={beacon && locationData[beacon.location].beacon}
             />
             <>
               <HospitalGLTF

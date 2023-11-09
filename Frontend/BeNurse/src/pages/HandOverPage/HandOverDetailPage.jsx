@@ -5,8 +5,8 @@ import BottomButton from "@components/atoms/Button/BottomButton";
 
 import HandOverDetailInfo from "@components/templates/HandOver/HandOverDetailInfo";
 import HandOverDetailDosage from "@components/templates/HandOver/HandOverDetailDosage";
-import HandOverDetailCC from "@components/templates/HandOver/HandOverDetailCC";
-import HandOverDetailSign from "@components/templates/HandOver/HandOverDetailSign";
+import HandOverDetailCC from "@components/templates/HandOver/HandOverSteps/HandOverDetailCC";
+import HandOverDetailSign from "@components/templates/HandOver/HandOverSteps/HandOverDetailSign";
 
 import * as S from "./HandOverDetailPage.styles";
 
