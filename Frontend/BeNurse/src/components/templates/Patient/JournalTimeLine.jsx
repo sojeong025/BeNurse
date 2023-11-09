@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
 import * as S from "./JournalTimeLine.styles";
@@ -21,16 +21,24 @@ import write_loading from "@assets/Images/write_loading.gif";
 export default function JournalTimeLine({ patientId }) {
   const [journalList, setJournalList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isFromHandOver, setIsFromHandOver] = useState(false);
   const { selectedDate, setSelectedDate } = useDateStore((state) => state);
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     if (!selectedDate) {
       setSelectedDate(moment().startOf("day"));
     }
-    console.log(localStorage.getItem("preJournal"));
+    if (localStorage.getItem("preJournal") === "HandOver") {
+      setIsFromHandOver(true);
+    } else {
+      setIsFromHandOver(false);
+    }
+
+    return () => {
+      localStorage.setItem("preJournal", "");
+    };
   }, []);
 
   useEffect(() => {

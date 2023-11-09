@@ -12,8 +12,11 @@ import PatientImages from "./PatientImages";
 import schedule from "@assets/Icons/schedule.svg";
 import { PiNotepad } from "react-icons/pi";
 
-export default function PatientDetailProfile({ patient }) {
+import moment from "moment";
+import { useDateStore } from "../../../store/store";
 
+export default function PatientDetailProfile({ patient }) {
+  const { setSelectedDate } = useDateStore((state) => state);
   return (
     <Box
       type={"purple02"}
@@ -49,7 +52,12 @@ export default function PatientDetailProfile({ patient }) {
           </div>
         </div>
 
-        <NavLink to={"/patient/" + patient.id + "/detail/journal"}>
+        <NavLink
+          to={"/patient/" + patient.id + "/detail/journal"}
+          onClick={() => {
+            setSelectedDate(moment().startOf("day"));
+          }}
+        >
           <div
             style={{
               display: "flex",

@@ -6,10 +6,13 @@ import { NavLink, useParams } from "react-router-dom";
 import Input from "@components/atoms/Input/Input";
 import Button from "@components/atoms/Button/Button";
 import { PiNotepad } from "react-icons/pi";
+import { useDateStore } from "../../../../store/store";
+import moment from "moment";
 
 export default function HandOverDetailNurse() {
   const [inputs, setInputs] = useState([{ name: "간호일지 1", value: "" }]);
   const [showWarning, setShowWarning] = useState(false);
+  const { setSelectedDate } = useDateStore((state) => state);
   const { patientId } = useParams();
 
   const addInput = () => {
@@ -76,7 +79,7 @@ export default function HandOverDetailNurse() {
           <NavLink
             to={"/patient/" + patientId + "/detail/journal"}
             onClick={() => {
-              console.log(1);
+              setSelectedDate(moment().startOf("day"));
               localStorage.setItem("preJournal", "handover");
             }}
           >
