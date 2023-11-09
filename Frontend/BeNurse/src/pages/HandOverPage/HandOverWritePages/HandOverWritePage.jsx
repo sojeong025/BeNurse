@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Container from "@components/atoms/Container/Container";
 import PatientItem from "@components/templates/Patient/PatientItem";
 import Input from "@components/atoms/Input/Input";
-import Button from "@components/atoms/Button/Button";
-import { customAxios } from "../../libs/axios";
+import { customAxios } from "../../../libs/axios";
 
 import { Select } from "./HandOverWritePage.styles";
 
 import { usePatientStore } from "@store/store";
-import { useWardStore } from "../../store/store";
+import { useWardStore } from "../../../store/store";
 
 export default function HandOverWritePage() {
-  const navigate = useNavigate();
-
   const { setSelectedPatient } = usePatientStore();
   const wardId = useWardStore((state) => state.wardId);
   console.log("인계장 작성페이지에서 wardId 체크", wardId);
@@ -101,7 +98,7 @@ export default function HandOverWritePage() {
                 lineHeight: "22px",
               }}
             >
-              📩 각 환자의 상태와 필요한 정보를 포함한 <br />
+              📝 각 환자의 상태와 필요한 정보를 포함한 <br />
               인계장을 작성하여, 담당 인수자에게 전달하세요.
             </div>
             <div>
@@ -115,7 +112,7 @@ export default function HandOverWritePage() {
           <div
             style={{
               width: "100%",
-              height: "530px",
+              height: "525px",
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "flex-start",
