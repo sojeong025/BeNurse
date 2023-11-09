@@ -6,7 +6,7 @@ import {
   PatientDetailContainer,
   PatientDetailItemContainer,
 } from "@pages/PatientPage/PatientDetail.styles.jsx";
-import { customAxios } from "../../libs/axios";
+import { customAxios } from "../../../libs/axios";
 import { useParams, useNavigate } from "react-router-dom";
 import Container from "@components/atoms/Container/Container";
 import Button from "@components/atoms/Button/Button";
@@ -49,7 +49,7 @@ export default function HandOverPatientPage() {
         <PatientDetailContainer
           style={{
             width: "100%",
-            height: "500px",
+            height: "520px",
             overflowY: "auto",
           }}
         >
@@ -67,16 +67,12 @@ export default function HandOverPatientPage() {
               <PatientDetailItem
                 name="진단명"
                 value={patient.disease}
-                onChange={(e) => {
-                  setPatient({ ...patient, disease: e.target.value });
-                }}
+                readonly={true}
               />
               <PatientDetailItem
                 name="수술명"
                 value={patient.surgery}
-                onChange={(e) => {
-                  setPatient({ ...patient, surgery: e.target.value });
-                }}
+                readonly={true}
               />
             </PatientDetailItemContainer>
           </div>
@@ -94,44 +90,32 @@ export default function HandOverPatientPage() {
               <PatientDetailItem
                 name="병증이력"
                 value={patient.history}
-                onChange={(e) => {
-                  setPatient({ ...patient, history: e.target.value });
-                }}
+                readonly={true}
               />
               <PatientDetailItem
                 name="투약"
                 value={patient.medicine}
-                onChange={(e) => {
-                  setPatient({ ...patient, medicine: e.target.value });
-                }}
+                readonly={true}
               />
               <PatientDetailItem
                 name="음주"
                 value={patient.drinking}
-                onChange={(e) => {
-                  setPatient({ ...patient, drinking: e.target.value });
-                }}
+                readonly={true}
               />
               <PatientDetailItem
                 name="흡연"
                 value={patient.smoking}
-                onChange={(e) => {
-                  setPatient({ ...patient, smoking: e.target.value });
-                }}
+                readonly={true}
               />
               <PatientDetailItem
                 name="알레르기"
                 value={patient.alergy}
-                onChange={(e) => {
-                  setPatient({ ...patient, alergy: e.target.value });
-                }}
+                readonly={true}
               />
               <PatientDetailItem
                 name="자가약"
                 value={patient.selfmedicine}
-                onChange={(e) => {
-                  setPatient({ ...patient, selfmedicine: e.target.value });
-                }}
+                readonly={true}
               />
             </PatientDetailItemContainer>
           </div>

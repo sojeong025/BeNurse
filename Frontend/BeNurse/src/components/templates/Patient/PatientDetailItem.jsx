@@ -1,7 +1,12 @@
 import React from "react";
 import { Common } from "@utils/global.styles.jsx";
 
-export default function PatientDetailItem({ name, value, onChange }) {
+export default function PatientDetailItem({
+  name,
+  value,
+  onChange,
+  readonly = false,
+}) {
   return (
     <div
       style={{
@@ -37,6 +42,7 @@ export default function PatientDetailItem({ name, value, onChange }) {
         variant={"default"}
         value={value}
         onChange={onChange}
+        readOnly={readonly}
       />
     </div>
   );

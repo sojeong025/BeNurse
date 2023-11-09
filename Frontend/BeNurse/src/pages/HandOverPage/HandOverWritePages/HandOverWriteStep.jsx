@@ -3,10 +3,11 @@ import { message, Steps } from "antd";
 import Container from "@components/atoms/Container/Container";
 import BottomButton from "@components/atoms/Button/BottomButton";
 
-import HandOverDetailInfo from "@components/templates/HandOver/HandOverDetailInfo";
-import HandOverDetailDosage from "@components/templates/HandOver/HandOverDetailDosage";
-import HandOverDetailCC from "@components/templates/HandOver/HandOverDetailCC";
-import HandOverDetailSign from "@components/templates/HandOver/HandOverDetailSign";
+import HandOverDetailNurse from "@components/templates/HandOver/HandOverSteps/HandOverDetailNurse";
+// import HandOverDetailDosage from "@components/templates/HandOver/HandOverDetailDosage";
+import HandOverDetailCC from "@components/templates/HandOver/HandOverSteps/HandOverDetailCC";
+import HandOverDetailSign from "@components/templates/HandOver/HandOverSteps/HandOverDetailSign";
+import HandOverDetailEtc from "@components/templates/HandOver/HandOverSteps/HandOverDetailEtc";
 
 import * as S from "./HandOverWriteStep.styles";
 
@@ -16,19 +17,19 @@ export default function HandOverWriteStep() {
   const steps = [
     {
       title: "First",
-      content: <HandOverDetailInfo />,
+      content: <HandOverDetailNurse />,
     },
     {
       title: "Second",
-      content: <HandOverDetailDosage />,
-    },
-    {
-      title: "Last",
       content: <HandOverDetailCC />,
     },
     {
       title: "Last",
       content: <HandOverDetailSign />,
+    },
+    {
+      title: "Last",
+      content: <HandOverDetailEtc />,
     },
   ];
 
@@ -36,7 +37,7 @@ export default function HandOverWriteStep() {
 
   useEffect(() => {
     if (current === 0 || current === 1) {
-      setBgColor("white");
+      setBgColor("purple");
     } else {
       setBgColor("purple");
     }

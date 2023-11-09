@@ -44,7 +44,7 @@ export default function NavBar({ onTempSave }) {
   // 다음 버튼 필요하면 여기 넣기
   const nextRoutes = ["/off-application"];
   // 임시저장 필요하면 여기 넣기
-  const temSaveRoutes = ["/handover-write"];
+  const temSaveRoutes = ["/handover-write/"];
 
   const path = useLocation().pathname;
   const shouldDisplayBackIcon = backRoutes.some((route) =>

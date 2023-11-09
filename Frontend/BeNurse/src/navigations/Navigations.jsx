@@ -17,19 +17,19 @@ import PatientJournalWritePage from "@pages/PatientPage/PatientJournalWritePage"
 import PatientJournalUpdatePage from "@pages/PatientPage/PatientJournalUpdatePage";
 
 import HandOverPage from "@pages/HandOverPage/HandOverPage";
-import HandOverWritePage from "@pages/HandOverPage/HandOverWritePage";
-import HandOverPatientPage from "@pages/HandOverPage/HandOverPatientPage";
-import HandOverWriteStep from "../pages/HandOverPage/HandOverWriteStep";
+import HandOverWritePage from "@pages/HandOverPage/HandOverWritePages/HandOverWritePage";
+import HandOverPatientPage from "@pages/HandOverPage/HandOverWritePages/HandOverPatientPage";
+import HandOverWriteStep from "@pages/HandOverPage/HandOverWritePages/HandOverWriteStep";
 import HandOverListPage from "@pages/HandOverPage/HandOverListPage";
 import HandOverNurseSelectPage from "@pages/HandOverPage/HandOverNurseSelectPage";
-import HandOverFinishPage from "../pages/HandOverPage/HandOverFinishPage";
+import HandOverFinishPage from "@pages/HandOverPage/HandOverFinishPage";
 
-import HandOverDetailPage from "../pages/HandOverPage/HandOverDetailPage";
-import HandOverPatientList from "../components/templates/HandOver/HandOverPatientList";
-import HandOverDetailInfo from "../components/templates/HandOver/HandOverDetailInfo";
-import HandOverDetailDosage from "../components/templates/HandOver/HandOverDetailDosage";
-import HandOverDetailCC from "../components/templates/HandOver/HandOverDetailCC";
-import HandOverDetailSign from "../components/templates/HandOver/HandOverDetailSign";
+import HandOverDetailPage from "@pages/HandOverPage/HandOverDetailPage";
+import HandOverPatientList from "@components/templates/HandOver/HandOverPatientList";
+import HandOverDetailInfo from "@components/templates/HandOver/HandOverDetailInfo";
+import HandOverDetailDosage from "@components/templates/HandOver/HandOverDetailDosage";
+import HandOverDetailCC from "@components/templates/HandOver/HandOverSteps/HandOverDetailCC";
+import HandOverDetailSign from "@components/templates/HandOver/HandOverSteps/HandOverDetailSign";
 
 import TemporaryListPage from "@pages/HandOverPage/TemporaryListPage";
 
