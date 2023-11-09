@@ -5,12 +5,12 @@ import NfcManager, {NfcEvents} from 'react-native-nfc-manager';
 import {
   View,
   Text,
-  Button,
   NativeModules,
   NativeEventEmitter,
   Alert,
   PermissionsAndroid,
   Platform,
+  Pressable,
 } from 'react-native';
 
 import BleManager, {
@@ -83,13 +83,9 @@ function Native(prop: proptemplat) {
   const init = useRef<boolean>(true);
   const isblescan = useRef<boolean>(false);
 
-  //저장된 정보를 초기화
-  const rescan = () => {
-    isblescan.current = false;
-    setread_data(new data_templat());
-    setinfostatus(0);
-
-    Alert.alert('다시 스캔', '스캔을 다시 시작합니다.');
+  const closeModal = () => {
+    const emitter = new NativeEventEmitter();
+    emitter.emit('closeModal');
   };
 
   //인식된 태그의 정보 처리 함수
@@ -163,12 +159,27 @@ function Native(prop: proptemplat) {
     console.debug('[ScanStop] scan is stopped.');
     BleManager.getDiscoveredPeripherals([])
       .then(peripheralsArray => {
+        const headers = {
+          accept: '*/*',
+          Authorization: prop.Auth,
+        };
         const closestbeacon = peripheralsArray
           .filter(device => beacon.current.includes(device.id))
           .reduce((prev, current) => {
             return prev.rssi > current.rssi ? prev : current;
           });
-        setread_data(data => data.set_location(closestbeacon.id));
+        axios
+          .get(
+            'https://k9e105.p.ssafy.io:9000/api/benurse/beacon?ID=' +
+              closestbeacon.id,
+            {headers: headers},
+          )
+          .then(res => {
+            setread_data(data =>
+              data.set_location(res.data.responseData.location),
+            );
+          });
+
         postData.current.beaconID = closestbeacon.id;
         setinfostatus(num => num | 0b100);
       })
@@ -211,16 +222,31 @@ function Native(prop: proptemplat) {
   };
 
   const usedevice = () => {
-    const url = 'https://k9e105.p.ssafy.io:9000/api/benurse/device-history';
-    const header = {
-      accept: '*/*',
-      Authorization: prop.Auth,
-      'Content-Type': 'application/json',
-    };
+    Alert.alert('알림', '장비를 사용하시겠어요?', [
+      {
+        text: '취소',
+        onPress: () => {},
+      },
+      {
+        text: '확인',
+        onPress: () => {
+          const url =
+            'https://k9e105.p.ssafy.io:9000/api/benurse/device-history';
+          const header = {
+            accept: '*/*',
+            Authorization: prop.Auth,
+            'Content-Type': 'application/json',
+          };
 
-    axios.post(url, postData.current, {headers: header}).then(response => {
-      console.log(response.data);
-    });
+          axios
+            .post(url, postData.current, {headers: header})
+            .then(response => {
+              console.log(response.data);
+              closeModal();
+            });
+        },
+      },
+    ]);
   };
   useEffect(() => {
     // 최초 랜더링 시에만 실행
@@ -248,13 +274,6 @@ function Native(prop: proptemplat) {
     //   console.debug('[NFCStop]nfc scan stop');
     //   NfcManager.unregisterTagEvent();
     // }
-
-    //데이터 충족시 alert
-    if (infostatus === 0b111) {
-      console.log(postData.current);
-      // usedevice();
-      Alert.alert('3가지 정보 스캔 완료');
-    }
 
     //ble스캔 시작을 위한 전처리
     try {
@@ -298,27 +317,128 @@ function Native(prop: proptemplat) {
   return (
     <View
       style={{
+        flex: 1,
         display: 'flex',
-        width: '60%',
-        height: '30%',
-        backgroundColor: 'gray',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        gap: 20,
       }}>
-      <View>
-        <Text> 환자 : {read_data.patient}</Text>
+      <Text style={{fontSize: 16, color: '#555'}}>장비 사용 내역 등록</Text>
+      <View
+        style={{
+          width: '100%',
+          gap: 20,
+          justifyContent: 'center',
+        }}>
+        <View
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 10,
+          }}>
+          <View
+            style={{
+              flex: 0.25,
+              alignItems: 'center',
+              backgroundColor: '#9669F9',
+              padding: 7,
+              borderRadius: 14,
+            }}>
+            <Text style={{fontSize: 14, color: '#fff'}}>현위치</Text>
+          </View>
+          <View
+            style={{
+              flex: 0.7,
+            }}>
+            <Text style={{fontSize: 14, color: '#555'}}>
+              {read_data.location ? read_data.location : '위치 검색중...'}
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 10,
+          }}>
+          <View
+            style={{
+              flex: 0.25,
+              alignItems: 'center',
+              backgroundColor: '#9669F9',
+              padding: 7,
+              borderRadius: 14,
+            }}>
+            <Text style={{fontSize: 14, color: '#fff'}}>사용장비</Text>
+          </View>
+          <View style={{flex: 0.75}}>
+            <Text style={{fontSize: 14, color: '#555'}}>
+              {read_data.device ? read_data.device : '장비를 태그 해주세요.'}
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 10,
+          }}>
+          <View
+            style={{
+              flex: 0.25,
+              alignItems: 'center',
+              backgroundColor: '#9669F9',
+              padding: 7,
+              borderRadius: 14,
+            }}>
+            <Text style={{fontSize: 14, color: '#fff'}}>사용환자</Text>
+          </View>
+          <View style={{flex: 0.75}}>
+            <Text style={{fontSize: 14, color: '#555'}}>
+              {read_data.patient ? read_data.patient : '환자를 태그 해주세요'}
+            </Text>
+          </View>
+        </View>
       </View>
-      <View>
-        <Text> 장비 : {read_data.device}</Text>
+      <View
+        style={{
+          justifyContent: 'space-around',
+          flexDirection: 'row',
+        }}>
+        <View style={{flex: 0.45}}>
+          <Pressable
+            onPress={closeModal}
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'white',
+              height: 50,
+              borderRadius: 16,
+            }}
+            accessibilityLabel="Learn more about this purple button">
+            <Text style={{color: '#9669F9'}}>취소</Text>
+          </Pressable>
+        </View>
+        <View style={{flex: 0.45}}>
+          <Pressable
+            disabled={infostatus === 0b111 ? false : true}
+            onPress={usedevice}
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: infostatus === 0b111 ? '#9669F9' : '#D0BFFF',
+              height: 50,
+              borderRadius: 16,
+            }}
+            accessibilityLabel="Learn more about this purple button">
+            <Text style={{color: '#fff'}}>저장하기</Text>
+          </Pressable>
+        </View>
       </View>
-      <View>
-        <Text> 장소 : {read_data.location}</Text>
-      </View>
-      <Button
-        onPress={rescan}
-        title="스캔 재실행"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-      />
-    </>
+    </View>
   );
 }
 

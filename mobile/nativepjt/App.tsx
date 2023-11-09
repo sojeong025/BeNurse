@@ -8,7 +8,8 @@ import {
   PermissionsAndroid,
   Modal,
   View,
-  Button,
+  NativeEventEmitter,
+  Pressable,
   StatusBar,
   Platform,
 } from 'react-native';
@@ -45,8 +46,14 @@ function App(): JSX.Element {
     }
   };
 
-  const toggleModal = () => {
-    setModalVisible(!modalVisible);
+  const emitter = new NativeEventEmitter();
+
+  emitter.addListener('closeModal', () => {
+    setModalVisible(false);
+  });
+
+  const openModal = () => {
+    setModalVisible(true);
   };
 
   useEffect(() => {
@@ -68,7 +75,7 @@ function App(): JSX.Element {
           onMessage={e => {
             const data = e.nativeEvent.data;
             Authtoken.current = data;
-            toggleModal();
+            openModal();
           }}
         />
         <Modal
@@ -85,16 +92,13 @@ function App(): JSX.Element {
             }}>
             <View
               style={{
-                backgroundColor: 'white',
+                flex: 0.356,
+                backgroundColor: '#fff',
                 padding: 20,
-                borderRadius: 10,
-                width: 300,
-                height: 400,
+                borderRadius: 20,
+                width: '80%',
               }}>
               <Native Auth={Authtoken.current} />
-            </View>
-            <View style={{alignItems: 'center', marginTop: 10}}>
-              <Button title="Close Modal" onPress={toggleModal} />
             </View>
           </View>
         </Modal>
