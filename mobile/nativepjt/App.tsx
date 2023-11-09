@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 
 import {
   Text,
@@ -10,45 +10,47 @@ import {
   View,
   Button,
   StatusBar,
+  Platform,
 } from 'react-native';
 
 import {WebView} from 'react-native-webview';
 
-import Scan_Modal from './components/bluetooth/bluetoothscan';
+// import Scan_Modal from './components/bluetooth/bluetoothscan';
+import Native from './components/native/native';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function App(): JSX.Element {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const Authtoken = useRef<string>('');
 
-  // const handleAndroidPermissions = () => {
-  //   if (Platform.OS === 'android' && Platform.Version >= 31) {
-  //     PermissionsAndroid.requestMultiple([
-  //       PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
-  //       PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
-  //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-  //     ]).then(result => {
-  //       if (result) {
-  //         console.debug(
-  //           '[handleAndroidPermissions] User accepts runtime permissions android 12+',
-  //         );
-  //       } else {
-  //         console.error(
-  //           '[handleAndroidPermissions] User refuses runtime permissions android 12+',
-  //         );
-  //       }
-  //     });
-  //   }
-  // };
+  const handleAndroidPermissions = () => {
+    if (Platform.OS === 'android' && Platform.Version >= 31) {
+      PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
+        PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      ]).then(result => {
+        if (result) {
+          console.debug(
+            '[handleAndroidPermissions] User accepts runtime permissions android 12+',
+          );
+        } else {
+          console.error(
+            '[handleAndroidPermissions] User refuses runtime permissions android 12+',
+          );
+        }
+      });
+    }
+  };
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
 
   useEffect(() => {
-    // StatusBar.setBarStyle('light-content');
-    //   handleAndroidPermissions();
+    handleAndroidPermissions();
   }, []);
 
   return (
@@ -61,12 +63,12 @@ function App(): JSX.Element {
       <SafeAreaView style={styles.container}>
         <WebView
           style={styles.webview}
-          source={{uri: 'http://192.168.30.150:3000'}}
-          // source={{uri: 'http://k9e105.p.ssafy.io/'}}
+          // source={{uri: 'http://192.168.30.150:3000'}}
+          source={{uri: 'https://k9e105.p.ssafy.io/'}}
           onMessage={e => {
             const data = e.nativeEvent.data;
+            Authtoken.current = data;
             toggleModal();
-            // Alert.alert(data);
           }}
         />
         <Modal
@@ -86,10 +88,10 @@ function App(): JSX.Element {
                 backgroundColor: 'white',
                 padding: 20,
                 borderRadius: 10,
-                width: 500,
+                width: 300,
                 height: 400,
               }}>
-              <Scan_Modal />
+              <Native Auth={Authtoken.current} />
             </View>
             <View style={{alignItems: 'center', marginTop: 10}}>
               <Button title="Close Modal" onPress={toggleModal} />

@@ -51,19 +51,19 @@ namespace shift_work {
   };
 
   export interface nurse_input {
-    name: string;
+    name: number;
     career: number;
     off_day: KeyType[];
   }
 
-  interface day {
-    day: Array<nurse>;
-    evening: Array<nurse>;
-    night: Array<nurse>;
+  interface dayplan {
+    day: number[];
+    evening: number[];
+    night: number[];
   }
 
   class nurse {
-    name: string;
+    name: number;
     career: number;
     work_count: number;
     day_count: number;
@@ -72,7 +72,7 @@ namespace shift_work {
     work_plan: worktype[];
     priority: number;
 
-    constructor(name: string, career: number, off_day: KeyType[]) {
+    constructor(name: number, career: number, off_day: KeyType[]) {
       this.name = name;
       this.career = career;
       this.work_count = 0;
@@ -115,7 +115,7 @@ namespace shift_work {
   class Heap {
     private heap: Array<nurse>;
     constructor() {
-      this.heap = [new nurse("", 0, [])];
+      this.heap = [new nurse(0, 0, [])];
     }
 
     heappush(value: nurse) {
@@ -141,7 +141,7 @@ namespace shift_work {
         throw new Error("heap is empty");
       }
       const min = this.heap[1];
-      if (this.heap.length <= 2) this.heap = [new nurse("", 0, [])];
+      if (this.heap.length <= 2) this.heap = [new nurse(0, 0, [])];
       else this.heap[1] = this.heap.pop();
 
       let curIdx = 1;
@@ -185,6 +185,61 @@ namespace shift_work {
   };
   const worktypes: Array<worktype> = ["day", "evening", "night"];
 
+  const apirequest = (nurse: nurse, month: number, year: number) => {
+    const axios = require("axios");
+    const tempchange = {
+      day: "D",
+      evening: "E",
+      night: "N",
+      off: "O",
+    };
+
+    for (const day in nurse.work_plan) {
+      const data = {
+        hospitalID: 4,
+        nurseID: nurse.name,
+        workdate: `${year}-${month}-${(Number(day) + 1)
+          .toString()
+          .padStart(2, "0")}`,
+        wardID: 4,
+        worktime: tempchange[nurse.work_plan[day]],
+      };
+
+      axios
+        .post("https://k9e105.p.ssafy.io:9000/api/benurse/Schedule", data, {
+          headers: {
+            "Content-Type": "application/json",
+            accept: "*/*",
+          },
+        })
+        .then((response) => {
+          console.log("성공적으로 요청을 보냈습니다.");
+        })
+        .catch((error) => {
+          console.error("요청 중 오류가 발생했습니다.", error);
+        });
+    }
+  };
+
+  const ckecklosic = (nurse_list: nurse[]): string => {
+    for (const nurse of nurse_list) {
+      if (
+        nurse.day_count + nurse.evening_count + nurse.nigth_count > 19 ||
+        nurse.day_count + nurse.evening_count + nurse.nigth_count < 14
+      )
+        return "근무일수 불균형";
+      for (var i = 1; i < nurse.work_plan.length; i++) {
+        if (
+          nurse.work_plan[i] === "day" &&
+          nurse.work_plan[i] === "evening" &&
+          nurse.work_plan[i - 1] === "night"
+        )
+          return "퐁당근무";
+      }
+    }
+    return "이상 무";
+  };
+
   export const main = (n: number, m: number, nurses: nurse_input[]) => {
     // 간호사 정보 받아오기
     const nurse_list = new Array<nurse>(n);
@@ -196,14 +251,11 @@ namespace shift_work {
       );
     }
 
-    const month = dayofmonth[m];
-    // const workplan: day[] = Array.from({ length: 10 }, () => ({
-    //   day: [],
-    //   evening: [],
-    //   night: [],
-    // }));
+    const month: number = dayofmonth[m];
+    const month_plan: Array<dayplan> = new Array<dayplan>(0);
 
     for (let day = 0; day < month; day++) {
+      month_plan.push({ day: [], evening: [], night: [] });
       for (let time of worktypes) {
         for (
           let peoplecount = 0;
@@ -220,14 +272,19 @@ namespace shift_work {
             const temp_nurse = heap.heappop();
             if (
               (time === "day" || time === "evening") &&
-              temp_nurse.work_plan[day] === "night"
+              temp_nurse.work_plan[day - 1] === "night"
             )
               continue;
 
             if (temp_nurse.work_plan[day] === "off") continue;
 
             temp_nurse.setWork(time, day);
-            // workplan[day][time].push(temp_nurse);
+            try {
+              month_plan[day][time].push(temp_nurse.name);
+            } catch {
+              console.log(month_plan);
+              throw Error;
+            }
             break;
           }
         }
@@ -239,35 +296,53 @@ namespace shift_work {
       }
     }
 
-    for (const nurse of nurse_list) {
-      console.log(nurse);
-      console.log(nurse.day_count + nurse.evening_count + nurse.nigth_count);
-      console.log("=============================");
-    }
+    // for (const nurse of nurse_list) {
+    //   // apirequest(nurse, 11, 2023);
+    //   console.log(nurse);
+    //   console.log(nurse.day_count + nurse.evening_count + nurse.nigth_count);
+    //   console.log("=============================");
+    // }
+    // console.log(month_plan);
+
+    console.log(ckecklosic(nurse_list));
   };
 }
 
-const n = 20;
-const m = 11;
-const nurse_info: Array<shift_work.nurse_input> = [];
+for (var i = 0; i < 100; i++) {
+  const n = 20;
+  const m = 11;
+  const nurse_info: Array<shift_work.nurse_input> = [];
 
-for (let i = 0; i < n; i++) {
-  const temp: shift_work.nurse_input = {
-    name: String(i),
-    career: Math.floor(Math.random() * 9 + 1),
-    off_day: [] as shift_work.KeyType[],
-  };
-  for (let i = 0; i < Math.floor(Math.random() * 10); i++) {
-    while (true) {
-      const num = Math.floor(Math.random() * 29 + 1);
-      if (temp.off_day.includes(num as shift_work.KeyType)) continue;
-      temp.off_day.push(num as shift_work.KeyType);
-      break;
+  //includes가 없다고 떠서 만든 isinclude함수
+  const isinclude = (
+    array: shift_work.KeyType[],
+    value: shift_work.KeyType
+  ): boolean => {
+    for (const ele of array) {
+      if (ele === value) return true;
     }
+    return false;
+  };
+
+  //간호사 데이터 랜덤 생성
+  for (let i = 1; i < n + 1; i++) {
+    const temp: shift_work.nurse_input = {
+      name: i,
+      career: Math.floor(Math.random() * 9 + 1),
+      off_day: [] as shift_work.KeyType[],
+    };
+    for (let i = 0; i < Math.floor(Math.random() * 10); i++) {
+      while (true) {
+        const num = Math.floor(Math.random() * 29 + 1);
+        // if (temp.off_day.includes(num as shift_work.KeyType)) continue;
+        if (isinclude(temp.off_day, num as shift_work.KeyType)) continue;
+        temp.off_day.push(num as shift_work.KeyType);
+        break;
+      }
+    }
+
+    nurse_info.push(temp);
   }
 
-  nurse_info.push(temp);
+  shift_work.main(n, m, nurse_info);
 }
-
-console.log(nurse_info.length);
-shift_work.main(n, m, nurse_info);

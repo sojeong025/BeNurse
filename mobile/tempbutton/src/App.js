@@ -30,13 +30,7 @@ function App() {
 function ButtonClick() {
   if (window.ReactNativeWebView) {
     window.ReactNativeWebView.postMessage(
-      JSON.stringify({
-        type: "device use",
-        data: {
-          nurse: "간호사 pk",
-          hospital: "병원 pk",
-        },
-      })
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzamFzMDQyQG5hdmVyLmNvbSIsImF1dGgiOiJVc2VyIiwiZXhwIjoxNjk5NDg4MTkxfQ.FicDQgUTw3x8w65tSceRdpDBjcdI2aJYMchqSswKRkI"
     );
   } else {
     //다른데서 열었을때

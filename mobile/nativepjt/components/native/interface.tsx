@@ -1,56 +1,54 @@
-export interface nfcdata_data {
+interface nfcdata_data {
   name: string;
 }
 
-export interface nfcdata {
+interface nfcdata {
   type: string;
   data: nfcdata_data;
+}
+
+export interface postdata {
+  beaconID: string;
+  deviceID: string;
+  patientID: number;
 }
 
 export class data_templat {
   patient: string;
   device: string;
   location: string;
-  nurse: string;
 
-  constructor(nurse: string) {
-    this.nurse = nurse;
-  }
+  constructor() {}
 
   set_patient(patient: string) {
-    const new_data = new data_templat(this.nurse);
+    const new_data = new data_templat();
     new_data.patient = patient;
     new_data.device = this.device;
     new_data.location = this.location;
-    new_data.nurse = this.nurse;
     return new_data;
   }
   set_device(device: string) {
-    const new_data = new data_templat(this.nurse);
+    const new_data = new data_templat();
     new_data.patient = this.patient;
     new_data.device = device;
     new_data.location = this.location;
-    new_data.nurse = this.nurse;
     return new_data;
   }
   set_location(location: string) {
-    const new_data = new data_templat(this.nurse);
+    const new_data = new data_templat();
     new_data.patient = this.patient;
     new_data.device = this.device;
     new_data.location = location;
-    new_data.nurse = this.nurse;
-    return new_data;
-  }
-  set_nurse(nurse: string) {
-    const new_data = new data_templat(this.nurse);
-    new_data.patient = this.patient;
-    new_data.device = this.device;
-    new_data.location = this.location;
-    new_data.nurse = nurse;
     return new_data;
   }
 }
 
+export interface proptemplat {
+  Auth: string;
+}
+
+/////////////////////////////////////////////////////////////////////
+//api없어서 만든 임시 함수들
 export const temp_data = async (tagid: string): Promise<nfcdata> => {
   return new Promise<nfcdata>((resolve, reject) => {
     if (tagid === '533736E2500001') {
