@@ -103,6 +103,11 @@ export const useWardStore = create((set) => ({
   },
 }));
 
+export const useHandoverSetStore = create((set) => ({
+  handoverSetId: null,
+  setHandoverSetId: (id) => set({ handoverSetId: id }),
+}));
+
 export const useInviteStore = create((set) => ({
   isComplete: false,
   setIsComplete: (state) => {
