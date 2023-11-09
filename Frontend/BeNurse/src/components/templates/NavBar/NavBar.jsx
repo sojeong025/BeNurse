@@ -4,7 +4,7 @@ import { Common } from "../../../utils/global.styles";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { GoBell } from "react-icons/go";
 
-export default function NavBar({ onTempSave }) {
+export default function NavBar({ onTempSave, onSave }) {
   const navigate = useNavigate();
 
   // 이전으로 가기
@@ -56,6 +56,7 @@ export default function NavBar({ onTempSave }) {
   );
   const shouldDisplayBellIcon =
     !nextRoutes.includes(path) && bellRoutes.includes(path);
+  const shouldDisplaySaveIcon = /^\/patient\/\d+\/detail\/?$/.test(path);
 
   const [visibility, setVisibility] = useState("flex");
   const [navTitle, setNavTitle] = useState("Be Nurse");
@@ -85,7 +86,7 @@ export default function NavBar({ onTempSave }) {
       setNavBoxShadow("0px 4px 8px 0px rgba(213, 213, 213, 0.36) ");
       setVisibility("flex");
     } else if (path.startsWith("/patient")) {
-      if (/^\/patient\/\d+\/detail\/journal$/.test(path)) {
+      if (/^\/patient\/\d+\/detail\/journal\/?$/.test(path)) {
         setNavTitle("간호 일지");
         setNavColor(Common.color.purple03);
         setNavFontColor(Common.color.white01);
@@ -224,6 +225,21 @@ export default function NavBar({ onTempSave }) {
           }}
         >
           <GoBell size={20} />
+        </div>
+      ) : shouldDisplaySaveIcon ? (
+        <div
+          onClick={onSave}
+          style={{
+            paddingRight: "14px",
+            display: "flex",
+            justifyContent: "end",
+            width: "80px",
+            fontSize: "16px",
+            fontWeight: "bold",
+            color: "blue",
+          }}
+        >
+          저장
         </div>
       ) : (
         <div
