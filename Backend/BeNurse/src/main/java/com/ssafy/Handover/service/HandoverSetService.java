@@ -1,5 +1,6 @@
 package com.ssafy.Handover.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.Handover.model.HandoverList;
 import com.ssafy.Handover.model.HandoverSet;
 
 @Service
@@ -15,7 +17,15 @@ public class HandoverSetService {
 	@Autowired
 	HandoverSetRepository handoverSetRepo;
 	
-	@Cacheable(value = "handoverSet", key = "#ID")
+	@Autowired
+	HandoverListRepository listRepo;
+	
+	@Autowired
+	HandoverRepository handoverRepo;
+	
+	@Autowired
+	HandoverService handoverServ;
+	
 	public HandoverSet findById(long ID) {
 		Optional<HandoverSet> option = handoverSetRepo.findById(ID);
 		if(option.isPresent())
@@ -24,7 +34,6 @@ public class HandoverSetService {
 			throw new NullPointerException();
 	}
 	
-	@CachePut(value = "handoverSet", key="#handoverSet.ID")
 	public HandoverSet save(HandoverSet handoverSet) {
 		try {
 			if(handoverSet.getID() == 0)
@@ -38,9 +47,12 @@ public class HandoverSetService {
 		
 	}
 	
-	@CacheEvict(value = "handoverSet", key = "#ID")
 	public void delete(long ID) {
 		try {
+			List<HandoverList> list = listRepo.findBySetID(ID);
+			for(HandoverList l : list)
+				handoverServ.delete(l.getHandoverID());
+			
 			HandoverSet handoverSet = findById(ID);
 			handoverSetRepo.delete(handoverSet);
 		}catch (Exception e) {

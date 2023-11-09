@@ -17,19 +17,27 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@Table(name = "HANDOVER")
+@Table(name = "HANDOVERCONTENT")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @ToString
-public class Handover {
+public class HandoverContent {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private long ID;
 	
-	@Column(name = "PATIENT_ID")
-	private long patientID;
-
+	@Column(name = "HANDOVER_ID")
+	private long handoverID;
+	
+	@Column(name = "CATEGORY")
+	private String category;
+	
+	@Column(name = "CONTENT")
+	private String content;
+	
+	@Column(name = "JOURNAL_ID")
+	private long journalID;
 }

@@ -1,4 +1,4 @@
-package com.ssafy.Handover.model;
+package com.ssafy.Handover.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +9,6 @@ import lombok.ToString;
 @ToString
 public class HandoverPostRequest {
 	private long setID;
-	private Handover handover;
+	private HandoverRequest handover;
 
 }

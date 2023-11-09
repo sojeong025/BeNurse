@@ -149,7 +149,6 @@ public class HandoverSetController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-    @CacheEvict(value = "handoverSet", key="#ID")
 	public APIResponse<Void> deleteHandoverSetById(@RequestBody IDRequest req) {
 		try {
 	    	setServ.delete(req.getID());

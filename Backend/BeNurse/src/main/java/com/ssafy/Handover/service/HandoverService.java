@@ -16,6 +16,12 @@ public class HandoverService {
 	@Autowired
 	HandoverRepository handoverRepo;
 	
+	@Autowired
+	HandoverListRepository listRepo;
+	
+	@Autowired
+	HandoverContentRepository contentRepo;
+	
 	@Cacheable(value = "handover", key = "#ID")
 	public Handover findById(long ID) {
 		Optional<Handover> option = handoverRepo.findById(ID);
@@ -25,24 +31,12 @@ public class HandoverService {
 			throw new NullPointerException();
 	}
 	
-	@CachePut(value = "handover", key="#handover.ID")
-	public Handover save(Handover handover) {
-		try {
-			if(handover.getID() == 0)
-				throw new NullPointerException();
-			Handover exist = findById(handover.getID());
-			return handoverRepo.save(handover);
-		}catch (Exception e) {
-			e.printStackTrace();
-			throw new NullPointerException();
-		}
-		
-	}
-	
 	@CacheEvict(value = "handover", key = "#ID")
 	public void delete(long ID) {
 		try {
 			Handover handover = findById(ID);
+			contentRepo.deleteAllByHandoverID(ID);
+			listRepo.deleteByHandoverID(ID);
 			handoverRepo.delete(handover);
 		}catch (Exception e) {
 			e.printStackTrace();
