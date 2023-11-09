@@ -17,8 +17,10 @@ export const HorizontalDatePicker = styled.div`
   z-index: 3;
 
   & .date_yymm {
+    box-sizing: border-box;
     display: flex;
     width: 100%;
+    padding: 0 11px;
     justify-content: space-between;
     gap: 10px;
     align-items: center;
@@ -60,8 +62,9 @@ export const MonthButton = styled.button`
   border: none;
   color: ${Common.color.white01};
   & svg {
-    width: 1.4rem;
-    height: 1.4rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    opacity: 0.7;
   }
 `;
 
