@@ -24,9 +24,11 @@ var shift_work;
             this.day_count = 0;
             this.evening_count = 0;
             this.nigth_count = 0;
+            this.off_count = 0;
             this.work_plan = new Array(dayofmonth[31]);
             off_day.forEach(function (day) {
                 _this.work_plan[day] = "off";
+                _this.off_count += 1;
             });
         }
         nurse.prototype.setWork = function (worktype, day) {
@@ -50,10 +52,10 @@ var shift_work;
             else if (worktype === "night")
                 typecount = this.nigth_count;
             this.priority =
-                count * 10000 +
-                    Math.round((count / (this.work_count ? this.work_count : 1)) * 100) *
-                        100 +
-                    Math.round(typecount / (count ? count : 1)) * 100;
+                Math.round((count / (this.work_count ? this.work_count : 1)) * 100) *
+                    10000 +
+                    Math.round((typecount / (count ? count : 1)) * 100) * 100 -
+                    Math.round((this.off_count / (this.work_count ? this.work_count : 1)) * 100);
             return this;
         };
         return nurse;
@@ -62,6 +64,11 @@ var shift_work;
         function Heap() {
             this.heap = [new nurse(0, 0, [])];
         }
+        Heap.prototype.isempty = function () {
+            if (this.heap.length === 1)
+                return true;
+            return false;
+        };
         Heap.prototype.heappush = function (value) {
             var _a;
             this.heap.push(value);
@@ -116,10 +123,27 @@ var shift_work;
         };
         return Heap;
     }());
-    var needpeople = {
-        day: 4,
-        evening: 4,
-        night: 3,
+    var needpeople = function (time, year, month, day, nomal) {
+        if (nomal) {
+            if (time === "day")
+                return 4;
+            if (time === "evening")
+                return 4;
+            if (time === "night")
+                return 3;
+        }
+        else {
+            var date = new Date(year, month - 1, day);
+            if (date.getDay() % 6 === 6)
+                return 1;
+            if (time === "day")
+                return 2;
+            if (time === "evening")
+                return 2;
+            if (time === "night")
+                return 1;
+        }
+        return 0;
     };
     var worktypes = ["day", "evening", "night"];
     var apirequest = function (nurse, month, year) {
@@ -158,94 +182,132 @@ var shift_work;
     var ckecklosic = function (nurse_list) {
         for (var _i = 0, nurse_list_1 = nurse_list; _i < nurse_list_1.length; _i++) {
             var nurse_1 = nurse_list_1[_i];
-            if (nurse_1.day_count + nurse_1.evening_count + nurse_1.nigth_count > 19 ||
-                nurse_1.day_count + nurse_1.evening_count + nurse_1.nigth_count < 14)
+            if (nurse_1.career < 11 &&
+                (nurse_1.day_count + nurse_1.evening_count + nurse_1.nigth_count > 18 ||
+                    nurse_1.day_count + nurse_1.evening_count + nurse_1.nigth_count < 16))
                 return "근무일수 불균형";
-            for (var i = 1; i < nurse_1.work_plan.length; i++) {
-                if (nurse_1.work_plan[i] === "day" &&
-                    nurse_1.work_plan[i] === "evening" &&
-                    nurse_1.work_plan[i - 1] === "night")
-                    return "퐁당근무";
-            }
+            else if (nurse_1.career > 10 &&
+                (nurse_1.day_count + nurse_1.evening_count + nurse_1.nigth_count > 19 ||
+                    nurse_1.day_count + nurse_1.evening_count + nurse_1.nigth_count < 17))
+                for (var i = 1; i < nurse_1.work_plan.length; i++) {
+                    if ((nurse_1.work_plan[i] === "day" ||
+                        nurse_1.work_plan[i] === "evening") &&
+                        nurse_1.work_plan[i - 1] === "night")
+                        return "퐁당근무";
+                    if (nurse_1.work_plan[i] === "day" &&
+                        nurse_1.work_plan[i - 1] === "evening")
+                        return "퐁당근무";
+                }
         }
         return "이상 무";
     };
-    shift_work.main = function (n, m, nurses) {
+    shift_work.main = function (n, m, year, nurses) {
         // 간호사 정보 받아오기
         var nurse_list = new Array(n);
         for (var i_1 = 0; i_1 < n; i_1++) {
             nurse_list[i_1] = new nurse(nurses[i_1].name, nurses[i_1].career, nurses[i_1].off_day);
         }
         var month = dayofmonth[m];
-        var month_plan = new Array(0);
+        // const month_plan: Array<dayplan> = new Array<dayplan>(0);
         for (var day = 0; day < month; day++) {
-            month_plan.push({ day: [], evening: [], night: [] });
+            // month_plan.push({ day: [], evening: [], night: [] });
             for (var _i = 0, worktypes_1 = worktypes; _i < worktypes_1.length; _i++) {
                 var time = worktypes_1[_i];
-                for (var peoplecount = 0; peoplecount < needpeople[time]; peoplecount++) {
+                for (var peoplecount = 0; peoplecount < needpeople(time, year, m, day, true); peoplecount++) {
                     var heap = new Heap();
                     for (var _a = 0, nurse_list_2 = nurse_list; _a < nurse_list_2.length; _a++) {
                         var nurse_2 = nurse_list_2[_a];
-                        if (nurse_2.work_count != day)
+                        if (nurse_2.work_count != day || nurse_2.career > 10)
                             continue;
                         nurse_2.setpriority(time);
                         heap.heappush(nurse_2);
                     }
-                    while (true) {
+                    while (!heap.isempty()) {
                         var temp_nurse = heap.heappop();
                         if ((time === "day" || time === "evening") &&
                             temp_nurse.work_plan[day - 1] === "night")
                             continue;
-                        if (temp_nurse.work_plan[day] === "off")
+                        if (time === "day" && temp_nurse.work_plan[day - 1] === "evening")
                             continue;
                         temp_nurse.setWork(time, day);
-                        try {
-                            month_plan[day][time].push(temp_nurse.name);
-                        }
-                        catch (_b) {
-                            console.log(month_plan);
-                            throw Error;
-                        }
+                        // try {
+                        //   month_plan[day][time].push(temp_nurse.name);
+                        // } catch {
+                        //   console.log(month_plan);
+                        //   throw Error;
+                        // }
+                        break;
+                    }
+                }
+                for (var peoplecount = 0; peoplecount < needpeople(time, year, m, day, false); peoplecount++) {
+                    var heap = new Heap();
+                    for (var _b = 0, nurse_list_3 = nurse_list; _b < nurse_list_3.length; _b++) {
+                        var nurse_3 = nurse_list_3[_b];
+                        if (nurse_3.work_count != day || nurse_3.career < 11)
+                            continue;
+                        nurse_3.setpriority(time);
+                        heap.heappush(nurse_3);
+                    }
+                    while (!heap.isempty()) {
+                        var temp_nurse = heap.heappop();
+                        if ((time === "day" || time === "evening") &&
+                            temp_nurse.work_plan[day - 1] === "night")
+                            continue;
+                        if (time === "day" && temp_nurse.work_plan[day - 1] === "evening")
+                            continue;
+                        temp_nurse.setWork(time, day);
+                        // try {
+                        //   month_plan[day][time].push(temp_nurse.name);
+                        // } catch {
+                        //   console.log(month_plan);
+                        //   throw Error;
+                        // }
                         break;
                     }
                 }
             }
-            for (var _c = 0, nurse_list_3 = nurse_list; _c < nurse_list_3.length; _c++) {
-                var nurse_3 = nurse_list_3[_c];
-                if (nurse_3.work_count != day)
+            for (var _c = 0, nurse_list_4 = nurse_list; _c < nurse_list_4.length; _c++) {
+                var nurse_4 = nurse_list_4[_c];
+                if (nurse_4.work_count != day)
                     continue;
-                nurse_3.work_plan[day] = "off";
-                nurse_3.work_count += 1;
+                nurse_4.work_plan[day] = "off";
+                nurse_4.work_count += 1;
+                nurse_4.off_count += 1;
             }
         }
+        ///////////////////////////////////////////////////////////
         // for (const nurse of nurse_list) {
-        //   // apirequest(nurse, 11, 2023);
         //   console.log(nurse);
         //   console.log(nurse.day_count + nurse.evening_count + nurse.nigth_count);
-        //   console.log("=============================");
+        //   console.log("==================================");
         // }
-        // console.log(month_plan);
-        console.log(ckecklosic(nurse_list));
+        ///////////////////////////////////////////////////////////
+        return ckecklosic(nurse_list);
     };
 })(shift_work || (shift_work = {}));
-for (var i = 0; i < 100; i++) {
-    var n = 20;
+var result = {
+    "근무일수 불균형": 0,
+    퐁당근무: 0,
+    "이상 무": 0,
+};
+//includes가 없다고 떠서 만든 isinclude함수
+var isinclude = function (array, value) {
+    for (var _i = 0, array_1 = array; _i < array_1.length; _i++) {
+        var ele = array_1[_i];
+        if (ele === value)
+            return true;
+    }
+    return false;
+};
+for (var i = 0; i < 190000; i++) {
+    var n = 28;
     var m = 11;
     var nurse_info = [];
-    //includes가 없다고 떠서 만든 isinclude함수
-    var isinclude = function (array, value) {
-        for (var _i = 0, array_1 = array; _i < array_1.length; _i++) {
-            var ele = array_1[_i];
-            if (ele === value)
-                return true;
-        }
-        return false;
-    };
     //간호사 데이터 랜덤 생성
     for (var i_2 = 1; i_2 < n + 1; i_2++) {
         var temp = {
             name: i_2,
-            career: Math.floor(Math.random() * 9 + 1),
+            career: i_2 < 21 ? 5 : 15,
             off_day: [],
         };
         for (var i_3 = 0; i_3 < Math.floor(Math.random() * 10); i_3++) {
@@ -260,5 +322,6 @@ for (var i = 0; i < 100; i++) {
         }
         nurse_info.push(temp);
     }
-    shift_work.main(n, m, nurse_info);
+    result[shift_work.main(n, m, 2023, nurse_info)] += 1;
 }
+console.log(result);

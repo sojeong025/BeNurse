@@ -69,6 +69,7 @@ namespace shift_work {
     day_count: number;
     evening_count: number;
     nigth_count: number;
+    off_count: number;
     work_plan: worktype[];
     priority: number;
 
@@ -79,10 +80,12 @@ namespace shift_work {
       this.day_count = 0;
       this.evening_count = 0;
       this.nigth_count = 0;
+      this.off_count = 0;
 
       this.work_plan = new Array<worktype>(dayofmonth[31]);
       off_day.forEach((day: KeyType) => {
         this.work_plan[day] = "off";
+        this.off_count += 1;
       });
     }
 
@@ -92,6 +95,7 @@ namespace shift_work {
       if (worktype === "day") this.day_count += 1;
       else if (worktype === "evening") this.evening_count += 1;
       else if (worktype === "night") this.nigth_count += 1;
+
       return this;
     }
 
@@ -104,10 +108,12 @@ namespace shift_work {
       else if (worktype === "night") typecount = this.nigth_count;
 
       this.priority =
-        count * 10000 +
         Math.round((count / (this.work_count ? this.work_count : 1)) * 100) *
-          100 +
-        Math.round(typecount / (count ? count : 1)) * 100;
+          10000 +
+        Math.round((typecount / (count ? count : 1)) * 100) * 100 -
+        Math.round(
+          (this.off_count / (this.work_count ? this.work_count : 1)) * 100
+        );
       return this;
     }
   }
@@ -116,6 +122,11 @@ namespace shift_work {
     private heap: Array<nurse>;
     constructor() {
       this.heap = [new nurse(0, 0, [])];
+    }
+
+    isempty() {
+      if (this.heap.length === 1) return true;
+      return false;
     }
 
     heappush(value: nurse) {
@@ -178,11 +189,29 @@ namespace shift_work {
     }
   }
 
-  const needpeople = {
-    day: 4,
-    evening: 4,
-    night: 3,
+  const needpeople = (
+    time: worktype,
+    year: number,
+    month: number,
+    day: number,
+    nomal: boolean
+  ): number => {
+    if (nomal) {
+      if (time === "day") return 4;
+      if (time === "evening") return 4;
+      if (time === "night") return 3;
+    } else {
+      const date = new Date(year, month - 1, day);
+      if (date.getDay() % 6 === 6) return 1;
+
+      if (time === "day") return 2;
+      if (time === "evening") return 2;
+      if (time === "night") return 1;
+    }
+
+    return 0;
   };
+
   const worktypes: Array<worktype> = ["day", "evening", "night"];
 
   const apirequest = (nurse: nurse, month: number, year: number) => {
@@ -224,23 +253,40 @@ namespace shift_work {
   const ckecklosic = (nurse_list: nurse[]): string => {
     for (const nurse of nurse_list) {
       if (
-        nurse.day_count + nurse.evening_count + nurse.nigth_count > 19 ||
-        nurse.day_count + nurse.evening_count + nurse.nigth_count < 14
+        nurse.career < 11 &&
+        (nurse.day_count + nurse.evening_count + nurse.nigth_count > 18 ||
+          nurse.day_count + nurse.evening_count + nurse.nigth_count < 16)
       )
         return "근무일수 불균형";
-      for (var i = 1; i < nurse.work_plan.length; i++) {
-        if (
-          nurse.work_plan[i] === "day" &&
-          nurse.work_plan[i] === "evening" &&
-          nurse.work_plan[i - 1] === "night"
-        )
-          return "퐁당근무";
-      }
+      else if (
+        nurse.career > 10 &&
+        (nurse.day_count + nurse.evening_count + nurse.nigth_count > 19 ||
+          nurse.day_count + nurse.evening_count + nurse.nigth_count < 17)
+      )
+        for (var i = 1; i < nurse.work_plan.length; i++) {
+          if (
+            (nurse.work_plan[i] === "day" ||
+              nurse.work_plan[i] === "evening") &&
+            nurse.work_plan[i - 1] === "night"
+          )
+            return "퐁당근무";
+
+          if (
+            nurse.work_plan[i] === "day" &&
+            nurse.work_plan[i - 1] === "evening"
+          )
+            return "퐁당근무";
+        }
     }
     return "이상 무";
   };
 
-  export const main = (n: number, m: number, nurses: nurse_input[]) => {
+  export const main = (
+    n: number,
+    m: number,
+    year: number,
+    nurses: nurse_input[]
+  ) => {
     // 간호사 정보 받아오기
     const nurse_list = new Array<nurse>(n);
     for (let i = 0; i < n; i++) {
@@ -252,23 +298,23 @@ namespace shift_work {
     }
 
     const month: number = dayofmonth[m];
-    const month_plan: Array<dayplan> = new Array<dayplan>(0);
+    // const month_plan: Array<dayplan> = new Array<dayplan>(0);
 
     for (let day = 0; day < month; day++) {
-      month_plan.push({ day: [], evening: [], night: [] });
+      // month_plan.push({ day: [], evening: [], night: [] });
       for (let time of worktypes) {
         for (
           let peoplecount = 0;
-          peoplecount < needpeople[time];
+          peoplecount < needpeople(time, year, m, day, true);
           peoplecount++
         ) {
           const heap = new Heap();
           for (const nurse of nurse_list) {
-            if (nurse.work_count != day) continue;
+            if (nurse.work_count != day || nurse.career > 10) continue;
             nurse.setpriority(time);
             heap.heappush(nurse);
           }
-          while (true) {
+          while (!heap.isempty()) {
             const temp_nurse = heap.heappop();
             if (
               (time === "day" || time === "evening") &&
@@ -276,59 +322,99 @@ namespace shift_work {
             )
               continue;
 
-            if (temp_nurse.work_plan[day] === "off") continue;
+            if (time === "day" && temp_nurse.work_plan[day - 1] === "evening")
+              continue;
 
             temp_nurse.setWork(time, day);
-            try {
-              month_plan[day][time].push(temp_nurse.name);
-            } catch {
-              console.log(month_plan);
-              throw Error;
-            }
+            // try {
+            //   month_plan[day][time].push(temp_nurse.name);
+            // } catch {
+            //   console.log(month_plan);
+            //   throw Error;
+            // }
+            break;
+          }
+        }
+
+        for (
+          let peoplecount = 0;
+          peoplecount < needpeople(time, year, m, day, false);
+          peoplecount++
+        ) {
+          const heap = new Heap();
+          for (const nurse of nurse_list) {
+            if (nurse.work_count != day || nurse.career < 11) continue;
+            nurse.setpriority(time);
+            heap.heappush(nurse);
+          }
+          while (!heap.isempty()) {
+            const temp_nurse = heap.heappop();
+            if (
+              (time === "day" || time === "evening") &&
+              temp_nurse.work_plan[day - 1] === "night"
+            )
+              continue;
+
+            if (time === "day" && temp_nurse.work_plan[day - 1] === "evening")
+              continue;
+
+            temp_nurse.setWork(time, day);
+            // try {
+            //   month_plan[day][time].push(temp_nurse.name);
+            // } catch {
+            //   console.log(month_plan);
+            //   throw Error;
+            // }
             break;
           }
         }
       }
+
       for (const nurse of nurse_list) {
         if (nurse.work_count != day) continue;
         nurse.work_plan[day] = "off";
         nurse.work_count += 1;
+        nurse.off_count += 1;
       }
     }
-
+    ///////////////////////////////////////////////////////////
     // for (const nurse of nurse_list) {
-    //   // apirequest(nurse, 11, 2023);
     //   console.log(nurse);
     //   console.log(nurse.day_count + nurse.evening_count + nurse.nigth_count);
-    //   console.log("=============================");
+    //   console.log("==================================");
     // }
-    // console.log(month_plan);
+    ///////////////////////////////////////////////////////////
 
-    console.log(ckecklosic(nurse_list));
+    return ckecklosic(nurse_list);
   };
 }
 
-for (var i = 0; i < 100; i++) {
-  const n = 20;
+const result = {
+  "근무일수 불균형": 0,
+  퐁당근무: 0,
+  "이상 무": 0,
+};
+
+//includes가 없다고 떠서 만든 isinclude함수
+const isinclude = (
+  array: shift_work.KeyType[],
+  value: shift_work.KeyType
+): boolean => {
+  for (const ele of array) {
+    if (ele === value) return true;
+  }
+  return false;
+};
+for (var i = 0; i < 190000; i++) {
+  const n = 28;
   const m = 11;
   const nurse_info: Array<shift_work.nurse_input> = [];
-
-  //includes가 없다고 떠서 만든 isinclude함수
-  const isinclude = (
-    array: shift_work.KeyType[],
-    value: shift_work.KeyType
-  ): boolean => {
-    for (const ele of array) {
-      if (ele === value) return true;
-    }
-    return false;
-  };
 
   //간호사 데이터 랜덤 생성
   for (let i = 1; i < n + 1; i++) {
     const temp: shift_work.nurse_input = {
       name: i,
-      career: Math.floor(Math.random() * 9 + 1),
+      career: i < 21 ? 5 : 15,
       off_day: [] as shift_work.KeyType[],
     };
     for (let i = 0; i < Math.floor(Math.random() * 10); i++) {
@@ -344,5 +430,6 @@ for (var i = 0; i < 100; i++) {
     nurse_info.push(temp);
   }
 
-  shift_work.main(n, m, nurse_info);
+  result[shift_work.main(n, m, 2023, nurse_info)] += 1;
 }
+console.log(result);
