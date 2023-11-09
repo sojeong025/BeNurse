@@ -160,7 +160,7 @@ export default function ScheduleCreateIntroPage() {
                 height: "460px",
               }}
             >
-              {entireNurse.map((nurse, index) => {
+              {entireNurse?.map((nurse, index) => {
                 const ward = entireWard.filter(
                   (ward) => ward.id === nurse.wardID,
                 );
@@ -214,7 +214,7 @@ export default function ScheduleCreateIntroPage() {
               <p>OFF 신청 목록</p>
               <div style={{ overflow: "scroll" }}>
                 {offKeys.map((offkey, index) => {
-                  const nurseName = entireNurse.filter(
+                  const nurseName = entireNurse?.filter(
                     (nurse) => nurse.id === offApply[offkey][0].nurseID,
                   );
                   return (
