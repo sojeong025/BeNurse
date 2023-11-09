@@ -5,6 +5,7 @@ import moment from "moment";
 import * as S from "./JournalTimeLine.styles";
 
 import { useDateStore } from "../../../store/store";
+import { useHandoverSetStore } from "../../../store/store";
 
 import { useSwipeable } from "react-swipeable";
 
@@ -21,7 +22,8 @@ import write_loading from "@assets/Images/write_loading.gif";
 export default function JournalTimeLine({ patientId }) {
   const [journalList, setJournalList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isFromHandOver, setIsFromHandOver] = useState(false);
+  const { isFromHandOver, setIsFromHandOver, handoverJournalList } =
+    useHandoverSetStore((state) => state);
   const { selectedDate, setSelectedDate } = useDateStore((state) => state);
 
   const navigate = useNavigate();
@@ -35,7 +37,6 @@ export default function JournalTimeLine({ patientId }) {
     } else {
       setIsFromHandOver(false);
     }
-
     return () => {
       localStorage.setItem("preJournal", "");
     };

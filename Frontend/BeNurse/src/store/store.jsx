@@ -106,6 +106,21 @@ export const useWardStore = create((set) => ({
 export const useHandoverSetStore = create((set) => ({
   handoverSetId: null,
   setHandoverSetId: (id) => set({ handoverSetId: id }),
+  handoverJournalList: [],
+  setHandoverJournalList: (updateFunction) => {
+    set((state) => ({
+      handoverJournalList: updateFunction(state.handoverJournalList),
+    }));
+  },
+  unsetHandoverJournalList: () => {
+    set(() => ({ handoverJournalList: [] }));
+  },
+  isFromHandOver: false,
+  setIsFromHandOver: (value) => {
+    set(() => ({
+      isFromHandOver: value,
+    }));
+  },
 }));
 
 export const useInviteStore = create((set) => ({

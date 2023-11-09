@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Common } from "../../../../utils/global.styles";
 
 import { NavLink, useParams } from "react-router-dom";
@@ -7,12 +7,16 @@ import Input from "@components/atoms/Input/Input";
 import Button from "@components/atoms/Button/Button";
 import { PiNotepad } from "react-icons/pi";
 import { useDateStore } from "../../../../store/store";
+import { useHandoverSetStore } from "../../../../store/store";
 import moment from "moment";
+import HandOverDetailNurseItem from "./HandOverDetailNurseItem";
+import { customAxios } from "../../../../libs/axios";
 
 export default function HandOverDetailNurse() {
   const [inputs, setInputs] = useState([{ name: "간호일지 1", value: "" }]);
   const [showWarning, setShowWarning] = useState(false);
   const { setSelectedDate } = useDateStore((state) => state);
+  const { handoverJournalList } = useHandoverSetStore((state) => state);
   const { patientId } = useParams();
 
   const addInput = () => {
@@ -80,7 +84,7 @@ export default function HandOverDetailNurse() {
             to={"/patient/" + patientId + "/detail/journal"}
             onClick={() => {
               setSelectedDate(moment().startOf("day"));
-              localStorage.setItem("preJournal", "handover");
+              localStorage.setItem("preJournal", "HandOver");
             }}
           >
             <div
@@ -124,38 +128,16 @@ export default function HandOverDetailNurse() {
           overflowY: "auto",
         }}
       >
-        {inputs.map((input, index) => (
-          <React.Fragment key={index}>
-            <p>▎{input.name}</p>
-            <Input
-              variant={"default"}
-              value={input.value}
-              onChange={(e) => handleInputChange(e, index)}
-              props={"margin-bottom: 14px;"}
-            />
-          </React.Fragment>
-        ))}
-        <div style={{ height: "50px", width: "100%" }}>
-          {showWarning && (
-            <p
-              style={{
-                color: "red",
-                fontSize: `${Common.fontSize.fontXXS}`,
-                marginBottom: "15px",
-                marginTop: "-16px",
-              }}
-            >
-              내용을 입력해주세요.
-            </p>
-          )}
-          <Button
-            variant="primary"
-            height="50px"
-            width="100%"
-            onClick={addInput}
-          >
-            추가
-          </Button>
+        <div>
+          {handoverJournalList &&
+            handoverJournalList.map((id, index) => {
+              return (
+                <HandOverDetailNurseItem
+                  key={index}
+                  id={id}
+                />
+              );
+            })}
         </div>
       </div>
     </div>

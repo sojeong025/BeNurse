@@ -5,9 +5,11 @@ import JournalDatePicker from "../../components/templates/Patient/JournalDatePic
 import JournalTimeLine from "../../components/templates/Patient/JournalTimeLine";
 import CreatePencilButton from "../../components/atoms/Button/CreatePencilButton";
 import BottomSelectPanel from "../../components/templates/BottomSelectPanel/BottomSelectPanel";
+import { useHandoverSetStore } from "../../store/store";
 
 export default function PatientJournalMain() {
   const { patientId } = useParams();
+  const { isFromHandOver } = useHandoverSetStore((state) => state);
 
   return (
     <div style={{ width: "100%", marginTop: "83px" }}>
@@ -22,7 +24,7 @@ export default function PatientJournalMain() {
           zIndex: 1,
         }}
       >
-        <CreatePencilButton />
+        {isFromHandOver ? null : <CreatePencilButton />}
       </Link>
       <BottomSelectPanel
         modifyLabel={"일지 수정"}

@@ -5,24 +5,43 @@ import moment from "moment";
 import LongPressable from "react-longpressable";
 
 import { useBottomSheetStore } from "../../../store/store";
+import { useHandoverSetStore } from "../../../store/store";
 
 export default function PatientJournalItem({ journal, handleOpenModal }) {
   const { isEditActivated, ActivateEdit, selectedID, setSelectedID } =
     useBottomSheetStore((state) => state);
   const [isSelected, setIsSelected] = useState(false);
   const [currentNurseId, setCurrentNurseId] = useState(0);
-
-  useEffect(() => {
-    setCurrentNurseId(localStorage.getItem("nurseID"));
-  }, []);
+  const {
+    isFromHandOver,
+    setIsFromHandOver,
+    handoverJournalList,
+    setHandoverJournalList,
+  } = useHandoverSetStore((state) => state);
 
   const onLongPress = (id) => {
     ActivateEdit(`${id}/update`, (e) => handleOpenModal(e, id));
   };
 
+  const selectItem = () => {
+    if (handoverJournalList.includes(journal.id)) {
+      const newHandoverJournalList = handoverJournalList.filter(
+        (id) => id !== journal.id,
+      );
+      setHandoverJournalList(() => newHandoverJournalList);
+    } else {
+      const newHandoverJournalList = [...handoverJournalList, journal.id];
+      setHandoverJournalList(() => newHandoverJournalList);
+    }
+  };
+
   const expandItem = () => {
     setIsSelected(!isSelected);
   };
+
+  useEffect(() => {
+    setCurrentNurseId(localStorage.getItem("nurseID"));
+  }, []);
 
   return (
     <S.StyledJournalItem isSelected={isSelected}>
@@ -39,7 +58,7 @@ export default function PatientJournalItem({ journal, handleOpenModal }) {
             onLongPress(journal.id);
           }
         }}
-        onShortPress={expandItem}
+        onShortPress={isFromHandOver ? () => selectItem() : expandItem}
         longPressTime={400}
       >
         <S.JournalContentBox
