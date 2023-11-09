@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎙&nbsp; Seiren
+# 🎙&nbsp; BeNurse
 간호사들의 <b>업무 편의성을</b>올려주는 서비스<br/>
 
 <img src="" width="700">
