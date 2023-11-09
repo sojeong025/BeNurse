@@ -3,6 +3,7 @@ import {useState, useEffect, useRef} from 'react';
 
 import NfcManager, {NfcEvents} from 'react-native-nfc-manager';
 import {
+  View,
   Text,
   Button,
   NativeModules,
@@ -202,18 +203,29 @@ function App(nurse: string, hospital: string) {
   }, [read_data, infostatus]);
 
   return (
-    <>
-      <Text>{'\n\n\n\n'}</Text>
-      <Text> 환자 : {read_data.patient}</Text>
-      <Text> 장비 : {read_data.device}</Text>
-      <Text> 장소 : {read_data.location}</Text>
+    <View
+      style={{
+        display: 'flex',
+        width: '60%',
+        height: '30%',
+        backgroundColor: 'gray',
+      }}>
+      <View>
+        <Text> 환자 : {read_data.patient}</Text>
+      </View>
+      <View>
+        <Text> 장비 : {read_data.device}</Text>
+      </View>
+      <View>
+        <Text> 장소 : {read_data.location}</Text>
+      </View>
       <Button
         onPress={rescan}
-        title="스캔 다시하기"
+        title="스캔 재실행"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
       />
-    </>
+    </View>
   );
 }
 
