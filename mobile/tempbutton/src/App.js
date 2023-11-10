@@ -1,4 +1,6 @@
 import "./App.css";
+// import { main } from "./shift_work";
+const { main } = require("./shift_work.tsx");
 
 function Button(props) {
   const { label, styleClass, onClick, disabled } = props;
@@ -33,7 +35,7 @@ function ButtonClick() {
       "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzamFzMDQyQG5hdmVyLmNvbSIsImF1dGgiOiJVc2VyIiwiZXhwIjoxNjk5NDg4MTkxfQ.FicDQgUTw3x8w65tSceRdpDBjcdI2aJYMchqSswKRkI"
     );
   } else {
-    //다른데서 열었을때
+    console.log(main);
     return;
   }
 }
