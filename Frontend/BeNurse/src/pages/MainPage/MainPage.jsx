@@ -11,15 +11,19 @@ import NurseTip from "./NurseTip";
 
 import * as S from "./MainPage.styles";
 import main_nurse from "@assets/Images/main_nurse.png";
-import { ButtonContainer } from "../LoginPage/JoinPage.styles";
 
 import { useTabBarStore } from "../../store/store";
+import { customAxios } from "../../libs/axios";
 
 import moment from "moment";
 
 function MainPage() {
   const { currentTab, setCurrentTab } = useTabBarStore((state) => state);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [schedule, setSchedule] = useState([]);
+
+  const startOfWeek = moment().startOf("week").format("YYYY-MM-DD");
+  const endOfWeek = moment().endOf("week").format("YYYY-MM-DD");
 
   const handleTipBoxClick = (event, id) => {
     event.preventDefault();
@@ -31,21 +35,27 @@ function MainPage() {
     setModalIsOpen(false);
   };
 
-  const dates = [];
-  const types = ["day", "night", "evening", "off"];
-  const today = moment();
-  const startOfWeek = today.clone().startOf("week");
-
-  for (let i = 0; i < 7; i++) {
-    const date = startOfWeek.clone().add(i, "days");
-    const dayOfWeek = date.format("ddd").toUpperCase();
-    const randomType = types[Math.floor(Math.random() * types.length)]; // 랜덤으로 타입 선택
-    dates.push({ date, dayOfWeek, type: randomType });
-  }
-
   useEffect(() => {
     setCurrentTab("main");
+    customAxios
+      .get(`Schedule?endDate=${endOfWeek}&startDate=${startOfWeek}`)
+      .then((res) => {
+        console.log("내 주간 근무 일정", res.data.responseData);
+        const sortedData = res.data.responseData.sort((a, b) => {
+          return moment(a.workdate).isBefore(b.workdate) ? -1 : 1;
+        });
+        setSchedule(sortedData);
+      })
+      .catch((error) => {
+        console.error("내 주간 근무 일정 로드 실패:", error);
+      });
   }, []);
+
+  const dates = schedule.map((item) => ({
+    date: moment(item.workdate),
+    dayOfWeek: moment(item.workdate).format("ddd").toUpperCase(),
+    type: item.worktime,
+  }));
 
   return (
     <Container overflow={"hidden"}>
