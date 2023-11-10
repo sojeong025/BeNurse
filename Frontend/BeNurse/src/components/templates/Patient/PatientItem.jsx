@@ -41,11 +41,11 @@ export default function PatientItem({ patientInfo, type }) {
   return (
     <Box
       type={"white"}
-      size={["95px", "140px"]}
+      size={["102px", "140px"]}
       padding={"14px 10px"}
       props={
         isCompleted
-          ? "box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;"
+          ? "box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px inset, rgba(6, 24, 44, 0.65) 0px 2px 2px -1px inset, rgba(255, 255, 255, 0.08) 0px 2px 2px inset;"
           : ""
       }
     >
