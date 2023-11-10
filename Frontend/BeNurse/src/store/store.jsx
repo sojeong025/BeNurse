@@ -21,6 +21,19 @@ export const usePatientStore = create((set) => ({
   },
 }));
 
+export const usePatientCardStore = create((set) => ({
+  completedHandover: {},
+  setCompletedHandover: (handoverId, isCompleted) => {
+    set((state) => ({
+      ...state,
+      completedHandover: {
+        ...state.completedHandover,
+        [handoverId]: isCompleted,
+      },
+    }));
+  },
+}));
+
 export const useDeviceStore = create((set) => ({
   isListActivated: false,
   ActivateList: () => {
@@ -104,8 +117,14 @@ export const useWardStore = create((set) => ({
 }));
 
 export const useHandoverSetStore = create((set) => ({
+  // 전체 인계장 set id 저장
   handoverSetId: null,
   setHandoverSetId: (id) => set({ handoverSetId: id }),
+
+  // 개별 인계장 id 저장
+  handoverId: null,
+  setHandoverId: (id) => set({ handoverId: id }),
+
   handoverJournalList: [],
   setHandoverJournalList: (updateFunction) => {
     set((state) => ({
