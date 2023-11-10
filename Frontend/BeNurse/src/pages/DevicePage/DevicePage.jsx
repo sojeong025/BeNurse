@@ -33,6 +33,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 
 // zustand
 import { useDeviceStore } from "../../store/store";
+import { useTabBarStore } from "../../store/store";
 
 // Images
 import temp from "@assets/Images/temp.png";
@@ -48,6 +49,7 @@ export default function DevicePage() {
   const { isListActivated, ActivateList, DeactivateList } = useDeviceStore(
     (state) => state,
   );
+  const { currentTab, setCurrentTab } = useTabBarStore((state) => state);
 
   const locationData = {
     소회의실: {
@@ -226,6 +228,7 @@ export default function DevicePage() {
     customAxios.get("device/all").then((res) => {
       setDevices(res.data.responseData);
     });
+    setCurrentTab("device");
   }, []);
 
   if (isListActivated) {
