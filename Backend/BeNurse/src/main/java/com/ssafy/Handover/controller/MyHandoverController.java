@@ -30,6 +30,7 @@ import com.ssafy.Schedule.model.Schedule;
 import com.ssafy.Schedule.service.ScheduleRepository;
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.nurse.model.Nurse;
+import com.ssafy.nurse.service.NurseService;
 import com.ssafy.oauth.serivce.OauthService;
 
 import io.swagger.annotations.Api;
@@ -59,6 +60,9 @@ public class MyHandoverController {
 	
 	@Autowired
 	ScheduleRepository scheduleRepo;
+	
+	@Autowired
+	NurseService nurseServ; 
 	
 	@Autowired
 	OauthService oauthService;
@@ -121,10 +125,13 @@ public class MyHandoverController {
 				log.info(set.toString());
 				mr.setHandoverSetID(set.getID());
 				mr.setGiveID(set.getGiveID());
+				mr.setGiveName(nurseServ.findById(set.getGiveID()).getName());
 				mr.setTakeIDs(new ArrayList<>());
+				mr.setTakeNames(new ArrayList<>());
 				List<MyHandover> mhlist = myhoRepo.findAllBySetID(set.getID());
 				for(MyHandover m : mhlist) {
 					mr.getTakeIDs().add(m.getTakeID());
+					mr.getTakeNames().add(nurseServ.findById(m.getTakeID()).getName());
 				}
 				mr.setTime(set.getTime().toLocalDate());
 				
@@ -175,10 +182,13 @@ public class MyHandoverController {
 				
 				mr.setHandoverSetID(set.getID());
 				mr.setGiveID(set.getGiveID());
+				mr.setGiveName(nurseServ.findById(set.getGiveID()).getName());
 				mr.setTakeIDs(new ArrayList<>());
+				mr.setTakeNames(new ArrayList<>());
 				List<MyHandover> mhlist = myhoRepo.findAllBySetID(set.getID());
 				for(MyHandover m : mhlist) {
 					mr.getTakeIDs().add(m.getTakeID());
+					mr.getTakeNames().add(nurseServ.findById(m.getTakeID()).getName());
 				}
 				mr.setTime(set.getTime().toLocalDate());
 				

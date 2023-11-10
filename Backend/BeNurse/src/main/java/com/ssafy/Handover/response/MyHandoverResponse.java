@@ -12,7 +12,9 @@ import lombok.ToString;
 @ToString
 public class MyHandoverResponse {
 	private long giveID;
+	private String giveName;
 	private List<Long> takeIDs;
+	private List<String> takeNames;
 	private long handoverSetID;
 	private String giveWorkTime;
 	private boolean readed;
