@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Common } from "@utils/global.styles.jsx";
 
 export const MainContainer = styled.div`
-  padding: 74px 0;
+  padding: 74px 0 140px 0;
   width: 100%;
   height: 100%;
   box-sizing: border-box;

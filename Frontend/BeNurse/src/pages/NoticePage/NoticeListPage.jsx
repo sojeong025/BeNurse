@@ -107,7 +107,7 @@ export default function NoticeListPage() {
                   <div className="notice_content">{notice.content}</div>
                   <div className="notice_info">
                     <p className="notice_date">
-                      {moment(Date(notice.time)).format("YY/MM/DD hh:mm")}
+                      {moment(notice.time).format("YY/MM/DD HH:mm")}
                     </p>
                     <div>
                       {currentID == notice.writerID && (
