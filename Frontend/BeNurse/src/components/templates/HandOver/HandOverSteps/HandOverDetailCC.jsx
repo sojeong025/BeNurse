@@ -42,7 +42,7 @@ export default function HandOverDetailCC() {
       <p
         style={{
           color: Common.color.black02,
-          fontSize: Common.fontSize.font,
+          fontSize: Common.fontSize.fontM,
           fontWeight: Common.fontWeight.extrabold,
           marginTop: "10px",
         }}
