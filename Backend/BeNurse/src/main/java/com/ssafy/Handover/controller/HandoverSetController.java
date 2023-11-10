@@ -20,9 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.Handover.model.Handover;
+import com.ssafy.Handover.model.HandoverContent;
 import com.ssafy.Handover.model.HandoverList;
 import com.ssafy.Handover.model.HandoverSet;
 import com.ssafy.Handover.model.MyHandover;
+import com.ssafy.Handover.request.HandoverRequest;
+import com.ssafy.Handover.request.JournalRequest;
+import com.ssafy.Handover.service.HandoverContentRepository;
 import com.ssafy.Handover.service.HandoverListRepository;
 import com.ssafy.Handover.service.HandoverRepository;
 import com.ssafy.Handover.service.HandoverService;
@@ -68,6 +72,9 @@ public class HandoverSetController {
 	
 	@Autowired
 	MyHandoverService myhoServ;
+	
+	@Autowired
+	HandoverContentRepository contentRepo;
 	
 	@Autowired
 	OauthService oauthService;
@@ -117,28 +124,28 @@ public class HandoverSetController {
 	    }
 	}
 
-	// 인수자 인계장 조회 GET [인계자 ID]
-	@GetMapping("/take")
-	@ApiOperation(value = "인계장 묶음 조회 [인계자 ID]", notes = "인계자 ID를 통해 인계장 묶음 조회[인계묶음 리스트 조회]") 
-	@ApiResponses({
-	    @ApiResponse(code = 200, message = "성공", response = HandoverSet.class),
-	    @ApiResponse(code = 404, message = "인계장을 찾을 수 없음"),
-	    @ApiResponse(code = 500, message = "서버 오류")
-	})
-	public APIResponse<List<HandoverSet>> getHandoverSetByGiveId(@RequestHeader("Authorization") String token) {
-		Nurse nurse;
-		// 사용자 조회
-		try {
-			nurse = oauthService.getUser(token);
-		}catch (Exception e) {
-			e.printStackTrace();
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-		}
-		
-		List<HandoverSet> handoverSet = setRepo.findAllByGiveID(nurse.getID());
-
-        return new APIResponse<>(handoverSet, HttpStatus.OK);
-	}
+//	// 인수자 인계장 조회 GET [인계자 ID]
+//	@GetMapping("/take")
+//	@ApiOperation(value = "인계장 묶음 조회 [인계자 ID]", notes = "인계자 ID를 통해 인계장 묶음 조회[인계묶음 리스트 조회]") 
+//	@ApiResponses({
+//	    @ApiResponse(code = 200, message = "성공", response = HandoverSet.class),
+//	    @ApiResponse(code = 404, message = "인계장을 찾을 수 없음"),
+//	    @ApiResponse(code = 500, message = "서버 오류")
+//	})
+//	public APIResponse<List<HandoverSet>> getHandoverSetByGiveId(@RequestHeader("Authorization") String token) {
+//		Nurse nurse;
+//		// 사용자 조회
+//		try {
+//			nurse = oauthService.getUser(token);
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+//		}
+//		
+//		List<HandoverSet> handoverSet = setRepo.findAllByGiveID(nurse.getID());
+//
+//        return new APIResponse<>(handoverSet, HttpStatus.OK);
+//	}
 	
 	
 	// 인계장 묶음 삭제 DELETE
@@ -163,11 +170,11 @@ public class HandoverSetController {
 	@GetMapping("/details")
 	@ApiOperation(value = "인계장 묶음 내역 조회", notes = "인계장 묶음 ID를 통해 인계장 묶음에 포함된 인계장 조회") 
 	@ApiResponses({
-	    @ApiResponse(code = 200, message = "성공", response = HandoverSet.class),
+	    @ApiResponse(code = 200, message = "성공", response = HandoverRequest.class),
 	    @ApiResponse(code = 404, message = "인계장을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<List<Handover>> getDetail(@RequestHeader("Authorization") String token, @RequestParam("ID") long ID){
+	public APIResponse<List<HandoverRequest>> getDetail(@RequestHeader("Authorization") String token, @RequestParam("ID") long ID){
 
 		Nurse nurse;
 		// 사용자 조회
@@ -186,19 +193,49 @@ public class HandoverSetController {
 	    	//
 	    	if(optionmh.isPresent()) {
 	    		MyHandover mh = optionmh.get();
-	    		mh.setReaded(true);
-	    		myhoServ.save(mh);
+	    		if(mh.getTakeID() == nurse.getID()) {
+	    			mh.setReaded(true);
+	    			myhoServ.save(mh);
+	    		}
 	    	}
 	    }catch (Exception e) {
 	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	    }
 		
 		List<HandoverList> list = listRepo.findAllBySetID(ID);
-		List<Handover> resp = new ArrayList<>();
+		List<HandoverRequest> resp = new ArrayList<>();
 		for(HandoverList l : list) {
 			try {
+				HandoverRequest r = new HandoverRequest();
 				Handover handover = handoverServ.findById(l.getHandoverID());
-				resp.add(handover);
+		    	r.setID(handover.getID());
+		    	r.setPatientID(handover.getPatientID());
+		    	r.setSpecial(new ArrayList<>());
+		    	r.setCc(new ArrayList<>());
+		    	r.setEtc(new ArrayList<>());
+		    	r.setJournals(new ArrayList<>());
+		    	List<HandoverContent> contents = contentRepo.findAllByHandoverID(handover.getID());
+		    	for(HandoverContent content : contents) {
+		    		switch (content.getCategory()){
+		    		case "special":
+		    			r.getSpecial().add(content.getContent());
+		    			break;
+		    		case "cc":
+		    			r.getCc().add(content.getContent());
+		    			break;
+		    		case "etc":
+		    			r.getEtc().add(content.getContent());
+		    			break;
+		    		case "journal":
+		    			JournalRequest journal = new JournalRequest();
+		    			journal.setJournalID(content.getJournalID());
+		    			journal.setComment(content.getContent());
+		    			r.getJournals().add(journal);
+		    			break;
+		    		}
+		    	}
+				
+				resp.add(r);
 			}catch (Exception e) {
 				log.error("not found handover (id:"+ l.getHandoverID() +")");
 			}
