@@ -1,12 +1,9 @@
 package com.ssafy.nurse.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,7 +18,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.common.utils.IDRequest;
+import com.ssafy.hospital.service.HospitalService;
+import com.ssafy.hospital.service.WardService;
 import com.ssafy.nurse.model.Nurse;
+import com.ssafy.nurse.response.MyNurseResponse;
 import com.ssafy.nurse.service.NurseRepository;
 import com.ssafy.nurse.service.NurseService;
 import com.ssafy.oauth.serivce.OauthService;
@@ -45,6 +45,12 @@ public class NurseController {
 	
 	@Autowired
 	NurseService nurseServ;
+	
+	@Autowired
+	HospitalService hospitalServ;
+	
+	@Autowired
+	WardService wardServ;
 	
 	// 간호사 계정 생성은 로그인 과정에서 생성되기 때문에 Post 없음
 	
@@ -102,14 +108,19 @@ public class NurseController {
 	@GetMapping("/me")
 	@ApiOperation(value = "내 간호사 정보 조회", notes = "서비스 토큰으로 사용자 조회")
 	@ApiResponses({
-		@ApiResponse(code = 200, message = "성공", response = Nurse.class),
+		@ApiResponse(code = 200, message = "성공", response = MyNurseResponse.class),
 		@ApiResponse(code = 404, message = "인증 오류"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Nurse> getUser(@RequestHeader("Authorization") String token){
+	public APIResponse<MyNurseResponse> getUser(@RequestHeader("Authorization") String token){
 		try {
 			Nurse user = oauthService.getUser(token);
-			return new APIResponse(user, HttpStatus.OK);
+			
+			MyNurseResponse me = new MyNurseResponse(user);
+			me.setHospitalName(hospitalServ.findById(me.getHospitalID()).getName());
+			me.setWardName(wardServ.findById(me.getWardID()).getName());
+			
+			return new APIResponse(me, HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);

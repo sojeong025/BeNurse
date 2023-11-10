@@ -1,7 +1,5 @@
 package com.ssafy.nurse.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
