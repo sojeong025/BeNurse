@@ -9,19 +9,14 @@ import Input from "@components/atoms/Input/Input";
 import HandOverNurseSelectItem from "@components/templates/HandOver/HandOverNurseSelectItem";
 
 import { customAxios } from "../../libs/axios";
+import { useHandoverSetStore } from "../../store/store";
 import { Common } from "../../utils/global.styles";
 
 export default function HandOverNurseSelectPage() {
   const navigate = useNavigate();
 
-  const [myId, setMyId] = useState();
   const [selectedNurseIds, setSelectedNurseIds] = useState([]);
-
-  useEffect(() => {
-    customAxios.get("nurse/me").then((res) => {
-      setMyId(res.data.responseData.id);
-    });
-  }, []);
+  const handoverSetId = useHandoverSetStore((state) => state.handoverSetId);
 
   const handleSelectChange = (selectedIds) => {
     setSelectedNurseIds(selectedIds);
@@ -30,7 +25,7 @@ export default function HandOverNurseSelectPage() {
   const handleComplete = () => {
     customAxios
       .post("myhandover", {
-        setID: myId,
+        setID: handoverSetId,
         takeIDs: selectedNurseIds,
       })
       .then((res) => {
