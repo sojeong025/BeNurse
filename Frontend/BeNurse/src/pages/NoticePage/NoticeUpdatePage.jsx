@@ -5,8 +5,9 @@ import { customAxios } from "../../libs/axios";
 
 import Container from "../../components/atoms/Container/Container";
 import Button from "../../components/atoms/Button/Button";
-import axios from "axios";
 import * as S from "./NoticePage.styles";
+
+import toast, { Toaster } from "react-hot-toast";
 
 export default function NoticeUpdatePage() {
   const { noticeId } = useParams();
@@ -14,9 +15,8 @@ export default function NoticeUpdatePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(noticeId);
     customAxios
-      .get("benurse/notice", { params: { ID: noticeId } })
+      .get("notice?ID=" + noticeId)
       .then((res) => {
         console.log("공지 사항 불러오기", res.data.responseData);
         setNoticeData(res.data.responseData);
@@ -26,32 +26,56 @@ export default function NoticeUpdatePage() {
       });
   }, []);
 
-  const onClickUploadBtn = (title, content) => {
-    axios({
-      url: `http://k9e105.p.ssafy.io:9001/api/benurse/notice/{id}?ID=${noticeId}`,
-      method: "put",
-      body: noticeData,
-    })
+  const onClickUploadBtn = () => {
+    if (!noticeData.title) {
+      toast("제목을 작성해주세요.", {
+        position: "bottom-center",
+        icon: "⚠️",
+        duration: 1500,
+        style: {
+          fontSize: "14px",
+          borderRadius: "40px",
+          background: "#000000d1",
+          color: "#fff",
+        },
+      });
+      return;
+    }
+    if (!noticeData.content) {
+      toast("내용을 작성해주세요.", {
+        position: "bottom-center",
+        icon: "⚠️",
+        duration: 1500,
+        style: {
+          fontSize: "14px",
+          borderRadius: "40px",
+          background: "#000000d1",
+          color: "#fff",
+        },
+      });
+      return;
+    }
+    customAxios
+      .put("notice", noticeData)
       .then((res) => {
-        console.log("공지 사항 불러오기", res.data.responseData);
-        setNoticeData(res.data.responseData);
+        console.log("공지 사항 수정 완료", res);
+        navigate("/notice");
       })
       .catch((error) => {
-        console.error("공지사항 로드 실패:", error);
+        console.error("공지사항 수정 실패:", error);
       });
-    navigate("/notice");
   };
-  
+
   return (
     <>
       <Container>
+        <Toaster />
         <S.WriteContainer>
           <S.WriteTitleInput
             type="text"
             placeholder={"공지사항 제목을 입력해주세요."}
             value={noticeData.title}
             onChange={(e) => {
-              console.log(e);
               setNoticeData({ ...noticeData, title: e.target.value });
             }}
           />
@@ -59,7 +83,6 @@ export default function NoticeUpdatePage() {
             placeholder={"공지사항 내용을 입력해주세요."}
             value={noticeData.content}
             onChange={(e) => {
-              console.log(e);
               setNoticeData({ ...noticeData, content: e.target.value });
             }}
           />

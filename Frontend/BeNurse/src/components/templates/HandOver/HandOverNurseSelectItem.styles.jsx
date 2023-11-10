@@ -4,6 +4,11 @@ import { Common } from "../../../utils/global.styles";
 export const NurseListContainer = styled.div`
   width: 100%;
   display: flex;
+  flex-direction: column;
+`;
+
+export const NurseContainer = styled.div`
+  display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid ${Common.color.black01};
@@ -13,18 +18,19 @@ export const NurseListContainer = styled.div`
 export const NurseProfile = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 160px;
+  width: 300px;
 
   & .nurse_img {
     height: 50px;
     width: 50px;
     border-radius: 50%;
+    margin-right: 20px;
   }
 
   & .nurse_name {
+    font-weight: 600;
     font-size: 14px;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
   }
 
   & .nurse_work {

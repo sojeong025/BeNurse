@@ -133,7 +133,7 @@ export default function PatientJournalWritePage() {
               if (!journal.category) {
                 toast("카테고리를 선택해주세요.", {
                   position: "bottom-center",
-                  icon: "🚨",
+                  icon: "⚠️",
                   duration: 1500,
                   style: {
                     fontSize: "14px",
@@ -147,7 +147,7 @@ export default function PatientJournalWritePage() {
               if (!journal.content) {
                 toast("내용을 작성해주세요.", {
                   position: "bottom-center",
-                  icon: "🚨",
+                  icon: "⚠️",
                   duration: 1500,
                   style: {
                     fontSize: "14px",

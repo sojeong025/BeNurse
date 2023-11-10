@@ -166,13 +166,14 @@ export default function JournalTimeLine({ patientId }) {
               >
                 <img
                   src={trashcan}
-                  style={{ width: "60px" }}
+                  style={{ width: "50px" }}
                   alt=""
                 />
-                <div>정말 삭제하시겠습니까?</div>
+                <div style={{ fontSize: "14px" }}>정말 삭제하시겠습니까?</div>
                 <Button
                   variant="danger"
                   width="100px"
+                  height="40px"
                   onClick={() => {
                     customAxios
                       .delete("emr/journal?id=" + modalItem)

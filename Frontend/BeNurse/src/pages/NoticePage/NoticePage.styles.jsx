@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Common } from "@utils/global.styles.jsx";
 
 export const MainContainer = styled.div`
-  padding: 74px 0;
+  padding: 74px 0 140px 0;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -72,6 +72,17 @@ export const NoticeLable = styled.div`
   & .active .arrow_icon {
     transition: all 0.3s;
     transform: rotate(90deg);
+  }
+  & .notice_author {
+    background-color: #956eff;
+    color: ${Common.color.white01};
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
   }
 `;
 

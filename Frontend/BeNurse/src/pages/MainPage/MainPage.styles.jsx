@@ -101,11 +101,11 @@ export const scheduleDay = styled.div`
     justify-content: center;
     border-radius: 20px;
     background-color: ${({ type }) => {
-      if (type === "day") {
+      if (type === "D") {
         return Common.color.day;
-      } else if (type === "night") {
+      } else if (type === "N") {
         return Common.color.night;
-      } else if (type === "evening") {
+      } else if (type === "E") {
         return Common.color.evening;
       } else {
         return Common.color.off;

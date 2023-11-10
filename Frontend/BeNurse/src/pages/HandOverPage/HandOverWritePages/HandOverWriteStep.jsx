@@ -9,6 +9,9 @@ import HandOverDetailCC from "@components/templates/HandOver/HandOverSteps/HandO
 import HandOverDetailSign from "@components/templates/HandOver/HandOverSteps/HandOverDetailSign";
 import HandOverDetailEtc from "@components/templates/HandOver/HandOverSteps/HandOverDetailEtc";
 
+import { useHandoverSetStore } from "../../../store/store";
+import { usePatientCardStore } from "../../../store/store";
+
 import * as S from "./HandOverWriteStep.styles";
 import { useNavigate } from "react-router-dom";
 
@@ -45,6 +48,15 @@ export default function HandOverWriteStep() {
     }
   }, [current]);
 
+  const { handoverId } = useHandoverSetStore((state) => state);
+  const setCompletedHandover = usePatientCardStore(
+    (state) => state.setCompletedHandover,
+  );
+  const handleCompleteClick = () => {
+    setCompletedHandover(handoverId, true);
+    navigate("/handover-write");
+  };
+
   const onChange = (value) => {
     setCurrent(value);
   };
@@ -58,6 +70,7 @@ export default function HandOverWriteStep() {
     key: item.title,
     title: "",
   }));
+
   return (
     <Container backgroundColor={bgColor}>
       <div style={{ width: "100%", marginTop: "100px" }}>
@@ -76,7 +89,7 @@ export default function HandOverWriteStep() {
           {current === steps.length - 1 && (
             <BottomButton
               onPrevClick={() => prev()}
-              onNextClick={() => navigate("/handover-write")}
+              onNextClick={handleCompleteClick}
               nextText="완료"
             />
           )}

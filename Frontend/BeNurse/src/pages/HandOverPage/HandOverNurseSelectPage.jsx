@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -8,10 +8,38 @@ import Input from "@components/atoms/Input/Input";
 
 import HandOverNurseSelectItem from "@components/templates/HandOver/HandOverNurseSelectItem";
 
+import { customAxios } from "../../libs/axios";
 import { Common } from "../../utils/global.styles";
 
 export default function HandOverNurseSelectPage() {
   const navigate = useNavigate();
+
+  const [myId, setMyId] = useState();
+  const [selectedNurseIds, setSelectedNurseIds] = useState([]);
+
+  useEffect(() => {
+    customAxios.get("nurse/me").then((res) => {
+      setMyId(res.data.responseData.id);
+    });
+  }, []);
+
+  const handleSelectChange = (selectedIds) => {
+    setSelectedNurseIds(selectedIds);
+  };
+
+  const handleComplete = () => {
+    customAxios
+      .post("myhandover", {
+        setID: myId,
+        takeIDs: selectedNurseIds,
+      })
+      .then((res) => {
+        console.log("인계장 최종 전송완료", res);
+        navigate("/handover-write/complete");
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <Container>
       <div
@@ -34,7 +62,7 @@ export default function HandOverNurseSelectPage() {
         </div>
         <Input
           variant="search"
-          placeholder="병동 또는 이름으로 검색 해보세요."
+          placeholder="간호사 이름으로 검색 해보세요."
           width="calc(100% - 28px)"
           type="text"
         />
@@ -46,13 +74,13 @@ export default function HandOverNurseSelectPage() {
             boxSizing: "border-box",
           }}
         >
-          <HandOverNurseSelectItem />
+          <HandOverNurseSelectItem onSelectChange={handleSelectChange} />
         </div>
 
         <div style={{ marginLeft: "-14px" }}>
           <BottomButton
             onPrevClick={() => navigate(-1)}
-            onNextClick={() => navigate("/handover-write/complete")}
+            onNextClick={handleComplete}
             nextText="완료"
           />
         </div>

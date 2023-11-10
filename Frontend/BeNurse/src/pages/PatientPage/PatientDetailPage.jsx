@@ -3,8 +3,11 @@ import { useParams } from "react-router-dom";
 import PatientDetailProfile from "../../components/templates/Patient/PatientDetailProfile";
 import PatientDetailHeader from "../../components/templates/Patient/PatientDetailHeader";
 import PatientDetailItem from "../../components/templates/Patient/PatientDetailItem";
+import NavBar from "../../components/templates/NavBar/NavBar";
 
 import { customAxios } from "../../libs/axios";
+
+import toast, { Toaster } from "react-hot-toast";
 
 import * as S from "./PatientDetail.styles";
 
@@ -33,8 +36,49 @@ export default function PatientDetailPage() {
       });
   }, []);
 
+  const onSave = () => {
+    for (let key in patient) {
+      if (patient[key] === "") {
+        toast("모든 항목을 입력해주세요.", {
+          position: "bottom-center",
+          icon: "⚠️",
+          duration: 1500,
+          style: {
+            fontSize: "14px",
+            borderRadius: "40px",
+            background: "#000000d1",
+            color: "#fff",
+          },
+        });
+        return;
+      }
+    }
+
+    customAxios
+      .put(`emr`, patient)
+      .then((res) => {
+        console.log("환자 정보 저장 성공:", res.data);
+        toast("환자 정보를 수정했어요.", {
+          position: "bottom-center",
+          icon: "✅",
+          duration: 1500,
+          style: {
+            fontSize: "14px",
+            borderRadius: "40px",
+            background: "#000000d1",
+            color: "#fff",
+          },
+        });
+      })
+      .catch((error) => {
+        console.error("환자 정보 저장 실패:", error);
+      });
+  };
+
   return (
     <>
+      <Toaster />
+      <NavBar onSave={onSave} />
       {isLoading ? (
         <div
           style={{

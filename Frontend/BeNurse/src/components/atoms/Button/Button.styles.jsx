@@ -32,7 +32,8 @@ export const StyledButton = styled.button`
   margin: ${({ margin }) => margin || "0 0 0 0"};
   width: ${({ width }) => width || "auto"};
   height: ${({ height }) => height || "50px"};
-  font-size: ${Common.fontSize.fontM};
+  font-size: ${({ variant }) =>
+    variant == "danger" ? Common.fontSize.fontS : Common.fontSize.fontM};
   display: flex;
   align-items: center;
   justify-content: center;
