@@ -90,7 +90,7 @@ public class NoticeController {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
-		List<Notice> notice = noticeRepo.findAllByHospitalID(nurse.getHospitalID());
+		List<Notice> notice = noticeRepo.findAllByHospitalIDOrderByIDDesc(nurse.getHospitalID());
 	    return new APIResponse<>(notice, HttpStatus.OK);
 	}
 

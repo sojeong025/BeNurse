@@ -13,4 +13,6 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
 	List<Notice> findAllByHospitalID(long hospitalID);
 
+	List<Notice> findAllByHospitalIDOrderByIDDesc(long hospitalID);
+
 }
