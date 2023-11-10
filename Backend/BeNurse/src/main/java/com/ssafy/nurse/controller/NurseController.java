@@ -134,8 +134,20 @@ public class NurseController {
         @ApiResponse(code = 200, message = "성공", response = List.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<List<Nurse>> getNurseByName(@RequestParam("ID") long ID) {
+	public APIResponse<List<Nurse>> getNurseByHospital(@RequestParam("ID") long ID) {
 		List<Nurse> nurse = nurseRepo.findAllByHospitalID(ID);
+	    return new APIResponse<>(nurse, HttpStatus.OK);
+	}
+	
+	
+	@GetMapping("/ward")
+	@ApiOperation(value = "병동 ID로 간호사 검색", notes = "소속 병동 ID로 간호사를 조회한다.") 
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공", response = List.class),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	public APIResponse<List<Nurse>> getNurseByWard(@RequestParam("ID") long ID) {
+		List<Nurse> nurse = nurseRepo.findAllByWardID(ID);
 	    return new APIResponse<>(nurse, HttpStatus.OK);
 	}
 	

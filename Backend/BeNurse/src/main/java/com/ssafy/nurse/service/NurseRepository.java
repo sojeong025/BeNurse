@@ -14,5 +14,7 @@ public interface NurseRepository extends JpaRepository<Nurse, Long> {
 
 	List<Nurse> findAllByNameContaining(String name);
 
-	List<Nurse> findAllByHospitalID(long id);
+	List<Nurse> findAllByHospitalID(long ID);
+
+	List<Nurse> findAllByWardID(long ID);
 }
