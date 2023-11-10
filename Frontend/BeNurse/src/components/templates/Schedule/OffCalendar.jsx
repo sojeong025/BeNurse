@@ -11,6 +11,8 @@ import {
 } from "./ScheduleCalendar.styles";
 import { useOffDateStore } from "../../../store/store";
 
+import moment from "moment";
+
 export default function ScheduleCalendar() {
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(today);
@@ -89,7 +91,7 @@ export default function ScheduleCalendar() {
               marginTop: "30px",
             }}
           >
-            {currentDate.getFullYear()}년 {currentDate.getMonth() + 2}월
+            {moment().add(1, "month").format("YYYY년 MM월")}
           </div>
           <div
             style={{
