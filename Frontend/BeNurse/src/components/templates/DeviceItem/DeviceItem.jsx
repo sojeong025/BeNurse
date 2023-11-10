@@ -89,7 +89,7 @@ export default function DeviceItem({ listItem, item, beacon, onClick }) {
               fontWeight: Common.fontWeight.extrabold,
             }}
           >
-            {item.name}
+            {item?.name}
           </p>
           <p style={{ fontSize: Common.fontSize.fontXS }}>
             <span
@@ -99,7 +99,7 @@ export default function DeviceItem({ listItem, item, beacon, onClick }) {
             >
               자산 코드{" "}
             </span>
-            {item.id}
+            {item?.id}
           </p>
           <p style={{ fontSize: Common.fontSize.fontXS }}>
             {beacon ? (

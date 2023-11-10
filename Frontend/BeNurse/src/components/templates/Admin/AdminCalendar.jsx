@@ -11,14 +11,18 @@ import {
   SelectCircle,
 } from "./AdminCalendar.styles";
 import { useAdminStore } from "../../../store/store";
+import { useOffDateStore } from "../../../store/store";
 
-export default function AdminCalendar() {
+export default function AdminCalendar({ type }) {
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(
     new Date(today.getFullYear(), today.getMonth(), 1),
   );
   const { schedule, setSchedule, selectedDate, setSelectedDate } =
     useAdminStore((state) => state);
+  const { selectedDates, setSelectedDates, selectedNurseId } = useOffDateStore(
+    (state) => state,
+  );
 
   const createCalendar = (date) => {
     const startDay = date.getDay();
@@ -62,6 +66,20 @@ export default function AdminCalendar() {
 
   const weeks = createCalendar(currentDate);
 
+  const updateSelectedDates = (date) => {
+    if (selectedNurseId) {
+      if (selectedDates?.includes(date.day)) {
+        const newSelectedDates = selectedDates.filter(
+          (day) => day !== date.day,
+        );
+        setSelectedDates(() => newSelectedDates);
+      } else {
+        const newSelectedDates = [...selectedDates, date.day];
+        setSelectedDates(() => newSelectedDates);
+      }
+    }
+  };
+
   useEffect(() => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
@@ -89,14 +107,19 @@ export default function AdminCalendar() {
   }, [selectedDate]);
 
   useEffect(() => {
-    setSelectedDate(today.getDate());
+    type !== "create" && setSelectedDate(today.getDate());
   }, []);
+
+  useEffect(() => {
+    console.log(selectedDates);
+  }, [selectedDates]);
 
   return (
     <CalendarWrapper>
       <div style={{ display: "flex", marginLeft: "18px" }}>
         <h2>
           {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
+          {type === "create" ? " 오프 신청" : null}
         </h2>
       </div>
       <Table>
@@ -122,7 +145,9 @@ export default function AdminCalendar() {
                   isCurMonth={date.isCurMonth}
                   isSunday={j === 0}
                   onClick={() => {
-                    setSelectedDate(date.day);
+                    type === "create"
+                      ? updateSelectedDates(date)
+                      : setSelectedDate(date.day);
                   }}
                   style={{ cursor: "pointer" }}
                 >
@@ -134,8 +159,17 @@ export default function AdminCalendar() {
                     }}
                   >
                     {date.day}
-                    {date.isCurMonth && selectedDate === date.day && (
-                      <SelectCircle />
+                    {type === "create" ? (
+                      <>
+                        {date.isCurMonth &&
+                          selectedDates?.includes(date.day) && <SelectCircle />}
+                      </>
+                    ) : (
+                      <>
+                        {date.isCurMonth && selectedDate === date.day && (
+                          <SelectCircle />
+                        )}
+                      </>
                     )}
                   </div>
                 </Td>

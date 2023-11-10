@@ -30,6 +30,7 @@ import deviceListIcon from "@assets/Icons/deviceList.svg";
 import mapIcon from "@assets/Icons/map.svg";
 import { MdHistory } from "react-icons/md";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { SiNfc } from "react-icons/si";
 
 // zustand
 import { useDeviceStore } from "../../store/store";
@@ -150,7 +151,7 @@ export default function DevicePage() {
       color: "#C13232",
       transparent: true,
       roughness: 1,
-      opacity: target ? 1 : 0,
+      opacity: selectedDevice ? 1 : 0,
       flatShading: true,
     });
 
@@ -172,8 +173,11 @@ export default function DevicePage() {
 
   // camera
   function selectDeviceItem(device) {
-    setTarget(!target);
-    setSelectedDevice(device);
+    if (selectedDevice && selectedDevice.id === device.id) {
+      setSelectedDevice(null);
+    } else {
+      setSelectedDevice(device);
+    }
     DeactivateList();
   }
 
@@ -181,7 +185,7 @@ export default function DevicePage() {
     const { camera } = useThree();
 
     useLayoutEffect(() => {
-      if (target) {
+      if (selectedDevice) {
         beacon &&
           gsap.to(camera.position, locationData[beacon.location].camera);
       } else {
@@ -194,7 +198,7 @@ export default function DevicePage() {
         });
       }
       // camera={{ position: [0, -100, 120] }}
-    }, [position, target]);
+    }, [position, selectedDevice]);
   };
 
   useEffect(() => {
@@ -202,8 +206,7 @@ export default function DevicePage() {
       customAxios
         .get("device-history/all?DeviceID=" + selectedDevice.id)
         .then((res) => {
-          const lastHistory =
-            res.data.responseData[res.data.responseData.length - 1];
+          const lastHistory = res.data.responseData[0];
 
           const history = res.data.responseData;
           const newHistory = {};
@@ -252,7 +255,7 @@ export default function DevicePage() {
             width="50px"
             radius="10px"
             onClick={() => {
-              setTarget(false);
+              setSelectedDevice(null);
               DeactivateList();
             }}
           >
@@ -338,13 +341,16 @@ export default function DevicePage() {
         </div>
         <Box
           type={"white"}
-          size={["80px", "80px"]}
+          size={["70px", "70px"]}
           props={
-            "position: absolute; right: 30px; bottom: 90px; z-index: 100; border-radius: 100px;"
+            "position: absolute; right: 30px; bottom: 90px; z-index: 100; border-radius: 40px; flex-direction: column;"
           }
           onClick={activateNFC}
         >
-          NFC
+          <SiNfc
+            size={30}
+            color={Common.color.purple03}
+          />
         </Box>
         <Canvas
           style={{
@@ -395,7 +401,7 @@ export default function DevicePage() {
                 rotation={[0, 0, 0.5]}
               />
             </>
-            {!target && (
+            {!selectedDevice && (
               <HospitalOutsideGLTF
                 scale={1}
                 position={[10, -20, -12]}
@@ -412,10 +418,10 @@ export default function DevicePage() {
           </Suspense>
         </Canvas>
         <BottomSheet
-          open={target}
+          open={selectedDevice}
           blocking={false}
           onDismiss={() => {
-            setTarget(false);
+            setSelectedDevice(null);
           }}
           defaultSnap={({ maxHeight }) => maxHeight / 4}
           snapPoints={({ maxHeight }) => [maxHeight / 4, maxHeight * 0.64]}

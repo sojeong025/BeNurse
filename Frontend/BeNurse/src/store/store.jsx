@@ -92,6 +92,10 @@ export const useOffDateStore = create((set) => ({
   setSelectedDates: (updateFunction) => {
     set((state) => ({ selectedDates: updateFunction(state.selectedDates) }));
   },
+  selectedNurseId: null,
+  setSelectedNurseId: (id) => {
+    set(() => ({ selectedNurseId: id }));
+  },
 }));
 
 export const useWardStore = create((set) => ({

@@ -1,18 +1,18 @@
 import React, { useState } from "react";
+import Box from "../../atoms/Box/Box";
+import { MdOutlineArrowDropDown } from "react-icons/md";
 
 export default function OffApplyItem({ nurseName, offApply, offkey }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "270px",
-        gap: "10px",
-        fontSize: "14px",
-        marginBottom: "10px",
-      }}
+    <Box
+      type={"white"}
+      size={["270px"]}
+      flex={["flex-start", "flex-start"]}
+      props={
+        "flex-direction: column; gap: 10px; font-size: 14px; margin-bottom: 14px; box-sizing: border-box; padding: 6px 10px; cursor: pointer;"
+      }
       onClick={(e) => {
         setExpanded(!expanded);
       }}
@@ -20,12 +20,20 @@ export default function OffApplyItem({ nurseName, offApply, offkey }) {
       <div
         style={{
           display: "flex",
+          justifyContent: "space-between",
           alignItems: "center",
+          width: "100%",
           height: "40px",
-          border: "1px solid blue",
         }}
       >
-        <p>{nurseName[0].name} 간호사</p>
+        <p>{nurseName && nurseName[0].name} 간호사</p>
+        <MdOutlineArrowDropDown
+          size={20}
+          style={{
+            transform: expanded ? "rotate(180deg)" : "",
+            transition: "all 0.2s",
+          }}
+        />
       </div>
       {expanded ? (
         <div>
@@ -53,6 +61,6 @@ export default function OffApplyItem({ nurseName, offApply, offkey }) {
           </div>
         </div>
       ) : null}
-    </div>
+    </Box>
   );
 }
