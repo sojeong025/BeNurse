@@ -1,5 +1,6 @@
 package com.ssafy.Handover.response;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.Getter;
@@ -15,4 +16,5 @@ public class MyHandoverResponse {
 	private long handoverSetID;
 	private String giveWorkTime;
 	private boolean readed;
+	private LocalDate time;
 }

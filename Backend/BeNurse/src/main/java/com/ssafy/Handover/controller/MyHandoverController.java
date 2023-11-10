@@ -126,6 +126,7 @@ public class MyHandoverController {
 				for(MyHandover m : mhlist) {
 					mr.getTakeIDs().add(m.getTakeID());
 				}
+				mr.setTime(set.getTime().toLocalDate());
 				
 				Optional<Schedule> work = scheduleRepo.findByNurseIDAndWorkdate(set.getGiveID(), set.getTime().toLocalDate());
 				if(work.isEmpty()) {
@@ -179,6 +180,7 @@ public class MyHandoverController {
 				for(MyHandover m : mhlist) {
 					mr.getTakeIDs().add(m.getTakeID());
 				}
+				mr.setTime(set.getTime().toLocalDate());
 				
 				Optional<Schedule> work = scheduleRepo.findByNurseIDAndWorkdate(set.getGiveID(), set.getTime().toLocalDate());
 				if(work.isEmpty()) {
