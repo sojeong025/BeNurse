@@ -9,16 +9,20 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import HandOverList from "@components/templates/HandOver/HandOverList";
 import { customAxios } from "../../libs/axios";
 import { useWardStore } from "../../store/store";
+import { useTabBarStore } from "../../store/store";
 
 export default function HandOverPage() {
   const setWardId = useWardStore((state) => state.setWardId);
+  const { currentTab, setCurrentTab } = useTabBarStore((state) => state);
 
   useEffect(() => {
     customAxios.get("oauth/test/user").then((res) => {
       console.log("인수인계 메인에서 사용자 정보 조회", res);
       setWardId(res.data.responseData.wardID);
     });
-  });
+
+    setCurrentTab("handover");
+  }, []);
   return (
     <Container
       overflow="hidden"

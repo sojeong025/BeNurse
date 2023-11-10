@@ -11,10 +11,13 @@ import device from "@assets/Icons/device.svg";
 // emotion
 import * as S from "./TabBar.styles";
 
+import { useTabBarStore } from "../../../store/store";
+
 export default function TabBar() {
   const [visibility, setVisibility] = useState("flex");
   const navigate = useNavigate();
   const location = useLocation();
+  const { currentTab, setCurrentTab } = useTabBarStore((state) => state);
 
   useEffect(() => {
     if (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineUser } from "react-icons/ai";
 import { AiOutlineNotification } from "react-icons/ai";
@@ -13,9 +13,12 @@ import * as S from "./MainPage.styles";
 import main_nurse from "@assets/Images/main_nurse.png";
 import { ButtonContainer } from "../LoginPage/JoinPage.styles";
 
+import { useTabBarStore } from "../../store/store";
+
 import moment from "moment";
 
 function MainPage() {
+  const { currentTab, setCurrentTab } = useTabBarStore((state) => state);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleTipBoxClick = (event, id) => {
@@ -39,6 +42,10 @@ function MainPage() {
     const randomType = types[Math.floor(Math.random() * types.length)]; // 랜덤으로 타입 선택
     dates.push({ date, dayOfWeek, type: randomType });
   }
+
+  useEffect(() => {
+    setCurrentTab("main");
+  }, []);
 
   return (
     <Container overflow={"hidden"}>

@@ -131,3 +131,12 @@ export const useInviteStore = create((set) => ({
     }));
   },
 }));
+
+export const useTabBarStore = create((set) => ({
+  currentTab: "main",
+  setCurrentTab: (value) => {
+    set(() => ({
+      currentTab: value,
+    }));
+  },
+}));
