@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Common } from "../../../../utils/global.styles";
 
-import Input from "@components/atoms/Input/Input";
+import Textarea from "@components/atoms/Textarea/Textarea";
 import Button from "@components/atoms/Button/Button";
 
 export default function HandOverDetailCC() {
@@ -74,8 +74,7 @@ export default function HandOverDetailCC() {
         {inputs.map((input, index) => (
           <React.Fragment key={index}>
             <p>▎{input.name}</p>
-            <Input
-              variant={"default"}
+            <Textarea
               value={input.value}
               onChange={(e) => handleInputChange(e, index)}
               props={"margin-bottom: 14px;"}
