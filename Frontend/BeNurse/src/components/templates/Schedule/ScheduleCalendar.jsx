@@ -24,6 +24,8 @@ import { Common } from "../../../utils/global.styles";
 import { customAxios } from "../../../libs/axios";
 import moment from "moment";
 
+import empty from "@assets/Images/empty.png";
+
 export default function ScheduleCalendar() {
   const [open, setOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(
@@ -366,12 +368,36 @@ export default function ScheduleCalendar() {
               gap: "20px",
             }}
           >
-            {nurseData.map((nurse, index) => (
-              <NurseItem
-                key={index}
-                nurse={nurse}
-              />
-            ))}
+            {nurseData.length == 0 ? (
+              <div
+                style={{
+                  height: "400px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  opacity: "0.5",
+                  fontSize: "16px",
+                  gap: "10px",
+                }}
+              >
+                <img
+                  width="140px"
+                  src={empty}
+                  alt="empty"
+                />
+                <p>아직 근무 일정이 등록되지 않았습니다.</p>
+              </div>
+            ) : (
+              <>
+                {nurseData.map((nurse, index) => (
+                  <NurseItem
+                    key={index}
+                    nurse={nurse}
+                  />
+                ))}
+              </>
+            )}
           </div>
         </NurseScrollWrapper>
       </BottomSheet>
