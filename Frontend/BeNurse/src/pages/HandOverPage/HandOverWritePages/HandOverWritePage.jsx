@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Container from "@components/atoms/Container/Container";
 import PatientItem from "@components/templates/Patient/PatientItem";
 import Input from "@components/atoms/Input/Input";
 import { customAxios } from "../../../libs/axios";
+import Button from "@components/atoms/Button/Button";
 
 import { Select } from "./HandOverWritePage.styles";
 
 import { usePatientStore } from "@store/store";
 import { useHandoverSetStore } from "../../../store/store";
 import { useWardStore } from "../../../store/store";
+import { usePatientCardStore } from "../../../store/store";
 
 export default function HandOverWritePage() {
+  const navigate = useNavigate();
   const setHandoverSetId = useHandoverSetStore(
     (state) => state.setHandoverSetId,
   );
@@ -37,6 +40,11 @@ export default function HandOverWritePage() {
 
   const [patientInfo, setPatientInfo] = useState([]);
 
+  const { completedHandover } = usePatientCardStore((state) => state);
+
+  const numCompletedPatients =
+    Object.values(completedHandover).filter(Boolean).length;
+
   useEffect(() => {
     customAxios.get("emr/patient/wardall").then((res) => {
       console.log("병동 내 환자만 조회 결과 확인", res.data.responseData);
@@ -45,9 +53,29 @@ export default function HandOverWritePage() {
           ...patientData.patient,
         };
       });
-      setPatientInfo(patientsCard);
+
+      // 완료된 환자가 있다면 정렬을 적용
+      if (numCompletedPatients > 0) {
+        const sortedPatientsCard = patientsCard.sort((a, b) => {
+          const isACompleted = completedHandover[a.id];
+          const isBCompleted = completedHandover[b.id];
+
+          if (isACompleted && !isBCompleted) {
+            return -1;
+          }
+          if (!isACompleted && isBCompleted) {
+            return 1;
+          }
+          return 0;
+        });
+
+        setPatientInfo(sortedPatientsCard);
+      } else {
+        // 완료된 환자가 없다면 기존 순서 유지
+        setPatientInfo(patientsCard);
+      }
     });
-  }, []);
+  }, [completedHandover]);
 
   const today = new Date();
   const days = ["일", "월", "화", "수", "목", "금", "토"];
@@ -60,6 +88,23 @@ export default function HandOverWritePage() {
       today.getDay(),
     ),
   );
+
+  useEffect(() => {
+    setPatientInfo((prevPatientInfo) =>
+      [...prevPatientInfo].sort((a, b) => {
+        const isACompleted = completedHandover[a.id];
+        const isBCompleted = completedHandover[b.id];
+
+        if (isACompleted && !isBCompleted) {
+          return -1;
+        }
+        if (!isACompleted && isBCompleted) {
+          return 1;
+        }
+        return 0;
+      }),
+    );
+  }, [completedHandover]);
 
   return (
     <Container
@@ -88,33 +133,31 @@ export default function HandOverWritePage() {
               style={{
                 fontSize: "14px",
                 margin: "20px 0",
-                lineHeight: "22px",
+                lineHeight: "26px",
               }}
             >
               📝 각 환자의 상태와 필요한 정보를 포함한 <br />
               인계장을 작성하여, 담당 인수자에게 전달하세요.
             </div>
-            <div>
-              <Input
-                variant={"search"}
-                placeholder={"담당 병동 내 환자 이름으로 검색"}
-              />
-            </div>
+            <Input
+              variant={"search"}
+              placeholder={"담당 병동 내 환자 이름으로 검색"}
+            />
           </Select>
 
           <div
             style={{
               width: "100%",
-              height: "525px",
+              height: "430px",
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "flex-start",
               alignItems: "flex-start",
               gap: "9px",
               overflowY: "auto",
-              paddingTop: "5px",
-              paddingBottom: "30px",
+              padding: "5px 10px 10px 10px",
               boxSizing: "border-box",
+              borderRadius: "10px",
             }}
           >
             {patientInfo.map((patientInfo) => (
@@ -135,7 +178,7 @@ export default function HandOverWritePage() {
         {/* 인수자 선택
         - 환자가 최소 1명 이상 선택되었을 경우 뜨도록
       */}
-        {/* <div
+        <div
           style={{
             position: "absolute",
             top: "720px",
@@ -146,10 +189,11 @@ export default function HandOverWritePage() {
             width="100%"
             variant="primary"
             onClick={() => navigate("nurse")}
+            disabled={numCompletedPatients === 0}
           >
             인수자 선택
           </Button>
-        </div> */}
+        </div>
       </div>
     </Container>
   );

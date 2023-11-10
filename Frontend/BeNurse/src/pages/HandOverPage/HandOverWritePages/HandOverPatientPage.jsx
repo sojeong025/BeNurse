@@ -14,6 +14,7 @@ import { useHandoverSetStore } from "../../../store/store";
 
 export default function HandOverPatientPage() {
   const handoverSetId = useHandoverSetStore((state) => state.handoverSetId);
+  const setHandoverId = useHandoverSetStore((state) => state.setHandoverId);
 
   const handlePatientCardClick = () => {
     const data = {
@@ -34,6 +35,7 @@ export default function HandOverPatientPage() {
     };
     customAxios.post("Handover", data).then((res) => {
       console.log("POST 요청 결과", res);
+      setHandoverId(res.data.responseData.id);
       navigate("/handover-write/" + patientId + "/patients/write");
     });
   };
