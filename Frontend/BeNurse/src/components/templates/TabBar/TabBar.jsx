@@ -52,7 +52,7 @@ export default function TabBar() {
           src={schedule}
           alt=""
         />
-        <span>근무 관리</span>
+        <span>근무 일정</span>
       </S.styledTabBarIcon>
       <S.styledTabBarIcon
         onClick={() => {
