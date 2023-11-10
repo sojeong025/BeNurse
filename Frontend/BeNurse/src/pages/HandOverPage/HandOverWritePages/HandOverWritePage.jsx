@@ -155,7 +155,7 @@ export default function HandOverWritePage() {
               alignItems: "flex-start",
               gap: "9px",
               overflowY: "auto",
-              padding: "5px 10px 10px 10px",
+              padding: "5px 0 10px 0",
               boxSizing: "border-box",
               borderRadius: "10px",
             }}

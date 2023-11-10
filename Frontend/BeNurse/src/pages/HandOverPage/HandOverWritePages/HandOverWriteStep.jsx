@@ -4,7 +4,6 @@ import Container from "@components/atoms/Container/Container";
 import BottomButton from "@components/atoms/Button/BottomButton";
 
 import HandOverDetailNurse from "@components/templates/HandOver/HandOverSteps/HandOverDetailNurse";
-// import HandOverDetailDosage from "@components/templates/HandOver/HandOverDetailDosage";
 import HandOverDetailCC from "@components/templates/HandOver/HandOverSteps/HandOverDetailCC";
 import HandOverDetailSign from "@components/templates/HandOver/HandOverSteps/HandOverDetailSign";
 import HandOverDetailEtc from "@components/templates/HandOver/HandOverSteps/HandOverDetailEtc";

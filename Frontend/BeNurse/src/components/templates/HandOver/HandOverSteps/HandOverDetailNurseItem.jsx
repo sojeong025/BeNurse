@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Input from "@components/atoms/Input/Input";
+import Textarea from "@components/atoms/Textarea/Textarea";
 import Box from "../../../atoms/Box/Box";
 import { Common } from "../../../../utils/global.styles";
 import { customAxios } from "../../../../libs/axios";
@@ -51,7 +51,16 @@ export default function HandOverDetailNurseItem({ id }) {
           <span>{journalItem && journalItem.datetime.slice(11, 16)}</span>
         </div>
         <div style={{ width: "100%", fontSize: Common.fontSize.fontXS }}>
-          <p>{journalItem && journalItem.content}</p>
+          <p
+            style={{
+              width: "300px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {journalItem && journalItem.content}
+          </p>
           <hr />
           <div
             style={{
@@ -67,8 +76,7 @@ export default function HandOverDetailNurseItem({ id }) {
         </div>
       </Box>
       {inputs.map((input, index) => (
-        <Input
-          variant={"default"}
+        <Textarea
           value={input.value}
           placeholder={"인계사항을 입력 해주세요."}
           onChange={(e) => handleInputChange(e, index)}
