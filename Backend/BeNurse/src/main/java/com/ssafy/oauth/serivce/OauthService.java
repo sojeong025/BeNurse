@@ -126,6 +126,27 @@ public class OauthService {
 		return jwtTokenProvider.generateToken(authentication);
 	}
 	
+	// 더미 데이터 생성
+	public TokenInfo createUserInfo(String email) {
+			
+		Nurse newUser = new Nurse().builder()
+				.email(email)
+				.password(passwordEncoder.encode(email))
+				.isAdmin(false)
+				.build();
+		nurseRepo.save(newUser);
+		Authentication authentication;
+		try {
+			log.info(newUser.toString());
+			authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, email));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new NullPointerException("로그인 에러");
+		}
+
+		return jwtTokenProvider.generateToken(authentication);
+	}
+	
 	public Nurse getUser(String accessToken) {
 		try {
 			String email = jwtTokenProvider.getUserEmail(accessToken);

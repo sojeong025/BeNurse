@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyNurseResponse {
+public class NurseResponse {
 	private long ID;
 	
 	private String name;
@@ -36,7 +36,7 @@ public class MyNurseResponse {
 	
 	private String wardName;
 	
-	public MyNurseResponse(Nurse nurse) {
+	public NurseResponse(Nurse nurse) {
 		this.ID = nurse.getID();
 		this.name = nurse.getName();
 		this.hospitalID = nurse.getHospitalID();

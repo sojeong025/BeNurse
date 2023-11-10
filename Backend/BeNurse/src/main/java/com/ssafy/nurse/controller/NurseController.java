@@ -1,6 +1,8 @@
 package com.ssafy.nurse.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
@@ -8,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -21,7 +24,8 @@ import com.ssafy.common.utils.IDRequest;
 import com.ssafy.hospital.service.HospitalService;
 import com.ssafy.hospital.service.WardService;
 import com.ssafy.nurse.model.Nurse;
-import com.ssafy.nurse.response.MyNurseResponse;
+import com.ssafy.nurse.request.DummyRequest;
+import com.ssafy.nurse.response.NurseResponse;
 import com.ssafy.nurse.service.NurseRepository;
 import com.ssafy.nurse.service.NurseService;
 import com.ssafy.oauth.serivce.OauthService;
@@ -30,11 +34,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin(origins = "*")
 @Api(value = "간호사 API", tags = { "간호사." })
 @RestController
 @RequestMapping("/api/benurse/nurse")
+@Slf4j
 public class NurseController {
 
 	@Autowired
@@ -54,13 +60,37 @@ public class NurseController {
 	
 	// 간호사 계정 생성은 로그인 과정에서 생성되기 때문에 Post 없음
 	
-	@GetMapping("/all")
-	@ApiOperation(value = "전체 간호사 조회", notes = "소속 병원 내의 모든 간호사를 조회한다.") 
+	@PostMapping("/dummy")
+	@ApiOperation(value = "더미 간호사 생성", notes = "이메일로 간호사 계정을 생성한다.(이메일은 검증하지 않기 때문에 아무 String 값이면 됩니다.)") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공", response = Nurse.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<List<Nurse>> getAllNotice(@RequestHeader("Authorization") String token) {
+	public APIResponse<Nurse> createDummyNurse(@RequestBody DummyRequest req){
+		oauthService.createUserInfo(req.getEmail());
+		Optional<Nurse> option =  nurseRepo.findByEmail(req.getEmail());
+		if(option.isPresent()) { 
+			Nurse nurse = option.get();
+			nurse.setAnnual(req.getAnnual());
+			nurse.setHospitalID(req.getHospitalID());
+			nurse.setName(req.getName());
+			nurse.setWardID(req.getWardID());
+			log.info(nurse.toString());
+			nurseRepo.save(nurse);
+			return new APIResponse<>(nurse, HttpStatus.CREATED);
+		}
+		else
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+	}
+	
+	
+	@GetMapping("/all")
+	@ApiOperation(value = "전체 간호사 조회", notes = "소속 병원 내의 모든 간호사를 조회한다.") 
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공", response = NurseResponse.class),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	public APIResponse<List<NurseResponse>> getAllNotice(@RequestHeader("Authorization") String token) {
 
 		Nurse nurse;
 		// 사용자 조회
@@ -72,21 +102,37 @@ public class NurseController {
 		}
 		
 		List<Nurse> nurselist = nurseRepo.findAllByHospitalID(nurse.getHospitalID());
-	    return new APIResponse<>(nurselist, HttpStatus.OK);
+		List<NurseResponse> resp = new ArrayList<>();
+		for(Nurse n : nurselist) {
+			try {
+				NurseResponse nur = new NurseResponse(n);
+				nur.setHospitalName(hospitalServ.findById(nur.getHospitalID()).getName());
+				nur.setWardName(wardServ.findById(nur.getWardID()).getName());
+				resp.add(nur);
+			}catch (Exception e) {
+				log.error("not found nurse (id:"+n.getID()+")");
+			}
+
+		}
+	    return new APIResponse<>(resp, HttpStatus.OK);
 	}
 
 	@GetMapping("")
 	@ApiOperation(value = "특정 간호사 조회", notes = "간호사 ID로 특정 간호사를 조회한다.") 
     @ApiResponses({
-        @ApiResponse(code = 200, message = "성공", response = Nurse.class),
+        @ApiResponse(code = 200, message = "성공", response = NurseResponse.class),
         @ApiResponse(code = 404, message = "간호사를 찾을 수 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<Nurse> getNurse(@RequestParam("ID") long ID) {
+	public APIResponse<NurseResponse> getNurse(@RequestParam("ID") long ID) {
 		
 		try {
 			Nurse nurse = nurseServ.findById(ID);
-			return new APIResponse<>(nurse, HttpStatus.OK);
+
+			NurseResponse resp = new NurseResponse(nurse);
+			resp.setHospitalName(hospitalServ.findById(resp.getHospitalID()).getName());
+			resp.setWardName(wardServ.findById(resp.getWardID()).getName());
+			return new APIResponse<>(resp, HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
 	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND); 
@@ -99,24 +145,36 @@ public class NurseController {
         @ApiResponse(code = 200, message = "성공", response = List.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<List<Nurse>> getNurseByName(@RequestParam("name") String name) {
+	public APIResponse<List<NurseResponse>> getNurseByName(@RequestParam("name") String name) {
 		List<Nurse> nurse = nurseRepo.findAllByNameContaining(name);
-	    return new APIResponse<>(nurse, HttpStatus.OK);
+		List<NurseResponse> resp = new ArrayList<>();
+		for(Nurse n : nurse) {
+			try {
+				NurseResponse nur = new NurseResponse(n);
+				nur.setHospitalName(hospitalServ.findById(nur.getHospitalID()).getName());
+				nur.setWardName(wardServ.findById(nur.getWardID()).getName());
+				resp.add(nur);
+			}catch (Exception e) {
+				log.error("not found nurse (id:"+n.getID()+")");
+			}
+
+		}
+	    return new APIResponse<>(resp, HttpStatus.OK);
 	}
 	
 
 	@GetMapping("/me")
 	@ApiOperation(value = "내 간호사 정보 조회", notes = "서비스 토큰으로 사용자 조회")
 	@ApiResponses({
-		@ApiResponse(code = 200, message = "성공", response = MyNurseResponse.class),
+		@ApiResponse(code = 200, message = "성공", response = NurseResponse.class),
 		@ApiResponse(code = 404, message = "인증 오류"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<MyNurseResponse> getUser(@RequestHeader("Authorization") String token){
+	public APIResponse<NurseResponse> getUser(@RequestHeader("Authorization") String token){
 		try {
 			Nurse user = oauthService.getUser(token);
 			
-			MyNurseResponse me = new MyNurseResponse(user);
+			NurseResponse me = new NurseResponse(user);
 			me.setHospitalName(hospitalServ.findById(me.getHospitalID()).getName());
 			me.setWardName(wardServ.findById(me.getWardID()).getName());
 			
@@ -134,9 +192,20 @@ public class NurseController {
         @ApiResponse(code = 200, message = "성공", response = List.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<List<Nurse>> getNurseByHospital(@RequestParam("ID") long ID) {
+	public APIResponse<List<NurseResponse>> getNurseByHospital(@RequestParam("ID") long ID) {
 		List<Nurse> nurse = nurseRepo.findAllByHospitalID(ID);
-	    return new APIResponse<>(nurse, HttpStatus.OK);
+		List<NurseResponse> resp = new ArrayList<>();
+		for(Nurse n : nurse) {
+			try {
+				NurseResponse nur = new NurseResponse(n);
+				nur.setHospitalName(hospitalServ.findById(nur.getHospitalID()).getName());
+				nur.setWardName(wardServ.findById(nur.getWardID()).getName());
+				resp.add(nur);
+			}catch (Exception e) {
+				log.error("not found nurse (id:"+n.getID()+")");
+			}
+		}
+	    return new APIResponse<>(resp, HttpStatus.OK);
 	}
 	
 	
@@ -146,9 +215,21 @@ public class NurseController {
         @ApiResponse(code = 200, message = "성공", response = List.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<List<Nurse>> getNurseByWard(@RequestParam("ID") long ID) {
+	public APIResponse<List<NurseResponse>> getNurseByWard(@RequestParam("ID") long ID) {
 		List<Nurse> nurse = nurseRepo.findAllByWardID(ID);
-	    return new APIResponse<>(nurse, HttpStatus.OK);
+		List<NurseResponse> resp = new ArrayList<>();
+		for(Nurse n : nurse) {
+			try {
+				NurseResponse nur = new NurseResponse(n);
+				nur.setHospitalName(hospitalServ.findById(nur.getHospitalID()).getName());
+				nur.setWardName(wardServ.findById(nur.getWardID()).getName());
+				resp.add(nur);
+			}catch (Exception e) {
+				log.error("not found nurse (id:"+n.getID()+")");
+			}
+
+		}
+	    return new APIResponse<>(resp, HttpStatus.OK);
 	}
 	
 	@PutMapping("/update")
