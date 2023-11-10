@@ -135,6 +135,8 @@ public class MyHandoverController {
 				String worktime = work.get().getWorktime();
 				
 				mr.setGiveWorkTime(worktime);
+				mr.setReaded(mh.isReaded());
+				
 				resp.add(mr);
 			}catch (Exception e) {
 				e.printStackTrace();
@@ -186,6 +188,8 @@ public class MyHandoverController {
 				String worktime = work.get().getWorktime();
 				
 				mr.setGiveWorkTime(worktime);
+				mr.setReaded(false);
+				
 				resp.add(mr);
 			}catch (Exception e) {
 				e.printStackTrace();

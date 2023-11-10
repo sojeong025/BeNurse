@@ -14,4 +14,5 @@ public class MyHandoverResponse {
 	private List<Long> takeIDs;
 	private long handoverSetID;
 	private String giveWorkTime;
+	private boolean readed;
 }
