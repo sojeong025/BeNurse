@@ -17,8 +17,16 @@ import { useBottomSheetStore } from "../../store/store";
 export default function NoticeListPage() {
   const [noticeList, setNoticeList] = useState([]);
   const [activeNotices, setActiveNotices] = useState([]);
-
+  const [isAdmin, setIsAdmin] = useState(false);
   useEffect(() => {
+    customAxios
+      .get("nurse/me")
+      .then((res) => {
+        setIsAdmin(res.data.responseData.admin);
+      })
+      .catch((error) => {
+        console.error("admin 여부 확인 실패:", error);
+      });
     customAxios
       .get("notice/all")
       .then((res) => {
@@ -76,7 +84,9 @@ export default function NoticeListPage() {
                       {moment(Date(notice.time)).format("YY/MM/DD hh:mm")}
                     </p>
                     <div>
-                      <p className="notice_writer">1병동 2병실 김간호사</p>
+                      <p className="notice_writer">
+                        {notice.writerName} 간호사
+                      </p>
                       <BsFillPersonFill />
                     </div>
                   </div>
@@ -86,17 +96,19 @@ export default function NoticeListPage() {
           </LongPressable>
         ))}
 
-        <Link
-          to="write"
-          style={{
-            position: "absolute",
-            right: "14px",
-            bottom: "80px",
-            zIndex: 1,
-          }}
-        >
-          <CreatePencilButton />
-        </Link>
+        {isAdmin && (
+          <Link
+            to="write"
+            style={{
+              position: "absolute",
+              right: "14px",
+              bottom: "80px",
+              zIndex: 1,
+            }}
+          >
+            <CreatePencilButton />
+          </Link>
+        )}
       </S.MainContainer>
       <BottomSelectPanel
         modifyLabel={"수정하기"}
