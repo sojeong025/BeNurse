@@ -11,6 +11,7 @@ export default function PatientJournalItem({ journal, handleOpenModal }) {
   const { isEditActivated, ActivateEdit, selectedID, setSelectedID } =
     useBottomSheetStore((state) => state);
   const [isSelected, setIsSelected] = useState(false);
+  const [isExpended, setIsExpended] = useState(false);
   const [currentNurseId, setCurrentNurseId] = useState(0);
   const {
     isFromHandOver,
@@ -29,22 +30,27 @@ export default function PatientJournalItem({ journal, handleOpenModal }) {
         (id) => id !== journal.id,
       );
       setHandoverJournalList(() => newHandoverJournalList);
+      setIsSelected(false);
     } else {
       const newHandoverJournalList = [...handoverJournalList, journal.id];
       setHandoverJournalList(() => newHandoverJournalList);
+      setIsSelected(true);
     }
   };
 
   const expandItem = () => {
-    setIsSelected(!isSelected);
+    setIsExpended(!isExpended);
   };
 
   useEffect(() => {
+    if (isFromHandOver && handoverJournalList.includes(journal.id)) {
+      setIsSelected(true);
+    }
     setCurrentNurseId(localStorage.getItem("nurseID"));
   }, []);
 
   return (
-    <S.StyledJournalItem isSelected={isSelected}>
+    <S.StyledJournalItem isExpended={isExpended}>
       <S.TimeChip isAuthor={currentNurseId == journal.writerID}>
         <div className="time_point"></div>
         <div className="time_label">
@@ -54,7 +60,7 @@ export default function PatientJournalItem({ journal, handleOpenModal }) {
 
       <LongPressable
         onLongPress={() => {
-          if (currentNurseId == journal.writerID) {
+          if (!isFromHandOver && currentNurseId == journal.writerID) {
             onLongPress(journal.id);
           }
         }}
@@ -63,7 +69,8 @@ export default function PatientJournalItem({ journal, handleOpenModal }) {
       >
         <S.JournalContentBox
           isAuthor={currentNurseId == journal.writerID}
-          isSelected={isSelected}
+          isSelected={isFromHandOver && isSelected}
+          isExpended={isExpended}
           type={journal.category}
         >
           <div className="journal_top">{journal.content}</div>

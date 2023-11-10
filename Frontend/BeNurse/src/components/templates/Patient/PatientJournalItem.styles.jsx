@@ -29,12 +29,15 @@ export const JournalContentBox = styled.div`
   display: flex;
   flex-direction: column;
   padding: 8px;
-  max-height: ${({ isSelected }) => (isSelected ? "1000px" : "63px")};
+  max-height: ${({ isExpended }) => (isExpended ? "1000px" : "63px")};
   box-shadow: 2px 2px 5px 0 #c4afff71;
   background-color: #c4afff1c;
   border-radius: 12px;
   margin-top: -6px;
-  transition: all 0.5s ease-in-out;
+  transition: max-height 0.5s ease-in-out;
+  transition: border 0.2s ease-in-out;
+  border: ${({ isSelected }) =>
+    isSelected ? "3px solid #956eff" : "3px solid transparent"};
 
   & > .journal_top {
     font-size: ${Common.fontSize.fontXS};
