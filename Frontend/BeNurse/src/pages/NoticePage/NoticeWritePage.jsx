@@ -6,6 +6,7 @@ import Button from "../../components/atoms/Button/Button";
 import * as S from "./NoticePage.styles";
 
 import { customAxios } from "../../libs/axios";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function NoticeWritePage() {
   const navigate = useNavigate();
@@ -54,6 +55,7 @@ export default function NoticeWritePage() {
   };
   return (
     <Container>
+      <Toaster />
       <S.WriteContainer>
         <S.WriteTitleInput
           autoFocus={true}

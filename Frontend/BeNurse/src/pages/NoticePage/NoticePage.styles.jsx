@@ -73,6 +73,17 @@ export const NoticeLable = styled.div`
     transition: all 0.3s;
     transform: rotate(90deg);
   }
+  & .notice_author {
+    background-color: #956eff;
+    color: ${Common.color.white01};
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+  }
 `;
 
 export const WriteContainer = styled.div`
