@@ -3,13 +3,57 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Common } from "../../../utils/global.styles";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { GoBell } from "react-icons/go";
+import { useHandoverSetStore } from "../../../store/store";
+import { customAxios } from "../../../libs/axios";
 
-export default function NavBar({ onTempSave, onSave }) {
+export default function NavBar({ onSave }) {
+  const {
+    handoverCC,
+    setHandoverCC,
+    handoverEtc,
+    setHandoverEtc,
+    handoverId,
+    setHandoverId,
+    handoverJournals,
+    setHandoverJournals,
+    handoverPatientId,
+    setHandoverPatientId,
+    handoverSpecial,
+    setHandoverSpecial,
+    handoverSetId,
+    setHandoverSetId,
+    setHandoverJournalList,
+  } = useHandoverSetStore((state) => state);
   const navigate = useNavigate();
+
+  const onTempSave = () => {
+    const data = {
+      handover: {
+        cc: handoverCC,
+        etc: handoverEtc,
+        id: handoverId,
+        journals: handoverJournals,
+        patientID: handoverPatientId,
+        special: handoverSpecial,
+      },
+      setID: handoverSetId,
+    };
+    customAxios.put("Handover", data).then((res) => {
+      console.log(res);
+    });
+  };
 
   // 이전으로 가기
   const onPrevClick = () => {
     navigate(-1);
+    setHandoverCC(() => []);
+    setHandoverEtc(() => []);
+    setHandoverId(null);
+    setHandoverJournals(() => []);
+    setHandoverPatientId(null);
+    setHandoverSpecial(() => []);
+    setHandoverSetId(null);
+    console.log(handoverSetId);
   };
 
   // 다음으로 가기

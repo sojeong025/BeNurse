@@ -15,8 +15,8 @@ import { usePatientCardStore } from "../../../store/store";
 
 export default function HandOverWritePage() {
   const navigate = useNavigate();
-  const setHandoverSetId = useHandoverSetStore(
-    (state) => state.setHandoverSetId,
+  const { setHandoverSetId, setHandoverJournalList } = useHandoverSetStore(
+    (state) => state,
   );
   const { setSelectedPatient } = usePatientStore();
   const wardId = useWardStore((state) => state.wardId);
@@ -105,6 +105,10 @@ export default function HandOverWritePage() {
       }),
     );
   }, [completedHandover]);
+
+  useEffect(() => {
+    setHandoverJournalList(() => []);
+  }, []);
 
   return (
     <Container

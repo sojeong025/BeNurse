@@ -14,13 +14,28 @@ export default function HandOverList({ linkto }) {
         }}
       >
         <div style={{ padding: "0px 0 20px 0", boxSizing: "border-box" }}>
-          <NavLink to="/handover-write">
+          <NavLink
+            to="/handover-write"
+            onClick={() => {
+              localStorage.setItem("isTemporary", "temp");
+            }}
+          >
             <HandOverListItem />
           </NavLink>
-          <NavLink to="/handover-write">
+          <NavLink
+            to="/handover-write"
+            onClick={() => {
+              localStorage.setItem("isTemporary", "temp");
+            }}
+          >
             <HandOverListItem />
           </NavLink>
-          <NavLink to="/handover-write">
+          <NavLink
+            to="/handover-write"
+            onClick={() => {
+              localStorage.setItem("isTemporary", "temp");
+            }}
+          >
             <HandOverListItem />
           </NavLink>
         </div>

@@ -16,7 +16,6 @@ export default function PatientItem({ patientInfo, type }) {
     (state) => state,
   );
   const isCompleted = completedHandover[patientInfo.id];
-  console.log("patientitem에서의 인계장 번호 조회", handoverId);
 
   useEffect(() => {
     if (handoverId) {
@@ -27,7 +26,6 @@ export default function PatientItem({ patientInfo, type }) {
           },
         })
         .then((res) => {
-          console.log("인계장 id 환자 id 비교용", res);
           const patientIdFromHandover = res.data.responseData.patientID;
           setHandoverPatientId(patientIdFromHandover);
 

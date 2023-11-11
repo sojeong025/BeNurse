@@ -14,9 +14,37 @@ import { usePatientCardStore } from "../../../store/store";
 import * as S from "./HandOverWriteStep.styles";
 import { useNavigate } from "react-router-dom";
 
+import { customAxios } from "../../../libs/axios";
+
 export default function HandOverWriteStep() {
   const navigate = useNavigate();
   const [bgColor, setBgColor] = useState("white");
+  const {
+    handoverCC,
+    handoverEtc,
+    handoverId,
+    handoverJournals,
+    handoverPatientId,
+    handoverSpecial,
+    handoverSetId,
+  } = useHandoverSetStore((state) => state);
+
+  const onTempSave = () => {
+    const data = {
+      handover: {
+        cc: handoverCC,
+        etc: handoverEtc,
+        id: handoverId,
+        journals: handoverJournals,
+        patientID: handoverPatientId,
+        special: handoverSpecial,
+      },
+      setID: handoverSetId,
+    };
+    customAxios.put("Handover", data).then((res) => {
+      console.log(res);
+    });
+  };
 
   const steps = [
     {
@@ -47,10 +75,10 @@ export default function HandOverWriteStep() {
     }
   }, [current]);
 
-  const { handoverId } = useHandoverSetStore((state) => state);
   const setCompletedHandover = usePatientCardStore(
     (state) => state.setCompletedHandover,
   );
+
   const handleCompleteClick = () => {
     setCompletedHandover(handoverId, true);
     navigate("/handover-write");
@@ -84,7 +112,14 @@ export default function HandOverWriteStep() {
 
         <div>{steps[current].content}</div>
         <div>
-          {current === 0 && <BottomButton onNextClick={() => next()} />}
+          {current === 0 && (
+            <BottomButton
+              onNextClick={() => {
+                next();
+                onTempSave();
+              }}
+            />
+          )}
           {current === steps.length - 1 && (
             <BottomButton
               onPrevClick={() => prev()}
@@ -95,7 +130,10 @@ export default function HandOverWriteStep() {
           {current > 0 && current < steps.length - 1 && (
             <BottomButton
               onPrevClick={() => prev()}
-              onNextClick={() => next()}
+              onNextClick={() => {
+                next();
+                onTempSave();
+              }}
             />
           )}
         </div>

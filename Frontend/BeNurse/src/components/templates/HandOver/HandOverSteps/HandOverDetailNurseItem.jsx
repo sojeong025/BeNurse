@@ -3,18 +3,29 @@ import Textarea from "@components/atoms/Textarea/Textarea";
 import Box from "../../../atoms/Box/Box";
 import { Common } from "../../../../utils/global.styles";
 import { customAxios } from "../../../../libs/axios";
+import { useHandoverSetStore } from "../../../../store/store";
 
 export default function HandOverDetailNurseItem({ id }) {
   const [journalItem, setJournalItem] = useState(null);
-  const [inputs, setInputs] = useState([{ name: "간호일지 1", value: "" }]);
   const [showWarning, setShowWarning] = useState(false);
+  const [comment, setComment] = useState("");
+  const { handoverJournals, setHandoverJournals } = useHandoverSetStore(
+    (state) => state,
+  );
 
-  const handleInputChange = (e, index) => {
-    const { value } = e.target;
-    const newInputs = [...inputs];
-    newInputs[index].value = value;
-    setInputs(newInputs);
-    if (value) setShowWarning(false);
+  const handleInputChange = (e) => {
+    const updatedJournal = handoverJournals.filter(
+      (item) => item.journalID === id,
+    )[0];
+    updatedJournal.comment = e.target.value;
+
+    const newHandoverJournal = [
+      ...handoverJournals.filter((item) => item.journalID !== id),
+      updatedJournal,
+    ];
+
+    setHandoverJournals(() => newHandoverJournal);
+    console.log(newHandoverJournal);
   };
 
   useEffect(() => {
@@ -75,14 +86,11 @@ export default function HandOverDetailNurseItem({ id }) {
           </div>
         </div>
       </Box>
-      {inputs.map((input, index) => (
-        <Textarea
-          value={input.value}
-          placeholder={"인계사항을 입력 해주세요."}
-          onChange={(e) => handleInputChange(e, index)}
-          props={"margin-bottom: 30px;"}
-        />
-      ))}
+      <Textarea
+        placeholder={"인계사항을 입력 해주세요."}
+        onChange={(e) => handleInputChange(e)}
+        props={"margin-bottom: 30px;"}
+      />
     </>
   );
 }

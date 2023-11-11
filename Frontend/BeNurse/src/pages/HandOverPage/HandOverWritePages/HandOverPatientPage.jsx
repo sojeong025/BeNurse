@@ -13,8 +13,9 @@ import Button from "@components/atoms/Button/Button";
 import { useHandoverSetStore } from "../../../store/store";
 
 export default function HandOverPatientPage() {
-  const handoverSetId = useHandoverSetStore((state) => state.handoverSetId);
-  const setHandoverId = useHandoverSetStore((state) => state.setHandoverId);
+  const { handoverSetId, setHandoverId } = useHandoverSetStore(
+    (state) => state,
+  );
 
   const handlePatientCardClick = () => {
     const data = {
@@ -33,6 +34,19 @@ export default function HandOverPatientPage() {
         special: [],
       },
     };
+    customAxios.get("HandoverSet/details?ID=" + handoverSetId).then((res) => {
+      const handoverDetail = res.data.responseData;
+      if (
+        handoverDetail.filter((item) => {
+          item.patientID === patientId;
+        }).length > 0
+      ) {
+        console.log(1);
+      } else {
+        console.log(2);
+      }
+    });
+
     customAxios.post("Handover", data).then((res) => {
       console.log("POST 요청 결과", res);
       setHandoverId(res.data.responseData.id);

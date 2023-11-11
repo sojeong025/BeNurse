@@ -121,27 +121,55 @@ export const useWardStore = create((set) => ({
 }));
 
 export const useHandoverSetStore = create((set) => ({
-  // 전체 인계장 set id 저장
-  handoverSetId: null,
-  setHandoverSetId: (id) => set({ handoverSetId: id }),
+  handoverCC: [],
+  setHandoverCC: (updateFunction) => {
+    set((state) => ({
+      handoverCC: updateFunction(state.handoverCC),
+    }));
+  },
 
+  handoverEtc: [],
+  setHandoverEtc: (updateFunction) => {
+    set((state) => ({
+      handoverEtc: updateFunction(state.handoverEtc),
+    }));
+  },
   // 개별 인계장 id 저장
   handoverId: null,
-  setHandoverId: (id) => set({ handoverId: id }),
+  setHandoverId: (id) => set(() => ({ handoverId: id })),
+
+  handoverJournals: [],
+  setHandoverJournals: (updateFunction) => {
+    set((state) => ({
+      handoverJournals: updateFunction(state.handoverJournals),
+    }));
+  },
+
+  handoverPatientId: null,
+  setHandoverPatientId: (id) => set(() => ({ handoverPatientId: id })),
+
+  handoverSpecial: [],
+  setHandoverSpecial: (updateFunction) => {
+    set((state) => ({
+      handoverSpecial: updateFunction(state.handoverSpecial),
+    }));
+  },
+
+  // 전체 인계장 set id 저장
+  handoverSetId: null,
+  setHandoverSetId: (id) => set(() => ({ handoverSetId: id })),
+
+  isFromHandOver: false,
+  setIsFromHandOver: (value) => {
+    set(() => ({
+      isFromHandOver: value,
+    }));
+  },
 
   handoverJournalList: [],
   setHandoverJournalList: (updateFunction) => {
     set((state) => ({
       handoverJournalList: updateFunction(state.handoverJournalList),
-    }));
-  },
-  unsetHandoverJournalList: () => {
-    set(() => ({ handoverJournalList: [] }));
-  },
-  isFromHandOver: false,
-  setIsFromHandOver: (value) => {
-    set(() => ({
-      isFromHandOver: value,
     }));
   },
 }));

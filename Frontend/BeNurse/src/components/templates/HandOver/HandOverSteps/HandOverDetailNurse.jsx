@@ -16,7 +16,18 @@ export default function HandOverDetailNurse() {
   const [inputs, setInputs] = useState([{ name: "간호일지 1", value: "" }]);
   const [showWarning, setShowWarning] = useState(false);
   const { setSelectedDate } = useDateStore((state) => state);
-  const { handoverJournalList } = useHandoverSetStore((state) => state);
+  const {
+    handoverCC,
+    handoverEtc,
+    handoverId,
+    handoverJournals,
+    setHandoverJournals,
+    handoverPatientId,
+    handoverSpecial,
+    handoverSetId,
+    handoverJournalList,
+    setHandoverJournalList,
+  } = useHandoverSetStore((state) => state);
   const { patientId } = useParams();
 
   const addInput = () => {
@@ -38,6 +49,32 @@ export default function HandOverDetailNurse() {
     setInputs(newInputs);
     if (value) setShowWarning(false);
   };
+
+  useEffect(() => {
+    customAxios.get("Handover?ID=" + handoverId).then((res) => {
+      console.log(res);
+    });
+
+    if (localStorage.getItem("isTemporary") === "temp") {
+      customAxios.get("Handover?ID=" + handoverId).then((res) => {
+        setHandoverJournalList(res.data.responseData.journals);
+      });
+    } else {
+      console.log("new");
+    }
+
+    if (handoverJournalList.length > 0) {
+      const newHandoverJournals = [];
+      handoverJournalList.map((id) => {
+        const journalsItem = {
+          comment: "",
+          journalID: id,
+        };
+        newHandoverJournals.push(journalsItem);
+      });
+      setHandoverJournals(() => newHandoverJournals);
+    }
+  }, []);
 
   return (
     <div

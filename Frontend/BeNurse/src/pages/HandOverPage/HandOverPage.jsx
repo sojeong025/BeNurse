@@ -86,7 +86,12 @@ export default function HandOverPage() {
           {/* 새 인계장 작성 박스 */}
           <div style={{ marginBottom: "10px" }}>
             <div className="title">인계장 작성</div>
-            <NavLink to="/handover-write">
+            <NavLink
+              to="/handover-write"
+              onClick={() => {
+                localStorage.setItem("isTemporary", "new");
+              }}
+            >
               <Box
                 type="purple03"
                 size={["384px", "100px"]}
