@@ -6,7 +6,7 @@ import { WorkPart, TemporaryBox, HandoverList } from "./HandOverPage.styles";
 import write from "@assets/Images/write.png";
 import nurse from "@assets/Images/nurse.png";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import HandOverList from "@components/templates/HandOver/HandOverList";
+import HandOverGiveList from "@components/templates/HandOver/HandOverGiveList";
 import { customAxios } from "../../libs/axios";
 import { useWardStore } from "../../store/store";
 import { useTabBarStore } from "../../store/store";
@@ -171,9 +171,7 @@ export default function HandOverPage() {
             flex={["start"]}
           >
             <div className="temporary-container">
-              <div>
-                <HandOverList />
-              </div>
+              <HandOverGiveList />
             </div>
           </Box>
         </HandoverList>
