@@ -1,6 +1,7 @@
 import React from "react";
 import { Common } from "../../utils/global.styles";
-import HandOverList from "../../components/templates/HandOver/HandOverList";
+import HandOverSendList from "../../components/templates/HandOver/HandOverSendList";
+import HandOverGiveList from "../../components/templates/HandOver/HandOverGiveList";
 
 import Container from "../../components/atoms/Container/Container";
 import Box from "@components/atoms/Box/Box";
@@ -23,12 +24,12 @@ const items = [
   {
     key: "1",
     label: "받은 인계장",
-    children: <HandOverList />,
+    children: <HandOverGiveList />,
   },
   {
     key: "2",
     label: "보낸 인계장",
-    children: <HandOverList />,
+    children: <HandOverSendList />,
   },
 ];
 
