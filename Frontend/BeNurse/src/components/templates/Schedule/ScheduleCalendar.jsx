@@ -22,11 +22,15 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Common } from "../../../utils/global.styles";
 import { customAxios } from "../../../libs/axios";
+import moment from "moment";
+
+import empty from "@assets/Images/empty.png";
 
 export default function ScheduleCalendar() {
   const [open, setOpen] = useState(false);
-  const today = new Date();
-  const [currentDate, setCurrentDate] = useState(today);
+  const [currentDate, setCurrentDate] = useState(
+    new Date(moment().startOf("month")),
+  );
   const handlers = useSwipeable({
     onSwipedLeft: () => nextMonth(),
     onSwipedRight: () => prevMonth(),
@@ -80,16 +84,25 @@ export default function ScheduleCalendar() {
         day: i,
         isCurMonth: true,
         type: scheduleData[dateString]?.worktime || "O",
+        monthType: "cur",
       });
     }
 
     for (let i = 0; i < startDay; i++) {
-      dates.unshift({ day: prevMonthTotalDays - i, isCurMonth: false });
+      dates.unshift({
+        day: prevMonthTotalDays - i,
+        isCurMonth: false,
+        monthType: "prev",
+      });
     }
 
     let nextMonthDay = 1;
     while (dates.length < 42) {
-      dates.push({ day: nextMonthDay++, isCurMonth: false });
+      dates.push({
+        day: nextMonthDay++,
+        isCurMonth: false,
+        monthType: "next",
+      });
     }
 
     let weeks = [];
@@ -114,8 +127,8 @@ export default function ScheduleCalendar() {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const isOffApplicationPossible = () => {
-    const currentDay = currentDate.getDate();
-    return currentDay >= 10 && currentDay <= 20;
+    const today = moment().date();
+    return today >= 10 && today <= 20;
   };
 
   const handleOffApplicationClick = (event) => {
@@ -139,17 +152,31 @@ export default function ScheduleCalendar() {
   const [selectedDate, setSelectedDate] = useState("");
   const [nurseData, setNurseData] = useState([]);
 
-  const handleDateClick = (e, date) => {
+  const handleDateClick = (e, date, type) => {
     e.preventDefault();
-    console.log(date.day);
-    const selectedDate = `${currentDate.getFullYear()}-${(
-      currentDate.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, "0")}-${date.day.toString().padStart(2, "0")}`;
-    setSelectedDate(selectedDate);
+    if (type === "prev") {
+      setSelectedDate(
+        moment(currentDate)
+          .subtract(1, "month")
+          .set("date", date.day)
+          .format("YYYY-MM-DD"),
+      );
+    } else if (type === "next") {
+      setSelectedDate(
+        moment(currentDate)
+          .add(1, "month")
+          .set("date", date.day)
+          .format("YYYY-MM-DD"),
+      );
+    } else {
+      setSelectedDate(
+        moment(currentDate).set("date", date.day).format("YYYY-MM-DD"),
+      );
+    }
     setOpen(true);
+  };
 
+  useEffect(() => {
     customAxios
       .get("Schedule/all", {
         params: {
@@ -160,7 +187,7 @@ export default function ScheduleCalendar() {
       .then((res) => {
         setNurseData(res.data.responseData);
       });
-  };
+  }, [selectedDate]);
 
   useEffect(() => {
     setWeeks(createCalendar(currentDate, scheduleData));
@@ -263,37 +290,8 @@ export default function ScheduleCalendar() {
               >
                 다음 오프 신청 기간
                 <br />
-                {currentDate.getDate() > 20
-                  ? currentDate.getMonth() + 2 > 12
-                    ? currentDate.getFullYear() + 1
-                    : currentDate.getFullYear()
-                  : currentDate.getMonth() + 1 > 12
-                  ? currentDate.getFullYear() + 1
-                  : currentDate.getFullYear()}
-                .
-                {currentDate.getDate() > 20
-                  ? (currentDate.getMonth() + 2) % 12 === 0
-                    ? 12
-                    : (currentDate.getMonth() + 2) % 12
-                  : (currentDate.getMonth() + 1) % 12 === 0
-                  ? 12
-                  : (currentDate.getMonth() + 1) % 12}
-                .10 ~
-                {currentDate.getDate() > 20
-                  ? currentDate.getMonth() + 2 > 12
-                    ? currentDate.getFullYear() + 1
-                    : currentDate.getFullYear()
-                  : currentDate.getMonth() + 1 > 12
-                  ? currentDate.getFullYear() + 1
-                  : currentDate.getFullYear()}
-                .
-                {currentDate.getDate() > 20
-                  ? (currentDate.getMonth() + 2) % 12 === 0
-                    ? 12
-                    : (currentDate.getMonth() + 2) % 12
-                  : (currentDate.getMonth() + 1) % 12 === 0
-                  ? 12
-                  : (currentDate.getMonth() + 1) % 12}
+                {moment(currentDate).add(1, "month").format("YYYY.MM")}
+                .10 ~{moment(currentDate).add(1, "month").format("YYYY.MM")}
                 .20
               </div>
             </div>
@@ -334,7 +332,7 @@ export default function ScheduleCalendar() {
                       flexDirection: "column",
                       alignItems: "center",
                     }}
-                    onClick={(e) => handleDateClick(e, date)}
+                    onClick={(e) => handleDateClick(e, date, date.monthType)}
                   >
                     {date.day}
                     {date.isCurMonth && (
@@ -373,6 +371,7 @@ export default function ScheduleCalendar() {
         open={open}
         onDismiss={() => {
           setOpen(false);
+          setSelectedDate("2000-01-01");
         }}
       >
         <NurseScrollWrapper>
@@ -383,7 +382,7 @@ export default function ScheduleCalendar() {
               fontWeight: Common.fontWeight.bold,
             }}
           >
-            {selectedDate}
+            {selectedDate != "2000-01-01" && selectedDate}
           </span>
           <div
             style={{
@@ -393,12 +392,36 @@ export default function ScheduleCalendar() {
               gap: "20px",
             }}
           >
-            {nurseData.map((nurse, index) => (
-              <NurseItem
-                key={index}
-                nurse={nurse}
-              />
-            ))}
+            {nurseData.length == 0 ? (
+              <div
+                style={{
+                  height: "400px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  opacity: "0.5",
+                  fontSize: "16px",
+                  gap: "10px",
+                }}
+              >
+                <img
+                  width="140px"
+                  src={empty}
+                  alt="empty"
+                />
+                <p>아직 근무 일정이 등록되지 않았습니다.</p>
+              </div>
+            ) : (
+              <>
+                {nurseData.map((nurse, index) => (
+                  <NurseItem
+                    key={index}
+                    nurse={nurse}
+                  />
+                ))}
+              </>
+            )}
           </div>
         </NurseScrollWrapper>
       </BottomSheet>

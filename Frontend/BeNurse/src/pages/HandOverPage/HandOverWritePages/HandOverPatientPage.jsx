@@ -86,7 +86,10 @@ export default function HandOverPatientPage() {
           margin: "10px auto",
         }}
       >
-        <PatientDetailProfile patient={patient} />
+        <PatientDetailProfile
+          patient={patient}
+          isHandOver={true}
+        />
         <PatientDetailContainer
           style={{
             width: "100%",

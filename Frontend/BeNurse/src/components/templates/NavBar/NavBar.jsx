@@ -112,7 +112,7 @@ export default function NavBar({ onSave }) {
 
   useEffect(() => {
     if (path.startsWith("/schedule")) {
-      setNavTitle("근무 관리");
+      setNavTitle("근무 일정");
       setNavColor(Common.color.purple03);
       setNavFontColor(Common.color.white01);
       setNavBoxShadow("");
