@@ -46,14 +46,6 @@ export default function NavBar({ onSave }) {
   // 이전으로 가기
   const onPrevClick = () => {
     navigate(-1);
-    setHandoverCC(() => []);
-    setHandoverEtc(() => []);
-    setHandoverId(null);
-    setHandoverJournals(() => []);
-    setHandoverPatientId(null);
-    setHandoverSpecial(() => []);
-    setHandoverSetId(null);
-    console.log(handoverSetId);
   };
 
   // 다음으로 가기

@@ -13,64 +13,78 @@ import Button from "@components/atoms/Button/Button";
 import { useHandoverSetStore } from "../../../store/store";
 
 export default function HandOverPatientPage() {
-  const { handoverSetId, setHandoverId } = useHandoverSetStore(
-    (state) => state,
-  );
-
-  const handlePatientCardClick = () => {
-    const data = {
-      setID: handoverSetId,
-      handover: {
-        cc: [],
-        etc: [],
-        id: 0,
-        journals: [
-          {
-            comment: "",
-            journalID: 0,
-          },
-        ],
-        patientID: patientId,
-        special: [],
-      },
-    };
-    customAxios.get("HandoverSet/details?ID=" + handoverSetId).then((res) => {
-      const handoverDetail = res.data.responseData;
-      if (
-        handoverDetail.filter((item) => {
-          item.patientID === patientId;
-        }).length > 0
-      ) {
-        console.log(1);
-      } else {
-        console.log(2);
-      }
-    });
-
-    customAxios.post("Handover", data).then((res) => {
-      console.log("POST 요청 결과", res);
-      setHandoverId(res.data.responseData.id);
-      navigate("/handover-write/" + patientId + "/patients/write");
-    });
-  };
-
-  const navigate = useNavigate();
+  const {
+    handoverCC,
+    setHandoverCC,
+    handoverEtc,
+    setHandoverEtc,
+    handoverId,
+    setHandoverId,
+    handoverJournals,
+    setHandoverJournals,
+    handoverPatientId,
+    setHandoverPatientId,
+    handoverSpecial,
+    setHandoverSpecial,
+    handoverSetId,
+    setHandoverSetId,
+    setHandoverJournalList,
+  } = useHandoverSetStore((state) => state);
   const [patient, setPatient] = useState({});
   const { patientId } = useParams();
-  console.log("환자ID", patientId);
+  const navigate = useNavigate();
+
+  const handlePatientCardClick = () => {
+    customAxios.get("HandoverSet/details?ID=" + handoverSetId).then((res) => {
+      if (
+        res.data.responseData.filter(
+          (item) => item.patientID.toString() === patientId,
+        ).length > 0
+      ) {
+        completedHandover[patientId];
+        setHandoverJournals(
+          () =>
+            res.data.responseData.filter(
+              (item) => item.patientID.toString() === patientId,
+            )[0].journals,
+        );
+        navigate("/handover-write/" + patientId + "/patients/write");
+      } else {
+        const data = {
+          handover: {
+            cc: [],
+            etc: [],
+            id: 0,
+            journals: [
+              {
+                comment: "",
+                journalID: 0,
+              },
+            ],
+            patientID: patientId,
+            special: [],
+          },
+          setID: handoverSetId,
+        };
+        customAxios.post("Handover", data).then((res) => {
+          setHandoverId(res.data.responseData.id);
+          setHandoverJournals(() => []);
+          console.log("환자 인계장 생성 완료");
+          navigate("/handover-write/" + patientId + "/patients/write");
+        });
+      }
+    });
+  };
 
   useEffect(() => {
     customAxios
       .get("emr/patient?id=" + patientId)
       .then((res) => {
-        console.log("인수인계 환자 정보 불러오기", res.data.responseData);
         setPatient({
           ...res.data.responseData.patient.patient,
         });
       })
-      .catch((error) => {
-        console.error("환자 정보 로드 실패:", error);
-      });
+      .catch((error) => {});
   }, []);
 
   return (

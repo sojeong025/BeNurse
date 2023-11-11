@@ -5,33 +5,35 @@ import { Common } from "../../../../utils/global.styles";
 import { customAxios } from "../../../../libs/axios";
 import { useHandoverSetStore } from "../../../../store/store";
 
-export default function HandOverDetailNurseItem({ id }) {
+export default function HandOverDetailNurseItem({ item }) {
   const [journalItem, setJournalItem] = useState(null);
   const [showWarning, setShowWarning] = useState(false);
   const [comment, setComment] = useState("");
-  const { handoverJournals, setHandoverJournals } = useHandoverSetStore(
-    (state) => state,
-  );
+  const { handoverJournals, setHandoverJournals, setHandoverId } =
+    useHandoverSetStore((state) => state);
+  const updatedJournal = item;
 
   const handleInputChange = (e) => {
-    const updatedJournal = handoverJournals.filter(
-      (item) => item.journalID === id,
-    )[0];
     updatedJournal.comment = e.target.value;
-
-    const newHandoverJournal = [
-      ...handoverJournals.filter((item) => item.journalID !== id),
-      updatedJournal,
-    ];
-
-    setHandoverJournals(() => newHandoverJournal);
-    console.log(newHandoverJournal);
+    console.log(updatedJournal);
   };
 
   useEffect(() => {
-    customAxios("emr/journal?id=" + id).then((res) => {
+    customAxios("emr/journal?id=" + item.journalID).then((res) => {
       setJournalItem(res.data.responseData);
     });
+
+    return () => {
+      const newHandoverJournal = [
+        ...handoverJournals.filter((prevItem) => {
+          // console.log(prevItem, item);
+          return prevItem.journalID !== item.journalID;
+        }),
+        updatedJournal,
+      ];
+      setHandoverId(null);
+      setHandoverJournals(() => newHandoverJournal);
+    };
   }, []);
 
   return (
@@ -87,6 +89,7 @@ export default function HandOverDetailNurseItem({ id }) {
         </div>
       </Box>
       <Textarea
+        defaultValue={item.comment}
         placeholder={"인계사항을 입력 해주세요."}
         onChange={(e) => handleInputChange(e)}
         props={"margin-bottom: 30px;"}

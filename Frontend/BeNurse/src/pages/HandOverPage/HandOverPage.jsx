@@ -9,9 +9,26 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import HandOverList from "@components/templates/HandOver/HandOverList";
 import { customAxios } from "../../libs/axios";
 import { useWardStore } from "../../store/store";
-import { useTabBarStore } from "../../store/store";
+import { useTabBarStore, useHandoverSetStore } from "../../store/store";
 
 export default function HandOverPage() {
+  const {
+    handoverCC,
+    setHandoverCC,
+    handoverEtc,
+    setHandoverEtc,
+    handoverId,
+    setHandoverId,
+    handoverJournals,
+    setHandoverJournals,
+    handoverPatientId,
+    setHandoverPatientId,
+    handoverSpecial,
+    setHandoverSpecial,
+    handoverSetId,
+    setHandoverSetId,
+    setHandoverJournalList,
+  } = useHandoverSetStore((state) => state);
   const setWardId = useWardStore((state) => state.setWardId);
   const { currentTab, setCurrentTab } = useTabBarStore((state) => state);
 
@@ -21,6 +38,14 @@ export default function HandOverPage() {
       setWardId(res.data.responseData.wardID);
     });
 
+    setHandoverCC(() => []);
+    setHandoverEtc(() => []);
+    setHandoverId(null);
+    setHandoverJournals(() => []);
+    setHandoverPatientId(null);
+    setHandoverSpecial(() => []);
+    setHandoverJournalList(() => []);
+    setHandoverSetId(null);
     setCurrentTab("handover");
   }, []);
   return (
@@ -90,6 +115,10 @@ export default function HandOverPage() {
               to="/handover-write"
               onClick={() => {
                 localStorage.setItem("isTemporary", "new");
+                customAxios.post("HandoverSet").then((res) => {
+                  console.log("인계장 그룹 생성 완료");
+                  setHandoverSetId(res.data.responseData.id);
+                });
               }}
             >
               <Box
