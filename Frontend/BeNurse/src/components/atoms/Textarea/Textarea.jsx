@@ -8,6 +8,7 @@ export default function Textarea({
   onFocus,
   onChange,
   props,
+  defaultValue,
   cols,
   rows,
 }) {
@@ -23,6 +24,7 @@ export default function Textarea({
       props={props}
     >
       <StyledTextarea
+        defaultValue={defaultValue}
         ref={textarea}
         placeholder={placeholder}
         onFocus={onFocus}

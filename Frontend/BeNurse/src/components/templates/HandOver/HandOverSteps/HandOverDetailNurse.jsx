@@ -51,10 +51,6 @@ export default function HandOverDetailNurse() {
   };
 
   useEffect(() => {
-    customAxios.get("Handover?ID=" + handoverId).then((res) => {
-      console.log(res);
-    });
-
     if (localStorage.getItem("isTemporary") === "temp") {
       customAxios.get("Handover?ID=" + handoverId).then((res) => {
         setHandoverJournalList(res.data.responseData.journals);
@@ -166,12 +162,12 @@ export default function HandOverDetailNurse() {
         }}
       >
         <div>
-          {handoverJournalList &&
-            handoverJournalList.map((id, index) => {
+          {handoverJournals &&
+            handoverJournals.map((item, index) => {
               return (
                 <HandOverDetailNurseItem
                   key={index}
-                  id={id}
+                  item={item}
                 />
               );
             })}

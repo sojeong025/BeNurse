@@ -20,18 +20,9 @@ export default function HandOverWritePage() {
   );
   const { setSelectedPatient } = usePatientStore();
   const wardId = useWardStore((state) => state.wardId);
-  console.log("인계장 작성페이지에서 wardId 체크", wardId);
 
   useEffect(() => {
     setSelectedPatient({});
-  }, []);
-
-  // 전체 인계장 SET 생성 => 인계장 ID 생성
-  useEffect(() => {
-    customAxios.post("HandoverSet").then((res) => {
-      console.log("전체 인계장 묶음 ID 생성용", res);
-      setHandoverSetId(res.data.responseData.id);
-    });
   }, []);
 
   const handlePatientCardClick = (patientInfo) => {
@@ -47,7 +38,6 @@ export default function HandOverWritePage() {
 
   useEffect(() => {
     customAxios.get("emr/patient/wardall").then((res) => {
-      console.log("병동 내 환자만 조회 결과 확인", res.data.responseData);
       const patientsCard = res.data.responseData.map((patientData) => {
         return {
           ...patientData.patient,
