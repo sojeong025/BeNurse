@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { customAxios } from "../../../libs/axios";
 import Box from "../../atoms/Box/Box";
-import * as S from "./HandOverGiveList.styles";
+import * as S from "./HandOverList.styles";
 import HandOverItem from "@assets/Icons/handoveritem.svg";
 import nurse from "@assets/Images/patient_temp.png";
 
@@ -29,7 +29,7 @@ export default function HandOverGiveList() {
         <React.Fragment key={index}>
           <Box
             type={"transparent"}
-            size={["100%", "62px"]}
+            size={["100%", "80px"]}
             flex={["space-between", "center"]}
             border={true}
           >
@@ -39,39 +39,38 @@ export default function HandOverGiveList() {
                 style={{ width: "28px" }}
                 alt=""
               />
-              <div>
-                <div
-                  style={{
-                    marginLeft: "16px",
-                    height: "40px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-around",
-                    gap: "4px",
-                  }}
-                >
-                  <p
-                    style={{
-                      fontSize: Common.fontSize.fontS,
-                      fontWeight: Common.fontWeight.bold,
-                    }}
-                  >
-                    {givehandover.giveWorkTime === "D"
-                      ? "데이"
-                      : givehandover.giveWorkTime === "E"
-                      ? "이브닝"
-                      : "나이트"}
-                    &nbsp;타임 인계장
-                  </p>
-                  <p style={{ fontSize: Common.fontSize.fontXXS }}>
-                    {formatDateWithDay(givehandover.time)}
-                  </p>
-                </div>
-              </div>
+              <S.HandOverItemLeft>
+                <p className="handoverTitle">
+                  {givehandover.giveWorkTime === "D"
+                    ? "데이"
+                    : givehandover.giveWorkTime === "E"
+                    ? "이브닝"
+                    : "나이트"}
+                  &nbsp;타임 인계장
+                </p>
+                <p className="handoverNurseName">
+                  from. {givehandover.giveName} 간호사
+                </p>
+              </S.HandOverItemLeft>
             </S.HandOverItem>
             <div>
-              From <br />
-              {givehandover.giveName} 간호사
+              <p
+                style={{
+                  fontSize: Common.fontSize.fontXXS,
+                  marginBottom: "0px",
+                }}
+              >
+                {formatDateWithDay(givehandover.time)}
+                <p
+                  style={{
+                    textAlign: "end",
+                    marginTop: "10px",
+                    color: Common.color.purple04,
+                  }}
+                >
+                  읽지않음
+                </p>
+              </p>
             </div>
           </Box>
         </React.Fragment>

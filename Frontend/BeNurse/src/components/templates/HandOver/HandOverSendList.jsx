@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { customAxios } from "../../../libs/axios";
 import Box from "../../atoms/Box/Box";
-import * as S from "./HandOverGiveList.styles";
+import * as S from "./HandOverList.styles";
 import HandOverItem from "@assets/Icons/handoveritem.svg";
 import nurse from "@assets/Images/patient_temp.png";
 
@@ -29,7 +29,7 @@ export default function HandOverSendList() {
         <React.Fragment key={index}>
           <Box
             type={"transparent"}
-            size={["100%", "62px"]}
+            size={["100%", "80px"]}
             flex={["space-between", "center"]}
             border={true}
           >
@@ -40,22 +40,8 @@ export default function HandOverSendList() {
                 alt=""
               />
               <div>
-                <div
-                  style={{
-                    marginLeft: "16px",
-                    height: "40px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-around",
-                    gap: "4px",
-                  }}
-                >
-                  <p
-                    style={{
-                      fontSize: Common.fontSize.fontS,
-                      fontWeight: Common.fontWeight.bold,
-                    }}
-                  >
+                <S.HandOverItemLeft>
+                  <p className="handoverTitle">
                     {sendhandover.giveWorkTime === "D"
                       ? "데이"
                       : sendhandover.giveWorkTime === "E"
@@ -63,15 +49,24 @@ export default function HandOverSendList() {
                       : "나이트"}
                     &nbsp;타임 인계장
                   </p>
-                  <p style={{ fontSize: Common.fontSize.fontXXS }}>
-                    {formatDateWithDay(sendhandover.time)}
+                  <p className="handoverNurseName">
+                    to.{" "}
+                    {sendhandover.takeNames
+                      .map((name) => `${name} 간호사`)
+                      .join(" ")}
                   </p>
-                </div>
+                </S.HandOverItemLeft>
               </div>
             </S.HandOverItem>
             <div>
-              To <br />
-              {sendhandover.takeNames} 간호사
+              <p
+                style={{
+                  fontSize: Common.fontSize.fontXXS,
+                  marginBottom: "27px",
+                }}
+              >
+                {formatDateWithDay(sendhandover.time)}
+              </p>
             </div>
           </Box>
         </React.Fragment>
