@@ -42,18 +42,15 @@ export default function HandOverPatientPage() {
           (item) => item.patientID.toString() === patientId,
         ).length > 0
       ) {
-        setHandoverId(
-          res.data.responseData.filter(
-            (item) => item.patientID.toString() === patientId,
-          )[0].id,
-        );
+        const handover = res.data.responseData.filter(
+          (item) => item.patientID.toString() === patientId,
+        )[0];
+        setHandoverId(handover.id);
         setHandoverPatientId(patientId);
-        setHandoverJournals(
-          () =>
-            res.data.responseData.filter(
-              (item) => item.patientID.toString() === patientId,
-            )[0].journals,
-        );
+        setHandoverJournals(() => handover.journals);
+        setHandoverCC(() => handover.cc);
+        setHandoverSpecial(() => handover.special);
+        setHandoverEtc(() => handover.etc);
         navigate("/handover-write/" + patientId + "/patients/write");
       } else {
         const data = {
@@ -76,6 +73,9 @@ export default function HandOverPatientPage() {
           setHandoverId(res.data.responseData.id);
           setHandoverPatientId(patientId);
           setHandoverJournals(() => []);
+          setHandoverCC(() => []);
+          setHandoverSpecial(() => []);
+          setHandoverEtc(() => []);
           console.log("환자 인계장 생성 완료");
           navigate("/handover-write/" + patientId + "/patients/write");
         });

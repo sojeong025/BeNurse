@@ -14,8 +14,8 @@ export default function HandOverDetailCC() {
 
   const addInput = () => {
     if (inputEtc !== "") {
-      const newHandoverCC = [...handoverEtc, inputEtc];
-      setHandoverEtc(() => newHandoverCC);
+      const newHandoverEtc = [...handoverEtc, inputEtc];
+      setHandoverEtc(() => newHandoverEtc);
       setInputEtc("");
     } else {
       console.log("내용을 입력해주세요");
@@ -37,8 +37,8 @@ export default function HandOverDetailCC() {
 
     return () => {
       if (inputEtc !== "") {
-        const newHandoverCC = [...handoverEtc, inputEtc];
-        setHandoverEtc(() => newHandoverCC);
+        const newHandoverEtc = [...handoverEtc, inputEtc];
+        setHandoverEtc(() => newHandoverEtc);
       }
     };
   }, []);
