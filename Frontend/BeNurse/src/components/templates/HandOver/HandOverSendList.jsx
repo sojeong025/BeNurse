@@ -3,9 +3,9 @@ import { customAxios } from "../../../libs/axios";
 import Box from "../../atoms/Box/Box";
 import * as S from "./HandOverList.styles";
 import HandOverItem from "@assets/Icons/handoveritem.svg";
-import nurse from "@assets/Images/patient_temp.png";
 
 import { Common } from "../../../utils/global.styles";
+import { NavLink } from "react-router-dom";
 
 export default function HandOverSendList() {
   const [sendHandoverInfo, setSendHandoverInfo] = useState([]);
@@ -26,50 +26,53 @@ export default function HandOverSendList() {
   return (
     <S.HandOverContainer>
       {sendHandoverInfo.map((sendhandover, index) => (
-        <React.Fragment key={index}>
-          <Box
-            type={"transparent"}
-            size={["100%", "80px"]}
-            flex={["space-between", "center"]}
-            border={true}
-          >
-            <S.HandOverItem>
-              <img
-                src={HandOverItem}
-                style={{ width: "28px" }}
-                alt=""
-              />
-              <div>
-                <S.HandOverItemLeft>
-                  <p className="handoverTitle">
-                    {sendhandover.giveWorkTime === "D"
-                      ? "데이"
-                      : sendhandover.giveWorkTime === "E"
-                      ? "이브닝"
-                      : "나이트"}
-                    &nbsp;타임 인계장
-                  </p>
-                  <p className="handoverNurseName">
-                    to.{" "}
-                    {sendhandover.takeNames
-                      .map((name) => `${name} 간호사`)
-                      .join(" ")}
-                  </p>
-                </S.HandOverItemLeft>
-              </div>
-            </S.HandOverItem>
-            <div>
-              <p
+        <NavLink
+          to={`/handover-read/${sendhandover.handoverSetID}`}
+          key={index}
+        >
+          <React.Fragment>
+            <Box
+              type={"transparent"}
+              size={["100%", "80px"]}
+              flex={["space-between", "center"]}
+              border={true}
+            >
+              <S.HandOverItem>
+                <img
+                  src={HandOverItem}
+                  style={{ width: "28px" }}
+                  alt=""
+                />
+                <div>
+                  <S.HandOverItemLeft>
+                    <p className="handoverTitle">
+                      {sendhandover.giveWorkTime === "D"
+                        ? "데이"
+                        : sendhandover.giveWorkTime === "E"
+                        ? "이브닝"
+                        : "나이트"}
+                      &nbsp;타임 인계장
+                    </p>
+                    <p className="handoverNurseName">
+                      to.{" "}
+                      {sendhandover.takeNames
+                        .map((name) => `${name} 간호사`)
+                        .join(" ")}
+                    </p>
+                  </S.HandOverItemLeft>
+                </div>
+              </S.HandOverItem>
+              <div
                 style={{
                   fontSize: Common.fontSize.fontXXS,
                   marginBottom: "27px",
                 }}
               >
                 {formatDateWithDay(sendhandover.time)}
-              </p>
-            </div>
-          </Box>
-        </React.Fragment>
+              </div>
+            </Box>
+          </React.Fragment>
+        </NavLink>
       ))}
     </S.HandOverContainer>
   );

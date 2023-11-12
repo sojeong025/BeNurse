@@ -73,6 +73,8 @@ export default function NavBar({ onSave }) {
     "/off-application",
     "/off-application-write",
     "/handover-write",
+    "/handover-list",
+    "/handover-read",
   ];
 
   // 알림버튼 필요하면 여기 넣기
@@ -149,6 +151,18 @@ export default function NavBar({ onSave }) {
       setVisibility("flex");
     } else if (path.startsWith("/handover-write")) {
       setNavTitle("인수인계 작성");
+      setNavColor(Common.color.white01);
+      setNavFontColor(Common.color.black03);
+      setNavBoxShadow("0px 4px 8px 0px rgba(213, 213, 213, 0.36) ");
+      setVisibility("flex");
+    } else if (path === "/handover-list") {
+      setNavTitle("인계장 목록");
+      setNavColor(Common.color.white01);
+      setNavFontColor(Common.color.black03);
+      setNavBoxShadow("0px 4px 8px 0px rgba(213, 213, 213, 0.36) ");
+      setVisibility("flex");
+    } else if (path.startsWith("/handover-read")) {
+      setNavTitle("인계장 확인");
       setNavColor(Common.color.white01);
       setNavFontColor(Common.color.black03);
       setNavBoxShadow("0px 4px 8px 0px rgba(213, 213, 213, 0.36) ");
