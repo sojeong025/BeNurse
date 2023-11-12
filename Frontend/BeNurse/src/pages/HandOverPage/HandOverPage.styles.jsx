@@ -16,7 +16,7 @@ export const WorkPart = styled.div`
     margin-bottom: 30px;
   }
   & .nurse-image {
-    width: 20px;
+    width: 28px;
     /* border: 1px solid #696969; */
     border-radius: 100%;
   }
