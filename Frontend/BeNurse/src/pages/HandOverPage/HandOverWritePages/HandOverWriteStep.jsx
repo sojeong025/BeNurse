@@ -75,12 +75,7 @@ export default function HandOverWriteStep() {
     }
   }, [current]);
 
-  const setCompletedHandover = usePatientCardStore(
-    (state) => state.setCompletedHandover,
-  );
-
   const handleCompleteClick = () => {
-    setCompletedHandover(handoverId, true);
     navigate("/handover-write");
   };
 

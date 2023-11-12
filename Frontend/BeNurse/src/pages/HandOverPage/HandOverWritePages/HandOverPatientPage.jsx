@@ -10,7 +10,7 @@ import { customAxios } from "../../../libs/axios";
 import { useParams, useNavigate } from "react-router-dom";
 import Container from "@components/atoms/Container/Container";
 import Button from "@components/atoms/Button/Button";
-import { useHandoverSetStore } from "../../../store/store";
+import { useHandoverSetStore, usePatientCardStore } from "../../../store/store";
 
 export default function HandOverPatientPage() {
   const {
@@ -30,6 +30,7 @@ export default function HandOverPatientPage() {
     setHandoverSetId,
     setHandoverJournalList,
   } = useHandoverSetStore((state) => state);
+  const { setCompletedHandover } = usePatientCardStore((state) => state);
   const [patient, setPatient] = useState({});
   const { patientId } = useParams();
   const navigate = useNavigate();
@@ -41,7 +42,12 @@ export default function HandOverPatientPage() {
           (item) => item.patientID.toString() === patientId,
         ).length > 0
       ) {
-        completedHandover[patientId];
+        setHandoverId(
+          res.data.responseData.filter(
+            (item) => item.patientID.toString() === patientId,
+          )[0].id,
+        );
+        setHandoverPatientId(patientId);
         setHandoverJournals(
           () =>
             res.data.responseData.filter(
@@ -68,6 +74,7 @@ export default function HandOverPatientPage() {
         };
         customAxios.post("Handover", data).then((res) => {
           setHandoverId(res.data.responseData.id);
+          setHandoverPatientId(patientId);
           setHandoverJournals(() => []);
           console.log("환자 인계장 생성 완료");
           navigate("/handover-write/" + patientId + "/patients/write");

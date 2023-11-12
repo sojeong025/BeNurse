@@ -1,32 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Common } from "../../../../utils/global.styles";
 
 import Textarea from "@components/atoms/Textarea/Textarea";
 import Button from "@components/atoms/Button/Button";
+import { customAxios } from "../../../../libs/axios";
+import { useHandoverSetStore } from "../../../../store/store";
 
 export default function HandOverDetailSign() {
+  const [inputSign, setInputSign] = useState("");
+  const { handoverSpecial, setHandoverSpecial, handoverPatientId } =
+    useHandoverSetStore((state) => state);
   const [inputs, setInputs] = useState([{ name: "특이사항 1", value: "" }]);
   const [showWarning, setShowWarning] = useState(false);
 
   const addInput = () => {
-    if (inputs[inputs.length - 1].value) {
-      setInputs([
-        ...inputs,
-        { name: `특이사항 ${inputs.length + 1}`, value: "" },
-      ]);
-      setShowWarning(false);
+    if (inputSign !== "") {
+      const newHandoverSpecial = [...handoverSpecial, inputSign];
+      setHandoverSpecial(() => newHandoverSpecial);
+      setInputSign("");
     } else {
-      setShowWarning(true);
+      console.log("내용을 입력해주세요");
     }
   };
 
-  const handleInputChange = (e, index) => {
-    const { value } = e.target;
-    const newInputs = [...inputs];
-    newInputs[index].value = value;
-    setInputs(newInputs);
-    if (value) setShowWarning(false);
+  const handleInputChange = (e) => {
+    setInputSign(e.target.value);
+    console.log(e.target.value);
+    console.log(inputSign);
   };
+
+  useEffect(() => {
+    if (handoverSpecial.length === 0) {
+      customAxios.get("emr/patient?id=" + handoverPatientId).then((res) => {
+        console.log(res.data.responseData.patient);
+      });
+    }
+
+    return () => {
+      if (inputSign !== "") {
+        const newHandoverSpecial = [...handoverSpecial, inputSign];
+        setHandoverSpecial(() => newHandoverSpecial);
+      }
+    };
+  }, []);
 
   return (
     <div
@@ -73,16 +89,22 @@ export default function HandOverDetailSign() {
           overflowY: "auto",
         }}
       >
-        {inputs.map((input, index) => (
-          <React.Fragment key={index}>
-            <p>▎{input.name}</p>
-            <Textarea
-              value={input.value}
-              onChange={(e) => handleInputChange(e, index)}
-              props={"margin-bottom: 14px;"}
-            />
-          </React.Fragment>
-        ))}
+        {handoverSpecial.map((item, index) => {
+          console.log(item);
+          return (
+            <React.Fragment key={index}>
+              <Textarea
+                defaultValue={item}
+                props={"margin-bottom: 14px;"}
+              />
+            </React.Fragment>
+          );
+        })}
+        <Textarea
+          value={inputSign}
+          onChange={(e) => handleInputChange(e)}
+          props={"margin-bottom: 14px;"}
+        />
         <div style={{ height: "50px", width: "100%" }}>
           {showWarning && (
             <p

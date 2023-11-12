@@ -38,6 +38,7 @@ export default function HandOverWritePage() {
 
   useEffect(() => {
     customAxios.get("emr/patient/wardall").then((res) => {
+      console.log(res.data.responseData);
       const patientsCard = res.data.responseData.map((patientData) => {
         return {
           ...patientData.patient,

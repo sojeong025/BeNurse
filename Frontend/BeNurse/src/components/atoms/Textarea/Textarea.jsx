@@ -8,9 +8,11 @@ export default function Textarea({
   onFocus,
   onChange,
   props,
+  value,
   defaultValue,
   cols,
   rows,
+  ref,
 }) {
   const textarea = useRef();
   const handleResizeHeight = () => {
@@ -24,6 +26,7 @@ export default function Textarea({
       props={props}
     >
       <StyledTextarea
+        value={value}
         defaultValue={defaultValue}
         ref={textarea}
         placeholder={placeholder}

@@ -9,7 +9,11 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import HandOverGiveList from "@components/templates/HandOver/HandOverGiveList";
 import { customAxios } from "../../libs/axios";
 import { useWardStore } from "../../store/store";
-import { useTabBarStore, useHandoverSetStore } from "../../store/store";
+import {
+  useTabBarStore,
+  useHandoverSetStore,
+  usePatientCardStore,
+} from "../../store/store";
 
 export default function HandOverPage() {
   const {
@@ -31,12 +35,17 @@ export default function HandOverPage() {
   } = useHandoverSetStore((state) => state);
   const setWardId = useWardStore((state) => state.setWardId);
   const { currentTab, setCurrentTab } = useTabBarStore((state) => state);
+  const { completedHandover, setCompletedHandover } = usePatientCardStore(
+    (state) => state,
+  );
 
   useEffect(() => {
     customAxios.get("oauth/test/user").then((res) => {
       console.log("인수인계 메인에서 사용자 정보 조회", res);
       setWardId(res.data.responseData.wardID);
     });
+
+    const keys = Object.keys(completedHandover);
 
     setHandoverCC(() => []);
     setHandoverEtc(() => []);
@@ -47,6 +56,9 @@ export default function HandOverPage() {
     setHandoverJournalList(() => []);
     setHandoverSetId(null);
     setCurrentTab("handover");
+    keys.map((key) => {
+      setCompletedHandover(key, false);
+    });
   }, []);
   return (
     <Container
