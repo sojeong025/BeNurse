@@ -272,6 +272,8 @@ public class HandoverSetController {
 		    	r.setID(handover.getID());
 		    	r.setPatientID(handover.getPatientID());
 		    	r.setPatientName(emrResp.getResponseData().getPatient().getName());
+		    	r.setAge(emrResp.getResponseData().getPatient().getAge());
+		    	r.setGender(emrResp.getResponseData().getPatient().getGender());
 		    	r.setWardName(ward.getName());
 		    	
 		    	

@@ -16,6 +16,8 @@ public class HandoverResponse {
 	private long patientID;
 	private String patientName;
 	private String wardName;
+	private int age;
+	private String gender;
 	private List<String> special;
 	private List<String> cc;
 	private List<String> etc;
