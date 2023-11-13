@@ -33,6 +33,7 @@
     "react-swipeable": "^7.0.1",
     "react18-input-otp": "^1.1.4",
     "styled-components": "^6.1.0",
+    "swiper": "^11.0.4",
     "use-long-press": "^3.2.0",
     "zustand": "^4.4.4"
   },

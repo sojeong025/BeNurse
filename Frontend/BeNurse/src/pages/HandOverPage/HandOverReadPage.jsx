@@ -5,10 +5,13 @@ import { useParams } from "react-router-dom";
 import * as S from "./HandOverReadPage.styles";
 import { RiFileList2Line } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
+import PatientImages from "../../components/templates/Patient/PatientImages";
 
 export default function HandOverReadPage() {
   const { handoversetId } = useParams();
   const [handoverDetails, setHandoverDetails] = useState([]);
+  const [patientAge, setPatientAge] = useState();
+  const [patientSex, setPatientSex] = useState();
 
   useEffect(() => {
     customAxios
@@ -50,7 +53,13 @@ export default function HandOverReadPage() {
                 </S.Patient>
                 <div>시간</div>
               </S.HandoverPatientLeft>
-              <S.HandoverPatientRight>사진자리</S.HandoverPatientRight>
+              <S.HandoverPatientRight>
+                <PatientImages
+                  age={item.age}
+                  gender={item.gender}
+                  imgNum={item.img}
+                />
+              </S.HandoverPatientRight>
             </S.HandoverPatient>
           </NavLink>
         ))}

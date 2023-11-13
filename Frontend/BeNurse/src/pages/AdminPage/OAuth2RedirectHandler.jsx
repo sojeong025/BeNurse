@@ -46,7 +46,11 @@ const OAuth2RedirectHandler = () => {
           navigate("/main");
         }
       } else {
-        navigate("/admin/role");
+        if (hospitalID === 0) {
+          navigate("/admin/role");
+        } else {
+          navigate("/admin");
+        }
       }
     } catch (error) {
       console.log("kakaoLogin 실패");

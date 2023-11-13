@@ -153,7 +153,7 @@ export default function HandOverPage() {
                     width: "200px",
                     position: "absolute",
                     left: "48%",
-                    top: "20%",
+                    top: "22%",
                   }}
                 />
                 <span
@@ -218,7 +218,7 @@ export default function HandOverPage() {
             flex={["start"]}
           >
             <div className="temporary-container">
-              <HandOverGiveList />
+              <HandOverGiveList maxItems={3} />
             </div>
           </Box>
         </HandoverList>

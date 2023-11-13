@@ -75,6 +75,7 @@ export default function NavBar({ onSave }) {
     "/handover-write",
     "/handover-list",
     "/handover-read",
+    "/temporary-list",
   ];
 
   // 알림버튼 필요하면 여기 넣기
@@ -151,6 +152,12 @@ export default function NavBar({ onSave }) {
       setVisibility("flex");
     } else if (path.startsWith("/handover-write")) {
       setNavTitle("인수인계 작성");
+      setNavColor(Common.color.white01);
+      setNavFontColor(Common.color.black03);
+      setNavBoxShadow("0px 4px 8px 0px rgba(213, 213, 213, 0.36) ");
+      setVisibility("flex");
+    } else if (path === "/temporary-list") {
+      setNavTitle("임시저장 목록");
       setNavColor(Common.color.white01);
       setNavFontColor(Common.color.black03);
       setNavBoxShadow("0px 4px 8px 0px rgba(213, 213, 213, 0.36) ");

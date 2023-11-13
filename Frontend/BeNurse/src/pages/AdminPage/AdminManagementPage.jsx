@@ -46,6 +46,17 @@ export default function AdminManagementPage() {
     // customAxios.post;
   };
 
+  const onNurseSave = () => {
+    customAxios
+      .put(`nurse/updateall`, nurses)
+      .then((res) => {
+        console.log("간호사 수정 완료", res);
+      })
+      .catch((error) => {
+        console.error("간호사 수정 실패", error);
+      });
+  };
+
   const closeInviteModal = (e) => {
     if (e.target === e.currentTarget) {
       CloseModal();
@@ -66,12 +77,15 @@ export default function AdminManagementPage() {
   useEffect(() => {
     customAxios.get("ward/all").then((res) => {
       setWards(res.data.responseData);
+      console.log(res.data.responseData);
     });
     customAxios.get("nurse/all").then((res) => {
       setNurses(res.data.responseData);
+      console.log(res.data.responseData);
     });
     customAxios.get("device/all").then((res) => {
       setDevices(res.data.responseData);
+      console.log(res.data.responseData);
     });
   }, []);
 
@@ -102,6 +116,7 @@ export default function AdminManagementPage() {
         gap: "40px",
       }}
     >
+      {/* 병동 관리 */}
       <Box
         type={"white"}
         size={["430px", "540px"]}
@@ -156,15 +171,19 @@ export default function AdminManagementPage() {
           )}
         </div>
         <hr style={{ width: "100%", margin: "20px 0px" }} />
-        {wards?.map((item) => {
+        {wards?.map((item, i) => {
           return (
             <AdminManagementItem
               type={"ward"}
               item={item}
+              edit={edit}
+              key={i}
             />
           );
         })}
       </Box>
+
+      {/* 간호사 관리 */}
       <Box
         type={"white"}
         size={["430px", "540px"]}
@@ -181,7 +200,7 @@ export default function AdminManagementPage() {
         >
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <p style={{ fontSize: "20px", fontWeight: Common.fontWeight.bold }}>
-              직원 관리
+              간호사 관리
             </p>
             <Box
               type={"purple03"}
@@ -194,13 +213,14 @@ export default function AdminManagementPage() {
               +
             </Box>
           </div>
-          {edit === "직원 관리" ? (
+          {edit === "간호사 관리" ? (
             <Box
               type={"purple03"}
               size={["70px", "30px"]}
               props={"cursor: pointer; font-size: 12px;"}
               onClick={() => {
                 setEdit("");
+                onNurseSave();
               }}
             >
               저장
@@ -211,7 +231,7 @@ export default function AdminManagementPage() {
               size={["70px", "30px"]}
               props={"cursor: pointer; font-size: 12px;"}
               onClick={() => {
-                setEdit("직원 관리");
+                setEdit("간호사 관리");
               }}
             >
               편집
@@ -219,15 +239,30 @@ export default function AdminManagementPage() {
           )}
         </div>
         <hr style={{ width: "100%", margin: "20px 0px" }} />
-        {nurses?.map((item) => {
-          return (
-            <AdminManagementItem
-              type={"employee"}
-              item={item}
-            />
-          );
-        })}
+        <div
+          style={{
+            height: "500px",
+            overflow: "auto",
+            width: "100%",
+          }}
+        >
+          {nurses?.map((item, i) => {
+            return (
+              <AdminManagementItem
+                wards={wards}
+                type={"employee"}
+                item={item}
+                key={i}
+                edit={edit}
+                nurses={nurses}
+                setNurses={setNurses}
+              />
+            );
+          })}
+        </div>
       </Box>
+
+      {/* 장비 관리 */}
       <Box
         type={"white"}
         size={["430px", "540px"]}
@@ -282,15 +317,28 @@ export default function AdminManagementPage() {
           )}
         </div>
         <hr style={{ width: "100%", margin: "20px 0px" }} />
-        {devices?.map((item) => {
-          return (
-            <AdminManagementItem
-              type={"equipment"}
-              item={item}
-            />
-          );
-        })}
+        <div
+          style={{
+            height: "500px",
+            overflow: "auto",
+            width: "100%",
+          }}
+        >
+          {devices?.map((item, i) => {
+            return (
+              <AdminManagementItem
+                type={"equipment"}
+                item={item}
+                edit={edit}
+                key={i}
+              />
+            );
+          })}
+        </div>
       </Box>
+
+      {/* 모달창 */}
+
       {isModal === "Nurse" ? (
         inviteCode ? (
           <div
@@ -315,10 +363,11 @@ export default function AdminManagementPage() {
               <p>초대 코드</p>
               <p>{count}초 후 자동으로 종료됩니다.</p>
               <div style={{ display: "flex", gap: "4px" }}>
-                {inviteCode.map((code) => (
+                {inviteCode.map((code, i) => (
                   <Box
                     type={"purple01"}
                     size={["40px", "60px"]}
+                    key={i}
                   >
                     {code}
                   </Box>

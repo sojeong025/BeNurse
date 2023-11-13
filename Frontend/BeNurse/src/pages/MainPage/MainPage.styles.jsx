@@ -130,6 +130,7 @@ export const TipBoxContainer = styled.div`
 `;
 
 export const TipBox = styled.div`
+  cursor: pointer;
   height: 100%;
   width: 100%;
   display: flex;

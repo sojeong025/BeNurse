@@ -14,6 +14,10 @@ export const HandoverList = styled.div`
     font-weight: ${Common.fontWeight.bold};
     margin-bottom: 10px;
   }
+
+  & .handovercontext {
+    font-size: ${Common.fontSize.fontS};
+  }
 `;
 
 export const HandoverPatient = styled.div`
@@ -22,6 +26,7 @@ export const HandoverPatient = styled.div`
   width: 352px;
   height: 60px;
   margin-bottom: 20px;
+  background-color: ${Common.color.purple01};
   box-shadow:
     rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
@@ -51,4 +56,5 @@ export const HandoverPatientRight = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 100%;
 `;

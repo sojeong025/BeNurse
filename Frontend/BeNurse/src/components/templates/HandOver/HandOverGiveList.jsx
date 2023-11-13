@@ -7,9 +7,13 @@ import { NavLink } from "react-router-dom";
 
 import { Common } from "../../../utils/global.styles";
 
-export default function HandOverGiveList() {
+export default function HandOverGiveList({ maxItems }) {
   const [giveHandoverInfo, setGiveHandoverInfo] = useState([]);
   const [giveHandoversetId, setGiveHandoversetId] = useState();
+
+  const itemsToRender = maxItems
+    ? giveHandoverInfo.slice(0, maxItems)
+    : giveHandoverInfo;
 
   useEffect(() => {
     customAxios
@@ -26,7 +30,7 @@ export default function HandOverGiveList() {
 
   return (
     <S.HandOverContainer>
-      {giveHandoverInfo.map((givehandover, index) => (
+      {itemsToRender.map((givehandover, index) => (
         <NavLink
           to={`/handover-read/${givehandover.handoverSetID}`}
           key={index}
