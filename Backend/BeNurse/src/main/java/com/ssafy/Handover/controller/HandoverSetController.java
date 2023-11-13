@@ -186,6 +186,7 @@ public class HandoverSetController {
 					}
 					String worktime = work.get().getWorktime();
 					temp.setGiveWorkTime(worktime);
+					temp.setUpdatedAt(set.getTime());
 					resp.add(temp);
 				}
 			}
