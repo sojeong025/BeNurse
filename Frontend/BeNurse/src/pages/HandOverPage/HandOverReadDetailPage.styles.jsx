@@ -22,7 +22,6 @@ export const SwiperMain = styled.div`
 
 export const SwiperContainer = styled.div`
   height: 460px;
-  margin-top: 10px;
   padding: 20px;
   /* border: 1px solid black; */
 `;
@@ -35,10 +34,16 @@ export const etc = styled.div`
     rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; */
   border-bottom: 1px solid lightgray;
   width: 344px;
-  margin-bottom: 20px;
-  /* border-radius: 10px; */
+  margin-bottom: 16px;
   justify-content: center;
-  padding: 20px 0 10px 0;
+  padding: 20px 0 20px 0;
   font-size: ${Common.fontSize.fontS};
-  /* background-color: ${Common.color.purple01}; */
+  word-break: keep-all;
+  line-height: 22px;
+
+  & .icon {
+    color: ${Common.color.purple04};
+    font-size: ${Common.fontSize.fontM};
+    margin-right: 8px;
+  }
 `;
