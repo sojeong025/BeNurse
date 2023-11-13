@@ -239,7 +239,19 @@ public class NurseController {
 	    @ApiResponse(code = 404, message = "간호사를 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Nurse> updateNurseById(@RequestBody Nurse updatedNurse){		
+	public APIResponse<Nurse> updateNurseById(@RequestHeader("Authorization") String token, @RequestBody Nurse updatedNurse){	
+
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+		}
+		if(!nurse.isAdmin())
+			throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
+			
 	    try {
 	        nurseServ.save(updatedNurse);
 	        return new APIResponse<>(updatedNurse, HttpStatus.OK);
@@ -256,7 +268,18 @@ public class NurseController {
 	    @ApiResponse(code = 404, message = "간호사를 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<String> updateNurseById(@RequestBody List<NurseRequest> updatedNurseList){
+	public APIResponse<String> updateNurseById(@RequestHeader("Authorization") String token, @RequestBody List<NurseRequest> updatedNurseList){
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+		}
+		if(!nurse.isAdmin())
+			throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
+		
 		int updated = 0;
 		String failed = "";
 		for(NurseRequest nurseReq : updatedNurseList) {
