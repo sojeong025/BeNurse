@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Common } from "../../utils/global.styles";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import Logo_white from "@assets/Images/logo_white.svg";
 
@@ -21,11 +21,13 @@ export default function AdminPage() {
           backgroundColor: Common.color.purple03,
         }}
       >
-        <img
-          style={{ height: "34px" }}
-          src={Logo_white}
-          alt=""
-        />
+        <NavLink to="/admin">
+          <img
+            style={{ height: "34px" }}
+            src={Logo_white}
+            alt=""
+          />
+        </NavLink>
       </div>
       <Outlet />
       <div

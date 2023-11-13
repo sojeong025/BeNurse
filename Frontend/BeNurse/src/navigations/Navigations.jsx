@@ -238,7 +238,7 @@ export default function routes() {
           element={<AdminSelectRolePage />}
         />
         <Route
-          path="main"
+          path=""
           element={<AdminMainPage />}
         />
         <Route
