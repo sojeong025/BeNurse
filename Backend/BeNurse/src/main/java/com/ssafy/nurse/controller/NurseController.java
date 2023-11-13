@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +24,7 @@ import com.ssafy.hospital.service.HospitalService;
 import com.ssafy.hospital.service.WardService;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.nurse.request.DummyRequest;
+import com.ssafy.nurse.request.NurseRequest;
 import com.ssafy.nurse.response.NurseResponse;
 import com.ssafy.nurse.service.NurseRepository;
 import com.ssafy.nurse.service.NurseService;
@@ -239,7 +239,6 @@ public class NurseController {
 	    @ApiResponse(code = 404, message = "간호사를 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	@CachePut(value = "nurse", key = "#updatedNurse.ID")
 	public APIResponse<Nurse> updateNurseById(@RequestBody Nurse updatedNurse){		
 	    try {
 	        nurseServ.save(updatedNurse);
@@ -249,6 +248,34 @@ public class NurseController {
 	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	    }
 	}
+	
+	@PutMapping("/updateall")
+	@ApiOperation(value = "간호사 단체 수정", notes = "간호사 리스트를 받아 단체로 정보 수정") 
+	@ApiResponses({
+	    @ApiResponse(code = 200, message = "성공"),
+	    @ApiResponse(code = 404, message = "간호사를 찾을 수 없음"),
+	    @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public APIResponse<String> updateNurseById(@RequestBody List<NurseRequest> updatedNurseList){
+		int updated = 0;
+		String failed = "";
+		for(NurseRequest nurseReq : updatedNurseList) {
+		    try {
+		    	Nurse updatedNurse = nurseReq.makeNurse();
+		        nurseServ.save(updatedNurse);
+		        updated++;
+		    }catch (Exception e) {
+		    	log.error("not found nurse (id:"+ nurseReq.getID() + ")");
+		    	if(failed.length() > 0)
+		    		failed += ", ";
+		    	failed += nurseReq.getID();
+		    }
+		}
+		String resp = updated + " updated, ["+ failed + "] failed";
+        return new APIResponse<>(resp, HttpStatus.OK);
+	}
+	
+	
 	
 	@DeleteMapping("")
 	@ApiOperation(value = "간호사 삭제", notes = "간호사 정보를 삭제한다.")
