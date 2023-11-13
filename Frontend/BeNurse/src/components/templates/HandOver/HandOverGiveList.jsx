@@ -3,7 +3,7 @@ import { customAxios } from "../../../libs/axios";
 import Box from "../../atoms/Box/Box";
 import * as S from "./HandOverList.styles";
 import HandOverItem from "@assets/Icons/handoveritem.svg";
-import nurse from "@assets/Images/patient_temp.png";
+import { NavLink } from "react-router-dom";
 
 import { Common } from "../../../utils/global.styles";
 
@@ -23,38 +23,42 @@ export default function HandOverGiveList() {
         console.log(err);
       });
   }, []);
+
   return (
     <S.HandOverContainer>
       {giveHandoverInfo.map((givehandover, index) => (
-        <React.Fragment key={index}>
-          <Box
-            type={"transparent"}
-            size={["100%", "80px"]}
-            flex={["space-between", "center"]}
-            border={true}
-          >
-            <S.HandOverItem>
-              <img
-                src={HandOverItem}
-                style={{ width: "28px" }}
-                alt=""
-              />
-              <S.HandOverItemLeft>
-                <p className="handoverTitle">
-                  {givehandover.giveWorkTime === "D"
-                    ? "데이"
-                    : givehandover.giveWorkTime === "E"
-                    ? "이브닝"
-                    : "나이트"}
-                  &nbsp;타임 인계장
-                </p>
-                <p className="handoverNurseName">
-                  from. {givehandover.giveName} 간호사
-                </p>
-              </S.HandOverItemLeft>
-            </S.HandOverItem>
-            <div>
-              <p
+        <NavLink
+          to={`/handover-read/${givehandover.handoverSetID}`}
+          key={index}
+        >
+          <React.Fragment>
+            <Box
+              type={"transparent"}
+              size={["100%", "80px"]}
+              flex={["space-between", "center"]}
+              border={true}
+            >
+              <S.HandOverItem>
+                <img
+                  src={HandOverItem}
+                  style={{ width: "28px" }}
+                  alt=""
+                />
+                <S.HandOverItemLeft>
+                  <p className="handoverTitle">
+                    {givehandover.giveWorkTime === "D"
+                      ? "데이"
+                      : givehandover.giveWorkTime === "E"
+                      ? "이브닝"
+                      : "나이트"}
+                    &nbsp;타임 인계장
+                  </p>
+                  <p className="handoverNurseName">
+                    from. {givehandover.giveName} 간호사
+                  </p>
+                </S.HandOverItemLeft>
+              </S.HandOverItem>
+              <div
                 style={{
                   fontSize: Common.fontSize.fontXXS,
                   marginBottom: "0px",
@@ -70,10 +74,10 @@ export default function HandOverGiveList() {
                 >
                   읽지않음
                 </p>
-              </p>
-            </div>
-          </Box>
-        </React.Fragment>
+              </div>
+            </Box>
+          </React.Fragment>
+        </NavLink>
       ))}
     </S.HandOverContainer>
   );

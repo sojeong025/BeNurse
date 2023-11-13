@@ -4,7 +4,8 @@ import Box from "@components/atoms/Box/Box";
 import { NavLink } from "react-router-dom";
 import { WorkPart, TemporaryBox, HandoverList } from "./HandOverPage.styles";
 import write from "@assets/Images/write.png";
-import nurse from "@assets/Images/nurse.png";
+import nurse_woman from "@assets/Images/nurse_woman.png";
+import nurse_man from "@assets/Images/nurse_man.png";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import HandOverGiveList from "@components/templates/HandOver/HandOverGiveList";
 import { customAxios } from "../../libs/axios";
@@ -86,7 +87,7 @@ export default function HandOverPage() {
               </div>
               <img
                 className="nurse-image"
-                src={nurse}
+                src={nurse_woman}
               />
             </Box>
             <Box
@@ -101,7 +102,7 @@ export default function HandOverPage() {
               </div>
               <img
                 className="nurse-image"
-                src={nurse}
+                src={nurse_woman}
               />
             </Box>
             <Box
@@ -115,7 +116,7 @@ export default function HandOverPage() {
               </div>
               <img
                 className="nurse-image"
-                src={nurse}
+                src={nurse_man}
               />
             </Box>
           </div>
