@@ -317,16 +317,24 @@ export default function AdminManagementPage() {
           )}
         </div>
         <hr style={{ width: "100%", margin: "20px 0px" }} />
-        {devices?.map((item, i) => {
-          return (
-            <AdminManagementItem
-              type={"equipment"}
-              item={item}
-              edit={edit}
-              key={i}
-            />
-          );
-        })}
+        <div
+          style={{
+            height: "500px",
+            overflow: "auto",
+            width: "100%",
+          }}
+        >
+          {devices?.map((item, i) => {
+            return (
+              <AdminManagementItem
+                type={"equipment"}
+                item={item}
+                edit={edit}
+                key={i}
+              />
+            );
+          })}
+        </div>
       </Box>
 
       {/* 모달창 */}
