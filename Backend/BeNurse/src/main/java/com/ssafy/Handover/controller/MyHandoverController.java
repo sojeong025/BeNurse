@@ -208,7 +208,6 @@ public class MyHandoverController {
 				
 				resp.add(mr);
 			}catch (Exception e) {
-				e.printStackTrace();
 				log.error("not found HandoverSet (id:"+set.getID()+") or not sended");
 			}
 		}
