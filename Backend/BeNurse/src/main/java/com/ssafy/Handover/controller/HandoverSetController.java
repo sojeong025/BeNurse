@@ -42,6 +42,7 @@ import com.ssafy.PatientWard.service.PatientWardRepository;
 import com.ssafy.PatientWard.service.PatientWardService;
 import com.ssafy.Schedule.model.Schedule;
 import com.ssafy.Schedule.service.ScheduleRepository;
+import com.ssafy.common.schedule.ScheduledService;
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.common.utils.IDRequest;
 import com.ssafy.emr.model.Patient;

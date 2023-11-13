@@ -3,6 +3,7 @@ package com.ssafy.Handover.controller;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.Handover.model.HandoverSet;
 import com.ssafy.Handover.model.MyHandover;
-import com.ssafy.Handover.model.ResponseSet;
 import com.ssafy.Handover.request.MyHandoverPostRequest;
 import com.ssafy.Handover.response.MyHandoverResponse;
 import com.ssafy.Handover.service.HandoverSetRepository;
@@ -151,6 +151,7 @@ public class MyHandoverController {
 				log.error("not found myHandoverSet (id:"+mh.getSetID()+")");
 			}
 		}
+		Collections.reverse(resp);
 		
 	    return new APIResponse<>(resp, HttpStatus.OK);
 	}
@@ -211,6 +212,7 @@ public class MyHandoverController {
 				log.error("not found HandoverSet (id:"+set.getID()+") or not sended");
 			}
 		}
+		Collections.reverse(resp);
 		
 	    return new APIResponse<>(resp, HttpStatus.OK);
 	}
