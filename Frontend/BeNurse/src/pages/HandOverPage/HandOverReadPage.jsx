@@ -2,13 +2,16 @@ import Container from "@components/atoms/Container/Container";
 import { useEffect, useState } from "react";
 import { customAxios } from "../../libs/axios";
 import { useParams } from "react-router-dom";
-import Box from "@components/atoms/Box/Box";
 import * as S from "./HandOverReadPage.styles";
 import { RiFileList2Line } from "react-icons/ri";
+import { NavLink } from "react-router-dom";
+import PatientImages from "../../components/templates/Patient/PatientImages";
 
 export default function HandOverReadPage() {
   const { handoversetId } = useParams();
   const [handoverDetails, setHandoverDetails] = useState([]);
+  const [patientAge, setPatientAge] = useState();
+  const [patientSex, setPatientSex] = useState();
 
   useEffect(() => {
     customAxios
@@ -29,21 +32,36 @@ export default function HandOverReadPage() {
       flex={["center", "flex-start"]}
     >
       <div style={{ marginTop: "84px", paddingTop: "24px" }}>
-        <S.HandoverList>인계장 목록</S.HandoverList>
+        <S.HandoverList>
+          <p className="handovertitle">인계장 목록</p>
+          <p className="handovercontext">
+            현재 인계장 내의 환자 수는 {handoverDetails.length}명 입니다
+          </p>
+        </S.HandoverList>
         {handoverDetails.map((item, index) => (
-          <div
-            style={{ border: "1px solid black" }}
+          <NavLink
+            to={`${item.patientID}`}
             key={index}
           >
-            <p>
-              <RiFileList2Line />
-            </p>
-            <p>CC: {item.cc.join(", ")}</p>
-            <p>Etc: {item.etc.join(", ")}</p>
-            <p>ID: {item.id}</p>
-            <p>Patient ID: {item.patientID}</p>
-            <p>Special: {item.special.join(", ")}</p>
-          </div>
+            <S.HandoverPatient>
+              <S.HandoverPatientLeft>
+                <S.Patient>
+                  <p className="icon">
+                    <RiFileList2Line size={30} />
+                  </p>
+                  <p>{item.patientName} 환자 인계장</p>
+                </S.Patient>
+                <div>시간</div>
+              </S.HandoverPatientLeft>
+              <S.HandoverPatientRight>
+                <PatientImages
+                  age={item.age}
+                  gender={item.gender}
+                  imgNum={item.img}
+                />
+              </S.HandoverPatientRight>
+            </S.HandoverPatient>
+          </NavLink>
         ))}
       </div>
     </Container>

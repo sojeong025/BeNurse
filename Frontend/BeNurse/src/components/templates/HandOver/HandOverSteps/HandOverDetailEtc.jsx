@@ -11,6 +11,7 @@ export default function HandOverDetailCC() {
   const { handoverEtc, setHandoverEtc, handoverPatientId } =
     useHandoverSetStore((state) => state);
   const [inputEtc, setInputEtc] = useState("");
+  const [showInput, setShowInput] = useState(false);
 
   const addInput = () => {
     if (inputEtc !== "") {
@@ -99,11 +100,13 @@ export default function HandOverDetailCC() {
             </React.Fragment>
           );
         })}
-        <Textarea
-          value={inputEtc}
-          onChange={(e) => handleInputChange(e)}
-          props={"margin-bottom: 14px;"}
-        />
+        {showInput && (
+          <Textarea
+            value={inputEtc}
+            onChange={(e) => handleInputChange(e)}
+            props={"margin-bottom: 14px;"}
+          />
+        )}
         <div style={{ height: "50px", width: "100%" }}>
           {showWarning && (
             <p
@@ -117,14 +120,30 @@ export default function HandOverDetailCC() {
               내용을 입력해주세요.
             </p>
           )}
-          <Button
-            variant="primary"
-            height="50px"
-            width="100%"
-            onClick={addInput}
-          >
-            추가
-          </Button>
+          {inputEtc === "" ? (
+            <Button
+              variant="primary"
+              height="50px"
+              width="100%"
+              onClick={() => {
+                setShowInput(true);
+              }}
+            >
+              추가
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              height="50px"
+              width="100%"
+              onClick={() => {
+                addInput();
+                setShowInput(false);
+              }}
+            >
+              저장
+            </Button>
+          )}
         </div>
       </div>
     </div>

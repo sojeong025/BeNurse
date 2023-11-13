@@ -22,6 +22,7 @@ import HandOverPatientPage from "@pages/HandOverPage/HandOverWritePages/HandOver
 import HandOverWriteStep from "@pages/HandOverPage/HandOverWritePages/HandOverWriteStep";
 import HandOverListPage from "@pages/HandOverPage/HandOverListPage";
 import HandOverReadPage from "@pages/HandOverPage/HandOverReadPage";
+import HandOverReadDetailPage from "@pages/HandOverPage/HandOverReadDetailPage";
 import HandOverNurseSelectPage from "@pages/HandOverPage/HandOverNurseSelectPage";
 import HandOverFinishPage from "@pages/HandOverPage/HandOverFinishPage";
 
@@ -151,6 +152,10 @@ export default function routes() {
       <Route
         path="/handover-read/:handoversetId"
         element={<HandOverReadPage />}
+      />
+      <Route
+        path="/handover-read/:handoversetId/:patientId"
+        element={<HandOverReadDetailPage />}
       />
       <Route
         path="/handover-list/patients"

@@ -39,11 +39,16 @@ export default function HandOverPage() {
   const { completedHandover, setCompletedHandover } = usePatientCardStore(
     (state) => state,
   );
+  const [tempHandover, setTempHandover] = useState([]);
 
   useEffect(() => {
     customAxios.get("oauth/test/user").then((res) => {
       console.log("인수인계 메인에서 사용자 정보 조회", res);
       setWardId(res.data.responseData.wardID);
+    });
+
+    customAxios.get("HandoverSet/tempsave").then((res) => {
+      setTempHandover(res.data.responseData);
     });
 
     const keys = Object.keys(completedHandover);
@@ -148,7 +153,7 @@ export default function HandOverPage() {
                     width: "200px",
                     position: "absolute",
                     left: "48%",
-                    top: "20%",
+                    top: "22%",
                   }}
                 />
                 <span
@@ -185,7 +190,7 @@ export default function HandOverPage() {
                     className="list-count"
                     style={{ fontSize: "14px" }}
                   >
-                    3
+                    {tempHandover.length}
                   </p>
                   <p className="arrow">
                     <MdKeyboardArrowRight />
