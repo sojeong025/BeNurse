@@ -17,6 +17,7 @@ import * as THREE from "three";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { gsap } from "gsap/gsap-core";
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 import { BottomSheet } from "react-spring-bottom-sheet";
 
 // emotion
@@ -129,21 +130,41 @@ export default function DevicePage() {
       />
     );
   }
-  function HospitalOutsideGLTF(props) {
-    const groupRef = useRef();
-    const { nodes, materials } = useGLTF(
-      "src/assets/GLTFModels/HospitalOutside.glb",
-    );
-    return (
-      <mesh
-        {...props}
-        castShadow
-        receiveShadow
-        geometry={nodes.Mesh_Mesh_head_geo001_lambert2SG001.geometry}
-        material={nodes.Mesh_Mesh_head_geo001_lambert2SG001.material}
-      />
-    );
+  function HospitalOutsideGLTF({ scale, position, rotation }) {
+    const { scene } = useThree();
+    const [model, setModel] = useState();
+
+    useEffect(() => {
+      const loader = new FBXLoader();
+      loader.load("src/assets/GLTFModels/ssafy_hospital.fbx", (fbx) => {
+        fbx.traverse(function (child) {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
+        });
+        fbx.scale.set(...scale);
+        fbx.position.set(...position);
+        fbx.rotation.set(...rotation);
+        setModel(fbx);
+      });
+    }, [scale, position, rotation]);
+
+    useEffect(() => {
+      if (model) {
+        scene.add(model);
+      }
+
+      return () => {
+        if (model) {
+          scene.remove(model);
+        }
+      };
+    }, [model, scene]);
+
+    return null;
   }
+
   function BeaconGLTF(props) {
     const { nodes, materials } = useGLTF("src/assets/GLTFModels/Beacon.glb");
     const beaconRef = useRef();
@@ -403,9 +424,9 @@ export default function DevicePage() {
             </>
             {!selectedDevice && (
               <HospitalOutsideGLTF
-                scale={1}
-                position={[10, -20, -12]}
-                rotation={[0, 0, 0.5]}
+                scale={[4.2, 4.2, 4.2]}
+                position={[0, -8, -10]}
+                rotation={[-Math.PI / 2, -0.6, Math.PI]}
               />
             )}
             <GroundGLTF
