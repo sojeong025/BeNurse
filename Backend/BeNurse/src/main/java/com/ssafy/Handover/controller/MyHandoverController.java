@@ -177,6 +177,10 @@ public class MyHandoverController {
 		List<MyHandoverResponse> resp = new ArrayList<>();
 		for(HandoverSet set : handoverSet) {
 			try {
+				List<MyHandover> exist = myhoRepo.findAllBySetID(set.getID());
+				if(exist.size() == 0)
+					throw new Exception();
+				
 				log.info(set.toString());
 				MyHandoverResponse mr = new MyHandoverResponse();
 				
@@ -205,7 +209,7 @@ public class MyHandoverController {
 				resp.add(mr);
 			}catch (Exception e) {
 				e.printStackTrace();
-				log.error("not found HandoverSet (id:"+set.getID()+")");
+				log.error("not found HandoverSet (id:"+set.getID()+") or not sended");
 			}
 		}
 		
