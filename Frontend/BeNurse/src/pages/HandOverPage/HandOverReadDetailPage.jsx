@@ -12,8 +12,7 @@ import { Pagination } from "swiper/modules";
 
 export default function HandOverReadDetailPage() {
   const { handoversetId, patientID } = useParams();
-  const [journalId, setJournalId] = useState();
-  const [journalData, setJournalData] = useState([]);
+  const [journalDatas, setJournalDatas] = useState([]);
 
   const [handoverDetails, setHandoverDetails] = useState([]);
 
@@ -31,24 +30,28 @@ export default function HandOverReadDetailPage() {
         console.log("인계장 detail 요청", res);
         setHandoverDetails(res.data.responseData);
 
-        const firstJournalId = res.data.responseData[0]?.journals[0]?.journalID;
-        if (firstJournalId) {
-          setJournalId(firstJournalId);
+        const journalIds = res.data.responseData[0]?.journals.map(
+          (journal) => journal.journalID,
+        );
+        if (journalIds) {
+          journalIds.forEach((id) => {
+            customAxios
+              .get("emr/journal", {
+                params: {
+                  id: id,
+                },
+              })
+              .then((res) => {
+                console.log("인계장 detail에서 journal 조회", res);
+                setJournalDatas((prevData) => [
+                  ...prevData,
+                  res.data.responseData,
+                ]);
+              });
+          });
         }
       });
   }, [handoversetId]);
-
-  useEffect(() => {
-    customAxios
-      .get("emr/journal", {
-        params: {
-          id: journalId,
-        },
-      })
-      .then((res) => {
-        console.log("인계장 detail에서 journal 조회", res);
-      });
-  });
 
   return (
     <Container
@@ -106,30 +109,46 @@ export default function HandOverReadDetailPage() {
           {activeIndex === 0 && (
             <S.SwiperContainer>
               <div>
-                {handoverDetails[0]?.journals
-                  ?.map((journal) => journal.comment)
-                  .join(", ")}
+                {handoverDetails[0]?.journals?.map((item, index) => (
+                  <S.etc key={index}>
+                    <div style={{ display: "flex" }}>
+                      <div className="icon">✦</div> <div>{item.comment}</div>
+                    </div>
+                  </S.etc>
+                ))}
               </div>
             </S.SwiperContainer>
           )}
           {activeIndex === 1 && (
             <S.SwiperContainer>
               {handoverDetails[0]?.cc?.map((item, index) => (
-                <S.etc key={index}>{item}</S.etc>
+                <S.etc key={index}>
+                  <div style={{ display: "flex" }}>
+                    <div className="icon">✦</div> <div>{item}</div>
+                  </div>
+                </S.etc>
               ))}
             </S.SwiperContainer>
           )}
           {activeIndex === 2 && (
             <S.SwiperContainer>
               {handoverDetails[0]?.special?.map((item, index) => (
-                <S.etc key={index}>{item}</S.etc>
+                <S.etc key={index}>
+                  <div style={{ display: "flex" }}>
+                    <div className="icon">✦</div> <div>{item}</div>
+                  </div>
+                </S.etc>
               ))}
             </S.SwiperContainer>
           )}
           {activeIndex === 3 && (
             <S.SwiperContainer>
               {handoverDetails[0]?.etc?.map((item, index) => (
-                <S.etc key={index}>{item}</S.etc>
+                <S.etc key={index}>
+                  <div style={{ display: "flex" }}>
+                    <div className="icon">✦</div> <div>{item}</div>
+                  </div>
+                </S.etc>
               ))}
             </S.SwiperContainer>
           )}
