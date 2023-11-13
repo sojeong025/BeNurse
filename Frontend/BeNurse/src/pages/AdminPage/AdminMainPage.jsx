@@ -11,6 +11,8 @@ import AdminCalendar from "../../components/templates/Admin/AdminCalendar";
 import nurseImg from "@assets/Images/patient_temp.png";
 import { useAdminStore } from "../../store/store";
 
+import * as S from "./AdminMainPage.styles";
+
 export default function AdminMainPage() {
   const [hospital, setHospital] = useState(null);
   const today = new Date();
@@ -23,10 +25,10 @@ export default function AdminMainPage() {
   const navigate = useNavigate();
 
   const createSchedule = () => {
-    navigate("../create-schedule");
+    navigate("create-schedule");
   };
   const management = () => {
-    navigate("../management");
+    navigate("management");
   };
 
   useEffect(() => {
@@ -66,9 +68,24 @@ export default function AdminMainPage() {
         >
           <AdminCalendar />
           <div>
-            <p style={{ marginLeft: "20px", marginBottom: "20px" }}>
-              {selectedDate}일 근무자
-            </p>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginLeft: "20px",
+                marginBottom: "20px",
+              }}
+            >
+              <p>{selectedDate}일 근무자</p>
+              <S.StateWrapper>
+                <S.State type={"D"}>DAY</S.State>
+                <S.State type={"E"}>EVENING</S.State>
+                <S.State type={"N"}>NIGHT</S.State>
+                <S.State type={"O"}>OFF</S.State>
+              </S.StateWrapper>
+            </div>
+
             {schedule && schedule.length > 0 ? (
               <div
                 style={{
