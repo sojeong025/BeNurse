@@ -5,10 +5,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +27,7 @@ import com.ssafy.Handover.model.HandoverSet;
 import com.ssafy.Handover.model.MyHandover;
 import com.ssafy.Handover.request.HandoverRequest;
 import com.ssafy.Handover.request.JournalRequest;
+import com.ssafy.Handover.response.HandoverResponse;
 import com.ssafy.Handover.response.HandoverSetResponse;
 import com.ssafy.Handover.service.HandoverContentRepository;
 import com.ssafy.Handover.service.HandoverListRepository;
@@ -38,10 +37,18 @@ import com.ssafy.Handover.service.HandoverSetRepository;
 import com.ssafy.Handover.service.HandoverSetService;
 import com.ssafy.Handover.service.MyHandoverRepository;
 import com.ssafy.Handover.service.MyHandoverService;
+import com.ssafy.PatientWard.model.PatientWard;
+import com.ssafy.PatientWard.service.PatientWardRepository;
+import com.ssafy.PatientWard.service.PatientWardService;
 import com.ssafy.Schedule.model.Schedule;
 import com.ssafy.Schedule.service.ScheduleRepository;
 import com.ssafy.common.utils.APIResponse;
 import com.ssafy.common.utils.IDRequest;
+import com.ssafy.emr.model.Patient;
+import com.ssafy.emr.model.PatientResponse;
+import com.ssafy.emr.service.EMRService;
+import com.ssafy.hospital.model.Ward;
+import com.ssafy.hospital.service.WardService;
 import com.ssafy.nurse.model.Nurse;
 import com.ssafy.oauth.serivce.OauthService;
 
@@ -84,6 +91,15 @@ public class HandoverSetController {
 	
 	@Autowired
 	ScheduleRepository scheduleRepo;
+	
+	@Autowired
+	EMRService emrService;
+	
+	@Autowired
+	WardService wardServ;
+	
+	@Autowired
+	PatientWardService pwServ;
 	
 	@Autowired
 	OauthService oauthService;
@@ -202,13 +218,16 @@ public class HandoverSetController {
 
 	// 인수자 인계장 조회 GET [인계자 ID]
 	@GetMapping("/details")
-	@ApiOperation(value = "인계장 묶음 내역 조회", notes = "인계장 묶음 ID를 통해 인계장 묶음에 포함된 인계장 조회") 
+	@ApiOperation(value = "인계장 묶음 내역 조회", notes = "인계장 묶음 ID를 통해 인계장 묶음에 포함된 인계장 조회\n환자 ID를 같이 보내면 해당 환자에 대한 인수인계만 나옵니다.") 
 	@ApiResponses({
-	    @ApiResponse(code = 200, message = "성공", response = HandoverRequest.class),
+	    @ApiResponse(code = 200, message = "성공", response = HandoverResponse.class),
 	    @ApiResponse(code = 404, message = "인계장을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<List<HandoverRequest>> getDetail(@RequestHeader("Authorization") String token, @RequestParam("ID") long ID){
+	public APIResponse<List<HandoverResponse>> getDetail(
+			@RequestHeader("Authorization") String token,
+			@RequestParam("ID") long ID,
+			@RequestParam(name = "patientID", required = false, defaultValue = "0") long patientID){
 
 		Nurse nurse;
 		// 사용자 조회
@@ -237,13 +256,24 @@ public class HandoverSetController {
 	    }
 		
 		List<HandoverList> list = listRepo.findAllBySetID(ID);
-		List<HandoverRequest> resp = new ArrayList<>();
+		List<HandoverResponse> resp = new ArrayList<>();
 		for(HandoverList l : list) {
 			try {
-				HandoverRequest r = new HandoverRequest();
+				HandoverResponse r = new HandoverResponse();
 				Handover handover = handoverServ.findById(l.getHandoverID());
+				if(patientID != 0 && handover.getPatientID() != patientID)
+					throw new Exception();
+				
+				APIResponse<PatientResponse> emrResp = emrService.getPatientById(handover.getPatientID());
+				PatientWard pw= pwServ.findById(handover.getPatientID());
+		    	Ward ward = wardServ.findById(pw.getWardID());
+				
 		    	r.setID(handover.getID());
 		    	r.setPatientID(handover.getPatientID());
+		    	r.setPatientName(emrResp.getResponseData().getPatient().getName());
+		    	r.setWardName(ward.getName());
+		    	
+		    	
 		    	r.setSpecial(new ArrayList<>());
 		    	r.setCc(new ArrayList<>());
 		    	r.setEtc(new ArrayList<>());
@@ -271,7 +301,7 @@ public class HandoverSetController {
 				
 				resp.add(r);
 			}catch (Exception e) {
-				log.error("not found handover (id:"+ l.getHandoverID() +")");
+				log.error("not found handover (id:"+ l.getHandoverID() +") or patient not match");
 			}
 		}
 		return new APIResponse<>(resp, HttpStatus.OK);
