@@ -17,6 +17,7 @@ export const StyledTabBar = styled.div`
 `;
 
 export const styledTabBarIcon = styled.div`
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
