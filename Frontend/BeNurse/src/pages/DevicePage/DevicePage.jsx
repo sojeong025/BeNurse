@@ -15,7 +15,13 @@ import RecentUsageHeader from "../../components/templates/DeviceItem/RecentUsage
 // three.js
 import * as THREE from "three";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
+import {
+  useGLTF,
+  OrbitControls,
+  OrthographicCamera,
+  EnvironmentMap,
+  SpotLight,
+} from "@react-three/drei";
 import { gsap } from "gsap/gsap-core";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 import { BottomSheet } from "react-spring-bottom-sheet";
@@ -25,6 +31,7 @@ import Container from "../../components/atoms/Container/Container";
 import Button from "../../components/atoms/Button/Button";
 import Input from "../../components/atoms/Input/Input";
 import Box from "../../components/atoms/Box/Box";
+import { StyledImg1, StyledImg2 } from "./DevicePage.styles";
 
 // icons
 import deviceListIcon from "@assets/Icons/deviceList.svg";
@@ -39,6 +46,7 @@ import { useTabBarStore } from "../../store/store";
 
 // Images
 import temp from "@assets/Images/temp.png";
+import cloud from "@assets/Images/cloud.png";
 
 export default function DevicePage() {
   const [devices, setDevices] = useState(null);
@@ -56,43 +64,43 @@ export default function DevicePage() {
   const locationData = {
     소회의실: {
       camera: {
-        x: -4,
-        y: -50,
-        z: 66,
-        duration: 0.8,
+        x: 4,
+        y: 3,
+        z: 4,
+        duration: 1,
         ease: "ease-in-out",
       },
-      beacon: [-3, 2, 50],
+      beacon: [5, 30, 0],
     },
     로비: {
       camera: {
-        x: -30,
-        y: -90,
-        z: 10,
-        duration: 0.8,
+        x: 3,
+        y: 0,
+        z: 2,
+        duration: 1,
         ease: "ease-in-out",
       },
-      beacon: [-34, -5, -19],
+      beacon: [-20, -14, 14],
     },
     201: {
       camera: {
-        x: 0,
-        y: -70,
-        z: 36,
-        duration: 0.8,
+        x: 4,
+        y: 0,
+        z: 4,
+        duration: 1,
         ease: "ease-in-out",
       },
-      beacon: [-3, 12, 19],
+      beacon: [5, 10, 0],
     },
     202: {
       camera: {
-        x: 30,
-        y: -40,
-        z: 36,
-        duration: 0.8,
+        x: 10,
+        y: 0,
+        z: 4,
+        duration: 1,
         ease: "ease-in-out",
       },
-      beacon: [27, 26, 19],
+      beacon: [30, 10, -16],
     },
   };
 
@@ -104,19 +112,6 @@ export default function DevicePage() {
   }
 
   //three.js models
-  function GroundGLTF(props) {
-    const groupRef = useRef();
-    const { nodes, materials } = useGLTF("src/assets/GLTFModels/Ground.glb");
-    return (
-      <mesh
-        {...props}
-        castShadow
-        receiveShadow
-        geometry={nodes.Mesh_Mesh_head_geo001_lambert2SG001.geometry}
-        material={nodes.Mesh_Mesh_head_geo001_lambert2SG001.material}
-      />
-    );
-  }
   function HospitalGLTF(props) {
     const groupRef = useRef();
     const { nodes, materials } = useGLTF("src/assets/GLTFModels/Hospital.glb");
@@ -127,6 +122,7 @@ export default function DevicePage() {
         receiveShadow
         geometry={nodes.Mesh_Mesh_head_geo001_lambert2SG001.geometry}
         material={nodes.Mesh_Mesh_head_geo001_lambert2SG001.material}
+        roughness={1}
       />
     );
   }
@@ -171,7 +167,7 @@ export default function DevicePage() {
     const beaconMaterial = new THREE.MeshStandardMaterial({
       color: "#C13232",
       transparent: true,
-      roughness: 1,
+      roughness: 4,
       opacity: selectedDevice ? 1 : 0,
       flatShading: true,
     });
@@ -209,14 +205,6 @@ export default function DevicePage() {
       if (selectedDevice) {
         beacon &&
           gsap.to(camera.position, locationData[beacon.location].camera);
-      } else {
-        gsap.to(camera.position, {
-          x: 1,
-          y: -180,
-          z: 100,
-          duration: 0.8,
-          ease: "ease-in-out",
-        });
       }
       // camera={{ position: [0, -100, 120] }}
     }, [position, selectedDevice]);
@@ -326,7 +314,15 @@ export default function DevicePage() {
     );
   } else {
     return (
-      <Container backgroundColor={"purple"}>
+      <Container props={"background-color: #adcff8;"}>
+        <StyledImg1
+          src={cloud}
+          alt=""
+        />
+        <StyledImg2
+          src={cloud}
+          alt=""
+        />
         <div
           style={{
             position: "absolute",
@@ -378,64 +374,81 @@ export default function DevicePage() {
             marginTop: "74px",
             width: "412px",
             height: "736px",
-            backgroundColor: "#E7E6F5",
+            backgroundColor: "#0xffffff",
           }}
-          camera={{ position: [1, -180, 100] }}
-          // camera={{ position: [0, -100, 120] }}
-          flat={true}
+          shadowMap
+          colorManagement
+          roughness={1}
+          gl={{ toneMapping: THREE.CineonToneMapping }}
+          camera={{ position: [1, -180, 100], fo: 90 }}
         >
           <Suspense>
-            <ambientLight intensity={2} />
-            <directionalLight
-              color="white"
+            <fog
+              attach="fog"
+              args={["white", 0, 550]}
+            />
+            <ambientLight
               intensity={1}
-              position={[-10, -30, 30]}
+              castShadow={true}
             />
             <directionalLight
               color="white"
+              castShadow={true}
+              intensity={3}
+              position={[-10, 150, 40]}
+            />
+            <directionalLight
+              color="white"
+              castShadow={true}
               intensity={2}
-              position={[100, -100, 30]}
+              position={[100, 150, 30]}
             />
             <directionalLight
               color="white"
-              intensity={1}
+              castShadow={true}
+              intensity={15}
               position={[1000, -30, 30]}
             />
             <HospitalGLTF
-              scale={0.52}
-              position={[3, 0, 34]}
-              rotation={[0, 0, 0.5]}
+              scale={0.44}
+              position={[10, 20, 10]}
+              rotation={[Math.PI / 2, Math.PI, (Math.PI / 6) * 7]}
             />
             <BeaconGLTF
               scale={0.4}
               position={beacon && locationData[beacon.location].beacon}
+              rotation={[-Math.PI / 2, 0, 0]}
             />
             <>
               <HospitalGLTF
-                scale={0.53}
-                position={[3, 0, 7]}
-                rotation={[0, 0, 0.5]}
+                scale={0.44}
+                position={[10, 0, 10]}
+                rotation={[Math.PI / 2, Math.PI, (Math.PI / 6) * 7]}
               />
               <HospitalGLTF
-                scale={0.54}
-                position={[3, 0, -24]}
-                rotation={[0, 0, 0.5]}
+                scale={0.44}
+                position={[10, -20, 10]}
+                rotation={[Math.PI / 2, Math.PI, (Math.PI / 6) * 7]}
               />
             </>
             {!selectedDevice && (
               <HospitalOutsideGLTF
-                scale={[4.2, 4.2, 4.2]}
-                position={[0, -8, -10]}
-                rotation={[-Math.PI / 2, -0.6, Math.PI]}
+                scale={[4, 4, 4]}
+                roughness={1}
+                position={[0, -30, 16]}
+                rotation={[0, (Math.PI / 6) * 7, 0]}
               />
             )}
-            <GroundGLTF
-              scale={2.4}
-              position={[0, 0, -40]}
-              rotation={[0, 0, 0.5]}
-              flatShading={true}
-            />
             <CameraMove />
+            <OrbitControls
+              rotateSpeed={0.4}
+              minDistance={140}
+              maxDistance={230}
+              minAzimuthAngle={Math.PI / 20}
+              maxAzimuthAngle={Math.PI / 0}
+              minPolarAngle={Math.PI / 4}
+              maxPolarAngle={Math.PI / 2.1}
+            />
           </Suspense>
         </Canvas>
         <BottomSheet
