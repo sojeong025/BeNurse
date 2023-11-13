@@ -268,12 +268,14 @@ public class HandoverSetController {
 				APIResponse<PatientResponse> emrResp = emrService.getPatientById(handover.getPatientID());
 				PatientWard pw= pwServ.findById(handover.getPatientID());
 		    	Ward ward = wardServ.findById(pw.getWardID());
+		    	Patient patient = emrResp.getResponseData().getPatient();
 				
 		    	r.setID(handover.getID());
 		    	r.setPatientID(handover.getPatientID());
-		    	r.setPatientName(emrResp.getResponseData().getPatient().getName());
-		    	r.setAge(emrResp.getResponseData().getPatient().getAge());
-		    	r.setGender(emrResp.getResponseData().getPatient().getGender());
+		    	r.setPatientName(patient.getName());
+		    	r.setAge(patient.getAge());
+		    	r.setGender(patient.getGender());
+		    	r.setImg(patient.getImg());
 		    	r.setWardName(ward.getName());
 		    	
 		    	
