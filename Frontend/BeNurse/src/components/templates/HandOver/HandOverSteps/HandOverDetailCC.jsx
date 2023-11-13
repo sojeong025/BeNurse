@@ -13,6 +13,7 @@ export default function HandOverDetailCC() {
     (state) => state,
   );
   const [inputCC, setInputCC] = useState("");
+  const [showInput, setShowInput] = useState(false);
 
   const addInput = () => {
     if (inputCC !== "") {
@@ -35,6 +36,8 @@ export default function HandOverDetailCC() {
       customAxios.get("emr/patient?id=" + handoverPatientId).then((res) => {
         setHandoverCC(() => res.data.responseData.patient.cc);
       });
+    } else {
+      console.log("인계인계");
     }
 
     return () => {
@@ -101,11 +104,13 @@ export default function HandOverDetailCC() {
             </React.Fragment>
           );
         })}
-        <Textarea
-          value={inputCC}
-          onChange={(e) => handleInputChange(e)}
-          props={"margin-bottom: 14px;"}
-        />
+        {showInput && (
+          <Textarea
+            value={inputCC}
+            onChange={(e) => handleInputChange(e)}
+            props={"margin-bottom: 14px;"}
+          />
+        )}
         <div style={{ height: "50px", width: "100%" }}>
           {showWarning && (
             <p
@@ -119,14 +124,30 @@ export default function HandOverDetailCC() {
               내용을 입력해주세요.
             </p>
           )}
-          <Button
-            variant="primary"
-            height="50px"
-            width="100%"
-            onClick={addInput}
-          >
-            추가
-          </Button>
+          {inputCC === "" ? (
+            <Button
+              variant="primary"
+              height="50px"
+              width="100%"
+              onClick={() => {
+                setShowInput(true);
+              }}
+            >
+              추가
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              height="50px"
+              width="100%"
+              onClick={() => {
+                addInput();
+                setShowInput(false);
+              }}
+            >
+              저장
+            </Button>
+          )}
         </div>
       </div>
     </div>
