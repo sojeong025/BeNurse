@@ -51,14 +51,6 @@ export default function HandOverDetailNurse() {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("isTemporary") === "temp") {
-      customAxios.get("Handover?ID=" + handoverId).then((res) => {
-        setHandoverJournalList(res.data.responseData.journals);
-      });
-    } else {
-      console.log("new");
-    }
-
     if (handoverJournalList.length > 0) {
       const newHandoverJournals = [];
       handoverJournalList.map((id) => {

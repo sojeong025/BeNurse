@@ -12,6 +12,7 @@ export default function HandOverDetailSign() {
     useHandoverSetStore((state) => state);
   const [inputs, setInputs] = useState([{ name: "특이사항 1", value: "" }]);
   const [showWarning, setShowWarning] = useState(false);
+  const [showInput, setShowInput] = useState(false);
 
   const addInput = () => {
     if (inputSign !== "") {
@@ -100,11 +101,13 @@ export default function HandOverDetailSign() {
             </React.Fragment>
           );
         })}
-        <Textarea
-          value={inputSign}
-          onChange={(e) => handleInputChange(e)}
-          props={"margin-bottom: 14px;"}
-        />
+        {showInput && (
+          <Textarea
+            value={inputSign}
+            onChange={(e) => handleInputChange(e)}
+            props={"margin-bottom: 14px;"}
+          />
+        )}
         <div style={{ height: "50px", width: "100%" }}>
           {showWarning && (
             <p
@@ -118,14 +121,30 @@ export default function HandOverDetailSign() {
               내용을 입력해주세요.
             </p>
           )}
-          <Button
-            variant="primary"
-            height="50px"
-            width="100%"
-            onClick={addInput}
-          >
-            추가
-          </Button>
+          {inputSign === "" ? (
+            <Button
+              variant="primary"
+              height="50px"
+              width="100%"
+              onClick={() => {
+                setShowInput(true);
+              }}
+            >
+              추가
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              height="50px"
+              width="100%"
+              onClick={() => {
+                addInput();
+                setShowInput(false);
+              }}
+            >
+              저장
+            </Button>
+          )}
         </div>
       </div>
     </div>

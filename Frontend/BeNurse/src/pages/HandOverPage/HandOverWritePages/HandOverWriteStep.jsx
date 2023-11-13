@@ -30,6 +30,7 @@ export default function HandOverWriteStep() {
   } = useHandoverSetStore((state) => state);
 
   const onTempSave = () => {
+    console.log(handoverId);
     const data = {
       handover: {
         cc: handoverCC,
@@ -76,6 +77,7 @@ export default function HandOverWriteStep() {
   }, [current]);
 
   const handleCompleteClick = () => {
+    onTempSave();
     navigate("/handover-write");
   };
 

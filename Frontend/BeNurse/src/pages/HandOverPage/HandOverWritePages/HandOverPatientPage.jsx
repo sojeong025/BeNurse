@@ -45,6 +45,8 @@ export default function HandOverPatientPage() {
         const handover = res.data.responseData.filter(
           (item) => item.patientID.toString() === patientId,
         )[0];
+        console.log("이미 환자 인계장 존재함");
+        console.log(handover);
         setHandoverId(handover.id);
         setHandoverPatientId(patientId);
         setHandoverJournals(() => handover.journals);
@@ -70,6 +72,7 @@ export default function HandOverPatientPage() {
           setID: handoverSetId,
         };
         customAxios.post("Handover", data).then((res) => {
+          console.log(res.data.responseData);
           setHandoverId(res.data.responseData.id);
           setHandoverPatientId(patientId);
           setHandoverJournals(() => []);

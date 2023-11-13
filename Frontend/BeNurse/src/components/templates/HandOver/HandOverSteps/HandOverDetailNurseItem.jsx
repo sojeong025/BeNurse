@@ -15,7 +15,6 @@ export default function HandOverDetailNurseItem({ item }) {
 
   const handleInputChange = (e) => {
     updatedJournal.comment = e.target.value;
-    console.log(updatedJournal);
   };
 
   useEffect(() => {
@@ -31,7 +30,6 @@ export default function HandOverDetailNurseItem({ item }) {
         }),
         updatedJournal,
       ];
-      setHandoverId(null);
       setHandoverJournals(() => newHandoverJournal);
     };
   }, []);
