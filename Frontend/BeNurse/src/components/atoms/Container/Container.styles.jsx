@@ -15,4 +15,5 @@ export const StyledContainer = styled.div`
       ? "#E7E6F5"
       : ""};
   overflow: ${({ overflow }) => overflow};
+  ${({ props }) => props}
 `;

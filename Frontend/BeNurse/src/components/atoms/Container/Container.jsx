@@ -6,12 +6,14 @@ export default function Container({
   flex,
   backgroundColor,
   overflow,
+  props,
 }) {
   return (
     <S.StyledContainer
       flex={flex}
       backgroundColor={backgroundColor}
       overflow={overflow}
+      props={props}
     >
       {children}
     </S.StyledContainer>
