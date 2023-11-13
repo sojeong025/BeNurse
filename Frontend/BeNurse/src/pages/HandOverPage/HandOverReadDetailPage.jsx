@@ -85,7 +85,7 @@ export default function HandOverReadDetailPage() {
             <S.SwiperMain>
               <p className="title">특이 사항(Significant)</p>
               <p className="context">
-                환자의 건강 상태나 간호 중에 발생한 특별한 사항을 의미합니다.
+                환자의 건강 상태나 간호 중 특별한 사항을 의미합니다.
                 <br />
                 인계자가 추가적으로 남긴 코멘트를 확인하세요
               </p>

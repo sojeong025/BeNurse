@@ -218,7 +218,7 @@ export default function HandOverPage() {
             flex={["start"]}
           >
             <div className="temporary-container">
-              <HandOverGiveList />
+              <HandOverGiveList maxItems={3} />
             </div>
           </Box>
         </HandoverList>
