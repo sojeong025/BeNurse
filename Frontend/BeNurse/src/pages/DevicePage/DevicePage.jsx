@@ -11,6 +11,7 @@ import { customAxios } from "../../libs/axios";
 import DeviceItem from "../../components/templates/DeviceItem/DeviceItem";
 import RecentUsageList from "../../components/templates/DeviceItem/RecentUsageList";
 import RecentUsageHeader from "../../components/templates/DeviceItem/RecentUsageHeader";
+import DeviceRendering from "../../components/templates/DeviceItem/DeviceRendering";
 
 // three.js
 import * as THREE from "three";
@@ -49,6 +50,8 @@ import temp from "@assets/Images/temp.png";
 import cloud from "@assets/Images/cloud.png";
 
 export default function DevicePage() {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const [devices, setDevices] = useState(null);
   const [selectedDevice, setSelectedDevice] = useState(null);
   const [deviceHistory, setDeviceHistory] = useState(null);
@@ -361,20 +364,24 @@ export default function DevicePage() {
           />
         </div>
         {!selectedDevice && (
-          <Box
-            type={"white"}
-            size={["70px", "70px"]}
-            props={
-              "position: absolute; right: 30px; bottom: 90px; z-index: 100; border-radius: 40px; flex-direction: column;"
-            }
-            onClick={activateNFC}
-          >
-            <SiNfc
-              size={30}
-              color={Common.color.purple03}
-            />
-          </Box>
+          <>
+            <DeviceRendering />
+            <Box
+              type={"white"}
+              size={["70px", "70px"]}
+              props={
+                "position: absolute; right: 30px; bottom: 90px; z-index: 100; border-radius: 40px; flex-direction: column;"
+              }
+              onClick={activateNFC}
+            >
+              <SiNfc
+                size={30}
+                color={Common.color.purple03}
+              />
+            </Box>
+          </>
         )}
+
         <Canvas
           style={{
             marginTop: "74px",
@@ -382,8 +389,6 @@ export default function DevicePage() {
             height: "736px",
             backgroundColor: "#0xffffff",
           }}
-          shadowMap
-          colorManagement
           roughness={1}
           gl={{ toneMapping: THREE.CineonToneMapping }}
           camera={{

@@ -84,25 +84,16 @@ export default function ScheduleCalendar() {
         day: i,
         isCurMonth: true,
         type: scheduleData[dateString]?.worktime || "O",
-        monthType: "cur",
       });
     }
 
     for (let i = 0; i < startDay; i++) {
-      dates.unshift({
-        day: prevMonthTotalDays - i,
-        isCurMonth: false,
-        monthType: "prev",
-      });
+      dates.unshift({ day: prevMonthTotalDays - i, isCurMonth: false });
     }
 
     let nextMonthDay = 1;
     while (dates.length < 42) {
-      dates.push({
-        day: nextMonthDay++,
-        isCurMonth: false,
-        monthType: "next",
-      });
+      dates.push({ day: nextMonthDay++, isCurMonth: false });
     }
 
     let weeks = [];
@@ -152,31 +143,17 @@ export default function ScheduleCalendar() {
   const [selectedDate, setSelectedDate] = useState("");
   const [nurseData, setNurseData] = useState([]);
 
-  const handleDateClick = (e, date, type) => {
+  const handleDateClick = (e, date) => {
     e.preventDefault();
-    if (type === "prev") {
-      setSelectedDate(
-        moment(currentDate)
-          .subtract(1, "month")
-          .set("date", date.day)
-          .format("YYYY-MM-DD"),
-      );
-    } else if (type === "next") {
-      setSelectedDate(
-        moment(currentDate)
-          .add(1, "month")
-          .set("date", date.day)
-          .format("YYYY-MM-DD"),
-      );
-    } else {
-      setSelectedDate(
-        moment(currentDate).set("date", date.day).format("YYYY-MM-DD"),
-      );
-    }
+    console.log(date.day);
+    const selectedDate = `${currentDate.getFullYear()}-${(
+      currentDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}-${date.day.toString().padStart(2, "0")}`;
+    setSelectedDate(selectedDate);
     setOpen(true);
-  };
 
-  useEffect(() => {
     customAxios
       .get("Schedule/all", {
         params: {
@@ -187,7 +164,7 @@ export default function ScheduleCalendar() {
       .then((res) => {
         setNurseData(res.data.responseData);
       });
-  }, [selectedDate]);
+  };
 
   useEffect(() => {
     setWeeks(createCalendar(currentDate, scheduleData));
@@ -332,7 +309,7 @@ export default function ScheduleCalendar() {
                       flexDirection: "column",
                       alignItems: "center",
                     }}
-                    onClick={(e) => handleDateClick(e, date, date.monthType)}
+                    onClick={(e) => handleDateClick(e, date)}
                   >
                     {date.day}
                     {date.isCurMonth && (
@@ -371,7 +348,6 @@ export default function ScheduleCalendar() {
         open={open}
         onDismiss={() => {
           setOpen(false);
-          setSelectedDate("2000-01-01");
         }}
       >
         <NurseScrollWrapper>
@@ -382,7 +358,7 @@ export default function ScheduleCalendar() {
               fontWeight: Common.fontWeight.bold,
             }}
           >
-            {selectedDate != "2000-01-01" && selectedDate}
+            {selectedDate}
           </span>
           <div
             style={{
