@@ -15,36 +15,40 @@ import { usePatientCardStore } from "../../../store/store";
 
 export default function HandOverWritePage() {
   const navigate = useNavigate();
-  const { setHandoverSetId, setHandoverJournalList } = useHandoverSetStore(
-    (state) => state,
-  );
+  const { handoverSetId, setHandoverSetId, setHandoverJournalList } =
+    useHandoverSetStore((state) => state);
+  const [patientInfo, setPatientInfo] = useState([]);
   const { setSelectedPatient } = usePatientStore();
   const wardId = useWardStore((state) => state.wardId);
 
   useEffect(() => {
     setSelectedPatient({});
+    customAxios.get("HandoverSet/details?ID=" + handoverSetId).then((res) => {
+      const handoverPatients = res.data.responseData;
+      handoverPatients.map((item) => {
+        setCompletedHandover(item.patientID, true);
+      });
+    });
   }, []);
 
   const handlePatientCardClick = (patientInfo) => {
     setSelectedPatient(patientInfo);
   };
 
-  const [patientInfo, setPatientInfo] = useState([]);
-
-  const { completedHandover } = usePatientCardStore((state) => state);
+  const { setCompletedHandover, completedHandover } = usePatientCardStore(
+    (state) => state,
+  );
 
   const numCompletedPatients =
     Object.values(completedHandover).filter(Boolean).length;
 
   useEffect(() => {
     customAxios.get("emr/patient/wardall").then((res) => {
-      console.log(res.data.responseData);
       const patientsCard = res.data.responseData.map((patientData) => {
         return {
           ...patientData.patient,
         };
       });
-
       // 완료된 환자가 있다면 정렬을 적용
       if (numCompletedPatients > 0) {
         const sortedPatientsCard = patientsCard.sort((a, b) => {
@@ -59,7 +63,6 @@ export default function HandOverWritePage() {
           }
           return 0;
         });
-
         setPatientInfo(sortedPatientsCard);
       } else {
         // 완료된 환자가 없다면 기존 순서 유지

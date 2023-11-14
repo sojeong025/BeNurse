@@ -315,14 +315,18 @@ export default function DevicePage() {
   } else {
     return (
       <Container props={"background-color: #adcff8;"}>
-        <StyledImg1
-          src={cloud}
-          alt=""
-        />
-        <StyledImg2
-          src={cloud}
-          alt=""
-        />
+        {!selectedDevice && (
+          <>
+            <StyledImg1
+              src={cloud}
+              alt=""
+            />
+            <StyledImg2
+              src={cloud}
+              alt=""
+            />
+          </>
+        )}
         <div
           style={{
             position: "absolute",
@@ -356,19 +360,21 @@ export default function DevicePage() {
             type="text"
           />
         </div>
-        <Box
-          type={"white"}
-          size={["70px", "70px"]}
-          props={
-            "position: absolute; right: 30px; bottom: 90px; z-index: 100; border-radius: 40px; flex-direction: column;"
-          }
-          onClick={activateNFC}
-        >
-          <SiNfc
-            size={30}
-            color={Common.color.purple03}
-          />
-        </Box>
+        {!selectedDevice && (
+          <Box
+            type={"white"}
+            size={["70px", "70px"]}
+            props={
+              "position: absolute; right: 30px; bottom: 90px; z-index: 100; border-radius: 40px; flex-direction: column;"
+            }
+            onClick={activateNFC}
+          >
+            <SiNfc
+              size={30}
+              color={Common.color.purple03}
+            />
+          </Box>
+        )}
         <Canvas
           style={{
             marginTop: "74px",
@@ -380,7 +386,10 @@ export default function DevicePage() {
           colorManagement
           roughness={1}
           gl={{ toneMapping: THREE.CineonToneMapping }}
-          camera={{ position: [1, -180, 100], fo: 90 }}
+          camera={{
+            position: selectedDevice ? [70, -80, 30] : [1, -180, 100],
+            fo: 90,
+          }}
         >
           <Suspense>
             <fog
@@ -442,7 +451,7 @@ export default function DevicePage() {
             <CameraMove />
             <OrbitControls
               rotateSpeed={0.4}
-              minDistance={140}
+              minDistance={100}
               maxDistance={230}
               minAzimuthAngle={Math.PI / 20}
               maxAzimuthAngle={Math.PI / 0}

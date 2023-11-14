@@ -15,7 +15,11 @@ export default function PatientItem({ patientInfo, type }) {
   const { completedHandover, setCompletedHandover } = usePatientCardStore(
     (state) => state,
   );
-  const isCompleted = completedHandover[patientInfo.id];
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  useEffect(() => {
+    setIsCompleted(completedHandover[patientInfo.id]);
+  }, [completedHandover]);
 
   useEffect(() => {
     if (handoverId) {

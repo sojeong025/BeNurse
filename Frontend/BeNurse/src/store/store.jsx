@@ -23,13 +23,18 @@ export const usePatientStore = create((set) => ({
 
 export const usePatientCardStore = create((set) => ({
   completedHandover: {},
-  setCompletedHandover: (handoverId, isCompleted) => {
+  setCompletedHandover: (patientID, isCompleted) => {
     set((state) => ({
       ...state,
       completedHandover: {
         ...state.completedHandover,
-        [handoverId]: isCompleted,
+        [patientID]: isCompleted,
       },
+    }));
+  },
+  unsetCompletedHandover: () => {
+    set((state) => ({
+      completedHandover: {},
     }));
   },
 }));

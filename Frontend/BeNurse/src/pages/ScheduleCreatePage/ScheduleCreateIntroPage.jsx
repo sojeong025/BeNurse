@@ -355,7 +355,7 @@ export default function ScheduleCreateIntroPage() {
           size={["200px", "60px"]}
           props={"cursor: pointer;"}
           onClick={() => {
-            navigate("../main");
+            navigate("../");
           }}
         >
           {createComplete ? "생성 완료!" : "잠시 기다려주세요.."}
