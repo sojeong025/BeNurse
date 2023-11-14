@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router";
 import { Common } from "../../utils/global.styles";
 import NotFound from "@assets/Images/not_found.png";
 import Box from "../../components/atoms/Box/Box";
 
 export default function NotFoundPage() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setTimeout(() => navigate(""), 2000);
+  }, []);
+
   return (
     <div
       style={{
@@ -17,7 +24,7 @@ export default function NotFoundPage() {
       }}
     >
       <img
-        style={{ width: "404px" }}
+        style={{ width: "404px", transform: "rotate(11.5deg)" }}
         src={NotFound}
         alt=""
       />

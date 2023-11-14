@@ -9,6 +9,7 @@ import LoginPage from "@pages/LoginPage/LoginPage";
 import DevicePage from "@pages//DevicePage/DevicePage";
 
 import PatientPage from "@pages/PatientPage/PatientPage";
+import PatientDetailPage from "@pages/PatientPage/PatientDetailPage";
 import PatientListPage from "@pages/PatientPage/PatientListPage";
 import PatientJournalPage from "@pages/PatientPage/PatientJournalPage";
 import PatientJournalMain from "@pages/PatientPage/PatientJournalMain";
@@ -93,6 +94,10 @@ export default function routes() {
         <Route
           path=""
           element={<PatientListPage />}
+        />
+        <Route
+          path=":patientId/detail"
+          element={<PatientDetailPage />}
         />
         <Route
           path=":patientId/detail/journal"
