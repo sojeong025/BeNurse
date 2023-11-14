@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Container from "@components/atoms/Container/Container";
 import * as S from "./HandOverReadDetailPage.styles";
+import moment from "moment";
 
 import { customAxios } from "../../libs/axios";
 
@@ -30,15 +31,13 @@ export default function HandOverReadDetailPage() {
         console.log("인계장 detail 요청", res);
         setHandoverDetails(res.data.responseData);
 
-        const journalIds = res.data.responseData[0]?.journals.map(
-          (journal) => journal.journalID,
-        );
+        const journalIds = res.data.responseData[0]?.journals;
         if (journalIds) {
-          journalIds.forEach((id) => {
+          journalIds.map((item) => {
             customAxios
               .get("emr/journal", {
                 params: {
-                  id: id,
+                  id: item.journalID,
                 },
               })
               .then((res) => {
@@ -105,50 +104,89 @@ export default function HandOverReadDetailPage() {
             </S.SwiperMain>
           </SwiperSlide>
         </Swiper>
-        <div>
+        <div style={{ overflowY: "scroll" }}>
           {activeIndex === 0 && (
             <S.SwiperContainer>
               <div>
-                {handoverDetails[0]?.journals?.map((item, index) => (
-                  <S.etc key={index}>
-                    <div style={{ display: "flex" }}>
-                      <div className="icon">✦</div> <div>{item.comment}</div>
-                    </div>
-                  </S.etc>
-                ))}
+                {handoverDetails[0]?.journals?.map((item, index) => {
+                  const correspondingJournal = journalDatas.find(
+                    (journal) => journal.id === item.journalID,
+                  );
+                  return (
+                    <S.handovercontent key={index}>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        {correspondingJournal && (
+                          <S.nursingLog type={correspondingJournal.category}>
+                            <div className="journal_type">
+                              {correspondingJournal.category}
+                            </div>
+                            <div className="journal_content">
+                              {correspondingJournal.content}
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                              }}
+                            >
+                              <div className="time_label">
+                                🕑 &nbsp;
+                                {moment(correspondingJournal.datetime).format(
+                                  "HH:mm",
+                                )}
+                              </div>
+                              <div className="journal_nursename">
+                                {correspondingJournal.name} 간호사
+                              </div>
+                            </div>
+                          </S.nursingLog>
+                        )}
+                        <div style={{ display: "flex" }}>
+                          <div className="icon">✦</div>
+                          <div>{item.comment}</div>
+                        </div>
+                      </div>
+                    </S.handovercontent>
+                  );
+                })}
               </div>
             </S.SwiperContainer>
           )}
           {activeIndex === 1 && (
             <S.SwiperContainer>
               {handoverDetails[0]?.cc?.map((item, index) => (
-                <S.etc key={index}>
+                <S.handovercontent key={index}>
                   <div style={{ display: "flex" }}>
                     <div className="icon">✦</div> <div>{item}</div>
                   </div>
-                </S.etc>
+                </S.handovercontent>
               ))}
             </S.SwiperContainer>
           )}
           {activeIndex === 2 && (
             <S.SwiperContainer>
               {handoverDetails[0]?.special?.map((item, index) => (
-                <S.etc key={index}>
+                <S.handovercontent key={index}>
                   <div style={{ display: "flex" }}>
                     <div className="icon">✦</div> <div>{item}</div>
                   </div>
-                </S.etc>
+                </S.handovercontent>
               ))}
             </S.SwiperContainer>
           )}
           {activeIndex === 3 && (
             <S.SwiperContainer>
               {handoverDetails[0]?.etc?.map((item, index) => (
-                <S.etc key={index}>
+                <S.handovercontent key={index}>
                   <div style={{ display: "flex" }}>
                     <div className="icon">✦</div> <div>{item}</div>
                   </div>
-                </S.etc>
+                </S.handovercontent>
               ))}
             </S.SwiperContainer>
           )}

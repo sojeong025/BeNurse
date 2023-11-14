@@ -9,6 +9,7 @@ export default function Input({
   onFocus,
   onChange,
   props,
+  value,
 }) {
   return (
     <StyledInputContainer
@@ -33,6 +34,7 @@ export default function Input({
         onFocus={onFocus}
         onChange={onChange}
         props={props}
+        value={value}
       />
     </StyledInputContainer>
   );
