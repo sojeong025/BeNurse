@@ -65,19 +65,10 @@ export default function HandOverGiveList({ maxItems }) {
               <div
                 style={{
                   fontSize: Common.fontSize.fontXXS,
-                  marginBottom: "0px",
+                  marginBottom: "26px",
                 }}
               >
                 {formatDateWithDay(givehandover.time)}
-                <p
-                  style={{
-                    textAlign: "end",
-                    marginTop: "10px",
-                    color: Common.color.purple04,
-                  }}
-                >
-                  읽지않음
-                </p>
               </div>
             </Box>
           </React.Fragment>

@@ -42,24 +42,22 @@ export default function HandOverReadPage() {
           <NavLink
             to={`${item.patientID}`}
             key={index}
+            style={{ color: "black" }}
           >
             <S.HandoverPatient>
-              <S.HandoverPatientLeft>
-                <S.Patient>
-                  <p className="icon">
-                    <RiFileList2Line size={30} />
-                  </p>
-                  <p>{item.patientName} 환자 인계장</p>
-                </S.Patient>
-                <div>시간</div>
-              </S.HandoverPatientLeft>
-              <S.HandoverPatientRight>
-                <PatientImages
-                  age={item.age}
-                  gender={item.gender}
-                  imgNum={item.img}
-                />
-              </S.HandoverPatientRight>
+              <S.Patient>
+                <div className="patient_img">
+                  <PatientImages
+                    age={item.age}
+                    gender={item.gender}
+                    imgNum={item.img}
+                  />
+                </div>
+                <div className="patient_info">
+                  <p className="wardname"> {item.wardName}</p>
+                  <p className="name">{item.patientName} 환자 인계장</p>
+                </div>
+              </S.Patient>
             </S.HandoverPatient>
           </NavLink>
         ))}
