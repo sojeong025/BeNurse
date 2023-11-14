@@ -8,7 +8,10 @@ import manage from "@assets/Images/manage.png";
 import web_write from "@assets/Images/web_write.png";
 import empty from "@assets/Images/empty.png";
 import AdminCalendar from "../../components/templates/Admin/AdminCalendar";
-import nurseImg from "@assets/Images/patient_temp.png";
+import nurse_g01 from "@assets/Images/nurse_g01.png";
+import nurse_g02 from "@assets/Images/nurse_g02.png";
+import nurse_g03 from "@assets/Images/nurse_g03.png";
+import nurse_g04 from "@assets/Images/nurse_g04.png";
 import { useAdminStore } from "../../store/store";
 
 import * as S from "./AdminMainPage.styles";
@@ -19,6 +22,7 @@ export default function AdminMainPage() {
   const [currentDate, setCurrentDate] = useState(
     new Date(today.getFullYear(), today.getMonth(), 1),
   );
+  const [nurses, setNurses] = useState(null);
   const [wards, setWards] = useState(null);
   const { schedule, setSchedule, selectedDate, setSelectedDate } =
     useAdminStore((state) => state);
@@ -34,6 +38,11 @@ export default function AdminMainPage() {
   useEffect(() => {
     customAxios.get("Hospital").then((res) => {
       setHospital(res.data.responseData);
+    });
+
+    customAxios.get("nurse/all").then((res) => {
+      console.log(res.data.responseData);
+      setNurses(res.data.responseData);
     });
 
     customAxios.get("ward/all").then((res) => {
@@ -100,7 +109,9 @@ export default function AdminMainPage() {
                 {schedule?.map((item) => {
                   const year = currentDate.getFullYear();
                   const month = currentDate.getMonth() + 1;
-                  const ward = wards?.filter((ward) => ward.id === item.wardID);
+                  const nurse = nurses?.filter(
+                    (nurse) => nurse.id === item.nurseID,
+                  );
                   return (
                     item.workdate ===
                       `${year}-${month
@@ -131,11 +142,19 @@ export default function AdminMainPage() {
                         />
                         <img
                           style={{
-                            width: "50px",
-                            border: "1px solid gray",
-                            borderRadius: "100px",
+                            width: "46px",
+                            borderRadius: "40px",
+                            marginRight: "4px",
                           }}
-                          src={nurseImg}
+                          src={
+                            nurse && nurse[0].grade === "평간호사"
+                              ? nurse_g01
+                              : nurse && nurse[0].grade === "주임 간호사"
+                              ? nurse_g02
+                              : nurse && nurse[0].grade === "책임 간호사"
+                              ? nurse_g03
+                              : nurse_g04
+                          }
                           alt=""
                         />
                         <div style={{ width: "160px" }}>
@@ -143,8 +162,8 @@ export default function AdminMainPage() {
                             {item.name}
                           </p>
                           <p style={{ fontSize: "14px", marginTop: "6px" }}>
-                            {ward && ward[0].name}{" "}
-                            {item.annual > 0 ? item.annual + "년차" : "신입"}
+                            {nurse && nurse[0].wardName}{" "}
+                            {item.annual > 0 ? item.annual + "년 차" : "신입"}
                           </p>
                         </div>
                       </Box>

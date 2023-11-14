@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Box from "../../atoms/Box/Box";
 import { Common } from "../../../utils/global.styles";
-import nurseimg from "@assets/Images/patient_temp.png";
+import nurse_g01 from "@assets/Images/nurse_g01.png";
+import nurse_g02 from "@assets/Images/nurse_g02.png";
+import nurse_g03 from "@assets/Images/nurse_g03.png";
+import nurse_g04 from "@assets/Images/nurse_g04.png";
 import { customAxios } from "../../../libs/axios";
 
 export default function NurseItem({ nurse }) {
-  const [wards, setWards] = useState();
+  const [nurseDetail, setNurseDetail] = useState();
 
   useEffect(() => {
-    customAxios.get("ward/all").then((res) => {
-      setWards(res.data.responseData);
+    customAxios.get("nurse?ID=" + nurse.nurseID).then((res) => {
+      setNurseDetail(res.data.responseData);
     });
   }, []);
-
-  const ward = wards?.filter((ward) => ward.id === nurse.wardID);
 
   return (
     <Box
@@ -47,35 +48,45 @@ export default function NurseItem({ nurse }) {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          <img
-            style={{
-              height: "48px",
-              borderRadius: "50px",
-              border: "1px solid gray",
-            }}
-            src={nurseimg}
-            alt=""
-          />
-          {ward && (
-            <div>
-              <p
+          {nurseDetail && (
+            <>
+              <img
                 style={{
-                  fontWeight: Common.fontWeight.extrabold,
-                  marginBottom: "6px",
+                  width: "50px",
+                  borderRadius: "40px",
+                  marginRight: "4px",
                 }}
-              >
-                {nurse.name}
-              </p>
-              <p
-                style={{
-                  fontWeight: Common.fontWeight.bold,
-                  fontSize: Common.fontSize.fontXXS,
-                }}
-              >
-                {ward[0].name}
-                {nurse.annual}년 차
-              </p>
-            </div>
+                src={
+                  nurseDetail.grade === "평간호사"
+                    ? nurse_g01
+                    : nurseDetail.grade === "주임 간호사"
+                    ? nurse_g02
+                    : nurseDetail.grade === "책임 간호사"
+                    ? nurse_g03
+                    : nurse_g04
+                }
+                alt=""
+              />
+              <div>
+                <p
+                  style={{
+                    fontWeight: Common.fontWeight.extrabold,
+                    marginBottom: "6px",
+                  }}
+                >
+                  {nurse.name}
+                </p>
+                <p
+                  style={{
+                    fontWeight: Common.fontWeight.bold,
+                    fontSize: Common.fontSize.fontXXS,
+                  }}
+                >
+                  {nurseDetail.wardName + " "}
+                  {nurse.annual}년 차
+                </p>
+              </div>
+            </>
           )}
         </div>
       </div>

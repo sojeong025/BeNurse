@@ -10,6 +10,8 @@ import { NavLink } from "react-router-dom";
 import { useHandoverSetStore } from "../../store/store";
 import { usePatientCardStore } from "../../store/store";
 
+import empty from "@assets/Images/empty.png";
+
 export default function TemporaryListPage() {
   const [tempHandoverInfo, setTempHandoverInfo] = useState([]);
   const [sendHandoversetId, setSendHandoversetId] = useState();
@@ -58,48 +60,49 @@ export default function TemporaryListPage() {
           margin: "0 auto",
         }}
       >
-        {tempHandoverInfo.map((tempHandover, index) => (
-          <NavLink
-            to="/handover-write"
-            onClick={() => {
-              localStorage.setItem("isTemporary", "temp");
-              setHandoverSetId(tempHandover.handoverSetID);
-            }}
-          >
-            <React.Fragment>
-              <Box
-                type={"transparent"}
-                size={["100%", "80px"]}
-                flex={["space-between", "center"]}
-                props={
-                  "z-index: 1; transform: translateX(0px); background-color: #fff;"
-                }
-                border={true}
-              >
-                <S.HandOverItem>
-                  <img
-                    src={HandOverItem}
-                    style={{ width: "28px" }}
-                    alt=""
-                  />
-                  <div>
-                    <S.HandOverItemLeft>
-                      <p className="handoverTitle">
-                        {tempHandover.giveWorkTime === "D"
-                          ? "데이"
-                          : tempHandover.giveWorkTime === "E"
-                          ? "이브닝"
-                          : "나이트"}
-                        &nbsp;타임 인계장
-                      </p>
-                    </S.HandOverItemLeft>
+        {tempHandoverInfo.length > 0 ? (
+          tempHandoverInfo.map((tempHandover, index) => (
+            <NavLink
+              to="/handover-write"
+              onClick={() => {
+                localStorage.setItem("isTemporary", "temp");
+                setHandoverSetId(tempHandover.handoverSetID);
+              }}
+            >
+              <React.Fragment>
+                <Box
+                  type={"transparent"}
+                  size={["100%", "80px"]}
+                  flex={["space-between", "center"]}
+                  props={
+                    "z-index: 1; transform: translateX(0px); background-color: #fff;"
+                  }
+                  border={true}
+                >
+                  <S.HandOverItem>
+                    <img
+                      src={HandOverItem}
+                      style={{ width: "28px" }}
+                      alt=""
+                    />
+                    <div>
+                      <S.HandOverItemLeft>
+                        <p className="handoverTitle">
+                          {tempHandover.giveWorkTime === "D"
+                            ? "데이"
+                            : tempHandover.giveWorkTime === "E"
+                            ? "이브닝"
+                            : "나이트"}
+                          &nbsp;타임 인계장
+                        </p>
+                      </S.HandOverItemLeft>
+                    </div>
+                  </S.HandOverItem>
+                  <div style={{ fontSize: Common.fontSize.fontXXS }}>
+                    {formatDateWithDay(tempHandover.updatedAt)}
                   </div>
-                </S.HandOverItem>
-                <div style={{ fontSize: Common.fontSize.fontXXS }}>
-                  {formatDateWithDay(tempHandover.updatedAt)}
-                </div>
-              </Box>
-              {/* <div
+                </Box>
+                {/* <div
               style={{
                 width: "80px",
                 height: "80px",
@@ -109,9 +112,30 @@ export default function TemporaryListPage() {
                 zIndex: -1,
               }}
             ></div> */}
-            </React.Fragment>
-          </NavLink>
-        ))}
+              </React.Fragment>
+            </NavLink>
+          ))
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              opacity: "0.5",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <img
+              src={empty}
+              alt=""
+              width="150px"
+              height="150px"
+            />
+            <p>등록된 기록이 없습니다.</p>
+          </div>
+        )}
       </div>
     </div>
   );
