@@ -32,29 +32,30 @@ export const HandoverPatient = styled.div`
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   border-radius: 10px;
   padding: 16px;
-
-  & .icon {
-    margin-right: 20px;
-  }
-`;
-
-export const HandoverPatientLeft = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 `;
 
 export const Patient = styled.div`
   display: flex;
-  margin-bottom: 10px;
   align-items: center;
   font-size: ${Common.fontSize.fontM};
   font-weight: ${Common.fontWeight.bold};
-`;
 
-export const HandoverPatientRight = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 100%;
+  & .patient_img {
+    margin-right: 20px;
+  }
+  & .patient_info {
+    display: flex;
+    flex-direction: column;
+    height: 36px;
+    justify-content: space-between;
+  }
+  .wardname {
+    font-size: ${Common.fontSize.fontXS};
+    color: ${Common.color.black01};
+  }
+  .name {
+    font-size: ${Common.fontSize.fontM};
+
+    color: ${Common.color.black03};
+  }
 `;
