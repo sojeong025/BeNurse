@@ -117,6 +117,7 @@ export default function NavBar({ onSave }) {
       setNavBoxShadow("");
       setVisibility("flex");
     } else if (
+      path.startsWith("/oauth") ||
       path.startsWith("/login") ||
       path === "/off-application-finish" ||
       path === "/"

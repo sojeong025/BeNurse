@@ -63,7 +63,19 @@ const OAuth2RedirectHandler = () => {
 
   return (
     <>
-      <div>로그인 중</div>;
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100vw",
+          height: "100vh",
+          background:
+            "background-image: linear-gradient(to right bottom, #9669f9, #9669f9, #9669f9, #9669f9, #9669f9, #9a6ffa, #9e74fa, #a27afb, #ab87fc, #b493fd, #bda0fe, #c6acff);",
+        }}
+      >
+        <iframe src="https://lottie.host/?file=049aa0d8-1a94-4ee3-8c9d-beb0ce286b4e/GWOgGwnblG.json"></iframe>
+      </div>
       <Outlet />
     </>
   );
