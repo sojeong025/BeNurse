@@ -18,7 +18,7 @@ public class ScheduledService {
 	HandoverSetRepository handoverSetRepo;
 	
 	
-	@Scheduled(cron = "0 0 13 * * *", zone = "Asia/Seoul")
+	@Scheduled(cron = "0 0 19 * * *", zone = "Asia/Seoul")
 	public void removeEmptySet() {
 		List<HandoverSet> sets = handoverSetRepo.findEmptySets();
 		for(HandoverSet set : sets) {

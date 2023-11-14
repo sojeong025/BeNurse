@@ -1,18 +1,32 @@
 package com.ssafy.device.service;
 
+import java.io.IOException;
 import java.util.Optional;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.device.model.Device;
-import com.ssafy.device.service.DeviceRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class DeviceService {
+   private final AmazonS3Client amazonS3Client;
+
+   @Value("${cloud.aws.s3.bucket}")
+   private String bucket;
+   @Value("${cloud.aws.region.static}")
+   private String region;
 	
 	@Autowired
 	DeviceRepository deviceRepo;
@@ -49,5 +63,21 @@ public class DeviceService {
 			e.printStackTrace();
 			throw new NullPointerException();
 		}
+	}
+	
+	public String uploadFile(MultipartFile file) throws FileUploadException {
+		try {
+	         String fileName=file.getOriginalFilename();
+	         String fileUrl= "https://" + bucket + "." + region + ".amazonaws.com/" +fileName;
+	         ObjectMetadata metadata= new ObjectMetadata();
+	         metadata.setContentType(file.getContentType());
+	         metadata.setContentLength(file.getSize());
+	         amazonS3Client.putObject(bucket,fileName,file.getInputStream(),metadata);
+	         //amazonS3Client.getResourceUrl(bucket, fileName);
+	         return amazonS3Client.getResourceUrl(bucket, fileName);
+	      } catch (IOException e) {
+	    	  e.printStackTrace();
+	    	  throw new FileUploadException();
+	      }
 	}
 }

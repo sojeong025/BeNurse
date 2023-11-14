@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.ssafy.common.utils.APIResponse;
@@ -33,11 +35,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin(origins = "*")
 @Api(value = "장비 API", tags = { "장비." })
 @RestController
 @RequestMapping("/api/benurse/device")
+@Slf4j
 public class DeviceController {
 
 	@Autowired
@@ -53,14 +57,14 @@ public class DeviceController {
 	OauthService oauthService;
 	
 	// 장비 등록 POST
-	@PostMapping("")
-	@ApiOperation(value = "장비 등록", notes = "장비 등록(pk, 제품명, 제품 사진, 제품 설명, 담당 A/S 연락처)")
+	@PostMapping(value = "", consumes = "multipart/form-data")
+	@ApiOperation(value = "장비 등록", notes = "장비 등록\nID, name, info, asTel 필수\nimg 선택")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = Device.class),
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Device> registDevice(@RequestHeader("Authorization") String token, @RequestBody Device device) {
+	public APIResponse<Device> registDevice(@RequestHeader("Authorization") String token, @RequestParam(required =false) MultipartFile img, @ModelAttribute Device device) {
 		Nurse nurse;
 		// 사용자 조회
 		try {
@@ -80,20 +84,30 @@ public class DeviceController {
 		
 		device.setHospitalID(nurse.getHospitalID());
 		device.setDevice(true);
+		if(img != null) {
+			try {
+				String fileUrl = deviceServ.uploadFile(img);
+				log.info(fileUrl);
+				device.setImg(fileUrl);
+			}catch (Exception e) {
+				log.error("file upload failed");
+			}
+		}
+		
 		Device savedDevice = deviceRepo.save(device);
 		savedDevice.setDevice(true);
 		return new APIResponse<>(savedDevice, HttpStatus.OK);
 	}
 	
 	// 장비 정보 수정 PUT
-	@PutMapping("")
-	@ApiOperation(value = "장비 정보 수정", notes = "등록된 장비의 내용을 수정합니다.") 
+	@PutMapping(value = "", consumes = "multipart/form-data")
+	@ApiOperation(value = "장비 정보 수정", notes = "등록된 장비의 내용을 수정합니다.\n(이미지를 새로 업로드한 경우 새로운 이미지로 url이 변경됩니다.)") 
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = Device.class),
 	    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Device> updateDeviceByDeviceId(@RequestHeader("Authorization") String token, @RequestBody Device updatedDevice){
+	public APIResponse<Device> updateDeviceByDeviceId(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file, @ModelAttribute Device updatedDevice){
 		Nurse nurse;
 		// 사용자 조회
 		try {
@@ -108,6 +122,15 @@ public class DeviceController {
 		
 		try {
 			// 업데이트된 병원 정보를 저장
+			if(file != null) {
+				try {
+					String fileUrl = deviceServ.uploadFile(file);
+					log.info(fileUrl);
+					updatedDevice.setImg(fileUrl);
+				}catch (Exception e) {
+					log.error("file upload failed");
+				}
+			}
 			Device savedDevice = deviceServ.save(updatedDevice);
 	        return new APIResponse<>(savedDevice, HttpStatus.OK);
 	    }catch (Exception e) {
