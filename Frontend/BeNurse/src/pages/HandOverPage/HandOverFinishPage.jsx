@@ -3,8 +3,8 @@ import Container from "@components/atoms/Container/Container";
 import { Common } from "../../utils/global.styles";
 import Button from "../../components/atoms/Button/Button";
 import { NavLink } from "react-router-dom";
-
-import handover_finish from "@assets/Images/handover_finish.png";
+import Lottie from "lottie-react";
+import send from "@assets/Icons/send2.json";
 
 export default function HandOverFinishPage() {
   return (
@@ -19,15 +19,9 @@ export default function HandOverFinishPage() {
           alignItems: "center",
         }}
       >
-        <img
-          src={handover_finish}
-          style={{
-            width: "240px",
-            height: "240px",
-            marginBottom: "50px",
-          }}
-          alt=""
-        />
+        <div style={{ height: "240px", width: "240px" }}>
+          <Lottie animationData={send} />
+        </div>
         <div
           style={{
             color: Common.color.black03,
