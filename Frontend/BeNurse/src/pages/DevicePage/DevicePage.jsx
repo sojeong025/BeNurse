@@ -60,6 +60,11 @@ export default function DevicePage() {
     (state) => state,
   );
   const { currentTab, setCurrentTab } = useTabBarStore((state) => state);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  function updateSearchTerm(e) {
+    setSearchTerm(e.target.value);
+  }
 
   const locationData = {
     소회의실: {
@@ -280,6 +285,8 @@ export default function DevicePage() {
             placeholder="장비 이름으로 검색"
             width="298px"
             type="text"
+            value={searchTerm}
+            onChange={updateSearchTerm}
           />
         </div>
         <div
@@ -296,18 +303,20 @@ export default function DevicePage() {
           }}
         >
           <div>
-            {devices?.map((device, index) => {
-              return (
-                <DeviceItem
-                  key={index}
-                  listItem={true}
-                  item={device}
-                  onClick={() => {
-                    selectDeviceItem(device);
-                  }}
-                />
-              );
-            })}
+            {devices
+              ?.filter((device) => device.name.includes(searchTerm))
+              .map((device, index) => {
+                return (
+                  <DeviceItem
+                    key={index}
+                    listItem={true}
+                    item={device}
+                    onClick={() => {
+                      selectDeviceItem(device);
+                    }}
+                  />
+                );
+              })}
           </div>
         </div>
       </Container>
