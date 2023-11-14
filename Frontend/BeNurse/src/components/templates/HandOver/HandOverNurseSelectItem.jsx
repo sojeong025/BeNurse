@@ -7,12 +7,19 @@ import { customAxios } from "../../../libs/axios";
 
 import * as S from "./HandOverNurseSelectItem.styles";
 
-export default function HandOverNurseSelectItem({ onSelectChange }) {
+export default function HandOverNurseSelectItem({
+  onSelectChange,
+  searchNurse,
+}) {
   const [sendNurseInfo, setSendNurseInfo] = useState([]);
   const [myId, setMyId] = useState();
   const [wardId, setWardId] = useState();
   const [wardName, setWardName] = useState();
   const [checkedItems, setCheckedItems] = useState({});
+
+  const filteredNurses = sendNurseInfo.filter((nurse) =>
+    nurse.name.includes(searchNurse),
+  );
 
   const handleCheckChange = (e, id) => {
     setCheckedItems((prevState) => ({
@@ -57,7 +64,7 @@ export default function HandOverNurseSelectItem({ onSelectChange }) {
 
   return (
     <S.NurseListContainer>
-      {sendNurseInfo.map((nurse, index) => (
+      {filteredNurses.map((nurse, index) => (
         <React.Fragment key={index}>
           <S.NurseContainer>
             <S.NurseProfile>
