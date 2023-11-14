@@ -123,6 +123,12 @@ export default function NavBar({ onSave }) {
       path === "/"
     ) {
       setVisibility("none");
+    } else if (path.startsWith("/off-application")) {
+      setNavTitle("오프 신청");
+      setNavColor(Common.color.white01);
+      setNavFontColor(Common.color.black03);
+      setNavBoxShadow("0px 4px 8px 0px rgba(213, 213, 213, 0.36) ");
+      setVisibility("flex");
     } else if (path.startsWith("/device")) {
       setNavTitle("장비 관리");
       setNavColor(Common.color.white01);
@@ -272,7 +278,7 @@ export default function NavBar({ onSave }) {
             width: "80px",
             fontSize: "16px",
             fontWeight: "bold",
-            color: "blue",
+            color: Common.color.purple03,
           }}
         >
           다음
@@ -298,7 +304,7 @@ export default function NavBar({ onSave }) {
             width: "80px",
             fontSize: "16px",
             fontWeight: "bold",
-            color: "blue",
+            color: Common.color.purple04,
           }}
         >
           저장
