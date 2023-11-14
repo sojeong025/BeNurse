@@ -14,6 +14,7 @@ export default function AdminManagementPage() {
   const [edit, setEdit] = useState("");
   const [count, setCount] = useState(30);
   const [nurseName, setNurseName] = useState("");
+  const [currentWard, setCurrentWard] = useState({});
   const [showWardForm, setShowWardForm] = useState(false);
   const [inviteCode, setInviteCode] = useState(null);
   const { isComplete, setIsComplete } = useInviteStore((state) => state);
@@ -21,6 +22,10 @@ export default function AdminManagementPage() {
 
   const inputName = (e) => {
     setNurseName(e.target.value);
+  };
+
+  const inputWardName = (e) => {
+    setCurrentWard({ name: e.target.value });
   };
 
   const createInviteCode = () => {
@@ -434,14 +439,60 @@ export default function AdminManagementPage() {
             justifyContent: "center",
             alignItems: "center",
           }}
-          onClick={closeInviteModal}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              CloseModal();
+              setCurrentWard({});
+            }
+          }}
         >
           <Box
             type={"white"}
-            size={["500px", "400px"]}
+            size={["600px", "400px"]}
             props={"flex-direction: column; gap: 40px;"}
           >
-            ward
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "20px",
+              }}
+            >
+              <p
+                style={{
+                  fontSize: `${Common.fontSize.fontM}`,
+                  fontWeight: `${Common.fontWeight.bold}`,
+                }}
+              >
+                병동명
+              </p>
+              <Input
+                width="300px"
+                variant={"default"}
+                onChange={inputWardName}
+              />
+            </div>
+            <Box
+              type={"purple03"}
+              size={["200px", "60px"]}
+              props={"cursor: pointer;"}
+              onClick={() => {
+                customAxios
+                  .post("/ward", currentWard)
+                  .then((res) => {
+                    console.log("병동 등록 성공", res);
+                    setWards([...wards, currentWard]);
+                    CloseModal();
+                  })
+                  .catch((error) => {
+                    console.error("병동 등록 실패", error);
+                  });
+              }}
+            >
+              등록하기
+            </Box>
           </Box>
         </div>
       ) : isModal === "equipment" ? (
