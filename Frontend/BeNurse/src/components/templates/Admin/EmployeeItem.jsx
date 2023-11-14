@@ -56,6 +56,7 @@ export default function EmployeeItem({ item, wards, edit, nurses, setNurses }) {
           boxSizing: "border-box",
           transition: "all 0.2s",
           fontSize: "14px",
+          borderBottom: "1px solid #cccccc",
         }}
       >
         <img
