@@ -37,6 +37,6 @@ out/
 .vscode/
 
 ### env ###
-Backend/BeNurse/src/main/resources/applications-dev.properties
-Backend/BeNurse/src/main/resources/applications-prod1.properties
-Backend/BeNurse/src/main/resources/applications-prod2.properties
+Backend/BeNurse/src/main/resources/application-dev.properties
+Backend/BeNurse/src/main/resources/application-prod1.properties
+Backend/BeNurse/src/main/resources/application-prod2.properties
