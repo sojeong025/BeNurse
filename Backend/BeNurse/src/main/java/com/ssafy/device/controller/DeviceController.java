@@ -58,13 +58,13 @@ public class DeviceController {
 	
 	// 장비 등록 POST
 	@PostMapping(value = "", consumes = "multipart/form-data")
-	@ApiOperation(value = "장비 등록", notes = "장비 등록\nID, name, info, asTel 필수\nimg 선택")
+	@ApiOperation(value = "장비 등록", notes = "장비 등록\n필수 : ID, name, info, asTel\n선택 : file(장비 이미지)")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = Device.class),
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Device> registDevice(@RequestHeader("Authorization") String token, @RequestParam(required =false) MultipartFile img, @ModelAttribute Device device) {
+	public APIResponse<Device> registDevice(@RequestHeader("Authorization") String token, @RequestParam(name = "file",required =false) MultipartFile file, @ModelAttribute Device device) {
 		Nurse nurse;
 		// 사용자 조회
 		try {
@@ -84,9 +84,9 @@ public class DeviceController {
 		
 		device.setHospitalID(nurse.getHospitalID());
 		device.setDevice(true);
-		if(img != null) {
+		if(file != null) {
 			try {
-				String fileUrl = deviceServ.uploadFile(img);
+				String fileUrl = deviceServ.uploadFile(file);
 				log.info(fileUrl);
 				device.setImg(fileUrl);
 			}catch (Exception e) {
@@ -107,7 +107,7 @@ public class DeviceController {
 	    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Device> updateDeviceByDeviceId(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file, @ModelAttribute Device updatedDevice){
+	public APIResponse<Device> updateDeviceByDeviceId(@RequestHeader("Authorization") String token, @RequestParam(name = "file", required = false) MultipartFile file, @ModelAttribute Device updatedDevice){
 		Nurse nurse;
 		// 사용자 조회
 		try {
