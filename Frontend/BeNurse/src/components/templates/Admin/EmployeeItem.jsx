@@ -74,19 +74,19 @@ export default function EmployeeItem({ item, wards, edit, nurses, setNurses }) {
         />
         <div
           style={{
-            width: "120px",
+            width: "150px",
             display: "flex",
             margin: "0 10px",
             justifyContent: "space-evenly",
           }}
         >
-          <p style={{ fontWeight: "bold" }}>{item.name}</p>
-          <p style={{ fontSize: "12px" }}>{item.annual}년차</p>
+          <p style={{ fontWeight: "bold", width: "70px" }}>{item.name}</p>
+          <p style={{ fontSize: "12px", width: "50px" }}>{item.annual}년 차</p>
         </div>
         {edit == "간호사 관리" ? (
           <S.SelectContainer style={{ display: "flex", gap: "3px" }}>
             <Select
-              style={{ width: "90px", fontSize: "14px" }}
+              style={{ width: "80px", fontSize: "14px" }}
               placeholder="병동"
               optionFilterProp="children"
               onChange={onChangeWard}
@@ -101,7 +101,7 @@ export default function EmployeeItem({ item, wards, edit, nurses, setNurses }) {
               })}
             />
             <Select
-              style={{ width: "90px", fontSize: "14px" }}
+              style={{ width: "80px", fontSize: "14px" }}
               placeholder="직급"
               optionFilterProp="children"
               onChange={onChangeGrade}
@@ -139,8 +139,8 @@ export default function EmployeeItem({ item, wards, edit, nurses, setNurses }) {
               fontWeight: "bold",
             }}
           >
-            <p style={{ width: "90px" }}>{item.wardName}</p>
-            <p style={{ width: "90px" }}>{item.grade}</p>
+            <p style={{ width: "80px" }}>{item.wardName}</p>
+            <p style={{ width: "80px" }}>{item.grade}</p>
           </div>
         )}
       </div>

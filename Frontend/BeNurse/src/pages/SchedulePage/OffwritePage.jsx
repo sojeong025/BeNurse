@@ -9,7 +9,6 @@ import { customAxios } from "../../libs/axios";
 export default function OffwritePage() {
   const { selectedDates } = useOffDateStore();
 
-  console.log("data형식파악", selectedDates);
   const [content, setContent] = useState("");
   const navigate = useNavigate();
 
@@ -19,7 +18,6 @@ export default function OffwritePage() {
       content: content,
     };
     await customAxios.post("Offschedule", data).then((res) => {
-      console.log("보내기 성공", res);
       navigate("/off-application-finish");
     });
   };
@@ -77,7 +75,7 @@ export default function OffwritePage() {
                 marginBottom: "30px",
               }}
             >
-              ⚠️ 신청하기 버튼을 누르면{" "}
+              ⚠️ 신청하기 버튼을 누르면
               <span
                 style={{
                   color: Common.color.danger,
@@ -87,8 +85,14 @@ export default function OffwritePage() {
                 수정 및 삭제
               </span>
               는 불가합니다.
-              <br /> ⏳ 수간호사의 승인을 받아야 확정되며, 모든 신청이
-              자동적으로 승인되는 것은 아닙니다.
+              <br />
+              <div style={{ display: "flex" }}>
+                <div style={{ margin: "0px 5px 0px 3px" }}>⏳</div>
+                <div>
+                  수간호사의 승인을 받아야 확정되며, 모든 신청이 <br />
+                  자동적으로 승인되는 것은 아닙니다.
+                </div>
+              </div>
             </div>
           </div>
           <div

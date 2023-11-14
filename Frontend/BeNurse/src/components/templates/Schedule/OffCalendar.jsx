@@ -62,7 +62,6 @@ export default function ScheduleCalendar() {
       day + 1,
     );
     const dateString = date.toISOString().slice(0, 10);
-    console.log("dateString", dateString);
     setSelectedDates((prev) => {
       if (prev.includes(dateString)) {
         return prev.filter((d) => d !== dateString);
@@ -155,7 +154,6 @@ export default function ScheduleCalendar() {
                           id={`checkbox-${i}-${j}`}
                           onChange={() => {
                             handleDateSelection(date.day);
-                            console.log("클릭할때마다", date.day);
                           }}
                         />
                         <span>

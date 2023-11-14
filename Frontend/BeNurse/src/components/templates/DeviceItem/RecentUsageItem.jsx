@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Common } from "../../../utils/global.styles";
 import { customAxios } from "../../../libs/axios";
 
-import nurseImg from "@assets/Images/patient_temp.png";
+import nurse_g01 from "@assets/Images/nurse_g01.png";
+import nurse_g02 from "@assets/Images/nurse_g02.png";
+import nurse_g03 from "@assets/Images/nurse_g03.png";
+import nurse_g04 from "@assets/Images/nurse_g04.png";
 
 export default function RecentUsageItem({ log }) {
   const [nurse, setNurse] = useState(null);
@@ -47,11 +50,19 @@ export default function RecentUsageItem({ log }) {
       >
         <img
           style={{
-            height: "48px",
-            border: "1px solid gray",
-            borderRadius: "50px",
+            width: "50px",
+            borderRadius: "40px",
+            marginRight: "4px",
           }}
-          src={nurseImg}
+          src={
+            nurse && nurse.grade === "평간호사"
+              ? nurse_g01
+              : nurse && nurse.grade === "주임 간호사"
+              ? nurse_g02
+              : nurse && nurse.grade === "책임 간호사"
+              ? nurse_g03
+              : nurse_g04
+          }
           alt=""
         />
         <div
@@ -69,7 +80,7 @@ export default function RecentUsageItem({ log }) {
             {nurse && nurse.name} 간호사
           </p>
           <p>
-            {ward && ward.name} {nurse && nurse.annual}년차
+            {nurse && nurse.wardName} {nurse && nurse.annual}년차
           </p>
         </div>
       </div>

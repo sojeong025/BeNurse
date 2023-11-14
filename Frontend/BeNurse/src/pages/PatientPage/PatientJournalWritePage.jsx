@@ -42,7 +42,6 @@ export default function PatientJournalWritePage() {
     customAxios
       .get("emr/patient?id=" + patientId)
       .then((res) => {
-        console.log("환자 정보 불러오기", res.data.responseData);
         setPatient({
           ...res.data.responseData.patient.patient,
           cc: res.data.responseData.patient.cc,
@@ -168,7 +167,6 @@ export default function PatientJournalWritePage() {
                   writerID: localStorage.getItem("nurseID"),
                 })
                 .then((res) => {
-                  console.log("간호 일지 작성 성공", res);
                   navigate(-1);
                 })
                 .catch((error) => {

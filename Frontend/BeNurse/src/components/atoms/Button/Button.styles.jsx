@@ -26,6 +26,10 @@ const variants = {
     color: `${Common.color.white01}`,
     boxShadow: "3px 3px 6px 4px rgba(84, 84, 84, 0.2)",
   },
+  disabled: {
+    background: "F7F7F7",
+    color: `${Common.color.black01}`,
+  },
 };
 
 export const StyledButton = styled.button`

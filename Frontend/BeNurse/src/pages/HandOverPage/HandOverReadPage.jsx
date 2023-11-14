@@ -21,7 +21,6 @@ export default function HandOverReadPage() {
         },
       })
       .then((res) => {
-        console.log("인계장 detail 요청", res);
         setHandoverDetails(res.data.responseData);
       });
   }, [handoversetId]);

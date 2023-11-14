@@ -46,7 +46,6 @@ export default function NoticeWritePage() {
         content: noticeContent.content,
       })
       .then((res) => {
-        console.log("공지사항 작성 성공", res);
         navigate("/notice");
       })
       .catch((error) => {

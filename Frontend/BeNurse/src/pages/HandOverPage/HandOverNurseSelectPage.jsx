@@ -17,6 +17,7 @@ export default function HandOverNurseSelectPage() {
 
   const [selectedNurseIds, setSelectedNurseIds] = useState([]);
   const handoverSetId = useHandoverSetStore((state) => state.handoverSetId);
+  const [nurseName, setNurseName] = useState("");
 
   const handleSelectChange = (selectedIds) => {
     setSelectedNurseIds(selectedIds);
@@ -29,7 +30,6 @@ export default function HandOverNurseSelectPage() {
         takeIDs: selectedNurseIds,
       })
       .then((res) => {
-        console.log("인계장 최종 전송완료", res);
         navigate("/handover-write/complete");
       })
       .catch((err) => console.log(err));
@@ -60,6 +60,7 @@ export default function HandOverNurseSelectPage() {
           placeholder="간호사 이름으로 검색 해보세요."
           width="calc(100% - 28px)"
           type="text"
+          onChange={(e) => setNurseName(e.target.value)}
         />
         <div
           style={{
@@ -69,7 +70,10 @@ export default function HandOverNurseSelectPage() {
             boxSizing: "border-box",
           }}
         >
-          <HandOverNurseSelectItem onSelectChange={handleSelectChange} />
+          <HandOverNurseSelectItem
+            onSelectChange={handleSelectChange}
+            searchNurse={nurseName}
+          />
         </div>
 
         <div style={{ marginLeft: "-14px" }}>

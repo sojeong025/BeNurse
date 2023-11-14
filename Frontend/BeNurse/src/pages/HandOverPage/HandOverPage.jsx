@@ -43,7 +43,6 @@ export default function HandOverPage() {
 
   useEffect(() => {
     customAxios.get("oauth/test/user").then((res) => {
-      console.log("인수인계 메인에서 사용자 정보 조회", res);
       setWardId(res.data.responseData.wardID);
     });
 
@@ -134,7 +133,6 @@ export default function HandOverPage() {
               onClick={() => {
                 localStorage.setItem("isTemporary", "new");
                 customAxios.post("HandoverSet").then((res) => {
-                  console.log("인계장 그룹 생성 완료");
                   setHandoverSetId(res.data.responseData.id);
                 });
               }}

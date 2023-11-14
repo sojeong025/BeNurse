@@ -9,10 +9,10 @@ import LoginPage from "@pages/LoginPage/LoginPage";
 import DevicePage from "@pages//DevicePage/DevicePage";
 
 import PatientPage from "@pages/PatientPage/PatientPage";
+import PatientDetailPage from "@pages/PatientPage/PatientDetailPage";
 import PatientListPage from "@pages/PatientPage/PatientListPage";
 import PatientJournalPage from "@pages/PatientPage/PatientJournalPage";
 import PatientJournalMain from "@pages/PatientPage/PatientJournalMain";
-import PatientDetailPage from "@pages/PatientPage/PatientDetailPage";
 import PatientJournalWritePage from "@pages/PatientPage/PatientJournalWritePage";
 import PatientJournalUpdatePage from "@pages/PatientPage/PatientJournalUpdatePage";
 
@@ -26,12 +26,7 @@ import HandOverReadDetailPage from "@pages/HandOverPage/HandOverReadDetailPage";
 import HandOverNurseSelectPage from "@pages/HandOverPage/HandOverNurseSelectPage";
 import HandOverFinishPage from "@pages/HandOverPage/HandOverFinishPage";
 
-import HandOverDetailPage from "@pages/HandOverPage/HandOverDetailPage";
 import HandOverPatientList from "@components/templates/HandOver/HandOverPatientList";
-import HandOverDetailInfo from "@components/templates/HandOver/HandOverDetailInfo";
-import HandOverDetailDosage from "@components/templates/HandOver/HandOverDetailDosage";
-import HandOverDetailCC from "@components/templates/HandOver/HandOverSteps/HandOverDetailCC";
-import HandOverDetailSign from "@components/templates/HandOver/HandOverSteps/HandOverDetailSign";
 
 import TemporaryListPage from "@pages/HandOverPage/TemporaryListPage";
 
@@ -162,28 +157,6 @@ export default function routes() {
         path="/handover-list/patients"
         element={<HandOverPatientList />}
       />
-
-      <Route
-        path="/handover-list/patients/detail"
-        element={<HandOverDetailPage />}
-      >
-        <Route
-          path=""
-          element={<HandOverDetailInfo />}
-        />
-        <Route
-          path="dosage"
-          element={<HandOverDetailDosage />}
-        />
-        <Route
-          path="CC"
-          element={<HandOverDetailCC />}
-        />
-        <Route
-          path="sign"
-          element={<HandOverDetailSign />}
-        />
-      </Route>
 
       <Route
         path="/temporary-list"

@@ -20,16 +20,19 @@ export default function HandOverWritePage() {
   const [patientInfo, setPatientInfo] = useState([]);
   const { setSelectedPatient } = usePatientStore();
   const wardId = useWardStore((state) => state.wardId);
+  const [searchingWord, setSearchingWord] = useState("");
+  const [filteredPatients, setFilteredPatients] = useState([]);
 
   useEffect(() => {
     setSelectedPatient({});
-    customAxios.get("HandoverSet/details?ID=" + handoverSetId).then((res) => {
-      const handoverPatients = res.data.responseData;
-      handoverPatients.map((item) => {
-        setCompletedHandover(item.patientID, true);
+    handoverSetId &&
+      customAxios.get("HandoverSet/details?ID=" + handoverSetId).then((res) => {
+        const handoverPatients = res.data.responseData;
+        handoverPatients.map((item) => {
+          setCompletedHandover(item.patientID, true);
+        });
       });
-    });
-  }, []);
+  }, [handoverSetId]);
 
   const handlePatientCardClick = (patientInfo) => {
     setSelectedPatient(patientInfo);
@@ -70,6 +73,14 @@ export default function HandOverWritePage() {
       }
     });
   }, [completedHandover]);
+
+  useEffect(() => {
+    setFilteredPatients(
+      patientInfo.filter((patientInfo) =>
+        patientInfo.name.includes(searchingWord),
+      ),
+    );
+  }, [searchingWord, patientInfo]);
 
   const today = new Date();
   const days = ["일", "월", "화", "수", "목", "금", "토"];
@@ -140,6 +151,9 @@ export default function HandOverWritePage() {
             <Input
               variant={"search"}
               placeholder={"담당 병동 내 환자 이름으로 검색"}
+              onChange={(event) => {
+                setSearchingWord(event.target.value);
+              }}
             />
           </Select>
 
@@ -158,11 +172,11 @@ export default function HandOverWritePage() {
               borderRadius: "10px",
             }}
           >
-            {patientInfo.map((patientInfo) => (
+            {filteredPatients.map((patientInfo) => (
               <NavLink
                 to={"/handover-write/" + patientInfo.id}
                 key={patientInfo.id}
-                onClick={handlePatientCardClick}
+                onClick={() => handlePatientCardClick(patientInfo)}
               >
                 <PatientItem
                   type="handoverpatient"
@@ -185,9 +199,8 @@ export default function HandOverWritePage() {
         >
           <Button
             width="100%"
-            variant="primary"
+            variant={numCompletedPatients === 0 ? "disabled" : "primary"}
             onClick={() => navigate("nurse")}
-            disabled={numCompletedPatients === 0}
           >
             인수자 선택
           </Button>

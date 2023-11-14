@@ -30,7 +30,6 @@ export default function HandOverWriteStep() {
   } = useHandoverSetStore((state) => state);
 
   const onTempSave = () => {
-    console.log(handoverId);
     const data = {
       handover: {
         cc: handoverCC,
@@ -42,9 +41,7 @@ export default function HandOverWriteStep() {
       },
       setID: handoverSetId,
     };
-    customAxios.put("Handover", data).then((res) => {
-      console.log(res);
-    });
+    customAxios.put("Handover", data).then((res) => {});
   };
 
   const steps = [
