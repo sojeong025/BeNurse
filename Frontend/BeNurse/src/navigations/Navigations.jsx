@@ -55,6 +55,7 @@ import OAuth2RedirectHandler from "@pages/AdminPage/OAuth2RedirectHandler";
 import AdminSelectRolePage from "@pages/AdminPage/AdminSelectRolePage";
 import AdminMainPage from "../pages/AdminPage/AdminMainPage";
 import AdminManagementPage from "../pages/AdminPage/AdminManagementPage";
+import NotFoundPage from "../pages/AdminPage/NotFoundPage";
 
 import ScheduleCreatePage from "../pages/ScheduleCreatePage/ScheduleCreatePage";
 import ScheduleCreateIntroPage from "../pages/ScheduleCreatePage/ScheduleCreateIntroPage";
@@ -254,6 +255,10 @@ export default function routes() {
             element={<ScheduleCreateIntroPage />}
           />
         </Route>
+        <Route
+          path="*"
+          element={<NotFoundPage />}
+        />
       </Route>
       <Route
         path="/oauth/callback/kakao"

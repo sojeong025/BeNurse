@@ -34,8 +34,8 @@ export const logo = keyframes`
 
 export const StyledStar = styled.img`
   position: absolute;
-  left: 112px;
-  top: 414px;
+  left: calc(50% - 98px);
+  top: calc(50% + 4px);
   animation: ${star} 2.4s ease-in-out;
 `;
 

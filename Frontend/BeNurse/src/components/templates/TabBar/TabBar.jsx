@@ -34,7 +34,8 @@ export default function TabBar() {
       path === "/off-application-write" ||
       path === "/off-application-finish" ||
       path.startsWith("/handover-list/patients/detail") ||
-      path.includes("/detail/journal")
+      path.includes("/detail/journal") ||
+      path.startsWith("/oauth")
     ) {
       setVisibility("none");
     } else {
