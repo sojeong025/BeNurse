@@ -20,7 +20,6 @@ export default function HandOverGiveList({ maxItems }) {
     customAxios
       .get("myhandover/all")
       .then((res) => {
-        console.log("내가 받은 인계장 조회", res);
         setGiveHandoverInfo(res.data.responseData);
         setGiveHandoversetId(res.data.responseData.handoverSetID);
       })

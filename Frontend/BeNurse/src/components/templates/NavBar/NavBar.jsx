@@ -38,9 +38,7 @@ export default function NavBar({ onSave }) {
       },
       setID: handoverSetId,
     };
-    customAxios.put("Handover", data).then((res) => {
-      console.log(res);
-    });
+    customAxios.put("Handover", data).then((res) => {});
   };
 
   // 이전으로 가기

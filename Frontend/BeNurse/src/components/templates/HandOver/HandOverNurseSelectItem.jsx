@@ -28,7 +28,6 @@ export default function HandOverNurseSelectItem({
       ...prevState,
       [id]: e.target.checked,
     }));
-    console.log("선택된 간호사 아이디 체크", checkedItems);
   };
 
   useEffect(() => {
@@ -40,7 +39,6 @@ export default function HandOverNurseSelectItem({
 
   useEffect(() => {
     customAxios.get("nurse/me").then((res) => {
-      console.log(res);
       setWardName(res.data.responseData.wardName);
       setWardId(res.data.responseData.wardID);
       setMyId(res.data.responseData.id);
@@ -56,7 +54,6 @@ export default function HandOverNurseSelectItem({
           },
         })
         .then((res) => {
-          console.log(res);
           Array.isArray(res.data.responseData)
             ? setSendNurseInfo(res.data.responseData)
             : setSendNurseInfo([res.data.responseData]);

@@ -30,7 +30,6 @@ export default function HandOverNurseSelectPage() {
         takeIDs: selectedNurseIds,
       })
       .then((res) => {
-        console.log("인계장 최종 전송완료", res);
         navigate("/handover-write/complete");
       })
       .catch((err) => console.log(err));

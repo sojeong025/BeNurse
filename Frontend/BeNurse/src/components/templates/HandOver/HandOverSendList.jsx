@@ -16,7 +16,6 @@ export default function HandOverSendList() {
     customAxios
       .get("myhandover/send")
       .then((res) => {
-        console.log("내가 보낸 인계장 조회", res);
         setSendHandoverInfo(res.data.responseData);
         setSendHandoversetId(res.data.responseData.handoverSetID);
       })

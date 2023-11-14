@@ -9,7 +9,6 @@ import { customAxios } from "../../libs/axios";
 export default function OffwritePage() {
   const { selectedDates } = useOffDateStore();
 
-  console.log("data형식파악", selectedDates);
   const [content, setContent] = useState("");
   const navigate = useNavigate();
 

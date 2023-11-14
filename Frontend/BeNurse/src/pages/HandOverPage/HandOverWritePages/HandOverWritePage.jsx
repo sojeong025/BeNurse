@@ -25,13 +25,14 @@ export default function HandOverWritePage() {
 
   useEffect(() => {
     setSelectedPatient({});
-    customAxios.get("HandoverSet/details?ID=" + handoverSetId).then((res) => {
-      const handoverPatients = res.data.responseData;
-      handoverPatients.map((item) => {
-        setCompletedHandover(item.patientID, true);
+    handoverSetId &&
+      customAxios.get("HandoverSet/details?ID=" + handoverSetId).then((res) => {
+        const handoverPatients = res.data.responseData;
+        handoverPatients.map((item) => {
+          setCompletedHandover(item.patientID, true);
+        });
       });
-    });
-  }, []);
+  }, [handoverSetId]);
 
   const handlePatientCardClick = (patientInfo) => {
     setSelectedPatient(patientInfo);

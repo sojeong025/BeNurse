@@ -16,9 +16,7 @@ import HandOverItem from "@assets/Icons/handoveritem.svg";
 // Images
 import nurse from "@assets/Images/patient_temp.png";
 
-const onChange = (key) => {
-  console.log(key);
-};
+const onChange = (key) => {};
 
 const items = [
   {

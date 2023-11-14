@@ -28,7 +28,6 @@ export default function HandOverReadDetailPage() {
         },
       })
       .then((res) => {
-        console.log("인계장 detail 요청", res);
         setHandoverDetails(res.data.responseData);
 
         const journalIds = res.data.responseData[0]?.journals;
@@ -41,7 +40,6 @@ export default function HandOverReadDetailPage() {
                 },
               })
               .then((res) => {
-                console.log("인계장 detail에서 journal 조회", res);
                 setJournalDatas((prevData) => [
                   ...prevData,
                   res.data.responseData,

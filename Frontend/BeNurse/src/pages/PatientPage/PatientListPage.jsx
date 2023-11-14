@@ -23,7 +23,6 @@ export default function PatientListPage() {
     customAxios
       .get("emr/patient/all")
       .then((res) => {
-        console.log("환자 목록 불러오기", res.data.responseData);
         const patientsData = res.data.responseData.map((patientData) => {
           return {
             ...patientData.patient.patient,

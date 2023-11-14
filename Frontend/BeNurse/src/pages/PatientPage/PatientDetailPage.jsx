@@ -25,7 +25,6 @@ export default function PatientDetailPage() {
     customAxios
       .get("emr/patient?id=" + patientId)
       .then((res) => {
-        console.log("환자 정보 불러오기", res.data.responseData);
         setPatient({
           ...res.data.responseData.patient.patient,
         });
@@ -57,7 +56,6 @@ export default function PatientDetailPage() {
     customAxios
       .put(`emr`, patient)
       .then((res) => {
-        console.log("환자 정보 저장 성공:", res.data);
         toast("환자 정보를 수정했어요.", {
           position: "bottom-center",
           icon: "✅",

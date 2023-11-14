@@ -32,9 +32,7 @@ export default function HandOverDetailSign() {
 
   useEffect(() => {
     if (handoverSpecial.length === 0) {
-      customAxios.get("emr/patient?id=" + handoverPatientId).then((res) => {
-        console.log(res.data.responseData.patient);
-      });
+      customAxios.get("emr/patient?id=" + handoverPatientId).then((res) => {});
     }
 
     return () => {

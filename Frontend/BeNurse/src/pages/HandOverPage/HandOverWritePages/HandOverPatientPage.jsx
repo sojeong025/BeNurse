@@ -72,14 +72,12 @@ export default function HandOverPatientPage() {
           setID: handoverSetId,
         };
         customAxios.post("Handover", data).then((res) => {
-          console.log(res.data.responseData);
           setHandoverId(res.data.responseData.id);
           setHandoverPatientId(patientId);
           setHandoverJournals(() => []);
           setHandoverCC(() => []);
           setHandoverSpecial(() => []);
           setHandoverEtc(() => []);
-          console.log("환자 인계장 생성 완료");
           navigate("/handover-write/" + patientId + "/patients/write");
         });
       }

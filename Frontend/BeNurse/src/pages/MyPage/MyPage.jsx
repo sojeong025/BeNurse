@@ -57,9 +57,7 @@ export default function MyPage() {
       onClick: () => {
         customAxios
           .delete("nurse", { id: localStorage.getItem("nurseID") })
-          .then((res) => {
-            console.log("간호사 탈퇴 성공", res);
-          })
+          .then((res) => {})
           .catch((error) => {
             console.error("간호사 탈퇴 실패:", error);
           });
@@ -89,7 +87,6 @@ export default function MyPage() {
     customAxios
       .get("nurse/me")
       .then((res) => {
-        console.log("내 정보 불러오기", res.data.responseData);
         setMyInfo(res.data.responseData);
       })
       .catch((error) => {

@@ -18,7 +18,6 @@ export default function NoticeUpdatePage() {
     customAxios
       .get("notice?ID=" + noticeId)
       .then((res) => {
-        console.log("공지 사항 불러오기", res.data.responseData);
         setNoticeData(res.data.responseData);
       })
       .catch((error) => {
@@ -58,7 +57,6 @@ export default function NoticeUpdatePage() {
     customAxios
       .put("notice", noticeData)
       .then((res) => {
-        console.log("공지 사항 수정 완료", res);
         navigate("/notice");
       })
       .catch((error) => {

@@ -26,7 +26,6 @@ import HandOverReadDetailPage from "@pages/HandOverPage/HandOverReadDetailPage";
 import HandOverNurseSelectPage from "@pages/HandOverPage/HandOverNurseSelectPage";
 import HandOverFinishPage from "@pages/HandOverPage/HandOverFinishPage";
 
-import HandOverDetailPage from "@pages/HandOverPage/HandOverDetailPage";
 import HandOverPatientList from "@components/templates/HandOver/HandOverPatientList";
 import HandOverDetailInfo from "@components/templates/HandOver/HandOverDetailInfo";
 import HandOverDetailDosage from "@components/templates/HandOver/HandOverDetailDosage";
@@ -101,10 +100,6 @@ export default function routes() {
           element={<PatientListPage />}
         />
         <Route
-          path=":patientId/detail"
-          element={<PatientDetailPage />}
-        />
-        <Route
           path=":patientId/detail/journal"
           element={<PatientJournalPage />}
         >
@@ -162,28 +157,6 @@ export default function routes() {
         path="/handover-list/patients"
         element={<HandOverPatientList />}
       />
-
-      <Route
-        path="/handover-list/patients/detail"
-        element={<HandOverDetailPage />}
-      >
-        <Route
-          path=""
-          element={<HandOverDetailInfo />}
-        />
-        <Route
-          path="dosage"
-          element={<HandOverDetailDosage />}
-        />
-        <Route
-          path="CC"
-          element={<HandOverDetailCC />}
-        />
-        <Route
-          path="sign"
-          element={<HandOverDetailSign />}
-        />
-      </Route>
 
       <Route
         path="/temporary-list"

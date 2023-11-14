@@ -40,7 +40,6 @@ function MainPage() {
     customAxios
       .get(`Schedule?endDate=${endOfWeek}&startDate=${startOfWeek}`)
       .then((res) => {
-        console.log("내 주간 근무 일정", res.data.responseData);
         const sortedData = res.data.responseData.sort((a, b) => {
           return moment(a.workdate).isBefore(b.workdate) ? -1 : 1;
         });

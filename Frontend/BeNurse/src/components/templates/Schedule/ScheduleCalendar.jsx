@@ -145,7 +145,6 @@ export default function ScheduleCalendar() {
 
   const handleDateClick = (e, date) => {
     e.preventDefault();
-    console.log(date.day);
     const selectedDate = `${currentDate.getFullYear()}-${(
       currentDate.getMonth() + 1
     )

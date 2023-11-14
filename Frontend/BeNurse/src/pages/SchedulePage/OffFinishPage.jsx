@@ -4,7 +4,10 @@ import { Common } from "../../utils/global.styles";
 import Button from "../../components/atoms/Button/Button";
 import { NavLink } from "react-router-dom";
 
-import send from "@assets/Images/send.png";
+import Lottie from "lottie-react";
+import send from "@assets/Icons/send2.json";
+
+// import send from "@assets/Images/send.png";
 
 export default function OffFinishPage() {
   return (
@@ -19,15 +22,9 @@ export default function OffFinishPage() {
           alignItems: "center",
         }}
       >
-        <img
-          src={send}
-          style={{
-            width: "120px",
-            height: "120px",
-            marginBottom: "50px",
-          }}
-          alt=""
-        />
+        <div style={{ width: "200px", height: "200px", marginBottom: "50px" }}>
+          <Lottie animationData={send} />
+        </div>
         <div
           style={{
             fontSize: Common.fontSize.fontXXL,

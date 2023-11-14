@@ -20,7 +20,6 @@ export default function TemporaryListPage() {
 
   useEffect(() => {
     customAxios.get("HandoverSet/tempsave").then((res) => {
-      console.log(res.data.responseData);
       setTempHandoverInfo(res.data.responseData);
     });
     unsetCompletedHandover();

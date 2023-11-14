@@ -54,7 +54,6 @@ export default function JournalTimeLine({ patientId }) {
           .toISOString(),
       })
       .then((res) => {
-        console.log("간호일지 목록 불러오기", res.data.responseData);
         const journalList = res.data.responseData.sort((a, b) => {
           let dateA = new Date(a.datetime);
           let dateB = new Date(b.datetime);

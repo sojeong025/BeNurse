@@ -52,7 +52,6 @@ export default function NoticeListPage() {
     customAxios
       .get("notice/all")
       .then((res) => {
-        console.log("공지 사항 목록 불러오기", res.data.responseData);
         setNoticeList(res.data.responseData);
       })
       .catch((error) => {
