@@ -7,15 +7,20 @@ export default function AdminManagementItem({
   type,
   item,
   wards,
+  setWards,
   edit,
   nurses,
   setNurses,
+  devices,
+  setDevices,
 }) {
   if (type === "ward") {
     return (
       <WardItem
         item={item}
         edit={edit}
+        wards={wards}
+        setWards={setWards}
       />
     );
   } else if (type === "employee") {
@@ -29,6 +34,13 @@ export default function AdminManagementItem({
       />
     );
   } else {
-    return <EquipmentItem item={item} />;
+    return (
+      <EquipmentItem
+        item={item}
+        edit={edit}
+        setDevices={setDevices}
+        devices={devices}
+      />
+    );
   }
 }

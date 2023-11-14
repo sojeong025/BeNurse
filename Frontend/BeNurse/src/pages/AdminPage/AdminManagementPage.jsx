@@ -155,7 +155,7 @@ export default function AdminManagementPage() {
                 setEdit("");
               }}
             >
-              저장
+              취소
             </Box>
           ) : (
             <Box
@@ -178,6 +178,8 @@ export default function AdminManagementPage() {
               item={item}
               edit={edit}
               key={i}
+              wards={wards}
+              setWards={setWards}
             />
           );
         })}
@@ -301,7 +303,7 @@ export default function AdminManagementPage() {
                 setEdit("");
               }}
             >
-              저장
+              취소
             </Box>
           ) : (
             <Box
@@ -331,6 +333,8 @@ export default function AdminManagementPage() {
                 item={item}
                 edit={edit}
                 key={i}
+                devices={devices}
+                setDevices={setDevices}
               />
             );
           })}
