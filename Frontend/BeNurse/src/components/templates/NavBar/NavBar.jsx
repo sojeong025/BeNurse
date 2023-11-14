@@ -79,20 +79,24 @@ export default function NavBar({ onSave }) {
   ];
 
   // 알림버튼 필요하면 여기 넣기
-  const bellRoutes = ["/main", "/handover"];
+  // const bellRoutes = ["/main", "/handover"];
+  const bellRoutes = [];
   // 다음 버튼 필요하면 여기 넣기
   const nextRoutes = ["/off-application"];
   // 임시저장 필요하면 여기 넣기
   const temSaveRoutes = ["/handover-write/"];
 
   const path = useLocation().pathname;
-  const shouldDisplayBackIcon = backRoutes.some(
-    (route) => path.startsWith(route) || /^\/patient\/\d+\/detail/.test(path),
-  );
+  const shouldDisplayBackIcon =
+    backRoutes.some(
+      (route) => path.startsWith(route) || /^\/patient\/\d+\/detail/.test(path),
+    ) && path !== "/handover-write/complete";
+
   const shouldDisplayNextIcon = nextRoutes.includes(path);
-  const shouldDisplayTempSaveIcon = temSaveRoutes.some((route) =>
-    path.startsWith(route),
-  );
+  const shouldDisplayTempSaveIcon =
+    temSaveRoutes.some((route) => path.startsWith(route)) &&
+    path !== "/handover-write/complete";
+
   const shouldDisplayBellIcon =
     !nextRoutes.includes(path) && bellRoutes.includes(path);
   const shouldDisplaySaveIcon = /^\/patient\/\d+\/detail\/?$/.test(path);
