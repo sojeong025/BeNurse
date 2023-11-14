@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 
 import { BsCheck } from "react-icons/bs";
-import nurseImg from "@assets/Images/patient_temp.png";
-
+import nurse_g01 from "@assets/Images/nurse_g01.png";
+import nurse_g02 from "@assets/Images/nurse_g02.png";
+import nurse_g03 from "@assets/Images/nurse_g03.png";
+import nurse_g04 from "@assets/Images/nurse_g04.png";
 import { customAxios } from "../../../libs/axios";
 
 import * as S from "./HandOverNurseSelectItem.styles";
@@ -69,14 +71,26 @@ export default function HandOverNurseSelectItem({
           <S.NurseContainer>
             <S.NurseProfile>
               <img
-                className="nurse_img"
-                src={nurseImg}
+                style={{
+                  width: "40px",
+                  borderRadius: "40px",
+                  marginRight: "4px",
+                }}
+                src={
+                  nurse.grade === "평간호사"
+                    ? nurse_g01
+                    : nurse.grade === "주임 간호사"
+                    ? nurse_g02
+                    : nurse.grade === "책임 간호사"
+                    ? nurse_g03
+                    : nurse_g04
+                }
                 alt=""
               />
               <div>
                 <p className="nurse_name">{nurse.name} 간호사</p>
                 <p className="nurse_work">
-                  {wardName} {nurse.annual}년차
+                  {nurse.wardName} {nurse.annual}년 차
                 </p>
               </div>
             </S.NurseProfile>
