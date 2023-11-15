@@ -125,7 +125,7 @@ public class WardController {
 	
 	// 병동 정보 수정 PUT
 	@PutMapping("")
-	@ApiOperation(value = "병동 정보 수정", notes = "병동 정보 수정") 
+	@ApiOperation(value = "병동 정보 수정", notes = "병동 정보 수정\nID와 name 입력") 
 	@ApiResponses({
 	    @ApiResponse(code = 200, message = "성공", response = Ward.class),
 	    @ApiResponse(code = 404, message = "병동을 찾을 수 없음"),
@@ -134,6 +134,9 @@ public class WardController {
 	public APIResponse<Ward> updateWardById(@RequestBody Ward updatedWard){
 	    try {
 			// 업데이트된 병원 정보를 저장
+	    	Ward ward = wardServ.findById(updatedWard.getID());
+	    	updatedWard.setHospitalID(ward.getHospitalID());
+	    	
 	    	Ward savedWard = wardServ.save(updatedWard);
 	        return new APIResponse<>(savedWard, HttpStatus.OK);
 	    }catch (Exception e) {
