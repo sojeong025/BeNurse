@@ -34,29 +34,50 @@ export default function WardItem({ item, edit, wards, setWards }) {
         }}
       >
         <p>{item.name}</p>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            fontSize: "11px",
+          }}
+        >
           <div
             onClick={() => {
               setIsModalOpen(true);
               setCurrentWard(item);
             }}
             style={{
-              display: edit === "병동 관리" ? "block" : "none",
               cursor: "pointer",
+              width: "50px",
+              height: "22px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "10px",
+              backgroundColor: Common.color.purple03,
+              color: "#ffffff",
             }}
           >
-            <RiPencilFill fill={Common.color.purple03} />
+            수정
           </div>
           <div
             onClick={() => {
               setIsDeleteModalOpen(true);
             }}
             style={{
-              display: edit === "병동 관리" ? "block" : "none",
               cursor: "pointer",
+              width: "50px",
+              height: "22px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "10px",
+              backgroundColor: "#6c757d",
+              color: "#ffffff",
             }}
           >
-            <IoTrash fill={Common.color.danger} />
+            삭제
           </div>
         </div>
       </div>
@@ -114,17 +135,28 @@ export default function WardItem({ item, edit, wards, setWards }) {
               size={["200px", "60px"]}
               props={"cursor: pointer;"}
               onClick={() => {
-                setWards(
-                  wards.map((ward) =>
-                    ward.id === item.id
-                      ? {
-                          ...ward,
-                          name: currentWard.name,
-                          asTel: currentWard.asTel,
-                        }
-                      : ward,
-                  ),
-                );
+                customAxios
+                  .put("ward", {
+                    name: currentWard.name,
+                    id: currentWard.id,
+                  })
+                  .then((res) => {
+                    console.log("병동 수정 완료", res);
+                    setWards(
+                      wards.map((ward) =>
+                        ward.id === item.id
+                          ? {
+                              ...ward,
+                              id: currentWard.id,
+                              name: currentWard.name,
+                            }
+                          : ward,
+                      ),
+                    );
+                  })
+                  .catch((error) => {
+                    console.error("병동 수정 실패", error);
+                  });
                 setIsModalOpen(false);
               }}
             >

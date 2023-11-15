@@ -47,8 +47,48 @@ export default function AdminManagementPage() {
     }
   };
 
-  const createWard = () => {
-    // customAxios.post;
+  const [ID, setID] = useState("");
+  const [name, setName] = useState("");
+  const [asTel, setAsTel] = useState("");
+  const [info, setInfo] = useState("");
+  const [img, setImg] = useState(null);
+
+  const handleIDChange = (e) => {
+    setID(e.target.value);
+  };
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleAsTelChange = (e) => {
+    setAsTel(e.target.value);
+  };
+
+  const handleFileChange = (e) => {
+    setImg(e.target.files[0]);
+  };
+
+  const handleAddDevice = () => {
+    const formData = new FormData();
+    formData.append("ID", ID);
+    formData.append("name", name);
+    formData.append("asTel", asTel);
+    formData.append("file", img);
+    customAxios
+      .post("device", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        URL.revokeObjectURL(img);
+        CloseModal();
+        customAxios.get("device/all").then((res) => {
+          setDevices(res.data.responseData);
+        });
+        setImg(null);
+      });
   };
 
   const onNurseSave = () => {
@@ -151,31 +191,8 @@ export default function AdminManagementPage() {
               +
             </Box>
           </div>
-          {edit === "병동 관리" ? (
-            <Box
-              type={"purple03"}
-              size={["70px", "30px"]}
-              props={"cursor: pointer; font-size: 12px;"}
-              onClick={() => {
-                setEdit("");
-              }}
-            >
-              취소
-            </Box>
-          ) : (
-            <Box
-              type={"purple03"}
-              size={["70px", "30px"]}
-              props={"cursor: pointer; font-size: 12px;"}
-              onClick={() => {
-                setEdit("병동 관리");
-              }}
-            >
-              편집
-            </Box>
-          )}
         </div>
-        <hr style={{ width: "100%", margin: "20px 0px" }} />
+        <hr style={{ width: "100%", margin: "26px 0px 10px 0px" }} />
         {wards?.map((item, i) => {
           return (
             <AdminManagementItem
@@ -245,7 +262,7 @@ export default function AdminManagementPage() {
             </Box>
           )}
         </div>
-        <hr style={{ width: "100%", margin: "20px 0px" }} />
+        <hr style={{ width: "100%", margin: "20px 0px 10px 0px" }} />
         <div
           style={{
             height: "500px",
@@ -299,31 +316,8 @@ export default function AdminManagementPage() {
               +
             </Box>
           </div>
-          {edit === "장비 관리" ? (
-            <Box
-              type={"purple03"}
-              size={["70px", "30px"]}
-              props={"cursor: pointer; font-size: 12px;"}
-              onClick={() => {
-                setEdit("");
-              }}
-            >
-              취소
-            </Box>
-          ) : (
-            <Box
-              type={"purple03"}
-              size={["70px", "30px"]}
-              props={"cursor: pointer; font-size: 12px;"}
-              onClick={() => {
-                setEdit("장비 관리");
-              }}
-            >
-              편집
-            </Box>
-          )}
         </div>
-        <hr style={{ width: "100%", margin: "20px 0px" }} />
+        <hr style={{ width: "100%", margin: "26px 0px 10px 0px" }} />
         <div
           style={{
             height: "500px",
@@ -375,7 +369,7 @@ export default function AdminManagementPage() {
                 {inviteCode.map((code, i) => (
                   <Box
                     type={"purple01"}
-                    size={["40px", "60px"]}
+                    size={["40px", "50px"]}
                     key={i}
                   >
                     {code}
@@ -417,7 +411,7 @@ export default function AdminManagementPage() {
               </div>
               <Box
                 type={"purple03"}
-                size={["200px", "60px"]}
+                size={["200px", "50px"]}
                 props={"cursor: pointer;"}
                 onClick={createInviteCode}
               >
@@ -476,7 +470,7 @@ export default function AdminManagementPage() {
             </div>
             <Box
               type={"purple03"}
-              size={["200px", "60px"]}
+              size={["200px", "50px"]}
               props={"cursor: pointer;"}
               onClick={() => {
                 customAxios
@@ -513,9 +507,110 @@ export default function AdminManagementPage() {
           <Box
             type={"white"}
             size={["500px", "400px"]}
-            props={"flex-direction: column; gap: 40px;"}
+            props={"flex-direction: column; gap: 20px;"}
           >
-            equipment
+            <p style={{ fontSize: "20px", margin: "10px 0px" }}>
+              장비 추가하기
+            </p>
+            <div
+              style={{
+                display: "flex",
+                width: "400px",
+                height: "200px",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "140px",
+                  height: "140px",
+                  border: "1px solid black",
+                  marginRight: "20px",
+                }}
+              >
+                <input
+                  type="file"
+                  name="img"
+                  onChange={handleFileChange}
+                />
+                {img && (
+                  <img
+                    style={{
+                      width: "140px",
+                      height: "140px",
+                      objectFit: "contain",
+                    }}
+                    src={URL.createObjectURL(img)}
+                    alt="preview"
+                  />
+                )}
+              </div>
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "14px",
+                    marginBottom: "10px",
+                    marginTop: "10px",
+                  }}
+                >
+                  <p style={{ fontSize: "14px", width: "80px" }}>장비 ID </p>
+                  <Input
+                    variant={"default"}
+                    name="ID"
+                    onChange={handleIDChange}
+                    width="140px"
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "14px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <p style={{ fontSize: "14px", width: "80px" }}>장비 명 </p>
+                  <Input
+                    variant={"default"}
+                    name="name"
+                    onChange={handleNameChange}
+                    width="140px"
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "14px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <p style={{ fontSize: "14px", width: "80px" }}>
+                    AS 전화번호{" "}
+                  </p>
+                  <Input
+                    variant={"default"}
+                    name="asTel"
+                    onChange={handleAsTelChange}
+                    width="140px"
+                  />
+                </div>
+              </div>
+            </div>
+            <Box
+              type={"purple03"}
+              size={["200px", "50px"]}
+              props={"cursor: pointer;"}
+              onClick={handleAddDevice}
+            >
+              장비 추가
+            </Box>
           </Box>
         </div>
       ) : null}
