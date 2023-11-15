@@ -1,0 +1,185 @@
+* {
+  font-family: "NanumSquareNeo";
+}
+body {
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  width: 412px;
+  height: 810px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+html,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  text-decoration: none;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+input:focus-visible,
+textarea:focus-visible {
+  outline: none;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
+:root {
+  --rsbs-backdrop-bg: rgba(0, 0, 0, 0.6);
+  --rsbs-bg: #fff;
+  --rsbs-handle-bg: hsl(0, 0%, 80%);
+  --rsbs-max-w: auto;
+  --rsbs-ml: env(safe-area-inset-left);
+  --rsbs-mr: env(safe-area-inset-right);
+  --rsbs-overlay-rounded: 16px;
+
+  & [data-rsbs-backdrop="true"],
+  & [data-rsbs-overlay="true"] {
+    z-index: 100;
+  }
+
+  & ::before {
+    width: 100px;
+    height: 6px;
+    border-radius: 10px;
+  }
+
+  & [data-rsbs-scroll] {
+    overflow: hidden;
+  }
+}
+
+#root {
+  position: relative;
+}
+
+.handover-detail [data-rsbs-overlay] {
+  z-index: 98;
+}
+
+.handover-detail [data-rsbs-header] {
+  background: #9669f9;
+  border-radius: 16px 16px 0 0;
+}
+.handover-detail [data-rsbs-scroll] {
+  margin-top: -1px;
+}
