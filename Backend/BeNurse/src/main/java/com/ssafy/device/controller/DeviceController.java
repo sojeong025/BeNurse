@@ -59,7 +59,7 @@ public class DeviceController {
 	
 	// 장비 등록 POST
 	@PostMapping(value = "", consumes = "multipart/form-data")
-	@ApiOperation(value = "장비 등록", notes = "장비 등록\n필수 : ID, name, info, asTel\n선택 : file(장비 이미지)")
+	@ApiOperation(value = "장비 등록", notes = "장비 등록\n필수 : ID, name, asTel\n선택 : file(장비 이미지)")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = Device.class),
 		@ApiResponse(code = 404, message = "결과 없음"),
@@ -199,8 +199,7 @@ public class DeviceController {
 				throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 			}
 			
-			List<Device> device = deviceRepo.findAllByHospitalID(nurse.getHospitalID());
-			Collections.reverse(device);
+			List<Device> device = deviceRepo.findAllByHospitalIDOrderByName(nurse.getHospitalID());
 		    return new APIResponse<>(device, HttpStatus.OK);
 		}
 		

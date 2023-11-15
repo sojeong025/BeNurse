@@ -35,9 +35,6 @@ public class Device extends NFCResponse{
 	@Column(name = "IMG")
 	private String img;
 	
-	@Column(name = "INFO")
-	private String info;
-	
 	@Column(name = "AS_TEL")
 	private String asTel;
 }
