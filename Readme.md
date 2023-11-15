@@ -25,7 +25,7 @@
 
 ## 2. 서비스 화면
 
-Mobile
+ 📱 Mobile
 
 💉 <b>Login & Invite_Code</b>
 
@@ -78,8 +78,8 @@ Mobile
 |<img src="">|<img src="">|
 | **Device Location** | **Device Use List** |
 <br>
-
-Web
+  
+ 💶 Web
 
 💊 <b>Login & Select Role</b>
 
