@@ -1,5 +1,6 @@
 package com.ssafy.device.controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,7 +65,10 @@ public class DeviceController {
 		@ApiResponse(code = 404, message = "결과 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Device> registDevice(@RequestHeader("Authorization") String token, @RequestParam(name = "file",required =false) MultipartFile file, @ModelAttribute Device device) {
+	public APIResponse<Device> registDevice(
+			@RequestHeader("Authorization") String token, 
+			@RequestParam(name = "file",required =false) MultipartFile file, 
+			@ModelAttribute Device device) {
 		Nurse nurse;
 		// 사용자 조회
 		try {
@@ -107,7 +111,10 @@ public class DeviceController {
 	    @ApiResponse(code = 404, message = "게시글을 찾을 수 없음"),
 	    @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public APIResponse<Device> updateDeviceByDeviceId(@RequestHeader("Authorization") String token, @RequestParam(name = "file", required = false) MultipartFile file, @ModelAttribute Device updatedDevice){
+	public APIResponse<Device> updateDeviceByDeviceId(
+			@RequestHeader("Authorization") String token, 
+			@RequestParam(name = "file", required = false) MultipartFile file, 
+			@ModelAttribute Device updatedDevice){
 		Nurse nurse;
 		// 사용자 조회
 		try {
@@ -193,6 +200,7 @@ public class DeviceController {
 			}
 			
 			List<Device> device = deviceRepo.findAllByHospitalID(nurse.getHospitalID());
+			Collections.reverse(device);
 		    return new APIResponse<>(device, HttpStatus.OK);
 		}
 		
