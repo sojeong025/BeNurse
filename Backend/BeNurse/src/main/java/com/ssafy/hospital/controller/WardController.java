@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -120,6 +121,25 @@ public class WardController {
 	    
 		Ward savedWard = wardRepo.save(ward);
 	    return new APIResponse<>(savedWard, HttpStatus.OK);
+	}
+	
+	// 병동 정보 수정 PUT
+	@PutMapping("")
+	@ApiOperation(value = "병동 정보 수정", notes = "병동 정보 수정") 
+	@ApiResponses({
+	    @ApiResponse(code = 200, message = "성공", response = Ward.class),
+	    @ApiResponse(code = 404, message = "병동을 찾을 수 없음"),
+	    @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public APIResponse<Ward> updateWardById(@RequestBody Ward updatedWard){
+	    try {
+			// 업데이트된 병원 정보를 저장
+	    	Ward savedWard = wardServ.save(updatedWard);
+	        return new APIResponse<>(savedWard, HttpStatus.OK);
+	    }catch (Exception e) {
+	    	e.printStackTrace();
+	    	throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	    }
 	}
 	
 	@DeleteMapping("")
