@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Common } from "../../utils/global.styles";
 import Box from "../../components/atoms/Box/Box";
 import Input from "@components/atoms/Input/Input";
+import { FaFileCirclePlus } from "react-icons/fa6";
 import { customAxios } from "../../libs/axios";
 import { useModalStore } from "../../store/store";
 import { useInviteStore } from "../../store/store";
@@ -75,20 +76,34 @@ export default function AdminManagementPage() {
     formData.append("name", name);
     formData.append("asTel", asTel);
     formData.append("file", img);
-    customAxios
-      .post("device", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        URL.revokeObjectURL(img);
-        CloseModal();
-        customAxios.get("device/all").then((res) => {
-          setDevices(res.data.responseData);
+    function telValidator(args) {
+      if (/^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/.test(args)) {
+        return true;
+      }
+      return false;
+    }
+
+    if (telValidator(asTel)) {
+      customAxios
+        .post("device", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          URL.revokeObjectURL(img);
+          CloseModal();
+          customAxios.get("device/all").then((res) => {
+            setDevices(res.data.responseData);
+          });
+          setID(null);
+          setName(null);
+          setAsTel(null);
+          setImg(null);
         });
-        setImg(null);
-      });
+    } else {
+      alert("전화번호가 바르지 않습니다.");
+    }
   };
 
   const onNurseSave = () => {
@@ -106,6 +121,7 @@ export default function AdminManagementPage() {
     if (e.target === e.currentTarget) {
       CloseModal();
       setInviteCode(null);
+      setImg(null);
       setCount(30);
     }
   };
@@ -132,7 +148,7 @@ export default function AdminManagementPage() {
       setDevices(res.data.responseData);
       console.log(res.data.responseData);
     });
-  }, []);
+  }, [isModal]);
 
   useEffect(() => {
     if (inviteCode) {
@@ -326,6 +342,7 @@ export default function AdminManagementPage() {
           }}
         >
           {devices?.map((item, i) => {
+            console.log(devices);
             return (
               <AdminManagementItem
                 type={"equipment"}
@@ -528,21 +545,46 @@ export default function AdminManagementPage() {
                   alignItems: "center",
                   width: "140px",
                   height: "140px",
-                  border: "1px solid black",
+                  maxWidth: "140px",
+                  maxHeight: "140px",
+                  backgroundColor: "#e7e7e7",
+                  borderRadius: "20px",
+                  marginLeft: "-20px",
                   marginRight: "20px",
                 }}
               >
-                <input
-                  type="file"
-                  name="img"
-                  onChange={handleFileChange}
-                />
+                {!img && (
+                  <>
+                    <label
+                      for="file"
+                      style={{ cursor: "pointer" }}
+                    >
+                      <FaFileCirclePlus
+                        size={44}
+                        opacity={0.4}
+                      />
+                    </label>
+                    <input
+                      id="file"
+                      type="file"
+                      name="img"
+                      style={{ display: "none" }}
+                      onChange={handleFileChange}
+                    />
+                  </>
+                )}
                 {img && (
                   <img
                     style={{
                       width: "140px",
                       height: "140px",
-                      objectFit: "contain",
+                      maxWidth: "140px",
+                      maxHeight: "140px",
+                      borderRadius: "20px",
+                      objectFit: "cover",
+                    }}
+                    onClick={() => {
+                      setImg(null);
                     }}
                     src={URL.createObjectURL(img)}
                     alt="preview"

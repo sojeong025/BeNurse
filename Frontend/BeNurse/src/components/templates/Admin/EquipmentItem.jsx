@@ -20,11 +20,7 @@ export default function EquipmentItem({ item, devices, setDevices }) {
   };
 
   const deleteEquipment = () => {
-    customAxios.delete("nfc", {
-      params: {
-        ID: equipment.id,
-      },
-    });
+    customAxios.delete("nfc?ID=" + item.id);
   };
 
   return (
