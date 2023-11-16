@@ -10,7 +10,6 @@ import { Select } from "./HandOverWritePage.styles";
 
 import { usePatientStore } from "@store/store";
 import { useHandoverSetStore } from "../../../store/store";
-import { useWardStore } from "../../../store/store";
 import { usePatientCardStore } from "../../../store/store";
 
 export default function HandOverWritePage() {
@@ -19,7 +18,6 @@ export default function HandOverWritePage() {
     useHandoverSetStore((state) => state);
   const [patientInfo, setPatientInfo] = useState([]);
   const { setSelectedPatient } = usePatientStore();
-  const wardId = useWardStore((state) => state.wardId);
   const [searchingWord, setSearchingWord] = useState("");
   const [filteredPatients, setFilteredPatients] = useState([]);
 

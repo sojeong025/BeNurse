@@ -41,7 +41,6 @@ export default function AdminMainPage() {
     });
 
     customAxios.get("nurse/all").then((res) => {
-      console.log(res.data.responseData);
       setNurses(res.data.responseData);
     });
 

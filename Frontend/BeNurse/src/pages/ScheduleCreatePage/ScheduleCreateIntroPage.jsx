@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import Box from "../../components/atoms/Box/Box";
 import { Common } from "../../utils/global.styles";
 import calendar from "@assets/Images/calendar.png";
-import Input from "@components/atoms/Input/Input";
 import { customAxios } from "../../libs/axios";
 import AdminCalendar from "../../components/templates/Admin/AdminCalendar";
 import nurseImg from "@assets/Images/patient_temp.png";
-import schedule from "@assets/Images/schedule.png";
 import OffApplyItem from "../../components/templates/Schedule/OffApplyItem";
 import { useOffDateStore } from "../../store/store";
 import { BsCheck } from "react-icons/bs";
@@ -80,7 +78,6 @@ export default function ScheduleCreateIntroPage() {
       2023,
       Object.values(nurseList),
     );
-    console.log(newSchedule);
     setStep((step) => step + 1);
     setTimeout(() => {
       setCreateComplete(true);

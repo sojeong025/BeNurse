@@ -6,7 +6,6 @@ import JournalTimeLine from "../../components/templates/Patient/JournalTimeLine"
 import CreatePencilButton from "../../components/atoms/Button/CreatePencilButton";
 import BottomSelectPanel from "../../components/templates/BottomSelectPanel/BottomSelectPanel";
 import { useHandoverSetStore } from "../../store/store";
-import { customAxios } from "../../libs/axios";
 
 export default function PatientJournalMain() {
   const { patientId } = useParams();

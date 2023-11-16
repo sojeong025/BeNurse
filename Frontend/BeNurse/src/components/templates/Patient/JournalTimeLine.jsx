@@ -177,7 +177,6 @@ export default function JournalTimeLine({ patientId }) {
                     customAxios
                       .delete("emr/journal?id=" + modalItem)
                       .then((response) => {
-                        console.log("간호일지 삭제 성공");
                         navigate(0);
                         setModalIsOpen(false);
                       })

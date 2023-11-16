@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import ScheduleCalendar from "@components/templates/Schedule/ScheduleCalendar";
 import Container from "@components/atoms/Container/Container";
 import { useTabBarStore } from "../../store/store";

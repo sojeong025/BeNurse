@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Common } from "../../../utils/global.styles";
-import { RiPencilFill } from "react-icons/ri";
-import { IoTrash } from "react-icons/io5";
 import trashcan from "@assets/Images/trashcan.png";
 import { customAxios } from "../../../libs/axios";
 
@@ -141,7 +139,6 @@ export default function WardItem({ item, edit, wards, setWards }) {
                     id: currentWard.id,
                   })
                   .then((res) => {
-                    console.log("병동 수정 완료", res);
                     setWards(
                       wards.map((ward) =>
                         ward.id === item.id
@@ -202,7 +199,6 @@ export default function WardItem({ item, edit, wards, setWards }) {
                 customAxios
                   .delete("/ward", { data: { id: item.id } })
                   .then((res) => {
-                    console.log("병동 삭제 완료", res);
                     setWards(wards.filter((ward) => ward.id !== item.id));
                     setIsDeleteModalOpen(false);
                   })

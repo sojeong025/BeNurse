@@ -10,7 +10,6 @@ export const AuthenticationService = {
 
   kakaoLogin: async function (code) {
     try {
-      console.log("Received code:", code);
       const response = await axios.get(
         `https://k9e105.p.ssafy.io:9000/api/benurse/oauth`,
         {
@@ -20,9 +19,6 @@ export const AuthenticationService = {
           },
         },
       );
-
-      console.log("kakaoLogin 성공");
-      console.log(response.data);
 
       localStorage.setItem("accessToken", response.data.accessToken);
 

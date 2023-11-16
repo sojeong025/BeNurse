@@ -42,7 +42,6 @@ function Modal({
         onClick={maskClosable ? onMaskClick : null}
         tabIndex={-1}
         visible={visible}
-        
       >
         <ModalInner
           width={width}

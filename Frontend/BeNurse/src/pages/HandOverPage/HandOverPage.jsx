@@ -18,24 +18,17 @@ import {
 
 export default function HandOverPage() {
   const {
-    handoverCC,
     setHandoverCC,
-    handoverEtc,
     setHandoverEtc,
-    handoverId,
     setHandoverId,
-    handoverJournals,
     setHandoverJournals,
-    handoverPatientId,
     setHandoverPatientId,
-    handoverSpecial,
     setHandoverSpecial,
-    handoverSetId,
     setHandoverSetId,
     setHandoverJournalList,
   } = useHandoverSetStore((state) => state);
   const setWardId = useWardStore((state) => state.setWardId);
-  const { currentTab, setCurrentTab } = useTabBarStore((state) => state);
+  const { setCurrentTab } = useTabBarStore((state) => state);
   const { completedHandover, setCompletedHandover } = usePatientCardStore(
     (state) => state,
   );

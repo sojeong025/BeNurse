@@ -24,7 +24,7 @@ export default function HandOverGiveList({ maxItems }) {
         setGiveHandoversetId(res.data.responseData.handoverSetID);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }, []);
 

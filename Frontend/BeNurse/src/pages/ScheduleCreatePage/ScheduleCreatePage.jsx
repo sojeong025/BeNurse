@@ -1,6 +1,5 @@
 import React from "react";
 import { Common } from "../../utils/global.styles";
-import { customAxios } from "../../libs/axios";
 import { Outlet } from "react-router-dom";
 
 export default function ScheduleCreatePage() {

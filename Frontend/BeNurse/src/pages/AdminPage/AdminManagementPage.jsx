@@ -16,7 +16,6 @@ export default function AdminManagementPage() {
   const [count, setCount] = useState(30);
   const [nurseName, setNurseName] = useState("");
   const [currentWard, setCurrentWard] = useState({});
-  const [showWardForm, setShowWardForm] = useState(false);
   const [inviteCode, setInviteCode] = useState(null);
   const { isComplete, setIsComplete } = useInviteStore((state) => state);
   const { isModal, OpenModal, CloseModal } = useModalStore((state) => state);
@@ -44,7 +43,6 @@ export default function AdminManagementPage() {
         }, 30000);
       });
     } else {
-      console.log("성명을 입력하세요.");
     }
   };
 
@@ -109,9 +107,7 @@ export default function AdminManagementPage() {
   const onNurseSave = () => {
     customAxios
       .put(`nurse/updateall`, nurses)
-      .then((res) => {
-        console.log("간호사 수정 완료", res);
-      })
+      .then((res) => {})
       .catch((error) => {
         console.error("간호사 수정 실패", error);
       });
@@ -138,15 +134,12 @@ export default function AdminManagementPage() {
   useEffect(() => {
     customAxios.get("ward/all").then((res) => {
       setWards(res.data.responseData);
-      console.log(res.data.responseData);
     });
     customAxios.get("nurse/all").then((res) => {
       setNurses(res.data.responseData);
-      console.log(res.data.responseData);
     });
     customAxios.get("device/all").then((res) => {
       setDevices(res.data.responseData);
-      console.log(res.data.responseData);
     });
   }, [isModal]);
 
@@ -342,7 +335,6 @@ export default function AdminManagementPage() {
           }}
         >
           {devices?.map((item, i) => {
-            console.log(devices);
             return (
               <AdminManagementItem
                 type={"equipment"}
@@ -493,7 +485,6 @@ export default function AdminManagementPage() {
                 customAxios
                   .post("/ward", currentWard)
                   .then((res) => {
-                    console.log("병동 등록 성공", res);
                     setWards([...wards, currentWard]);
                     CloseModal();
                   })

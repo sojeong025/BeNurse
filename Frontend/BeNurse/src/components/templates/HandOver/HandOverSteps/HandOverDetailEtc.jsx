@@ -19,14 +19,11 @@ export default function HandOverDetailCC() {
       setHandoverEtc(() => newHandoverEtc);
       setInputEtc("");
     } else {
-      console.log("내용을 입력해주세요");
     }
   };
 
   const handleInputChange = (e) => {
     setInputEtc(e.target.value);
-    console.log(e.target.value);
-    console.log(inputEtc);
   };
 
   useEffect(() => {
@@ -90,7 +87,6 @@ export default function HandOverDetailCC() {
         }}
       >
         {handoverEtc.map((item, index) => {
-          console.log(item);
           return (
             <React.Fragment key={index}>
               <Textarea

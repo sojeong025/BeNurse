@@ -207,7 +207,6 @@ export default function EquipmentItem({ item, devices, setDevices }) {
                 customAxios
                   .put("device", equipment)
                   .then((res) => {
-                    console.log("장비 수정 완료", res);
                     setIsModalOpen(false);
                     setDevices(
                       devices.map((device) =>

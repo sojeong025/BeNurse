@@ -1,21 +1,9 @@
 import React from "react";
-import { Common } from "../../utils/global.styles";
 import HandOverSendList from "../../components/templates/HandOver/HandOverSendList";
 import HandOverGiveList from "../../components/templates/HandOver/HandOverGiveList";
-
 import Container from "../../components/atoms/Container/Container";
-import Box from "@components/atoms/Box/Box";
-
 import * as S from "./HandOverListPage.styles";
-
 import { Tabs } from "antd";
-
-// Icons
-import HandOverItem from "@assets/Icons/handoveritem.svg";
-
-// Images
-import nurse from "@assets/Images/patient_temp.png";
-
 const onChange = (key) => {};
 
 const items = [

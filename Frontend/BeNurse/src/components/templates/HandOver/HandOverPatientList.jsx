@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Container from "@components/atoms/Container/Container";
 import PatientItem from "@components/templates/Patient/PatientItem";

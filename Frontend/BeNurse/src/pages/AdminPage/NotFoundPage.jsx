@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Common } from "../../utils/global.styles";
 import NotFound from "@assets/Images/not_found.png";
-import Box from "../../components/atoms/Box/Box";
 
 export default function NotFoundPage() {
   const navigate = useNavigate();

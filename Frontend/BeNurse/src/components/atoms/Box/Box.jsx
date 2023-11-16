@@ -16,6 +16,7 @@ export default function Box({
   overflowY,
   onClick,
   props,
+  ref,
 }) {
   return (
     <S.StyledBox
@@ -31,6 +32,7 @@ export default function Box({
       overflowY={overflowY}
       onClick={onClick}
       props={props}
+      ref={ref}
     >
       {children}
     </S.StyledBox>

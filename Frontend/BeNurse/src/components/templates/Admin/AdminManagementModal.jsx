@@ -24,12 +24,7 @@ export default function AdminManagementModal({ category }) {
         }, 30000);
       });
     } else {
-      console.log("성명을 입력하세요.");
     }
-  };
-
-  const createWard = () => {
-    // customAxios.post;
   };
 
   const closeInviteModal = (e) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { message, Steps } from "antd";
+import { Steps } from "antd";
 import Container from "@components/atoms/Container/Container";
 import BottomButton from "@components/atoms/Button/BottomButton";
 
@@ -9,7 +9,6 @@ import HandOverDetailSign from "@components/templates/HandOver/HandOverSteps/Han
 import HandOverDetailEtc from "@components/templates/HandOver/HandOverSteps/HandOverDetailEtc";
 
 import { useHandoverSetStore } from "../../../store/store";
-import { usePatientCardStore } from "../../../store/store";
 
 import * as S from "./HandOverWriteStep.styles";
 import { useNavigate } from "react-router-dom";

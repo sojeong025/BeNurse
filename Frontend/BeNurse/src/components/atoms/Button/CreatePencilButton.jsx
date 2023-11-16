@@ -1,6 +1,5 @@
 import React from "react";
 import { Common } from "../../../utils/global.styles";
-
 import createpencil from "@assets/Icons/createpencil.svg";
 
 export default function CreatePencilButton() {
@@ -14,7 +13,6 @@ export default function CreatePencilButton() {
         height: "57px",
         borderRadius: "30px",
         backgroundColor: Common.color.purple03,
-        
       }}
     >
       <img

@@ -3,14 +3,11 @@ import { Common } from "../../../../utils/global.styles";
 
 import { NavLink, useParams } from "react-router-dom";
 
-import Input from "@components/atoms/Input/Input";
-import Button from "@components/atoms/Button/Button";
 import { PiNotepad } from "react-icons/pi";
 import { useDateStore } from "../../../../store/store";
 import { useHandoverSetStore } from "../../../../store/store";
 import moment from "moment";
 import HandOverDetailNurseItem from "./HandOverDetailNurseItem";
-import { customAxios } from "../../../../libs/axios";
 
 export default function HandOverDetailNurse() {
   const [inputs, setInputs] = useState([{ name: "간호일지 1", value: "" }]);

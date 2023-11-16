@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Common } from "../../utils/global.styles";
 import { useNavigate, useLocation, NavLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";

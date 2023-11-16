@@ -16,13 +16,7 @@ import DeviceRendering from "../../components/templates/DeviceItem/DeviceRenderi
 // three.js
 import * as THREE from "three";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
-import {
-  useGLTF,
-  OrbitControls,
-  OrthographicCamera,
-  EnvironmentMap,
-  SpotLight,
-} from "@react-three/drei";
+import { useGLTF, OrbitControls } from "@react-three/drei";
 import { gsap } from "gsap/gsap-core";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 import { BottomSheet } from "react-spring-bottom-sheet";
@@ -37,8 +31,6 @@ import { StyledImg1, StyledImg2 } from "./DevicePage.styles";
 // icons
 import deviceListIcon from "@assets/Icons/deviceList.svg";
 import mapIcon from "@assets/Icons/map.svg";
-import { MdHistory } from "react-icons/md";
-import { MdKeyboardArrowRight } from "react-icons/md";
 import { SiNfc } from "react-icons/si";
 
 // zustand
@@ -46,18 +38,14 @@ import { useDeviceStore } from "../../store/store";
 import { useTabBarStore } from "../../store/store";
 
 // Images
-import temp from "@assets/Images/temp.png";
 import cloud from "@assets/Images/cloud.png";
 
 export default function DevicePage() {
-  const [isLoaded, setIsLoaded] = useState(false);
-
   const [devices, setDevices] = useState(null);
   const [selectedDevice, setSelectedDevice] = useState(null);
   const [deviceHistory, setDeviceHistory] = useState(null);
   const [historyKeys, setHistoryKeys] = useState(null);
   const [beacon, setBeacon] = useState(null);
-  const [target, setTarget] = useState(false);
   const [position, setPosition] = useState();
   const { isListActivated, ActivateList, DeactivateList } = useDeviceStore(
     (state) => state,

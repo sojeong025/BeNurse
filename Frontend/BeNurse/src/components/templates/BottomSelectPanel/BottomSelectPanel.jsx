@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 
-import { Common } from "../../../utils/global.styles";
 import * as S from "./BottomSelectPanel.styles";
 import Box from "../../atoms/Box/Box";
 
