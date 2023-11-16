@@ -55,11 +55,11 @@ interface nurse_input {
   off_day: dayType[];
 }
 
-interface dayplan {
-  day: number[];
-  evening: number[];
-  night: number[];
-}
+// interface dayplan {
+//   day: number[];
+//   evening: number[];
+//   night: number[];
+// }
 
 class nurse {
   name: number;
@@ -212,41 +212,41 @@ const needpeople = (
 
 const worktypes: Array<worktype> = ["day", "evening", "night"];
 
-const apirequest = (nurse: nurse, month: number, year: number) => {
-  const axios = require("axios");
-  const tempchange = {
-    day: "D",
-    evening: "E",
-    night: "N",
-    off: "O",
-  };
+// const apirequest = (nurse: nurse, month: number, year: number) => {
+//   const axios = require("axios");
+//   const tempchange = {
+//     day: "D",
+//     evening: "E",
+//     night: "N",
+//     off: "O",
+//   };
 
-  for (const day in nurse.work_plan) {
-    const data = {
-      hospitalID: 4,
-      nurseID: nurse.name,
-      workdate: `${year}-${month}-${(Number(day) + 1)
-        .toString()
-        .padStart(2, "0")}`,
-      wardID: 4,
-      worktime: tempchange[nurse.work_plan[day]],
-    };
+//   for (const day in nurse.work_plan) {
+//     const data = {
+//       hospitalID: 4,
+//       nurseID: nurse.name,
+//       workdate: `${year}-${month}-${(Number(day) + 1)
+//         .toString()
+//         .padStart(2, "0")}`,
+//       wardID: 4,
+//       worktime: tempchange[nurse.work_plan[day]],
+//     };
 
-    axios
-      .post("https://k9e105.p.ssafy.io:9000/api/benurse/Schedule", data, {
-        headers: {
-          "Content-Type": "application/json",
-          accept: "*/*",
-        },
-      })
-      .then((response) => {
-        console.log("성공적으로 요청을 보냈습니다.");
-      })
-      .catch((error) => {
-        console.error("요청 중 오류가 발생했습니다.", error);
-      });
-  }
-};
+//     axios
+//       .post("https://k9e105.p.ssafy.io:9000/api/benurse/Schedule", data, {
+//         headers: {
+//           "Content-Type": "application/json",
+//           accept: "*/*",
+//         },
+//       })
+//       .then((response) => {
+//         console.log("성공적으로 요청을 보냈습니다.");
+//       })
+//       .catch((error) => {
+//         console.error("요청 중 오류가 발생했습니다.", error);
+//       });
+//   }
+// };
 
 const ckecklosic = (nurse_list: nurse[]): string => {
   for (const nurse of nurse_list) {
@@ -307,7 +307,7 @@ export const main = (
       ) {
         const heap = new Heap();
         for (const nurse of nurse_list) {
-          if (nurse.work_count != day || nurse.career > 10) continue;
+          if (nurse.work_count !== day || nurse.career > 10) continue;
           nurse.setpriority(time);
           heap.heappush(nurse);
         }
@@ -340,7 +340,7 @@ export const main = (
       ) {
         const heap = new Heap();
         for (const nurse of nurse_list) {
-          if (nurse.work_count != day || nurse.career < 11) continue;
+          if (nurse.work_count !== day || nurse.career < 11) continue;
           nurse.setpriority(time);
           heap.heappush(nurse);
         }
@@ -368,7 +368,7 @@ export const main = (
     }
 
     for (const nurse of nurse_list) {
-      if (nurse.work_count != day) continue;
+      if (nurse.work_count !== day) continue;
       nurse.work_plan[day] = "off";
       nurse.work_count += 1;
       nurse.off_count += 1;
@@ -383,18 +383,18 @@ export const main = (
   // console.log(month_plan);
   /////////////////////////////////////////////////////////
 
-  return nurse_list;
-  // return ckecklosic(nurse_list);
+  // return nurse_list;
+  return ckecklosic(nurse_list);
 };
 
-// const result = {
-//   "근무일수 불균형": 0,
-//   "퐁당 근무": 0,
-//   "이상 무": 0,
-// };
+const result = {
+  "근무일수 불균형": 0,
+  "퐁당 근무": 0,
+  "이상 무": 0,
+};
 
 //includes가 없다고 떠서 만든 isinclude함수
-const isinclude = (array: KeyType[], value: KeyType): boolean => {
+const isinclude = (array: dayType[], value: dayType): boolean => {
   for (const ele of array) {
     if (ele === value) return true;
   }
@@ -402,7 +402,7 @@ const isinclude = (array: KeyType[], value: KeyType): boolean => {
 };
 
 //테스트 케이스 19만번 실행
-for (var i = 0; i < 1; i++) {
+for (var i = 0; i < 190000; i++) {
   const n = 28;
   const m = 11;
   const nurse_info: Array<nurse_input> = [];
@@ -412,14 +412,16 @@ for (var i = 0; i < 1; i++) {
     const temp: nurse_input = {
       name: i,
       career: i < 21 ? 5 : 15,
-      off_day: [] as KeyType[],
+      off_day: [] as dayType[],
     };
+    // 10번 이내로 랜덤한 개수 off 신청
     for (let i = 0; i < Math.floor(Math.random() * 10); i++) {
       while (true) {
+        // 1 ~ 30일 중에서 랜덤 일자 생성
         const num = Math.floor(Math.random() * 29 + 1);
-        // if (temp.off_day.includes(num as shift_work.KeyType)) continue;
-        if (isinclude(temp.off_day, num as KeyType)) continue;
-        temp.off_day.push(num as KeyType);
+        // 중복을 제거하여 오프 신청 확정
+        if (isinclude(temp.off_day, num as dayType)) continue;
+        temp.off_day.push(num as dayType);
         break;
       }
     }
