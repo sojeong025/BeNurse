@@ -210,15 +210,27 @@ public class NurseController {
 	
 	
 	@GetMapping("/ward")
-	@ApiOperation(value = "병동 ID로 간호사 검색", notes = "소속 병동 ID로 간호사를 조회한다.") 
+	@ApiOperation(value = "병동 ID로 간호사 검색", notes = "소속 병동 ID로 간호사를 조회한다.\n(본인 제외)") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공", response = List.class),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public APIResponse<List<NurseResponse>> getNurseByWard(@RequestParam("ID") long ID) {
-		List<Nurse> nurse = nurseRepo.findAllByWardID(ID);
+	public APIResponse<List<NurseResponse>> getNurseByWard(@RequestHeader("Authorization") String token, @RequestParam("ID") long ID) {
+
+		Nurse nurse;
+		// 사용자 조회
+		try {
+			nurse = oauthService.getUser(token);
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+		}
+		
+		List<Nurse> nurselist = nurseRepo.findAllByWardID(ID);
 		List<NurseResponse> resp = new ArrayList<>();
-		for(Nurse n : nurse) {
+		for(Nurse n : nurselist) {
+			if(n.getID() == nurse.getID())
+				continue;
 			try {
 				NurseResponse nur = new NurseResponse(n);
 				nur.setHospitalName(hospitalServ.findById(nur.getHospitalID()).getName());
