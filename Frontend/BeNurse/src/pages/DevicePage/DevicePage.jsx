@@ -49,6 +49,7 @@ export default function DevicePage() {
   const { isListActivated, ActivateList, DeactivateList } = useDeviceStore(
     (state) => state,
   );
+  const [openBottomSheet, setOpenBottomSheet] = useState(false);
   const { currentTab, setCurrentTab } = useTabBarStore((state) => state);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -189,6 +190,7 @@ export default function DevicePage() {
       setSelectedDevice(null);
     } else {
       setSelectedDevice(device);
+      setOpenBottomSheet(true);
     }
     DeactivateList();
   }
@@ -463,7 +465,7 @@ export default function DevicePage() {
           </Suspense>
         </Canvas>
         <BottomSheet
-          open={selectedDevice}
+          open={openBottomSheet}
           blocking={false}
           onDismiss={() => {
             setSelectedDevice(null);

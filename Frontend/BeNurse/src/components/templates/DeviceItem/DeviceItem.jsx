@@ -44,7 +44,7 @@ export default function DeviceItem({ listItem, item, beacon, onClick }) {
               maxWidth: "82px",
               maxHeight: "82px",
             }}
-            src={item.img}
+            src={item?.img}
             alt=""
           />
         </div>

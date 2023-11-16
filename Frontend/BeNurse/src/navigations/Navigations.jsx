@@ -62,7 +62,7 @@ const TemporaryListPage = lazy(() =>
   import("@pages/HandOverPage/TemporaryListPage"),
 );
 
-const SchedulePage = lazy(() => import("@pages/SchedulePage/SchedulePage"));
+import SchedulePage from "@pages/SchedulePage/SchedulePage";
 const OffApplicationPage = lazy(() =>
   import("@pages/SchedulePage/OffApplicationPage"),
 );

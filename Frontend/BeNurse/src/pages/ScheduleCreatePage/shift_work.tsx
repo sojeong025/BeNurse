@@ -348,9 +348,9 @@ export const main = (
   // }
   // console.log(month_plan);
   /////////////////////////////////////////////////////////
-  for (const nurse of nurse_list) {
-    apirequest(nurse, m, year);
-  }
+  // for (const nurse of nurse_list) {
+  //   apirequest(nurse, m, year);
+  // }
 
   return nurse_list;
   // return ckecklosic(nurse_list);
