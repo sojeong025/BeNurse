@@ -151,7 +151,7 @@ public class MyHandoverController {
 				log.error("not found myHandoverSet (id:"+mh.getSetID()+")");
 			}
 		}
-		Collections.reverse(resp);
+		Collections.sort(resp, (o1, o2) -> o2.getTime().compareTo(o1.getTime()));
 		
 	    return new APIResponse<>(resp, HttpStatus.OK);
 	}
@@ -173,7 +173,7 @@ public class MyHandoverController {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
-		List<HandoverSet> handoverSet = setRepo.findAllByGiveIDOrderByID(nurse.getID());
+		List<HandoverSet> handoverSet = setRepo.findAllByGiveIDOrderByTime(nurse.getID());
 		
 		List<MyHandoverResponse> resp = new ArrayList<>();
 		for(HandoverSet set : handoverSet) {

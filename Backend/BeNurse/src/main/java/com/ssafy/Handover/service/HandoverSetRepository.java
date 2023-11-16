@@ -15,7 +15,5 @@ public interface HandoverSetRepository extends JpaRepository<HandoverSet, Long> 
 	@Query("SELECT h FROM HandoverSet h WHERE h.ID NOT IN (SELECT DISTINCT l.setID FROM HandoverList l) AND h.ID NOT IN (SELECT DISTINCT m.setID FROM MyHandover m)")
 	List<HandoverSet> findEmptySets();
 
-//	List<HandoverSet> findAllByGiveIDOrderByHandoversetID(long id);
-
-	List<HandoverSet> findAllByGiveIDOrderByID(long id);
+	List<HandoverSet> findAllByGiveIDOrderByTime(long id);
 }
