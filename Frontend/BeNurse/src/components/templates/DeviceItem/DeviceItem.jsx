@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Common } from "../../../utils/global.styles";
 
 // emotions
@@ -6,9 +6,6 @@ import Box from "../../atoms/Box/Box";
 
 // Icons
 import { MdKeyboardArrowRight } from "react-icons/md";
-
-//Images
-import temp from "@assets/Images/temp.png";
 
 export default function DeviceItem({ listItem, item, beacon, onClick }) {
   return (
@@ -30,15 +27,27 @@ export default function DeviceItem({ listItem, item, beacon, onClick }) {
           height: "82px",
         }}
       >
-        <img
+        <div
           style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "82px",
             height: "82px",
+            objectFit: "contain",
             border: `1px solid ${Common.color.purple01}`,
             borderRadius: "10px",
           }}
-          src={temp}
-          alt=""
-        />
+        >
+          <img
+            style={{
+              maxWidth: "82px",
+              maxHeight: "82px",
+            }}
+            src={item.img}
+            alt=""
+          />
+        </div>
 
         <div
           style={{
