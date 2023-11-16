@@ -151,7 +151,10 @@ public class MyHandoverController {
 				log.error("not found myHandoverSet (id:"+mh.getSetID()+")");
 			}
 		}
-		Collections.sort(resp, (o1, o2) -> o2.getTime().compareTo(o1.getTime()));
+		Collections.sort(resp, (o1, o2) -> {
+			int comp = o2.getTime().compareTo(o1.getTime());
+			return comp != 0 ? comp : (int)(o2.getHandoverSetID() - o1.getHandoverSetID());
+		});
 		
 	    return new APIResponse<>(resp, HttpStatus.OK);
 	}
