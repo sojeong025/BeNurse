@@ -5,7 +5,6 @@ import React, {
   Suspense,
   useEffect,
 } from "react";
-import { Common } from "../../utils/global.styles";
 import { customAxios } from "../../libs/axios";
 
 import DeviceItem from "../../components/templates/DeviceItem/DeviceItem";
@@ -31,7 +30,7 @@ import { StyledImg1, StyledImg2 } from "./DevicePage.styles";
 // icons
 import deviceListIcon from "@assets/Icons/deviceList.svg";
 import mapIcon from "@assets/Icons/map.svg";
-import { SiNfc } from "react-icons/si";
+import nfcImg from "@assets/Images/NFC.png";
 
 // zustand
 import { useDeviceStore } from "../../store/store";
@@ -371,9 +370,10 @@ export default function DevicePage() {
               }
               onClick={activateNFC}
             >
-              <SiNfc
-                size={30}
-                color={Common.color.purple03}
+              <img
+                style={{ width: "36px" }}
+                src={nfcImg}
+                alt=""
               />
             </Box>
           </>
