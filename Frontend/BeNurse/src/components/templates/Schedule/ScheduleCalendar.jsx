@@ -177,16 +177,17 @@ export default function ScheduleCalendar() {
   };
 
   useEffect(() => {
-    customAxios
-      .get("Schedule/all", {
-        params: {
-          startDate: selectedDate,
-          endDate: selectedDate,
-        },
-      })
-      .then((res) => {
-        setNurseData(res.data.responseData);
-      });
+    selectedDate &&
+      customAxios
+        .get("Schedule/all", {
+          params: {
+            startDate: selectedDate,
+            endDate: selectedDate,
+          },
+        })
+        .then((res) => {
+          setNurseData(res.data.responseData);
+        });
   }, [selectedDate]);
 
   useEffect(() => {

@@ -10,7 +10,7 @@ import PatientImages from "./PatientImages";
 
 // Icons
 import schedule from "@assets/Icons/schedule.svg";
-import { PiNotepad } from "react-icons/pi";
+import notepad from "@assets/Images/notepad.png";
 
 import moment from "moment";
 import { useDateStore } from "../../../store/store";
@@ -71,7 +71,11 @@ export default function PatientDetailProfile({ patient, isHandOver }) {
               }}
             >
               <div>
-                <PiNotepad size={22} />
+                <img
+                  style={{ width: "22px" }}
+                  src={notepad}
+                  alt=""
+                />
               </div>
               <span
                 style={{

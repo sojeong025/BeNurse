@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { TbBulb } from "react-icons/tb";
+import bulb from "@assets/Images/bulb.png";
 import Modal from "../../components/atoms/Modal/Modal";
 import nurse_tip_01 from "@assets/Images/BeNurse_tips/nurse_tip_01.png";
 import nurse_tip_02 from "@assets/Images/BeNurse_tips/nurse_tip_02.png";
@@ -94,7 +94,11 @@ export default function NurseTip() {
           size={["160px", "120px"]}
         >
           <S.TipBox onClick={(e) => handleTipBoxClick(e, i + 1)}>
-            <TbBulb />
+            <img
+              style={{ width: "24px" }}
+              src={bulb}
+              alt=""
+            />
             <div>
               <p className="title">{tip.title}</p>
               <p className="desc">{tip.subTitle}</p>

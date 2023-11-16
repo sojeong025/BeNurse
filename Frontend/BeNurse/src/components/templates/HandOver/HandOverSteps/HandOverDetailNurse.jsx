@@ -3,7 +3,7 @@ import { Common } from "../../../../utils/global.styles";
 
 import { NavLink, useParams } from "react-router-dom";
 
-import { PiNotepad } from "react-icons/pi";
+import notepad from "@assets/Images/notepad.png";
 import { useDateStore } from "../../../../store/store";
 import { useHandoverSetStore } from "../../../../store/store";
 import moment from "moment";
@@ -13,18 +13,8 @@ export default function HandOverDetailNurse() {
   const [inputs, setInputs] = useState([{ name: "간호일지 1", value: "" }]);
   const [showWarning, setShowWarning] = useState(false);
   const { setSelectedDate } = useDateStore((state) => state);
-  const {
-    handoverCC,
-    handoverEtc,
-    handoverId,
-    handoverJournals,
-    setHandoverJournals,
-    handoverPatientId,
-    handoverSpecial,
-    handoverSetId,
-    handoverJournalList,
-    setHandoverJournalList,
-  } = useHandoverSetStore((state) => state);
+  const { handoverJournals, setHandoverJournals, handoverJournalList } =
+    useHandoverSetStore((state) => state);
   const { patientId } = useParams();
 
   const addInput = () => {
@@ -120,7 +110,11 @@ export default function HandOverDetailNurse() {
               }}
             >
               <div>
-                <PiNotepad size={22} />
+                <img
+                  style={{ width: "22px" }}
+                  src={notepad}
+                  alt=""
+                />
               </div>
               <span
                 style={{

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
 import Navigations from "./navigations/Navigations.jsx";
 
@@ -7,9 +8,11 @@ import TabBar from "@components/templates/TabBar/TabBar";
 function App() {
   return (
     <BrowserRouter>
-      <NavBar />
-      <Navigations />
-      <TabBar />
+      <Suspense fallback={<div></div>}>
+        <NavBar />
+        <Navigations />
+        <TabBar />
+      </Suspense>
     </BrowserRouter>
   );
 }
