@@ -29,7 +29,6 @@ export default function HandOverReadDetailPage() {
       })
       .then((res) => {
         setHandoverDetails(res.data.responseData);
-
         const journalIds = res.data.responseData[0]?.journals;
         if (journalIds) {
           journalIds.map((item) => {
@@ -48,7 +47,7 @@ export default function HandOverReadDetailPage() {
           });
         }
       });
-  }, [handoversetId]);
+  }, [handoversetId, patientID]);
 
   return (
     <Container

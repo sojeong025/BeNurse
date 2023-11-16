@@ -196,7 +196,7 @@ export default function routes() {
         element={<HandOverReadPage />}
       />
       <Route
-        path="/handover-read/:handoversetId/:patientId"
+        path="/handover-read/:handoversetId/:patientID"
         element={<HandOverReadDetailPage />}
       />
       <Route
