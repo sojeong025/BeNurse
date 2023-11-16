@@ -80,7 +80,7 @@ export default function HandOverPage() {
             >
               <div className="nurse-info">
                 <h5>PRE</h5>
-                <p>정은경 간호사</p>
+                <p>이종윤 간호사</p>
               </div>
               <img
                 className="nurse-image"
@@ -109,7 +109,7 @@ export default function HandOverPage() {
             >
               <div className="nurse-info">
                 <h5>NEXT</h5>
-                <p>김대웅 간호사</p>
+                <p>김보경 간호사</p>
               </div>
               <img
                 className="nurse-image"
