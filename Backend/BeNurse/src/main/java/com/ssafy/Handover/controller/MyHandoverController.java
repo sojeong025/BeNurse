@@ -114,7 +114,7 @@ public class MyHandoverController {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
-		List<MyHandover> myhandover = myhoRepo.findAllByTakeID(nurse.getID());
+		List<MyHandover> myhandover = myhoRepo.findAllByTakeIDOrderBySetID(nurse.getID());
 		
 		List<MyHandoverResponse> resp = new ArrayList<>();
 		for(MyHandover mh : myhandover) {
@@ -173,7 +173,7 @@ public class MyHandoverController {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 		}
 		
-		List<HandoverSet> handoverSet = setRepo.findAllByGiveID(nurse.getID());
+		List<HandoverSet> handoverSet = setRepo.findAllByGiveIDOrderByID(nurse.getID());
 		
 		List<MyHandoverResponse> resp = new ArrayList<>();
 		for(HandoverSet set : handoverSet) {

@@ -13,6 +13,7 @@ public interface MyHandoverRepository extends JpaRepository<MyHandover, Long> {
 	List<MyHandover> findAllByTakeID(long id);
 	Optional<MyHandover> findBySetIDAndTakeIDAndReaded(long setID, long takeID, boolean b);
 	List<MyHandover> findAllBySetID(long ID);
+	List<MyHandover> findAllByTakeIDOrderBySetID(long id);
 
 
 }
