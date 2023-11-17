@@ -1,7 +1,7 @@
 <div align="center">
 
 # 🏥&nbsp; BeNurse
-간호사들의 <b>업무 편의성을</b>올려주는 서비스<br/>
+간호사들의 <b>업무 편의성을</b>올려주는 서비스<br/> 
 
 <img src="/uploads/cc6e14bf4ffd6073f21c45a9b6b09db0/BeNurseIcon.png" width="200">
 </div>
