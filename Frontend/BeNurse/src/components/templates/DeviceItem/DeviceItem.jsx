@@ -57,7 +57,9 @@ export default function DeviceItem({ listItem, item, beacon, onClick }) {
             gap: "8px",
           }}
         >
-          {true ? (
+          {item?.name === "Blood Pack" ||
+          item?.name === "Black Box" ||
+          item?.name === "근육내자극술 IMS" ? (
             <div
               style={{
                 display: "flex",
