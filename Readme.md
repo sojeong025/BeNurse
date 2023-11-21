@@ -81,10 +81,10 @@
 <br>
 💉 <b>Device Management</b>
 
-|    <img src="/uploads/6293059ea9c269e318f56ea864cbd8da/App_DeviceMain.gif" width="386">     |    <img src="/uploads/af0de6273ca0cc151416df26f2d92d5d/App_DeviceList.gif" width="386">     |
+|    <img src="/uploads/6293059ea9c269e318f56ea864cbd8da/App_DeviceMain.gif" width="300">     |    <img src="/uploads/af0de6273ca0cc151416df26f2d92d5d/App_DeviceList.gif" width="300">     |
 | :-----------------: | :-----------------: |
 |   **Device Main**   |   **Device List**   |
-|    <img src="/uploads/ed13876bca46c4397c875e0e97a88e6a/App_DeviceLocation.gif" width="386">     |    <img src="/uploads/36680ee7348f5bb9e88796c24be34972/App_DeviceUse.gif" width="386">     |
+|    <img src="/uploads/ed13876bca46c4397c875e0e97a88e6a/App_DeviceLocation.gif" width="300">     |    <img src="/uploads/36680ee7348f5bb9e88796c24be34972/App_DeviceUse.gif" width="300">     |
 | **Device Location** | **Device Use List** |
 
 <br>
