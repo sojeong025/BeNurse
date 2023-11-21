@@ -19,7 +19,7 @@
 ## 1. 개요
 
 > <b>프로젝트 기간</b> : 2023/10/09 ~ 2023/11/17 <br> > <b>참고자료 </b> : 🎞 [UCC](https://youtu.be/kQ3KlyPVkUI)
-> 📃 [최종발표 자료]()
+> 📃 [최종발표 자료](https://docs.google.com/presentation/d/1QwsdfY8H5LlSaeu2jP0Gdhv5w4-nLvkt/edit?usp=drive_link&ouid=117454697899885480089&rtpof=true&sd=true)
 > <br>
 
 ## 2. 서비스 화면
