@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { customAxios } from "../../libs/axios";
 import Box from "@components/atoms/Box/Box";
 import * as S from "@components/templates/HandOver/HandOverList.styles.jsx";
 import HandOverItem from "@assets/Icons/handoveritem.svg";
-import { createUseGesture, dragAction, pinchAction } from "@use-gesture/react";
 
 import { Common } from "@utils/global.styles";
 import { NavLink } from "react-router-dom";
@@ -14,7 +13,6 @@ import empty from "@assets/Images/empty.png";
 
 export default function TemporaryListPage() {
   const [tempHandoverInfo, setTempHandoverInfo] = useState([]);
-  const [sendHandoversetId, setSendHandoversetId] = useState();
   const { setHandoverSetId } = useHandoverSetStore((state) => state);
   const { unsetCompletedHandover } = usePatientCardStore((state) => state);
 

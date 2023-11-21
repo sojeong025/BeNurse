@@ -10,7 +10,6 @@ export default function HandOverDetailSign() {
   const [inputSign, setInputSign] = useState("");
   const { handoverSpecial, setHandoverSpecial, handoverPatientId } =
     useHandoverSetStore((state) => state);
-  const [inputs, setInputs] = useState([{ name: "특이사항 1", value: "" }]);
   const [showWarning, setShowWarning] = useState(false);
   const [showInput, setShowInput] = useState(false);
 
@@ -20,14 +19,11 @@ export default function HandOverDetailSign() {
       setHandoverSpecial(() => newHandoverSpecial);
       setInputSign("");
     } else {
-      console.log("내용을 입력해주세요");
     }
   };
 
   const handleInputChange = (e) => {
     setInputSign(e.target.value);
-    console.log(e.target.value);
-    console.log(inputSign);
   };
 
   useEffect(() => {
@@ -89,7 +85,6 @@ export default function HandOverDetailSign() {
         }}
       >
         {handoverSpecial.map((item, index) => {
-          console.log(item);
           return (
             <React.Fragment key={index}>
               <Textarea

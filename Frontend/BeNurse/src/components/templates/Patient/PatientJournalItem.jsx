@@ -8,17 +8,12 @@ import { useBottomSheetStore } from "../../../store/store";
 import { useHandoverSetStore } from "../../../store/store";
 
 export default function PatientJournalItem({ journal, handleOpenModal }) {
-  const { isEditActivated, ActivateEdit, selectedID, setSelectedID } =
-    useBottomSheetStore((state) => state);
+  const { ActivateEdit } = useBottomSheetStore((state) => state);
   const [isSelected, setIsSelected] = useState(false);
   const [isExpended, setIsExpended] = useState(false);
   const [currentNurseId, setCurrentNurseId] = useState(0);
-  const {
-    isFromHandOver,
-    setIsFromHandOver,
-    handoverJournalList,
-    setHandoverJournalList,
-  } = useHandoverSetStore((state) => state);
+  const { isFromHandOver, handoverJournalList, setHandoverJournalList } =
+    useHandoverSetStore((state) => state);
 
   const onLongPress = (id) => {
     ActivateEdit(`${id}/update`, (e) => handleOpenModal(e, id));

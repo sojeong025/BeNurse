@@ -27,8 +27,7 @@ export const HandoverPatient = styled.div`
   height: 60px;
   margin-bottom: 20px;
   background-color: ${Common.color.purple01};
-  box-shadow:
-    rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   border-radius: 10px;
   padding: 16px;

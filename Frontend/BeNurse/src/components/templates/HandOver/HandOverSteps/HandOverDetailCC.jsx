@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Common } from "../../../../utils/global.styles";
 
 import Textarea from "@components/atoms/Textarea/Textarea";
@@ -21,14 +21,11 @@ export default function HandOverDetailCC() {
       setHandoverCC(() => newHandoverCC);
       setInputCC("");
     } else {
-      console.log("내용을 입력해주세요");
     }
   };
 
   const handleInputChange = (e) => {
     setInputCC(e.target.value);
-    console.log(e.target.value);
-    console.log(inputCC);
   };
 
   useEffect(() => {
@@ -37,7 +34,6 @@ export default function HandOverDetailCC() {
         setHandoverCC(() => res.data.responseData.patient.cc);
       });
     } else {
-      console.log("인계인계");
     }
 
     return () => {
@@ -94,7 +90,6 @@ export default function HandOverDetailCC() {
         }}
       >
         {handoverCC.map((item, index) => {
-          console.log(item);
           return (
             <React.Fragment key={index}>
               <Textarea

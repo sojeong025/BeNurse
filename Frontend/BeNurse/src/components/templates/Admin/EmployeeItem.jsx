@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Common } from "../../../utils/global.styles";
 import nurse_g01 from "@assets/Images/nurse_g01.png";
 import nurse_g02 from "@assets/Images/nurse_g02.png";

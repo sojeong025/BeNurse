@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Common } from "../../../utils/global.styles";
 import { customAxios } from "../../../libs/axios";
 import "react-spring-bottom-sheet/dist/style.css";
 import {
@@ -103,16 +102,14 @@ export default function AdminCalendar({ type }) {
         .then((res) => {
           setSchedule(res.data.responseData);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
   }, [selectedDate]);
 
   useEffect(() => {
     type !== "create" && setSelectedDate(today.getDate());
   }, []);
 
-  useEffect(() => {
-    console.log(selectedDates);
-  }, [selectedDates]);
+  useEffect(() => {}, [selectedDates]);
 
   return (
     <CalendarWrapper>

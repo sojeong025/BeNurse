@@ -44,20 +44,18 @@ export default function PatientJournalUpdatePage() {
     customAxios
       .get("emr/patient?id=" + patientId)
       .then((res) => {
-        console.log("환자 정보 불러오기", res.data.responseData);
         setPatient({
           ...res.data.responseData.patient.patient,
           cc: res.data.responseData.patient.cc,
         });
       })
       .catch((error) => {
-        console.error("환자 정보 로드 실패:", error);
+        console.error(error);
       });
 
     customAxios
       .get("emr/journal?id=" + journalId)
       .then((res) => {
-        console.log("간호일지 정보 불러오기", res.data.responseData);
         setJournal(res.data.responseData);
       })
       .catch((error) => {
@@ -139,7 +137,6 @@ export default function PatientJournalUpdatePage() {
               customAxios
                 .put("emr/journal", journal)
                 .then((res) => {
-                  console.log("간호일지 수정 성공", res);
                   navigate(-1);
                 })
                 .catch((error) => {

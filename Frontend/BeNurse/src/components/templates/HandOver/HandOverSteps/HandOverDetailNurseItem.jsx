@@ -7,10 +7,9 @@ import { useHandoverSetStore } from "../../../../store/store";
 
 export default function HandOverDetailNurseItem({ item }) {
   const [journalItem, setJournalItem] = useState(null);
-  const [showWarning, setShowWarning] = useState(false);
-  const [comment, setComment] = useState("");
-  const { handoverJournals, setHandoverJournals, setHandoverId } =
-    useHandoverSetStore((state) => state);
+  const { handoverJournals, setHandoverJournals } = useHandoverSetStore(
+    (state) => state,
+  );
   const updatedJournal = item;
 
   const handleInputChange = (e) => {
@@ -25,7 +24,6 @@ export default function HandOverDetailNurseItem({ item }) {
     return () => {
       const newHandoverJournal = [
         ...handoverJournals.filter((prevItem) => {
-          // console.log(prevItem, item);
           return prevItem.journalID !== item.journalID;
         }),
         updatedJournal,

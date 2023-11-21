@@ -20,7 +20,7 @@ export default function HandOverSendList() {
         setSendHandoversetId(res.data.responseData.handoverSetID);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }, []);
   return (

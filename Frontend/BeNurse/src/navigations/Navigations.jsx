@@ -1,59 +1,105 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { lazy } from "react";
+import { Routes, Route } from "react-router-dom";
 
 // Page 정리
-import SplashPage from "@pages/LoginPage/SplashPage";
-import MainPage from "@pages/MainPage/MainPage";
-import LoginPage from "@pages/LoginPage/LoginPage";
+const SplashPage = lazy(() => import("@pages/LoginPage/SplashPage"));
+const MainPage = lazy(() => import("@pages/MainPage/MainPage"));
+const LoginPage = lazy(() => import("@pages/LoginPage/LoginPage"));
 
-import DevicePage from "@pages//DevicePage/DevicePage";
+const DevicePage = lazy(() => import("@pages//DevicePage/DevicePage"));
 
-import PatientPage from "@pages/PatientPage/PatientPage";
-import PatientDetailPage from "@pages/PatientPage/PatientDetailPage";
-import PatientListPage from "@pages/PatientPage/PatientListPage";
-import PatientJournalPage from "@pages/PatientPage/PatientJournalPage";
-import PatientJournalMain from "@pages/PatientPage/PatientJournalMain";
-import PatientJournalWritePage from "@pages/PatientPage/PatientJournalWritePage";
-import PatientJournalUpdatePage from "@pages/PatientPage/PatientJournalUpdatePage";
+const PatientPage = lazy(() => import("@pages/PatientPage/PatientPage"));
+const PatientDetailPage = lazy(() =>
+  import("@pages/PatientPage/PatientDetailPage"),
+);
+const PatientListPage = lazy(() =>
+  import("@pages/PatientPage/PatientListPage"),
+);
+const PatientJournalPage = lazy(() =>
+  import("@pages/PatientPage/PatientJournalPage"),
+);
+const PatientJournalMain = lazy(() =>
+  import("@pages/PatientPage/PatientJournalMain"),
+);
+const PatientJournalWritePage = lazy(() =>
+  import("@pages/PatientPage/PatientJournalWritePage"),
+);
+const PatientJournalUpdatePage = lazy(() =>
+  import("@pages/PatientPage/PatientJournalUpdatePage"),
+);
 
-import HandOverPage from "@pages/HandOverPage/HandOverPage";
-import HandOverWritePage from "@pages/HandOverPage/HandOverWritePages/HandOverWritePage";
-import HandOverPatientPage from "@pages/HandOverPage/HandOverWritePages/HandOverPatientPage";
-import HandOverWriteStep from "@pages/HandOverPage/HandOverWritePages/HandOverWriteStep";
-import HandOverListPage from "@pages/HandOverPage/HandOverListPage";
-import HandOverReadPage from "@pages/HandOverPage/HandOverReadPage";
-import HandOverReadDetailPage from "@pages/HandOverPage/HandOverReadDetailPage";
-import HandOverNurseSelectPage from "@pages/HandOverPage/HandOverNurseSelectPage";
-import HandOverFinishPage from "@pages/HandOverPage/HandOverFinishPage";
+const HandOverPage = lazy(() => import("@pages/HandOverPage/HandOverPage"));
+const HandOverWritePage = lazy(() =>
+  import("@pages/HandOverPage/HandOverWritePages/HandOverWritePage"),
+);
+const HandOverPatientPage = lazy(() =>
+  import("@pages/HandOverPage/HandOverWritePages/HandOverPatientPage"),
+);
+const HandOverWriteStep = lazy(() =>
+  import("@pages/HandOverPage/HandOverWritePages/HandOverWriteStep"),
+);
+const HandOverListPage = lazy(() =>
+  import("@pages/HandOverPage/HandOverListPage"),
+);
+const HandOverReadPage = lazy(() =>
+  import("@pages/HandOverPage/HandOverReadPage"),
+);
+const HandOverReadDetailPage = lazy(() =>
+  import("@pages/HandOverPage/HandOverReadDetailPage"),
+);
+const HandOverNurseSelectPage = lazy(() =>
+  import("@pages/HandOverPage/HandOverNurseSelectPage"),
+);
+const HandOverFinishPage = lazy(() =>
+  import("@pages/HandOverPage/HandOverFinishPage"),
+);
 
-import HandOverPatientList from "@components/templates/HandOver/HandOverPatientList";
+const HandOverPatientList = lazy(() =>
+  import("@components/templates/HandOver/HandOverPatientList"),
+);
 
-import TemporaryListPage from "@pages/HandOverPage/TemporaryListPage";
+const TemporaryListPage = lazy(() =>
+  import("@pages/HandOverPage/TemporaryListPage"),
+);
 
 import SchedulePage from "@pages/SchedulePage/SchedulePage";
-import OffApplicationPage from "@pages/SchedulePage/OffApplicationPage";
-import OffwritePage from "@pages/SchedulePage/OffwritePage";
-import OffFinishPage from "@pages/SchedulePage/OffFinishPage";
+const OffApplicationPage = lazy(() =>
+  import("@pages/SchedulePage/OffApplicationPage"),
+);
+const OffwritePage = lazy(() => import("@pages/SchedulePage/OffwritePage"));
+const OffFinishPage = lazy(() => import("@pages/SchedulePage/OffFinishPage"));
 
-import MyPage from "@pages/MyPage/MyPage";
-import NoticePage from "@pages/NoticePage/NoticePage";
-import NoticeListPage from "@pages/NoticePage/NoticeListPage";
-import NoticeWritePage from "@pages/NoticePage/NoticeWritePage";
-import NoticeUpdatePage from "@pages/NoticePage/NoticeUpdatePage";
-import KakaoLoginPage from "@pages/LoginPage/KakaoLoginPage";
-import JoinPage from "@pages/LoginPage/JoinPage";
-import JoinNursePage from "@pages/LoginPage/JoinNursePage";
+const MyPage = lazy(() => import("@pages/MyPage/MyPage"));
+const NoticePage = lazy(() => import("@pages/NoticePage/NoticePage"));
+const NoticeListPage = lazy(() => import("@pages/NoticePage/NoticeListPage"));
+const NoticeWritePage = lazy(() => import("@pages/NoticePage/NoticeWritePage"));
+const NoticeUpdatePage = lazy(() =>
+  import("@pages/NoticePage/NoticeUpdatePage"),
+);
+const KakaoLoginPage = lazy(() => import("@pages/LoginPage/KakaoLoginPage"));
+const JoinPage = lazy(() => import("@pages/LoginPage/JoinPage"));
+const JoinNursePage = lazy(() => import("@pages/LoginPage/JoinNursePage"));
 
-import AdminPage from "@pages/AdminPage/AdminPage";
-import AdminSignupPage from "@pages/AdminPage/AdminSignupPage";
-import OAuth2RedirectHandler from "@pages/AdminPage/OAuth2RedirectHandler";
-import AdminSelectRolePage from "@pages/AdminPage/AdminSelectRolePage";
-import AdminMainPage from "../pages/AdminPage/AdminMainPage";
-import AdminManagementPage from "../pages/AdminPage/AdminManagementPage";
-import NotFoundPage from "../pages/AdminPage/NotFoundPage";
+const AdminPage = lazy(() => import("@pages/AdminPage/AdminPage"));
+const AdminSignupPage = lazy(() => import("@pages/AdminPage/AdminSignupPage"));
+const OAuth2RedirectHandler = lazy(() =>
+  import("@pages/AdminPage/OAuth2RedirectHandler"),
+);
+const AdminSelectRolePage = lazy(() =>
+  import("@pages/AdminPage/AdminSelectRolePage"),
+);
+const AdminMainPage = lazy(() => import("../pages/AdminPage/AdminMainPage"));
+const AdminManagementPage = lazy(() =>
+  import("../pages/AdminPage/AdminManagementPage"),
+);
+const NotFoundPage = lazy(() => import("../pages/AdminPage/NotFoundPage"));
 
-import ScheduleCreatePage from "../pages/ScheduleCreatePage/ScheduleCreatePage";
-import ScheduleCreateIntroPage from "../pages/ScheduleCreatePage/ScheduleCreateIntroPage";
+const ScheduleCreatePage = lazy(() =>
+  import("../pages/ScheduleCreatePage/ScheduleCreatePage"),
+);
+const ScheduleCreateIntroPage = lazy(() =>
+  import("../pages/ScheduleCreatePage/ScheduleCreateIntroPage"),
+);
 
 export default function routes() {
   return (
@@ -150,7 +196,7 @@ export default function routes() {
         element={<HandOverReadPage />}
       />
       <Route
-        path="/handover-read/:handoversetId/:patientId"
+        path="/handover-read/:handoversetId/:patientID"
         element={<HandOverReadDetailPage />}
       />
       <Route

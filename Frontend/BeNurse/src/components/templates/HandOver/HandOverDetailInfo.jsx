@@ -12,13 +12,11 @@ import { useParams } from "react-router-dom";
 export default function HandOverDetailInfo() {
   const [patient, setPatient] = useState({});
   const { patientId } = useParams();
-  console.log("환자ID", patientId);
 
   useEffect(() => {
     customAxios
       .get("emr/patient?id=" + patientId)
       .then((res) => {
-        console.log("인수인계 환자 정보 불러오기", res.data.responseData);
         setPatient({
           ...res.data.responseData.patient.patient,
         });

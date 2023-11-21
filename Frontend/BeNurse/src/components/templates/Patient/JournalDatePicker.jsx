@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import moment from "moment";
 import { throttle } from "lodash";
 
 import { useDateStore } from "../../../store/store";
-import { useHandoverSetStore } from "../../../store/store";
 
 import * as S from "./JournalDatePicker.styles";
 

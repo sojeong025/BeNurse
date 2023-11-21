@@ -18,24 +18,17 @@ import {
 
 export default function HandOverPage() {
   const {
-    handoverCC,
     setHandoverCC,
-    handoverEtc,
     setHandoverEtc,
-    handoverId,
     setHandoverId,
-    handoverJournals,
     setHandoverJournals,
-    handoverPatientId,
     setHandoverPatientId,
-    handoverSpecial,
     setHandoverSpecial,
-    handoverSetId,
     setHandoverSetId,
     setHandoverJournalList,
   } = useHandoverSetStore((state) => state);
   const setWardId = useWardStore((state) => state.setWardId);
-  const { currentTab, setCurrentTab } = useTabBarStore((state) => state);
+  const { setCurrentTab } = useTabBarStore((state) => state);
   const { completedHandover, setCompletedHandover } = usePatientCardStore(
     (state) => state,
   );
@@ -87,7 +80,7 @@ export default function HandOverPage() {
             >
               <div className="nurse-info">
                 <h5>PRE</h5>
-                <p>정은경 간호사</p>
+                <p>이종윤 간호사</p>
               </div>
               <img
                 className="nurse-image"
@@ -116,7 +109,7 @@ export default function HandOverPage() {
             >
               <div className="nurse-info">
                 <h5>NEXT</h5>
-                <p>김대웅 간호사</p>
+                <p>김보경 간호사</p>
               </div>
               <img
                 className="nurse-image"

@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { Common } from "../../../utils/global.styles";
 
 export const SelectContainer = styled.div`
   & .ant-select-selection-item {

@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 
 import Input from "@components/atoms/Input/Input";
 import PatientItem from "@components/templates/Patient/PatientItem";
-import PatientFilterSelect from "@components/templates/Patient/PatientFilterSelect";
 import empty from "@assets/Images/empty.png";
 import loader from "@assets/Images/loader.gif";
 

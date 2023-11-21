@@ -177,16 +177,17 @@ export default function ScheduleCalendar() {
   };
 
   useEffect(() => {
-    customAxios
-      .get("Schedule/all", {
-        params: {
-          startDate: selectedDate,
-          endDate: selectedDate,
-        },
-      })
-      .then((res) => {
-        setNurseData(res.data.responseData);
-      });
+    selectedDate &&
+      customAxios
+        .get("Schedule/all", {
+          params: {
+            startDate: selectedDate,
+            endDate: selectedDate,
+          },
+        })
+        .then((res) => {
+          setNurseData(res.data.responseData);
+        });
   }, [selectedDate]);
 
   useEffect(() => {
@@ -382,7 +383,7 @@ export default function ScheduleCalendar() {
               fontWeight: Common.fontWeight.bold,
             }}
           >
-            {(selectedDate != "2000-01-01") && selectedDate}
+            {selectedDate != "2000-01-01" && selectedDate}
           </span>
           <div
             style={{

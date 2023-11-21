@@ -1,4 +1,4 @@
-import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AuthenticationService } from "./AuthenticationService";
 import { customAxios } from "../../libs/axios";
@@ -18,7 +18,7 @@ const OAuth2RedirectHandler = () => {
       setHospitalID(response.data.responseData.hospitalID);
       return response.data.responseData.hospitalID;
     } catch (error) {
-      console.log("사용자 정보 조회 실패", error);
+      console.error(error);
     }
   };
 
@@ -50,7 +50,7 @@ const OAuth2RedirectHandler = () => {
         }
       }
     } catch (error) {
-      console.log("kakaoLogin 실패");
+      console.error(error);
     }
   }
 

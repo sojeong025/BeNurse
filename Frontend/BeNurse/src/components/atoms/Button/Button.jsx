@@ -2,6 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 import * as S from "./Button.styles";
 
+Button.propTypes = {
+  children: PropTypes.node.isRequired,
+  variant: PropTypes.oneOf([
+    "default",
+    "primary",
+    "secondary",
+    "danger",
+    "disabled",
+  ]),
+  width: PropTypes.string,
+};
+
+Button.defaultProps = {
+  variant: "default",
+};
+
 export default function Button({
   children,
   variant,
@@ -24,19 +40,3 @@ export default function Button({
     </S.StyledButton>
   );
 }
-
-Button.propTypes = {
-  children: PropTypes.node.isRequired,
-  variant: PropTypes.oneOf([
-    "default",
-    "primary",
-    "secondary",
-    "danger",
-    "disabled",
-  ]),
-  width: PropTypes.string,
-};
-
-Button.defaultProps = {
-  variant: "default",
-};

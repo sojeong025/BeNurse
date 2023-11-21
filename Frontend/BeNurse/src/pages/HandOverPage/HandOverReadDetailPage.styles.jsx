@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { Common } from "@utils/global.styles.jsx";
-import exp from "constants";
 
 export const SwiperMain = styled.div`
   width: 340px;

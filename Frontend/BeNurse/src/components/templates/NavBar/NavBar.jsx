@@ -5,6 +5,7 @@ import { IoChevronBackOutline } from "react-icons/io5";
 import { GoBell } from "react-icons/go";
 import { useHandoverSetStore } from "../../../store/store";
 import { customAxios } from "../../../libs/axios";
+import logo from "../../../assets/Images/logo_text_purple.svg";
 
 export default function NavBar({ onSave }) {
   const {
@@ -100,7 +101,7 @@ export default function NavBar({ onSave }) {
   const shouldDisplaySaveIcon = /^\/patient\/\d+\/detail\/?$/.test(path);
 
   const [visibility, setVisibility] = useState("flex");
-  const [navTitle, setNavTitle] = useState("Be Nurse");
+  const [navTitle, setNavTitle] = useState("");
   const [navColor, setNavColor] = useState(Common.color.white01);
   const [navFontColor, setNavFontColor] = useState(Common.color.black03);
   const [navBoxShadow, setNavBoxShadow] = useState(
@@ -239,17 +240,28 @@ export default function NavBar({ onSave }) {
         />
       </div>
 
-      <div
-        style={{
-          flex: 1,
-          textAlign: "center",
-          fontSize: Common.fontSize.fontM,
-          fontWeight: Common.fontWeight.extrabold,
-          letterSpacing: "1px",
-        }}
-      >
-        {navTitle}
-      </div>
+      {path !== "/main" ? (
+        <div
+          style={{
+            flex: 1,
+            textAlign: "center",
+            fontSize: Common.fontSize.fontM,
+            fontWeight: Common.fontWeight.extrabold,
+            letterSpacing: "1px",
+          }}
+        >
+          {navTitle}
+        </div>
+      ) : (
+        <img
+          src={logo}
+          alt="Navigation Title"
+          style={{
+            width: "100px",
+            height: "30px",
+          }}
+        />
+      )}
 
       {shouldDisplayTempSaveIcon ? (
         <div

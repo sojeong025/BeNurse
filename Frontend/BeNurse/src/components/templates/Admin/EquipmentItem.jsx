@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { Common } from "../../../utils/global.styles";
-import device_as from "@assets/Icons/device_as.png";
 import trashcan from "@assets/Images/trashcan.png";
-import { RiPencilFill } from "react-icons/ri";
-import { IoTrash } from "react-icons/io5";
 import { customAxios } from "../../../libs/axios";
 
 import Box from "@components/atoms/Box/Box";
 import Input from "@components/atoms/Input/Input";
 
-export default function EquipmentItem({ item, edit, devices, setDevices }) {
+export default function EquipmentItem({ item, devices, setDevices }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [equipment, setEquipment] = useState(item);
@@ -22,6 +19,10 @@ export default function EquipmentItem({ item, edit, devices, setDevices }) {
     setEquipment({ ...equipment, asTel: e.target.value });
   };
 
+  const deleteEquipment = () => {
+    customAxios.delete("nfc?ID=" + item.id);
+  };
+
   return (
     <>
       <div
@@ -30,6 +31,7 @@ export default function EquipmentItem({ item, edit, devices, setDevices }) {
           width: "100%",
           padding: "10px",
           boxSizing: "border-box",
+          height: "80px",
           transition: "all 0.2s",
           fontSize: "13px",
           alignItems: "center",
@@ -37,52 +39,78 @@ export default function EquipmentItem({ item, edit, devices, setDevices }) {
           borderBottom: "1px solid #cccccc",
         }}
       >
-        <img
-          src={item.img}
-          width="60px"
-        />
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <div style={{ fontWeight: "bold" }}>{item.name}</div>
-          <div style={{ fontSize: "10px" }}>ID: {item.id}</div>
+        <div style={{ display: "flex" }}>
+          <img
+            src={item.img}
+            width="70px"
+            height="60px"
+            style={{ marginRight: "10px", objectFit: "contain" }}
+          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              justifyContent: "center",
+            }}
+          >
+            <div style={{ fontWeight: "bold" }}>{item.name}</div>
+            <div style={{ fontSize: "10px" }}>ID: {item.id}</div>
+          </div>
         </div>
 
         <div
           style={{
             fontSize: "11px",
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
-            gap: "5px",
+            gap: "8px",
           }}
         >
-          <img
-            src={device_as}
-            width="10px"
-          />
-          <div>{item.asTel}</div>
-        </div>
-
-        <div
-          onClick={() => {
-            setIsModalOpen(true);
-            setEquipment(item);
-          }}
-          style={{
-            display: edit === "장비 관리" ? "block" : "none",
-            cursor: "pointer",
-          }}
-        >
-          <RiPencilFill fill={Common.color.purple03} />
-        </div>
-        <div
-          onClick={() => {
-            setIsDeleteModalOpen(true);
-          }}
-          style={{
-            display: edit === "장비 관리" ? "block" : "none",
-            cursor: "pointer",
-          }}
-        >
-          <IoTrash fill={Common.color.danger} />
+          <div>
+            <span style={{ fontWeight: Common.fontWeight.bold }}>A/S</span>{" "}
+            {item.asTel}
+          </div>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <div
+              onClick={() => {
+                setIsModalOpen(true);
+                setEquipment(item);
+              }}
+              style={{
+                cursor: "pointer",
+                width: "50px",
+                height: "22px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "10px",
+                backgroundColor: Common.color.purple03,
+                color: "#ffffff",
+              }}
+            >
+              <div>수정</div>
+            </div>
+            <div
+              onClick={() => {
+                setIsDeleteModalOpen(true);
+              }}
+              style={{
+                cursor: "pointer",
+                width: "50px",
+                height: "22px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "10px",
+                backgroundColor: "#6c757d",
+                color: "#ffffff",
+              }}
+            >
+              <div>삭제</div>
+            </div>
+          </div>
         </div>
       </div>
       {isModalOpen && (
@@ -108,7 +136,7 @@ export default function EquipmentItem({ item, edit, devices, setDevices }) {
           <Box
             type={"white"}
             size={["600px", "400px"]}
-            props={"flex-direction: column; gap: 40px;"}
+            props={"flex-direction: column; gap: 30px;"}
           >
             <p
               style={{
@@ -122,21 +150,22 @@ export default function EquipmentItem({ item, edit, devices, setDevices }) {
               style={{
                 width: "100%",
                 display: "flex",
-                justifyContent: "space-around",
+                justifyContent: "center",
               }}
             >
               <img
                 src={equipment.img}
-                width="230px"
-                style={{ objectFit: "cover" }}
+                width="180px"
+                style={{ objectFit: "cover", marginRight: "20px" }}
               />
               <div>
                 <div>
                   <div style={{ marginBottom: "20px" }}>
                     <p
                       style={{
-                        fontSize: `${Common.fontSize.fontM}`,
+                        fontSize: `${Common.fontSize.fontS}`,
                         marginBottom: "10px",
+                        width: "250px",
                         fontWeight: `${Common.fontWeight.bold}`,
                       }}
                     >
@@ -146,14 +175,16 @@ export default function EquipmentItem({ item, edit, devices, setDevices }) {
                       variant={"default"}
                       value={equipment.name}
                       onChange={inputName}
+                      width="250px"
                     />
                   </div>
                   <div>
                     <p
                       style={{
-                        fontSize: `${Common.fontSize.fontM}`,
+                        fontSize: `${Common.fontSize.fontS}`,
                         marginBottom: "10px",
                         fontWeight: `${Common.fontWeight.bold}`,
+                        width: "250px",
                       }}
                     >
                       A/S 연락처
@@ -162,6 +193,7 @@ export default function EquipmentItem({ item, edit, devices, setDevices }) {
                       variant={"default"}
                       value={equipment.asTel}
                       onChange={inputAsTel}
+                      width="250px"
                     />
                   </div>
                 </div>
@@ -169,13 +201,12 @@ export default function EquipmentItem({ item, edit, devices, setDevices }) {
             </div>
             <Box
               type={"purple03"}
-              size={["200px", "60px"]}
+              size={["200px", "50px"]}
               props={"cursor: pointer;"}
               onClick={() => {
                 customAxios
-                  .put(`/device`, equipment)
+                  .put("device", equipment)
                   .then((res) => {
-                    console.log("장비 수정 완료", res);
                     setIsModalOpen(false);
                     setDevices(
                       devices.map((device) =>
@@ -230,9 +261,10 @@ export default function EquipmentItem({ item, edit, devices, setDevices }) {
             <p>정말 {item.name}을 병원 DB에서 삭제하시겠습니까?</p>
             <Box
               type={"purple03"}
-              size={["200px", "60px"]}
+              size={["200px", "50px"]}
               props={"cursor: pointer;"}
               onClick={() => {
+                deleteEquipment();
                 setDevices(devices.filter((device) => device.id !== item.id));
                 setIsDeleteModalOpen(false);
               }}
