@@ -92,7 +92,7 @@
  💶 Web
 💊 <b>Login & Select Role</b>
 
-| <img src="/uploads/f7cf66a469b66cbf6b3cc6a911f0619c/Web_Login.gif" width="400"> |  <img src="">   |
+| <img src="/uploads/f7cf66a469b66cbf6b3cc6a911f0619c/Web_Login.gif" width="386"> |  <img src="">   |
 | :-----------------------------------------------------------------: | :-------------: |
 |                           **Login Page**                            | **Select Role** |
 
@@ -104,14 +104,14 @@
 <br>
 💊 <b>Main</b>
 
-| <img src="/uploads/6e27f433ab533455e5a9adfe24d6719d/Web_Main.gif" width="400"> | <img src=""> |
+| <img src="/uploads/6e27f433ab533455e5a9adfe24d6719d/Web_Main.gif" width="386"> | <img src=""> |
 | :----------------------------------------------------------------: | :----------: |
 |                           **Main Page**                            | **Schedule** |
 
 <br>
 💊 <b>Make Schedule & Management Hospital</b>
 
-| <img src="/uploads/6fe905293ec3ad002e5f6f1f9bc2c347/Web_mkschedule.gif" width="400"> | <img src="/uploads/4d79338e7d3f81a9cd361bf8caa16509/Web_Setting.gif" width="400"> |
+| <img src="/uploads/6fe905293ec3ad002e5f6f1f9bc2c347/Web_mkschedule.gif" width="386"> | <img src="/uploads/4d79338e7d3f81a9cd361bf8caa16509/Web_Setting.gif" width="386"> |
 | :----------------------------------------------------------------------: | :-------------------------------------------------------------------: |
 |                            **Make Schedule**                             |                            **Management**                             |
 
