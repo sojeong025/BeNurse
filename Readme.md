@@ -92,21 +92,15 @@
  💶 Web
 💊 <b>Login & Select Role</b>
 
-| <img src="/uploads/f7cf66a469b66cbf6b3cc6a911f0619c/Web_Login.gif" width="386"> |  <img src="">   |
+| <img src="/uploads/f7cf66a469b66cbf6b3cc6a911f0619c/Web_Login.gif" width="386"> |  <img src="/uploads/137e3c76ae2c9e1fd41efbc928504be6/Web_Role.gif" width="386">   |
 | :-----------------------------------------------------------------: | :-------------: |
 |                           **Login Page**                            | **Select Role** |
-
 <br>
-💊 <b>Create Hospital</b>
+💊 <b>Create Hospital & Main</b>
 
-|<img src="">|
-| **Create Hospital** |
-<br>
-💊 <b>Main</b>
-
-| <img src="/uploads/6e27f433ab533455e5a9adfe24d6719d/Web_Main.gif" width="386"> | <img src=""> |
+| <img src="/uploads/41503ba0eb739ff49e51fd4f5f40c4a8/Web_CreateHospital.gif" width="386"> | <img src="/uploads/6e27f433ab533455e5a9adfe24d6719d/Web_Main.gif" width="386"> |
 | :----------------------------------------------------------------: | :----------: |
-|                           **Main Page**                            | **Schedule** |
+|                           **Create Hospital**                           | **Main Page** |
 
 <br>
 💊 <b>Make Schedule & Management Hospital</b>
