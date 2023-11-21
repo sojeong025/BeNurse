@@ -210,7 +210,7 @@
 ### ◼ ERD
 
 <div align="center">
-  <img src="/uploads/f88f560ac2368474907769dd0557b8c5/Be_Nurse__5_.png" alt="ERD" width="400"/>
+  <img src="/uploads/f88f560ac2368474907769dd0557b8c5/Be_Nurse__5_.png" alt="ERD" width="600"/>
 </div>
 
 ### ◼ Swagger
@@ -227,7 +227,7 @@
 
 ### ◼ 시스템 아키텍처
 <div align="center">
-  <img src="/uploads/7eecd3eb99b4c31c7d969e003d7eb131/아키.png" width="400"/>
+  <img src="/uploads/7eecd3eb99b4c31c7d969e003d7eb131/아키.png" width="600"/>
 <div>
 <img src=""/>
 
