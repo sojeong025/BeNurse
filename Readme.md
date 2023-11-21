@@ -44,26 +44,26 @@
 <br>
 💉 <b>Handover</b>
 
-| <img width="300" src="/uploads/5ca5d5735e57935f4a7c83b2f76c6133/login.gif"> | <img width="300" src="/uploads/dd6fdff47edc5d8c9cef76f403fa83f5/invite.gif"> |
+| <img width="300" src="/uploads/d8c778accbf24d6899715dc31ad9ba12/App_HandoverMain.gif"> | <img width="300" src="/uploads/c0ad08b52ba95000861485ad340ab76a/App_HandoverCreate.gif"> |
 | :-------------------------------------------------------------------------: | :--------------------------------------------------------------------------: |
 |                               **Handover Main Page**                                |                               **Create Handover**                                |
 
 <br>
 
-| <img width="300" src="/uploads/5ca5d5735e57935f4a7c83b2f76c6133/login.gif"> | <img width="300" src="/uploads/dd6fdff47edc5d8c9cef76f403fa83f5/invite.gif"> |
+| <img width="300" src="/uploads/397ef942753ba4a401df9a4a04f1a9de/App_CreatePaHo.gif"> | <img width="300" src="/uploads/b89ecd98334b4a8ce721615a57b5687a/App_WriteHo.gif"> |
 | :-------------------------------------------------------------------------: | :--------------------------------------------------------------------------: |
-|                               **Create Handover**                                |                               **Create Handover**                                |
+|                               **Create Patient Handover**                                |                               **Add Handover**                                |
 
 <br>
 
-| <img width="300" src="/uploads/5ca5d5735e57935f4a7c83b2f76c6133/login.gif"> | <img width="300" src="/uploads/dd6fdff47edc5d8c9cef76f403fa83f5/invite.gif"> |
+| <img width="300" src="/uploads/45d785b1258efa74b8bf38f1fb9831c0/App_TakeSelect.gif"> | <img width="300" src="/uploads/1b4c1e2fe465401283f4a0d4b26d8772/App_TakeGive.gif"> |
 | :-------------------------------------------------------------------------: | :--------------------------------------------------------------------------: |
-|                               **Take&Give Handover**                                |                               **Temp Handover**                                |
+|                               **Select Taker**                                |                               **Temp & Recive Handover**                                |
 
 <br>
 💉 <b>Schedule</b>
 
-|    <img src="/uploads/db5a4326cc8d66c17321ce7b9d62d022/App_WeeklySchedule.gif" width="250">     |     <img src="/uploads/11350b8603a0ae1ebdd48bf36af60348/App_MonthlySchedule.gif" width="250">     |
+|    <img src="/uploads/db5a4326cc8d66c17321ce7b9d62d022/App_WeeklySchedule.gif" width="300">     |     <img src="/uploads/11350b8603a0ae1ebdd48bf36af60348/App_MonthlySchedule.gif" width="300">     |
 | :-----------------: | :------------------: |
 | **Weekly Schedule** | **Monthly Schedule** |
 |    <img src="/uploads/55eeda0f21ea5b76996aee6269f9438b/App_OffApply.gif" width="300">     |     <img src="/uploads/fe1a90c82dc739392b9bae1107afc0c5/App_DayDetail.gif" width="300">     |
