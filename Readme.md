@@ -229,7 +229,6 @@
 <div align="center">
   <img src="/uploads/7eecd3eb99b4c31c7d969e003d7eb131/아키.png" width="600"/>
 <div>
-<img src=""/>
 
 # 팀원 소개
 
