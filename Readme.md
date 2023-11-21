@@ -72,10 +72,10 @@
 <br>
 💉 <b>Patient Management</b>
 
-|    <img src="">     |    <img src="">    |
+|    <img src="/uploads/43ac1d52a769f9d572d69b3be6d7bf62/App_PatientList.gif" width="300">     |    <img src="/uploads/1aacce4039d61fa0aad323f703c87860/App_PatientDetail.gif" width="300">    |
 | :-----------------: | :----------------: |
 |  **Patient List**   | **Patient Detail** |
-|    <img src="">     |                    |
+|    <img src="/uploads/58d4efbd7fb177c62acf7e058a922ffd/App_PatientJournal.gif" width="300">     |                    |
 | **Patient Journal** |                    |
 
 <br>
