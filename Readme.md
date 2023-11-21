@@ -63,10 +63,10 @@
 <br>
 💉 <b>Schedule</b>
 
-|    <img src="">     |     <img src="">     |
+|    <img src="/uploads/db5a4326cc8d66c17321ce7b9d62d022/App_WeeklySchedule.gif" width="250">     |     <img src="/uploads/11350b8603a0ae1ebdd48bf36af60348/App_MonthlySchedule.gif" width="250">     |
 | :-----------------: | :------------------: |
 | **Weekly Schedule** | **Monthly Schedule** |
-|    <img src="">     |     <img src="">     |
+|    <img src="/uploads/55eeda0f21ea5b76996aee6269f9438b/App_OffApply.gif" width="300">     |     <img src="/uploads/fe1a90c82dc739392b9bae1107afc0c5/App_DayDetail.gif" width="300">     |
 |  **Day Off Apply**  |    **Day Detail**    |
 
 <br>
