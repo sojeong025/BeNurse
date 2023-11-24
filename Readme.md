@@ -246,9 +246,9 @@
 
 - 김대웅 : Three.js 장비관리 기능 / React, React-Native 개발 / UX/UI 설계
 
-- 정소정 : UX/UI 설계 / React 컴포넌트 개발 / 3D 모델링, Three.js FBX 렌더링
+- 정소정 : UX/UI 설계 / / / / /
 
-- 정은경 : UX/UI 설계 / / / / /
+- 정은경 : UX/UI 설계 / React 컴포넌트 개발 / 3D 모델링, Three.js FBX 렌더링
 
 **Backend & CI/CD**
 
