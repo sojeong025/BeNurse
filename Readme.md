@@ -1,12 +1,7 @@
-<div align="center">
+# 🥈 BeNurse
+![image](https://github.com/sojeong025/BeNurse/assets/122499632/5702de47-8bd3-4ecc-8a2c-e6b22ece10cf)
 
-# 🏥&nbsp; BeNurse
-
-간호사들의 <b>업무 편의성을</b>올려주는 서비스<br/>
-
-<img title="" src="Readme_assets/BeNurseIcon.png" alt="BeNurseIcon.png" width="132">
-
-
+<br>
 
 ## 목차
 
